@@ -24,6 +24,13 @@ namespace CafeTime.EditorTools
         const string TmpSettingsPath = "Assets/TextMesh Pro/Resources/TMP Settings.asset";
         const string TmpEssentialsPackage = "Packages/com.unity.ugui/Package Resources/TMP Essential Resources.unitypackage";
         const string ScenePath = "Assets/_Project/Scenes/Title.unity";
+        const string BackgroundPath = "Assets/_Project/Art/Title/CafeInterior.png";
+        const string SignPath = "Assets/_Project/Art/Title/TitleSignText.png";
+        const string StartButtonPath = "Assets/_Project/Art/Title/MenuStart.png";
+        const string HowToButtonPath = "Assets/_Project/Art/Title/MenuHowTo.png";
+        const string SettingsButtonPath = "Assets/_Project/Art/Title/MenuSettings.png";
+        const string RankingButtonPath = "Assets/_Project/Art/Title/MenuRanking.png";
+        const string QuitButtonPath = "Assets/_Project/Art/Title/MenuQuit.png";
         const string SharedPrefabDir = "Assets/_Project/Prefabs/UI";
         const string TitlePrefabDir = "Assets/_Project/Prefabs/Title";
 
@@ -87,8 +94,20 @@ namespace CafeTime.EditorTools
                 return;
 
             rounded = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+            foreach (var path in new[] { BackgroundPath, SignPath, StartButtonPath, HowToButtonPath,
+                SettingsButtonPath, RankingButtonPath, QuitButtonPath })
+            {
+                var importer = AssetImporter.GetAtPath(path) as TextureImporter;
+                if (importer == null) continue;
+                importer.textureType = TextureImporterType.Sprite;
+                importer.filterMode = FilterMode.Point;
+                importer.textureCompression = TextureImporterCompression.Uncompressed;
+                importer.mipmapEnabled = false;
+                importer.SaveAndReimport();
+            }
             Directory.CreateDirectory(SharedPrefabDir);
             Directory.CreateDirectory(TitlePrefabDir);
+            Directory.CreateDirectory(Path.GetDirectoryName(ScenePath));
 
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
@@ -117,12 +136,12 @@ namespace CafeTime.EditorTools
             BuildMainScreen(canvas, refs);
 
             // 팝업은 프리팹으로 저장 (팀원이 팝업별로 나눠 작업해도 씬 충돌이 적도록)
-            var nickname = SavePrefab(BuildNicknamePopup(canvas), TitlePrefabDir);
-            var gameStart = SavePrefab(BuildGameStartPopup(canvas), TitlePrefabDir);
-            var howTo = SavePrefab(BuildHowToPopup(canvas), TitlePrefabDir);
-            var ranking = SavePrefab(BuildRankingPopup(canvas), TitlePrefabDir);
-            var settings = SavePrefab(BuildSettingsPopup(canvas), SharedPrefabDir);
-            var confirm = SavePrefab(BuildConfirmPopup(canvas), SharedPrefabDir);
+            var nickname = LoadOrBuildPrefab(canvas, TitlePrefabDir, "NicknamePopup", BuildNicknamePopup);
+            var gameStart = LoadOrBuildPrefab(canvas, TitlePrefabDir, "GameStartPopup", BuildGameStartPopup);
+            var howTo = LoadOrBuildPrefab(canvas, TitlePrefabDir, "HowToPopup", BuildHowToPopup);
+            var ranking = LoadOrBuildPrefab(canvas, TitlePrefabDir, "RankingPopup", BuildRankingPopup);
+            var settings = LoadOrBuildPrefab(canvas, SharedPrefabDir, "SettingsPopup", BuildSettingsPopup);
+            var confirm = LoadOrBuildPrefab(canvas, SharedPrefabDir, "ConfirmPopup", BuildConfirmPopup);
 
             // 프리팹끼리의 참조는 씬에서 연결
             var startRefs = new SerializedObject(gameStart.GetComponent<GameStartPopup>());
@@ -153,39 +172,52 @@ namespace CafeTime.EditorTools
         // 배경 + 타이틀 간판 + 메뉴 버튼 (SFR-001)
         static void BuildMainScreen(Transform canvas, SerializedObject refs)
         {
-            var bg = NewUI("Background", canvas); // 카페 일러스트가 준비되면 Image에 스프라이트로 교체
+            var bg = NewUI("Background", canvas);
             Stretch(bg);
-            bg.gameObject.AddComponent<Image>().color = WarmBg;
+            var bgImage = bg.gameObject.AddComponent<Image>();
+            bgImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(BackgroundPath);
+            bgImage.color = bgImage.sprite == null ? WarmBg : Color.white;
+            bgImage.preserveAspect = true;
+            bgImage.raycastTarget = false;
 
-            var sign = MakeBox(canvas, "TitleSign", Paper, 8);
-            sign.anchorMin = sign.anchorMax = new Vector2(0.5f, 0.8f);
-            sign.sizeDelta = new Vector2(1000, 250);
-            foreach (var x in new[] { -380f, 380f })
-            {
-                var rope = NewUI("Rope", sign);
-                rope.gameObject.AddComponent<Image>().color = DarkBrown;
-                rope.anchorMin = rope.anchorMax = new Vector2(0.5f, 1f);
-                rope.pivot = new Vector2(0.5f, 0f);
-                rope.anchoredPosition = new Vector2(x, 0);
-                rope.sizeDelta = new Vector2(10, 300);
-            }
-            var logo = MakeText(sign, "카페타임", 150, DarkBrown);
-            logo.name = "TitleLogo";
-            Stretch(logo.rectTransform);
+            var sign = NewUI("TitleSign", canvas);
+            sign.anchorMin = sign.anchorMax = new Vector2(0.5f, 0.824f);
+            sign.sizeDelta = new Vector2(1080, 380);
+            var signImage = sign.gameObject.AddComponent<Image>();
+            signImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(SignPath);
+            signImage.raycastTarget = false;
 
             var menuRoot = NewUI("MainMenu", canvas);
-            menuRoot.anchorMin = menuRoot.anchorMax = new Vector2(0.5f, 0.34f);
-            menuRoot.sizeDelta = new Vector2(560, 600);
+            menuRoot.anchorMin = menuRoot.anchorMax = new Vector2(0.5f, 0.386f);
+            menuRoot.sizeDelta = new Vector2(550, 616);
             var menuLayout = menuRoot.gameObject.AddComponent<VerticalLayoutGroup>();
-            menuLayout.spacing = 22;
+            menuLayout.spacing = -16; // PNG 위아래의 투명 여백만 겹치게 배치
             menuLayout.childControlWidth = menuLayout.childControlHeight = true;
             menuLayout.childForceExpandWidth = true;
             menuLayout.childForceExpandHeight = false;
-            Set(refs, "startButton", MakeButton(menuRoot, "게임 시작", Cream, 100, 44));
-            Set(refs, "howToButton", MakeButton(menuRoot, "게임 설명", Cream, 100, 44));
-            Set(refs, "settingsButton", MakeButton(menuRoot, "설정", Cream, 100, 44));
-            Set(refs, "rankingButton", MakeButton(menuRoot, "랭킹", Cream, 100, 44));
-            Set(refs, "quitButton", MakeButton(menuRoot, "게임 종료", Cream, 100, 44));
+            Set(refs, "startButton", MakeTitleButton(menuRoot, "게임 시작", StartButtonPath, true));
+            Set(refs, "howToButton", MakeTitleButton(menuRoot, "게임 설명", HowToButtonPath, false));
+            Set(refs, "settingsButton", MakeTitleButton(menuRoot, "설정", SettingsButtonPath, false));
+            Set(refs, "rankingButton", MakeTitleButton(menuRoot, "랭킹", RankingButtonPath, false));
+            Set(refs, "quitButton", MakeTitleButton(menuRoot, "게임 종료", QuitButtonPath, false));
+        }
+
+        static Button MakeTitleButton(Transform parent, string label, string spritePath, bool highlighted)
+        {
+            var rt = NewUI(label + " Button", parent);
+            rt.sizeDelta = new Vector2(550, 136);
+            rt.gameObject.AddComponent<LayoutElement>().preferredHeight = 136;
+            var image = rt.gameObject.AddComponent<Image>();
+            image.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+            image.color = Color.white;
+            var button = rt.gameObject.AddComponent<Button>();
+            var colors = button.colors;
+            colors.normalColor = highlighted ? new Color32(0xFF, 0xE5, 0xB8, 0xFF) : Color.white;
+            colors.highlightedColor = new Color32(0xFF, 0xF1, 0xD0, 0xFF);
+            colors.pressedColor = new Color32(0xD8, 0xB2, 0x85, 0xFF);
+            colors.selectedColor = colors.highlightedColor;
+            button.colors = colors;
+            return button;
         }
 
         // 칠판 스타일 시작 방식 선택 창 (SFR-002)
@@ -349,6 +381,15 @@ namespace CafeTime.EditorTools
         {
             go.SetActive(false);
             return PrefabUtility.SaveAsPrefabAssetAndConnect(go, $"{dir}/{go.name}.prefab", InteractionMode.AutomatedAction);
+        }
+
+        static GameObject LoadOrBuildPrefab(Transform canvas, string dir, string name,
+            System.Func<Transform, GameObject> build)
+        {
+            var existing = AssetDatabase.LoadAssetAtPath<GameObject>($"{dir}/{name}.prefab");
+            if (existing != null)
+                return (GameObject)PrefabUtility.InstantiatePrefab(existing, canvas);
+            return SavePrefab(build(canvas), dir);
         }
 
         static void Set(SerializedObject so, string field, Object value)
