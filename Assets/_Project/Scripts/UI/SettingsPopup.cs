@@ -1,5 +1,4 @@
 using CafeTime.Core;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,13 +8,12 @@ namespace CafeTime.UI
     // 확인: 변경 내용 저장 / 취소·X·ESC: 변경 내용 취소
     public class SettingsPopup : Popup
     {
-        static readonly Color SelectedBg = new Color32(0x8B, 0x45, 0x2A, 0xFF);
-        static readonly Color NormalBg = new Color32(0xFB, 0xEF, 0xD9, 0xFF);
-        static readonly Color SelectedText = new Color32(0xFB, 0xEF, 0xD9, 0xFF);
-        static readonly Color NormalText = new Color32(0x3E, 0x27, 0x1A, 0xFF);
-
         [SerializeField] Button soundTabButton;
         [SerializeField] Button keyTabButton;
+        [SerializeField] Sprite soundNormalSprite;
+        [SerializeField] Sprite soundSelectedSprite;
+        [SerializeField] Sprite keyNormalSprite;
+        [SerializeField] Sprite keySelectedSprite;
         [SerializeField] GameObject soundTab;
         [SerializeField] GameObject keyTab;
         [SerializeField] Slider masterSlider;
@@ -52,14 +50,8 @@ namespace CafeTime.UI
         {
             soundTab.SetActive(sound);
             keyTab.SetActive(!sound);
-            Highlight(soundTabButton, sound);
-            Highlight(keyTabButton, !sound);
-        }
-
-        static void Highlight(Button tab, bool selected)
-        {
-            tab.image.color = selected ? SelectedBg : NormalBg;
-            tab.GetComponentInChildren<TMP_Text>().color = selected ? SelectedText : NormalText;
+            soundTabButton.image.sprite = sound ? soundSelectedSprite : soundNormalSprite;
+            keyTabButton.image.sprite = sound ? keyNormalSprite : keySelectedSprite;
         }
     }
 }

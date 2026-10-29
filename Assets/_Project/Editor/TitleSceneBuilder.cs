@@ -40,8 +40,6 @@ namespace CafeTime.EditorTools
         static readonly Color Wood = new Color32(0x8B, 0x45, 0x2A, 0xFF);
         static readonly Color DarkBrown = new Color32(0x3E, 0x27, 0x1A, 0xFF);
         static readonly Color Orange = new Color32(0xF2, 0xA9, 0x3B, 0xFF);
-        static readonly Color Track = new Color32(0x5A, 0x3A, 0x2A, 0xFF);
-        static readonly Color Chalk = new Color32(0x2F, 0x4A, 0x3A, 0xFF);
         static readonly Color Warning = new Color32(0xC0, 0x39, 0x2B, 0xFF);
 
         static TMP_FontAsset font;
@@ -188,31 +186,31 @@ namespace CafeTime.EditorTools
             signImage.raycastTarget = false;
 
             var menuRoot = NewUI("MainMenu", canvas);
-            menuRoot.anchorMin = menuRoot.anchorMax = new Vector2(0.5f, 0.386f);
-            menuRoot.sizeDelta = new Vector2(550, 616);
+            menuRoot.anchorMin = menuRoot.anchorMax = new Vector2(0.5f, 350f / 1080f);
+            menuRoot.sizeDelta = new Vector2(550, 620);
             var menuLayout = menuRoot.gameObject.AddComponent<VerticalLayoutGroup>();
-            menuLayout.spacing = -16; // PNG 위아래의 투명 여백만 겹치게 배치
+            menuLayout.spacing = 20;
             menuLayout.childControlWidth = menuLayout.childControlHeight = true;
             menuLayout.childForceExpandWidth = true;
             menuLayout.childForceExpandHeight = false;
-            Set(refs, "startButton", MakeTitleButton(menuRoot, "게임 시작", StartButtonPath, true));
-            Set(refs, "howToButton", MakeTitleButton(menuRoot, "게임 설명", HowToButtonPath, false));
-            Set(refs, "settingsButton", MakeTitleButton(menuRoot, "설정", SettingsButtonPath, false));
-            Set(refs, "rankingButton", MakeTitleButton(menuRoot, "랭킹", RankingButtonPath, false));
-            Set(refs, "quitButton", MakeTitleButton(menuRoot, "게임 종료", QuitButtonPath, false));
+            Set(refs, "startButton", MakeTitleButton(menuRoot, "게임 시작", StartButtonPath));
+            Set(refs, "howToButton", MakeTitleButton(menuRoot, "게임 설명", HowToButtonPath));
+            Set(refs, "settingsButton", MakeTitleButton(menuRoot, "설정", SettingsButtonPath));
+            Set(refs, "rankingButton", MakeTitleButton(menuRoot, "랭킹", RankingButtonPath));
+            Set(refs, "quitButton", MakeTitleButton(menuRoot, "게임 종료", QuitButtonPath));
         }
 
-        static Button MakeTitleButton(Transform parent, string label, string spritePath, bool highlighted)
+        static Button MakeTitleButton(Transform parent, string label, string spritePath)
         {
             var rt = NewUI(label + " Button", parent);
-            rt.sizeDelta = new Vector2(550, 136);
-            rt.gameObject.AddComponent<LayoutElement>().preferredHeight = 136;
+            rt.sizeDelta = new Vector2(550, 108);
+            rt.gameObject.AddComponent<LayoutElement>().preferredHeight = 108;
             var image = rt.gameObject.AddComponent<Image>();
             image.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
             image.color = Color.white;
             var button = rt.gameObject.AddComponent<Button>();
             var colors = button.colors;
-            colors.normalColor = highlighted ? new Color32(0xFF, 0xE5, 0xB8, 0xFF) : Color.white;
+            colors.normalColor = Color.white;
             colors.highlightedColor = new Color32(0xFF, 0xF1, 0xD0, 0xFF);
             colors.pressedColor = new Color32(0xD8, 0xB2, 0x85, 0xFF);
             colors.selectedColor = colors.highlightedColor;
@@ -223,25 +221,7 @@ namespace CafeTime.EditorTools
         // 칠판 스타일 시작 방식 선택 창 (SFR-002)
         static GameObject BuildGameStartPopup(Transform canvas)
         {
-            var (root, window) = MakePopup(canvas, "GameStartPopup", "오늘도 영업 준비!", new Vector2(760, 600), Chalk, Cream);
-            var popup = root.AddComponent<GameStartPopup>();
-            var so = new SerializedObject(popup);
-            Set(so, "newGameButton", MakeButton(window, "처음부터 시작", Cream, 110));
-
-            var continueButton = MakeButton(window, "이어하기", Cream, 130);
-            continueButton.GetComponentInChildren<TMP_Text>().rectTransform.anchorMin = new Vector2(0, 0.38f);
-            var info = MakeText(continueButton.transform, "DAY 1 · ₩0", 28, Wood);
-            info.name = "ContinueInfo";
-            Stretch(info.rectTransform);
-            info.rectTransform.anchorMax = new Vector2(1, 0.45f);
-            Set(so, "continueButton", continueButton);
-            Set(so, "continueInfoText", info);
-
-            var back = MakeButton(window, "ESC  메인화면으로", Color.clear, 60, 30);
-            back.GetComponentInChildren<TMP_Text>().color = Cream;
-            Set(so, "closeButton", back);
-            so.ApplyModifiedPropertiesWithoutUndo();
-            return root;
+            return GameStartPopupBuilder.Create(canvas);
         }
 
         // 닉네임 입력 (SFR-003)
@@ -298,80 +278,13 @@ namespace CafeTime.EditorTools
         // 설정: 왼쪽 탭 + 오른쪽 내용 (SFR-004)
         static GameObject BuildSettingsPopup(Transform canvas)
         {
-            var (root, window) = MakePopup(canvas, "SettingsPopup", "설정", new Vector2(1100, 780), Paper, DarkBrown);
-            window.GetChild(0).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Left;
-            var so = new SerializedObject(root.AddComponent<SettingsPopup>());
-
-            var body = NewUI("Body", window);
-            body.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1;
-            var bodyLayout = body.gameObject.AddComponent<HorizontalLayoutGroup>();
-            bodyLayout.spacing = 40;
-            bodyLayout.childControlWidth = bodyLayout.childControlHeight = true;
-            bodyLayout.childForceExpandWidth = false;
-            bodyLayout.childForceExpandHeight = true;
-
-            var tabColumn = NewUI("Tabs", body);
-            tabColumn.gameObject.AddComponent<LayoutElement>().preferredWidth = 260;
-            var tabLayout = tabColumn.gameObject.AddComponent<VerticalLayoutGroup>();
-            tabLayout.spacing = 16;
-            tabLayout.childControlWidth = tabLayout.childControlHeight = true;
-            tabLayout.childForceExpandWidth = true;
-            tabLayout.childForceExpandHeight = false;
-            Set(so, "soundTabButton", MakeButton(tabColumn, "사운드", Cream, 96));
-            Set(so, "keyTabButton", MakeButton(tabColumn, "단축키", Cream, 96));
-
-            var tabArea = NewUI("TabArea", body);
-            tabArea.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
-
-            var soundTab = NewUI("SoundTab", tabArea);
-            Stretch(soundTab);
-            var soundLayout = soundTab.gameObject.AddComponent<VerticalLayoutGroup>();
-            soundLayout.spacing = 50;
-            soundLayout.padding = new RectOffset(0, 10, 30, 0);
-            soundLayout.childControlWidth = soundLayout.childControlHeight = true;
-            soundLayout.childForceExpandWidth = true;
-            soundLayout.childForceExpandHeight = false;
-            Set(so, "soundTab", soundTab.gameObject);
-            Set(so, "masterSlider", MakeSliderRow(soundTab, "마스터 볼륨"));
-            Set(so, "bgmSlider", MakeSliderRow(soundTab, "배경음악"));
-            Set(so, "sfxSlider", MakeSliderRow(soundTab, "효과음"));
-
-            var keyTab = MakeText(tabArea,
-                "이동<pos=45%>W A S D  /  방향키\n" +
-                "달리기<pos=45%>Shift (누르고 있기)\n" +
-                "상호작용<pos=45%>E\n" +
-                "일시정지 / 닫기<pos=45%>ESC\n" +
-                "다음 대사<pos=45%>클릭 / 지정 키\n" +
-                "버리기<pos=45%>양손 칸 우클릭",
-                32, DarkBrown, TextAlignmentOptions.TopLeft);
-            keyTab.name = "KeyTab";
-            keyTab.lineSpacing = 30;
-            Stretch(keyTab.rectTransform);
-            keyTab.margin = new Vector4(0, 30, 0, 0);
-            Set(so, "keyTab", keyTab.gameObject);
-
-            var row = MakeRow(window);
-            row.GetComponent<HorizontalLayoutGroup>().padding = new RectOffset(300, 0, 0, 0);
-            Set(so, "confirmButton", MakeButton(row, "확인", Orange));
-            Set(so, "cancelButton", MakeButton(row, "취소", Cream));
-            Set(so, "closeButton", MakeCloseButton(window));
-            so.ApplyModifiedPropertiesWithoutUndo();
-            return root;
+            return SettingsPopupBuilder.Create(canvas);
         }
 
         // 예/아니오 확인 팝업 (SFR-006, SFR-023)
         static GameObject BuildConfirmPopup(Transform canvas)
         {
-            var (root, window) = MakePopup(canvas, "ConfirmPopup", null, new Vector2(760, 360), Paper, DarkBrown);
-            var so = new SerializedObject(root.AddComponent<ConfirmPopup>());
-            var message = MakeText(window, "게임을 종료하시겠습니까?", 38, DarkBrown);
-            message.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1;
-            Set(so, "messageText", message);
-            var row = MakeRow(window);
-            Set(so, "yesButton", MakeButton(row, "예", Orange));
-            Set(so, "noButton", MakeButton(row, "아니오", Cream));
-            so.ApplyModifiedPropertiesWithoutUndo();
-            return root;
+            return ConfirmPopupBuilder.Create(canvas);
         }
 
         // ───────── helpers ─────────
@@ -520,38 +433,5 @@ namespace CafeTime.EditorTools
             return input;
         }
 
-        static Slider MakeSliderRow(Transform parent, string label)
-        {
-            var row = NewUI(label + " Row", parent);
-            row.gameObject.AddComponent<LayoutElement>().preferredHeight = 60;
-            var layout = row.gameObject.AddComponent<HorizontalLayoutGroup>();
-            layout.spacing = 30;
-            layout.childAlignment = TextAnchor.MiddleLeft;
-            layout.childControlWidth = layout.childControlHeight = true;
-            layout.childForceExpandWidth = false;
-            layout.childForceExpandHeight = false;
-
-            var text = MakeText(row, label, 36, DarkBrown, TextAlignmentOptions.Left);
-            text.gameObject.AddComponent<LayoutElement>().preferredWidth = 240;
-
-            var sliderGo = DefaultControls.CreateSlider(new DefaultControls.Resources { standard = rounded, background = rounded, knob = rounded });
-            sliderGo.transform.SetParent(row, false);
-            var le = sliderGo.AddComponent<LayoutElement>();
-            le.flexibleWidth = 1;
-            le.preferredHeight = 28;
-            var slider = sliderGo.GetComponent<Slider>();
-            slider.minValue = 0;
-            slider.maxValue = 1;
-            slider.value = 1;
-            sliderGo.transform.Find("Background").GetComponent<Image>().color = Track;
-            slider.fillRect.GetComponent<Image>().color = Orange;
-            var handle = slider.handleRect.GetComponent<Image>();
-            handle.color = Orange;
-            slider.handleRect.sizeDelta = new Vector2(40, 20);
-            var handleOutline = handle.gameObject.AddComponent<Outline>();
-            handleOutline.effectColor = DarkBrown;
-            handleOutline.effectDistance = new Vector2(3, 3);
-            return slider;
-        }
     }
 }

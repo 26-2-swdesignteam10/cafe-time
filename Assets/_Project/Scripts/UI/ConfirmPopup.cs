@@ -11,6 +11,7 @@ namespace CafeTime.UI
         [SerializeField] TMP_Text messageText;
         [SerializeField] Button yesButton;
         [SerializeField] Button noButton;
+        [SerializeField] GameObject quitMessageGraphic;
 
         Action onYes;
 
@@ -28,6 +29,12 @@ namespace CafeTime.UI
         public void Open(string message, Action onYes)
         {
             messageText.text = message;
+            if (quitMessageGraphic != null)
+            {
+                bool quitting = message == "게임을 종료하시겠습니까?";
+                quitMessageGraphic.SetActive(quitting);
+                messageText.gameObject.SetActive(!quitting);
+            }
             this.onYes = onYes;
             Open();
         }

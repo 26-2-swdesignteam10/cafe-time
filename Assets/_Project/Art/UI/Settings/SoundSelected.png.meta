@@ -1,0 +1,233 @@
+fileFormatVersion: 2
+guid: 119c7554ddc354b4388f533a35b302d0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2049602778746309115
+    second: SoundSelected_0
+  - first:
+      213: -6971992984144621249
+    second: SoundSelected_1
+  - first:
+      213: -1634230194831877436
+    second: SoundSelected_2
+  - first:
+      213: 1989551771660209540
+    second: SoundSelected_3
+  - first:
+      213: 4302008998599584365
+    second: SoundSelected_4
+  - first:
+      213: 1603409024956736446
+    second: SoundSelected_5
+  - first:
+      213: 3830444135419332322
+    second: SoundSelected_6
+  - first:
+      213: 8946529393685848911
+    second: SoundSelected_7
+  - first:
+      213: 7345869705775714742
+    second: SoundSelected_8
+  - first:
+      213: -784950276900070470
+    second: SoundSelected_9
+  - first:
+      213: 7255536391972663312
+    second: SoundSelected_10
+  - first:
+      213: -2115028111104427693
+    second: SoundSelected_11
+  - first:
+      213: -1022875292639972246
+    second: SoundSelected_12
+  - first:
+      213: 6362123949490684790
+    second: SoundSelected_13
+  - first:
+      213: 9030937345439290277
+    second: SoundSelected_14
+  - first:
+      213: 2073440983775549270
+    second: SoundSelected_15
+  - first:
+      213: 2449072366478859330
+    second: SoundSelected_16
+  - first:
+      213: -7161509803312779533
+    second: SoundSelected_17
+  - first:
+      213: 1952356154875704688
+    second: SoundSelected_18
+  - first:
+      213: -4896803251649947483
+    second: SoundSelected_19
+  - first:
+      213: 5239599503801381407
+    second: SoundSelected_20
+  - first:
+      213: 5487907742414545252
+    second: SoundSelected_21
+  - first:
+      213: 8713674885384100805
+    second: SoundSelected_22
+  - first:
+      213: -4965207495692027658
+    second: SoundSelected_23
+  - first:
+      213: 1303395736509329324
+    second: SoundSelected_24
+  - first:
+      213: 4540622823154792156
+    second: SoundSelected_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SoundSelected
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 152
+        width: 1324
+        height: 593
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae7e2f3ac51f88c49a5d2927c16c820e
+      internalID: -1754100641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 24cb9acd000db404aad01622fdd4f5ed
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SoundSelected: -1754100641
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
