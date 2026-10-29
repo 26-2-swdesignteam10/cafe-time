@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # README 규칙 검사 (.meta 누락, 자동 생성 폴더 커밋, 큰 파일, namespace 규칙). 브랜치 보호의 필수 통과 항목
+  repo-check:
+    name: Repo check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash .github/scripts/check-repo.sh
+
+  # Unity 빌드: 레포 Settings → Secrets 에 UNITY_LICENSE, UNITY_EMAIL, UNITY_PASSWORD 를 등록하면 자동으로 실행됨
+  license:
+    name: Unity license check
+    runs-on: ubuntu-latest
+    outputs:
+      available: ${{ steps.check.outputs.available }}
+    steps:
+      - id: check
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        run: echo "available=${{ env.UNITY_LICENSE != '' }}" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Unity build (Windows)
+    needs: [repo-check, license]
+    if: needs.license.outputs.available == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: Library-
+      - uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: StandaloneWindows64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CafeTime-Windows
+          path: build
+          retention-days: 7

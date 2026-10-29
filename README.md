@@ -55,13 +55,39 @@ Assets/_Project/
 
 ## Git 협업 규칙
 
-- `main`에 직접 push하지 않고 기능별 브랜치 → Pull Request → 리뷰 후 merge
+작업 흐름: **이슈 → 브랜치 → PR → CI 통과 + 리뷰 1명 승인 → merge**
+
+1. Issues → New issue → `기능 구현` 템플릿으로 SFR 번호, 완료 조건, 수정할 씬을 적는다
+2. 브랜치를 만들어 작업한다
+3. PR을 올리면 템플릿(구현한 SFR, 확인 방법, 스크린샷, 체크리스트)을 채운다. 본문에 `Closes #이슈번호`
+4. CI(`Repo check`)가 통과하고 팀원 1명이 승인하면 merge
+
+- `main`은 브랜치 보호가 걸려 있어 직접 push할 수 없다 (PR + CI 통과 + 리뷰 1명 필수)
   - 브랜치 이름 예: `feature/title-screen`, `fix/settings-slider`
 - **같은 씬(.unity)을 두 사람이 동시에 수정하지 않는다** (씬 파일 충돌은 해결이 매우 어려움)
   - 화면 요소는 프리팹으로 만들어 각자 프리팹을 수정 → 씬 충돌 최소화
   - 씬을 수정해야 하면 팀 채팅에 먼저 알리기
 - `.meta` 파일은 반드시 원본 파일과 함께 커밋 (빠지면 참조가 깨짐)
 - `Library/`, `Temp/`, `Logs/`, `UserSettings/` 는 커밋하지 않음 (`.gitignore`에 등록됨)
+
+### 씬·프리팹 충돌 자동 병합 (각자 PC에서 처음 한 번)
+
+`.unity`, `.prefab`, `.asset` 은 Unity의 Smart Merge(UnityYAMLMerge)로 병합하도록 설정되어 있다.
+아래 명령을 실행해 두면 같은 씬을 건드린 경우에도 충돌이 크게 줄어든다. (설정 안 하면 일반 git 병합으로 동작)
+
+```bash
+git config merge.unityyamlmerge.name "Unity SmartMerge"
+git config merge.unityyamlmerge.driver "'C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/Tools/UnityYAMLMerge.exe' merge -h -p --force %O %B %A %A"
+git config merge.unityyamlmerge.recursive binary
+```
+
+## CI (GitHub Actions)
+
+PR마다 `.github/workflows/ci.yml` 이 실행된다.
+
+- **Repo check** (필수 통과): `.meta` 누락, 자동 생성 폴더 커밋, 50MB 초과 파일, 코드 규칙(파일 이름 = 클래스 이름, namespace = 폴더 이름, Core → 기능 참조 금지)
+  - 로컬에서 미리 확인: `bash .github/scripts/check-repo.sh`
+- **Unity build**: 레포 Settings → Secrets에 `UNITY_LICENSE`, `UNITY_EMAIL`, `UNITY_PASSWORD` 를 등록하면 Windows 빌드를 만들어 Artifacts에 올린다 (등록 전에는 건너뜀)
 
 ## 에디터 도구
 

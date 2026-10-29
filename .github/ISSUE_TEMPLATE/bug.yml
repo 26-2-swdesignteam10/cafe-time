@@ -1,0 +1,26 @@
+name: 버그
+description: 잘못 동작하는 부분 제보
+title: "[버그] "
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: 무슨 일이 일어났나요?
+      description: 기대한 동작과 실제 동작
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: 재현 방법
+      placeholder: |
+        1. Title 씬에서 Play
+        2. 설정 → 단축키 탭 클릭
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 스크린샷 / Console 로그

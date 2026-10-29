@@ -3,9 +3,9 @@
 
 # Unity 텍스트 에셋
 *.cs        text diff=csharp
-*.unity     text eol=lf
-*.prefab    text eol=lf
-*.asset     text eol=lf
+*.unity     text eol=lf merge=unityyamlmerge
+*.prefab    text eol=lf merge=unityyamlmerge
+*.asset     text eol=lf merge=unityyamlmerge
 *.meta      text eol=lf
 *.mat       text eol=lf
 *.anim      text eol=lf
