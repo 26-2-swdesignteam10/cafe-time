@@ -16,7 +16,7 @@ jobs:
     name: Repo check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: bash .github/scripts/check-repo.sh
 
   # Unity 빌드: 레포 Settings → Secrets 에 UNITY_LICENSE, UNITY_EMAIL, UNITY_PASSWORD 를 등록하면 자동으로 실행됨
@@ -37,7 +37,7 @@ jobs:
     if: needs.license.outputs.available == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/cache@v4
         with:
           path: Library
