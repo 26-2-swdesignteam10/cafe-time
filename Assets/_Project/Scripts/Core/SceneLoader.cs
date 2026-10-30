@@ -9,6 +9,7 @@ namespace CafeTime.Core
         public const string Title = "Title";
         public const string Story = "Story";        // SFR-007 스토리 화면
         public const string OpenPrep = "OpenPrep";  // SFR-010 오픈 준비
+        public const string Cafe = "Cafe";          // SFR-012 영업 (카페 맵)
     }
 
     public static class SceneLoader

@@ -96,6 +96,8 @@ PR마다 `.github/workflows/ci.yml` 이 실행된다.
 - **Setup Fonts**: TMP 기본 리소스 + 한글 폰트 에셋 생성 (처음 한 번)
 - **Build Title Scene**: 시작 화면 씬과 팝업 프리팹을 코드로 생성 (처음 한 번).
   다시 실행하면 에디터에서 수정한 내용을 덮어쓰므로, 이후 수정은 씬/프리팹에서 직접 한다.
+- **Build Cafe Scene** (`CafeSceneBuilder.cs`): 영업 씬(임시 도형 맵, 플레이어, 기기 배치)을 코드로 생성 (처음 한 번).
+  임시 그림은 `Art/Sprites/Cafe`, `Art/Sprites/Player` 에 PNG로 만들어지며, 같은 이름으로 덮어쓰면 실제 그림으로 교체된다.
 
 ## 라이선스
 
