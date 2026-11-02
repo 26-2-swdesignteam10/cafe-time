@@ -9,8 +9,27 @@
 ## 처음 받았을 때
 
 1. Unity Hub → Add → Add project from disk → 이 폴더 선택
-2. `Assets/_Project/Scenes/Title.unity` 열고 ▶ Play
-3. Game 뷰 해상도는 **1920x1080** 기준
+2. 씬·프리팹 충돌 자동 병합(Smart Merge) 설정 — 아래 명령을 PC에서 한 번 실행
+3. `Assets/_Project/Scenes/Title.unity` 열고 ▶ Play
+4. Game 뷰 해상도는 **1920x1080** 기준
+
+```bash
+git config merge.unityyamlmerge.name "Unity SmartMerge"
+git config merge.unityyamlmerge.driver "'C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/Tools/UnityYAMLMerge.exe' merge -h -p --force %O %B %A %A"
+git config merge.unityyamlmerge.recursive binary
+```
+
+`.unity`, `.prefab`, `.asset` 은 `.gitattributes` 에서 Smart Merge로 병합하도록 지정되어 있다. 설정하지 않으면 일반 git 병합으로 동작해 씬 충돌이 훨씬 자주 난다.
+
+## 문서
+
+| 문서 | 내용 |
+|---|---|
+| [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) | 작업 흐름(이슈 → 브랜치 → PR), 커밋·코드·Unity·에셋 규칙, CI |
+| [docs/adr/](docs/adr/README.md) | 설계 결정 기록(ADR) — "왜 이렇게 만들었는가" |
+| [docs/GAME_DATA.md](docs/GAME_DATA.md) | 메뉴, 레시피, 가격, 시간 등 게임 수치 (확정/임시/미정) |
+| [docs/ART_STYLE.md](docs/ART_STYLE.md) | 팔레트, UI 형태, 에셋 규격, 임포트 설정 |
+| [AGENTS.md](AGENTS.md) | AI 에이전트(Codex, Claude Code) 작업 지침 |
 
 ## 폴더 구조
 
@@ -29,65 +48,11 @@ Assets/_Project/
 │   ├─ UI/         공통 UI 컴포넌트: Popup, ConfirmPopup ... (namespace CafeTime.UI)
 │   └─ <기능>/     기능별 코드: Title, Story, Machines ... (namespace CafeTime.<기능>)
 └─ Editor/         에디터 전용 도구 (빌드에 포함되지 않음)
+docs/              기여 가이드, ADR, 게임 데이터, 아트 스타일
 ```
 
 - 새 기능은 `Scripts/<기능>/`, `Prefabs/<기능>/` 폴더를 만들어 그 안에서 작업
 - 빈 폴더는 git에 올라가지 않으므로 파일이 생길 때 폴더를 만든다
-
-## 코드 규칙
-
-- 클래스 하나 = 파일 하나, 파일 이름 = 클래스 이름
-- namespace는 폴더 이름을 따른다: `CafeTime.Core`, `CafeTime.UI`, `CafeTime.Title` ...
-- `Core`는 다른 기능 폴더를 참조하지 않는다 (기능 → Core 방향으로만 의존)
-- Inspector에 노출할 필드는 `public` 대신 `[SerializeField] private`
-- 씬 이름은 `SceneNames` 상수로만 사용 (`SceneLoader.Load(SceneNames.Story)`)
-- 명세서 항목을 구현한 곳에는 주석으로 `SFR-xxx` 번호를 남긴다
-- "추후 결정" 수치는 코드에 하드코딩하지 말고 `[SerializeField]` 필드로 두어 Inspector에서 조정
-
-## 팝업 만들기
-
-모든 팝업/기기 화면은 `Popup`을 상속한다.
-
-- `Open()` / `Close()` 로 열고 닫기, `closeButton`에 X 버튼 연결
-- ESC를 누르면 `Popup.CloseTop()` 이 가장 위의 팝업을 닫음
-- `Popup.AnyOpen` 이 true면 UI가 열려 있는 상태 → 캐릭터 이동·상호작용 입력 무시 (SFR-015, 020)
-- 닫을 때 추가 처리가 필요하면 `Close()`를 override
-
-## Git 협업 규칙
-
-작업 흐름: **이슈 → 브랜치 → PR → CI 통과 + 리뷰 1명 승인 → merge**
-
-1. Issues → New issue → `기능 구현` 템플릿으로 SFR 번호, 완료 조건, 수정할 씬을 적는다
-2. 브랜치를 만들어 작업한다
-3. PR을 올리면 템플릿(구현한 SFR, 확인 방법, 스크린샷, 체크리스트)을 채운다. 본문에 `Closes #이슈번호`
-4. CI(`Repo check`)가 통과하고 팀원 1명이 승인하면 merge
-
-- `main`은 브랜치 보호가 걸려 있어 직접 push할 수 없다 (PR + CI 통과 + 리뷰 1명 필수)
-  - 브랜치 이름 예: `feature/title-screen`, `fix/settings-slider`
-- **같은 씬(.unity)을 두 사람이 동시에 수정하지 않는다** (씬 파일 충돌은 해결이 매우 어려움)
-  - 화면 요소는 프리팹으로 만들어 각자 프리팹을 수정 → 씬 충돌 최소화
-  - 씬을 수정해야 하면 팀 채팅에 먼저 알리기
-- `.meta` 파일은 반드시 원본 파일과 함께 커밋 (빠지면 참조가 깨짐)
-- `Library/`, `Temp/`, `Logs/`, `UserSettings/` 는 커밋하지 않음 (`.gitignore`에 등록됨)
-
-### 씬·프리팹 충돌 자동 병합 (각자 PC에서 처음 한 번)
-
-`.unity`, `.prefab`, `.asset` 은 Unity의 Smart Merge(UnityYAMLMerge)로 병합하도록 설정되어 있다.
-아래 명령을 실행해 두면 같은 씬을 건드린 경우에도 충돌이 크게 줄어든다. (설정 안 하면 일반 git 병합으로 동작)
-
-```bash
-git config merge.unityyamlmerge.name "Unity SmartMerge"
-git config merge.unityyamlmerge.driver "'C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/Tools/UnityYAMLMerge.exe' merge -h -p --force %O %B %A %A"
-git config merge.unityyamlmerge.recursive binary
-```
-
-## CI (GitHub Actions)
-
-PR마다 `.github/workflows/ci.yml` 이 실행된다.
-
-- **Repo check** (필수 통과): `.meta` 누락, 자동 생성 폴더 커밋, 50MB 초과 파일, 코드 규칙(파일 이름 = 클래스 이름, namespace = 폴더 이름, Core → 기능 참조 금지)
-  - 로컬에서 미리 확인: `bash .github/scripts/check-repo.sh`
-- **Unity build**: 레포 Settings → Secrets에 `UNITY_LICENSE`, `UNITY_EMAIL`, `UNITY_PASSWORD` 를 등록하면 Windows 빌드를 만들어 Artifacts에 올린다 (등록 전에는 건너뜀)
 
 ## 에디터 도구
 
