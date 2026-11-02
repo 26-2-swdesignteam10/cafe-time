@@ -20,7 +20,12 @@ namespace CafeTime.UI
             if (closeButton != null) closeButton.onClick.AddListener(Close);
         }
 
-        public virtual void Open() => gameObject.SetActive(true);
+        // 나중에 연 팝업이 항상 위에 그려지도록 같은 부모 안에서 맨 뒤 순서로 옮긴 뒤 표시
+        public virtual void Open()
+        {
+            transform.SetAsLastSibling();
+            gameObject.SetActive(true);
+        }
 
         // ESC, X 버튼 모두 이 메서드로 닫힘. 닫을 때 처리가 필요하면 override
         public virtual void Close() => gameObject.SetActive(false);
