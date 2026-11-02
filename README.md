@@ -56,10 +56,12 @@ docs/              기여 가이드, ADR, 게임 데이터, 아트 스타일
 
 ## 에디터 도구
 
-`CafeTime` 메뉴 (`Assets/_Project/Editor/TitleSceneBuilder.cs`)
+`CafeTime` 메뉴 (`Assets/_Project/Editor/`)
 
 - **Setup Fonts**: TMP 기본 리소스 + 한글 폰트 에셋 생성 (처음 한 번)
-- **Build Title Scene**: 시작 화면 씬과 팝업 프리팹을 코드로 생성 (처음 한 번).
+- **Create Game Balance**: `Resources/GameBalance.asset` 생성. 이미 있으면 수치는 그대로 두고 재료 아이콘 연결만 갱신
+- **Build Title Scene / Build Open Prep Scene / Build Settlement Scene**: 씬과 프리팹을 코드로 생성 (처음 한 번).
+- **Build Title Popups**: 닉네임·게임 설명·랭킹 팝업 프리팹만 다시 생성 (Title 씬은 그대로).
   다시 실행하면 에디터에서 수정한 내용을 덮어쓰므로, 이후 수정은 씬/프리팹에서 직접 한다.
 
 ## 라이선스
