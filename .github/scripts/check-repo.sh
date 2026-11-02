@@ -57,6 +57,14 @@ for f in "${files[@]}"; do
   fi
 done
 
+# 5. ADR: 모든 ADR 파일이 목록(docs/adr/README.md)에 있고 상태가 적혀 있어야 한다
+for f in "${files[@]}"; do
+  [[ "$f" =~ ^docs/adr/[0-9]{4}-.*\.md$ ]] || continue
+  name="$(basename "$f")"
+  grep -Fq "($name)" docs/adr/README.md || fail "ADR 목록(docs/adr/README.md)에 없음: $f"
+  grep -Eq "^- 상태: (제안|승인|폐기|대체됨)" "$f" || fail "ADR 상태(제안/승인/폐기/대체됨)가 없음: $f"
+done
+
 if (( errors > 0 )); then
   echo "검사 실패: $errors 건"
   exit 1
