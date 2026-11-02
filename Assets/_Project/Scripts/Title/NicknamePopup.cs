@@ -41,7 +41,7 @@ namespace CafeTime.Title
         void StartNewGame()
         {
             SaveSystem.StartNewGame(nicknameInput.text.Trim());
-            SceneLoader.Load(SceneNames.Story);
+            SceneLoader.LoadFirstAvailable(SceneNames.Story, SceneNames.OpenPrep);
         }
     }
 }
