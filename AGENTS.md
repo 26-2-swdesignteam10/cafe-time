@@ -75,7 +75,7 @@ docs/                 CONTRIBUTING, ADR, ART_STYLE, GAME_DATA
 
 ADR 작성 절차:
 
-1. `bash docs/adr/new-adr.sh "결정 제목"` 실행 → 다음 번호 파일이 생기고 `docs/adr/README.md` 목록에 추가된다.
+1. `bash docs/adr/new-adr.sh "결정 제목" english-file-slug` 실행 → 다음 번호 파일(`NNNN-english-file-slug.md`)이 생기고 `docs/adr/README.md` 목록에 추가된다. slug는 필수이며 영어 소문자·숫자·하이픈으로 쓴다.
 2. 맥락 / 결정 / 검토한 대안 / 결과를 채운다. 사용자가 말한 이유가 있으면 그대로 적는다.
 3. 상태 규칙:
    - 에이전트가 제안한 결정 → `제안`

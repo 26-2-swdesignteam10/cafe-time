@@ -23,3 +23,4 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0009](0009-balance-values-in-scriptableobject.md) | 밸런스 수치는 GameBalance ScriptableObject 하나에 모은다 | 승인 (구현 예정) |
 | [0010](0010-inventory-base-units.md) | 재료 재고는 기본 단위(g·개·회)로 저장한다 | 승인 (구현 예정) |
 | [0011](0011-day-cycle-scene-flow.md) | 하루 사이클의 씬 흐름과 영업 결과 전달 방식 | 제안 |
+| [0012](0012-branch-protection-policy.md) | main 브랜치는 PR 필수, 리뷰 승인은 선택, Repo check는 필수로 한다 | 승인 |
