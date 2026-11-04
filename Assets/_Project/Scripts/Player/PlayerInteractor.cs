@@ -1,6 +1,5 @@
 using CafeTime.Cafe;
 using CafeTime.UI;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,8 +10,9 @@ namespace CafeTime.Player
     public class PlayerInteractor : MonoBehaviour
     {
         [SerializeField] float range = 0.8f; // 상호작용 거리 (추후 결정). 오브젝트 충돌 영역 가장자리까지의 거리
-        [SerializeField] GameObject prompt;  // 오브젝트 위에 띄우는 키 안내
-        [SerializeField] TMP_Text promptText;
+        [SerializeField] SpriteRenderer prompt; // 오브젝트 위에 띄우는 키 안내 ("E 사용" / "E 열기" 글자 이미지)
+        [SerializeField] Sprite promptUse;
+        [SerializeField] Sprite promptOpen;
 
         Interactable target;
 
@@ -27,11 +27,11 @@ namespace CafeTime.Player
                 if (target != null) target.SetHighlighted(true);
             }
 
-            prompt.SetActive(target != null);
+            prompt.gameObject.SetActive(target != null);
             if (target == null) return;
 
             prompt.transform.position = target.PromptPosition;
-            promptText.text = "E " + target.ActionLabel;
+            prompt.sprite = target.ActionLabel == "열기" ? promptOpen : promptUse;
 
             if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
                 target.Interact();

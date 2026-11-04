@@ -36,6 +36,7 @@ namespace CafeTime.EditorTools
                 importer.textureCompression = TextureImporterCompression.Uncompressed;
                 importer.mipmapEnabled = false;
                 importer.alphaIsTransparency = true;
+                importer.maxTextureSize = 4096; // 큰 패널(2400~3200px)이 줄어들지 않게
                 importer.SaveAndReimport();
             }
         }

@@ -62,9 +62,10 @@ docs/              기여 가이드, ADR, 게임 데이터, 아트 스타일
 - **Create Game Balance**: `Resources/GameBalance.asset` 생성. 이미 있으면 수치는 그대로 두고 재료 아이콘 연결만 갱신
 - **Build Title Scene / Build Open Prep Scene / Build Settlement Scene**: 씬과 프리팹을 코드로 생성 (처음 한 번).
 - **Build Title Popups**: 닉네임·게임 설명·랭킹 팝업 프리팹만 다시 생성 (Title 씬은 그대로).
-  다시 실행하면 에디터에서 수정한 내용을 덮어쓰므로, 이후 수정은 씬/프리팹에서 직접 한다.
-- **Build Cafe Scene** (`CafeSceneBuilder.cs`): 영업 씬(임시 도형 맵, 플레이어, 기기 배치)을 코드로 생성 (처음 한 번).
-  임시 그림은 `Art/Sprites/Cafe`, `Art/Sprites/Player` 에 PNG로 만들어지며, 같은 이름으로 덮어쓰면 실제 그림으로 교체된다.
+- **Build Cafe Scene** (`CafeSceneBuilder.cs`, `CafeUiBuilder.cs`): 영업 씬(맵, 플레이어, 기기, 손님, HUD, 포스기·픽업대 등 기기 화면)을 코드로 생성.
+  그림은 `Art/Sprites/Cafe`, `Art/Sprites/Player`, `Art/Sprites/Customers`, `Art/UI/CafeHud`, `Art/UI/Pos`, `Art/UI/Stations` 에 있다.
+
+빌더를 다시 실행하면 에디터에서 수정한 내용을 덮어쓰므로, 빌더로 만든 뒤의 수정은 씬/프리팹에서 직접 하거나 빌더 코드를 고친다.
 
 ## 라이선스
 

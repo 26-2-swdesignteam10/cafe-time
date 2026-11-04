@@ -11,7 +11,7 @@ namespace CafeTime.Cafe
 
         public void Open(string stationName)
         {
-            titleText.text = $"{stationName}\n<size=60%>화면 준비 중</size>";
+            titleText.text = stationName; // "기기 화면 준비 중" 은 창의 글자 이미지
             Open();
         }
     }
