@@ -2008,7 +2008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68740342472bb4d47b162b30d4ab06b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CafeTime.Story.StoryManager
-  previewDay: 12
+  previewDay: 15
   dayText: {fileID: 1060488443}
   speakerText: {fileID: 955419020}
   dialogueText: {fileID: 2101710989}
@@ -2028,15 +2028,15 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 0054e19972df2dc4a90493466fc5512c, type: 3}
   speakerPortraits:
   - id: Main_Default
-    sprite: {fileID: 21300000, guid: 3b94b3646ffd24f4680f6bbc1fd2372e, type: 3}
+    sprite: {fileID: 21300000, guid: 371d6385ef11eda47935cbb5a0d7080d, type: 3}
   - id: Main_Embarrassed
-    sprite: {fileID: 21300000, guid: bd7a7edd7a9725a4fbcf6b4636538218, type: 3}
+    sprite: {fileID: 21300000, guid: 8bb3cf1892b486d4bbe9026a2487b946, type: 3}
   - id: Main_Worried
-    sprite: {fileID: 21300000, guid: 72f4f92e04f2b5c46854dae29f175719, type: 3}
+    sprite: {fileID: 21300000, guid: 826f20e6b6e5537449aef2ac0dd4dbf4, type: 3}
   - id: Main_Determined
-    sprite: {fileID: 21300000, guid: f3a35a577b38c184f861ebd4b946d208, type: 3}
+    sprite: {fileID: 21300000, guid: 6142ecdbd69ee714286dd2dbfd42b7c7, type: 3}
   - id: Main_Happy
-    sprite: {fileID: 21300000, guid: 4d275c22cca3bc048b4dc770e798f339, type: 3}
+    sprite: {fileID: 21300000, guid: a6e177d3e2329774580d860f08b2bb06, type: 3}
   choicePanel: {fileID: 987523452}
   choiceButtons:
   - {fileID: 1326515683}
@@ -2230,7 +2230,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 260, y: 550}
-  m_SizeDelta: {x: 350, y: 430}
+  m_SizeDelta: {x: 300, y: 430}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2105005317
 MonoBehaviour:

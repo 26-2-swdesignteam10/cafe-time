@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bd7a7edd7a9725a4fbcf6b4636538218
+guid: 8bb3cf1892b486d4bbe9026a2487b946
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -118,10 +118,10 @@ TextureImporter:
       name: "\uC2A4\uD06C\uB9B0\uC0F7_2026-11-04_145249-removebg-preview_0"
       rect:
         serializedVersion: 2
-        x: 29
-        y: 16
-        width: 327
-        height: 462
+        x: 0
+        y: 0
+        width: 324
+        height: 454
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

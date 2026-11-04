@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 72f4f92e04f2b5c46854dae29f175719
+guid: 826f20e6b6e5537449aef2ac0dd4dbf4
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -47,7 +47,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 1
-  spriteExtrude: 1
+  spriteExtrude: 6
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -118,10 +118,10 @@ TextureImporter:
       name: "\uC2A4\uD06C\uB9B0\uC0F7_2026-11-04_145813-removebg-preview_0"
       rect:
         serializedVersion: 2
-        x: 31
-        y: 16
-        width: 324
-        height: 461
+        x: 0
+        y: 0
+        width: 317
+        height: 457
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

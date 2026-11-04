@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4d275c22cca3bc048b4dc770e798f339
+guid: a6e177d3e2329774580d860f08b2bb06
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -118,10 +118,10 @@ TextureImporter:
       name: image-removebg-preview_0
       rect:
         serializedVersion: 2
-        x: 35
-        y: 6
-        width: 299
-        height: 419
+        x: 0
+        y: 0
+        width: 293
+        height: 414
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
