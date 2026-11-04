@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using CafeTime.Core;
 
@@ -24,38 +25,94 @@ namespace CafeTime.Story
         [SerializeField] private StoryBackgroundEntry[] storyBackgrounds;
         [SerializeField] private StoryPortraitEntry[] speakerPortraits;
 
+        // SFR-008: 선택지 UI
+        [SerializeField] private GameObject choicePanel;
+        [SerializeField] private Button[] choiceButtons;
+        [SerializeField] private GameObject nextHint;
+
         [SerializeField, Min(0.001f)]
         private float typingSpeed = 0.04f;
 
-        private (string speaker, string text, string backgroundId)[] lines;
+        private (
+            string speaker,
+            string text,
+            string backgroundId,
+            string portraitId,
+            string choiceId
+        )[] lines;
+
+        private (
+            string label,
+            string speaker,
+            string text,
+            string portraitId,
+            string resultId
+        )[] currentChoices;
+
+        private UnityAction[] choiceListeners;
 
         private int currentIndex;
         private int totalCharacters;
+        private int ignoreAdvanceFrame = -1;
 
         private bool finished;
         private bool isTyping;
+        private bool waitingForChoice;
+        private bool showingChoiceReply;
 
         private Coroutine typingCoroutine;
 
-        // SFR-007, SFR-009: 현재 DAY의 스토리 불러오기
+        // SFR-007, SFR-009: 현재 DAY 스토리 불러오기
         private void Start()
         {
-            if (dayText == null || speakerText == null ||
-                dialogueText == null || skipButton == null ||
-                backgroundImage == null || portraitImage == null)
+            if (speakerText == null ||
+                dialogueText == null ||
+                skipButton == null ||
+                backgroundImage == null ||
+                portraitImage == null ||
+                choicePanel == null ||
+                choiceButtons == null ||
+                choiceButtons.Length == 0)
             {
                 Debug.LogError("StoryManager의 UI 연결을 확인하세요.");
                 enabled = false;
                 return;
             }
 
+            for (int i = 0; i < choiceButtons.Length; i++)
+            {
+                if (choiceButtons[i] == null)
+                {
+                    Debug.LogError("Choice Buttons 연결을 확인하세요.");
+                    enabled = false;
+                    return;
+                }
+            }
+
             skipButton.onClick.AddListener(SkipStory);
+
+            choiceListeners = new UnityAction[choiceButtons.Length];
+
+            for (int i = 0; i < choiceButtons.Length; i++)
+            {
+                int index = i;
+
+                choiceListeners[i] = () => SelectChoice(index);
+
+                choiceButtons[i].onClick.AddListener(
+                    choiceListeners[i]);
+            }
+
+            choicePanel.SetActive(false);
 
             int currentDay = SaveSystem.Current != null
                 ? SaveSystem.Current.day
                 : previewDay;
 
-            dayText.text = "DAY " + currentDay;
+            if (dayText != null)
+            {
+                dayText.text = "DAY " + currentDay;
+            }
 
             lines = StoryData.GetLines(currentDay);
             currentIndex = 0;
@@ -72,21 +129,15 @@ namespace CafeTime.Story
         // SFR-008: 마우스 및 키보드 입력으로 대사 진행
         private void Update()
         {
-            if (finished) return;
-
-            bool keyPressed = false;
-
-            if (Keyboard.current != null)
+            if (finished || waitingForChoice ||
+                Time.frameCount == ignoreAdvanceFrame)
             {
-                foreach (var key in Keyboard.current.allKeys)
-                {
-                    if (key.wasPressedThisFrame)
-                    {
-                        keyPressed = true;
-                        break;
-                    }
-                }
+                return;
             }
+
+            bool keyPressed =
+                Keyboard.current != null &&
+                Keyboard.current.anyKey.wasPressedThisFrame;
 
             bool mouseClicked = false;
 
@@ -123,15 +174,11 @@ namespace CafeTime.Story
             }
         }
 
-        // SFR-007: 스토리 장면에 따른 배경 이미지 변경
+        // SFR-007: 대사에 따른 배경 변경
         private void SetBackground(string backgroundId)
         {
-            if (string.IsNullOrEmpty(backgroundId))
-            {
-                return;
-            }
-
-            if (storyBackgrounds == null)
+            if (string.IsNullOrEmpty(backgroundId) ||
+                storyBackgrounds == null)
             {
                 return;
             }
@@ -152,8 +199,8 @@ namespace CafeTime.Story
                 $"스토리 배경 '{backgroundId}'를 찾을 수 없습니다.");
         }
 
-        // SFR-008: 화자에 따른 캐릭터 초상화 변경
-        private void SetPortrait(string speaker)
+        // SFR-008: 대사별 초상화 및 표정 변경
+        private void SetPortrait(string portraitId)
         {
             Sprite selectedSprite = null;
 
@@ -161,7 +208,8 @@ namespace CafeTime.Story
             {
                 foreach (var entry in speakerPortraits)
                 {
-                    if (entry != null && entry.Speaker == speaker)
+                    if (entry != null &&
+                        entry.Id == portraitId)
                     {
                         selectedSprite = entry.Sprite;
                         break;
@@ -173,41 +221,177 @@ namespace CafeTime.Story
             portraitImage.enabled = selectedSprite != null;
         }
 
-        // SFR-008: 대사, 초상화, 배경 표시
+        // SFR-008: 일반 대사 출력
         private void ShowDialogue()
         {
-            speakerText.text = lines[currentIndex].speaker;
-            dialogueText.text = lines[currentIndex].text;
+            showingChoiceReply = false;
 
-            SetBackground(lines[currentIndex].backgroundId);
-            SetPortrait(lines[currentIndex].speaker);
+            DisplayDialogue(
+                lines[currentIndex].speaker,
+                lines[currentIndex].text,
+                lines[currentIndex].backgroundId,
+                lines[currentIndex].portraitId);
+        }
+
+        // SFR-008: 대사, 배경, 초상화 표시
+        private void DisplayDialogue(
+            string speaker,
+            string text,
+            string backgroundId,
+            string portraitId)
+        {
+            StopTyping();
+
+            speakerText.text = speaker;
+            dialogueText.text = text;
+
+            SetBackground(backgroundId);
+            SetPortrait(portraitId);
+
+            if (nextHint != null)
+            {
+                nextHint.SetActive(true);
+            }
 
             dialogueText.maxVisibleCharacters = 0;
             dialogueText.ForceMeshUpdate();
 
             totalCharacters = dialogueText.textInfo.characterCount;
 
+            if (totalCharacters == 0)
+            {
+                dialogueText.maxVisibleCharacters = int.MaxValue;
+                OnLineFullyVisible();
+                return;
+            }
+
             isTyping = true;
             typingCoroutine = StartCoroutine(TypeDialogue());
         }
 
-        // SFR-008: 대사 타이핑 효과
+        // SFR-008: 타이핑 효과
         private IEnumerator TypeDialogue()
         {
             for (int i = 1; i <= totalCharacters; i++)
             {
                 yield return new WaitForSecondsRealtime(typingSpeed);
+
                 dialogueText.maxVisibleCharacters = i;
             }
 
             isTyping = false;
             typingCoroutine = null;
+
+            OnLineFullyVisible();
+        }
+
+        // SFR-008: 대사 출력 완료 후 선택지 확인
+        private void OnLineFullyVisible()
+        {
+            if (finished || showingChoiceReply)
+            {
+                return;
+            }
+
+            string choiceId = lines[currentIndex].choiceId;
+
+            if (!string.IsNullOrEmpty(choiceId))
+            {
+                ShowChoices(choiceId);
+            }
+        }
+
+        // SFR-008: 선택지 버튼 표시
+        private void ShowChoices(string choiceId)
+        {
+            var options = StoryChoiceData.GetOptions(choiceId);
+
+            if (options.Length == 0)
+            {
+                Debug.LogWarning(
+                    $"선택지 '{choiceId}'를 찾을 수 없습니다.");
+                return;
+            }
+
+            if (options.Length > choiceButtons.Length)
+            {
+                Debug.LogError(
+                    $"선택지 '{choiceId}'에 필요한 버튼 수가 부족합니다.");
+                return;
+            }
+
+            currentChoices = options;
+            waitingForChoice = true;
+
+            if (nextHint != null)
+            {
+                nextHint.SetActive(false);
+            }
+
+            for (int i = 0; i < choiceButtons.Length; i++)
+            {
+                bool visible = i < options.Length;
+
+                choiceButtons[i].gameObject.SetActive(visible);
+
+                if (!visible)
+                {
+                    continue;
+                }
+
+                TMP_Text buttonText =
+                    choiceButtons[i].GetComponentInChildren<TMP_Text>(true);
+
+                if (buttonText != null)
+                {
+                    buttonText.text = options[i].label;
+                }
+            }
+
+            choicePanel.SetActive(true);
+        }
+
+        // SFR-008: 선택 결과에 따른 대사 분기
+        private void SelectChoice(int choiceIndex)
+        {
+            if (!waitingForChoice ||
+                currentChoices == null ||
+                choiceIndex < 0 ||
+                choiceIndex >= currentChoices.Length)
+            {
+                return;
+            }
+
+            var selected = currentChoices[choiceIndex];
+
+            waitingForChoice = false;
+            choicePanel.SetActive(false);
+
+            // 버튼 클릭이 같은 프레임에서 대사 진행으로
+            // 중복 처리되지 않도록 방지
+            ignoreAdvanceFrame = Time.frameCount;
+
+            // 추후 SaveData의 선택 결과 저장과 연결
+            Debug.Log(
+                $"스토리 선택 결과: {selected.resultId}");
+
+            showingChoiceReply = true;
+
+            // 배경 ID가 빈 문자열이므로 현재 배경 유지
+            DisplayDialogue(
+                selected.speaker,
+                selected.text,
+                "",
+                selected.portraitId);
         }
 
         // SFR-008: 대사 진행
         public void NextDialogue()
         {
-            if (finished) return;
+            if (finished || waitingForChoice)
+            {
+                return;
+            }
 
             if (isTyping)
             {
@@ -226,8 +410,17 @@ namespace CafeTime.Story
             ShowDialogue();
         }
 
-        // SFR-008: 타이핑 중 입력 시 대사 전체 표시
+        // SFR-008: 타이핑 중 입력 시 전체 대사 출력
         private void ShowFullDialogue()
+        {
+            StopTyping();
+
+            dialogueText.maxVisibleCharacters = int.MaxValue;
+
+            OnLineFullyVisible();
+        }
+
+        private void StopTyping()
         {
             if (typingCoroutine != null)
             {
@@ -235,14 +428,16 @@ namespace CafeTime.Story
                 typingCoroutine = null;
             }
 
-            dialogueText.maxVisibleCharacters = int.MaxValue;
             isTyping = false;
         }
 
         // SFR-007: 스토리 건너뛰기
         public void SkipStory()
         {
-            if (finished) return;
+            if (finished)
+            {
+                return;
+            }
 
             FinishStory();
         }
@@ -251,16 +446,13 @@ namespace CafeTime.Story
         private void FinishStory()
         {
             finished = true;
+            waitingForChoice = false;
 
-            if (typingCoroutine != null)
-            {
-                StopCoroutine(typingCoroutine);
-                typingCoroutine = null;
-            }
+            StopTyping();
+            choicePanel.SetActive(false);
 
-            isTyping = false;
-
-            if (Application.CanStreamedLevelBeLoaded(SceneNames.OpenPrep))
+            if (Application.CanStreamedLevelBeLoaded(
+                SceneNames.OpenPrep))
             {
                 SceneLoader.Load(SceneNames.OpenPrep);
             }
@@ -282,6 +474,21 @@ namespace CafeTime.Story
             if (skipButton != null)
             {
                 skipButton.onClick.RemoveListener(SkipStory);
+            }
+
+            if (choiceListeners == null ||
+                choiceButtons == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < choiceListeners.Length; i++)
+            {
+                if (choiceButtons[i] != null)
+                {
+                    choiceButtons[i].onClick.RemoveListener(
+                        choiceListeners[i]);
+                }
             }
         }
     }

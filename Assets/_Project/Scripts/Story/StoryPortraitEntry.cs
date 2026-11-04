@@ -8,10 +8,10 @@ namespace CafeTime.Story
     [Serializable]
     public class StoryPortraitEntry
     {
-        [SerializeField] private string speaker;
+        [SerializeField] private string id;
         [SerializeField] private Sprite sprite;
 
-        public string Speaker => speaker;
+        public string Id => id;
         public Sprite Sprite => sprite;
     }
 }
