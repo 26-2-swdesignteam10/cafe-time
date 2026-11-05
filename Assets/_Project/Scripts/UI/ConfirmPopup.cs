@@ -11,13 +11,20 @@ namespace CafeTime.UI
         [SerializeField] TMP_Text messageText;
         [SerializeField] Button yesButton;
         [SerializeField] Button noButton;
-        [SerializeField] GameObject quitMessageGraphic;
+        [SerializeField] GameObject quitMessageGraphic; // 문구 이미지. 기본 스프라이트는 "게임을 종료할까요?"
 
         Action onYes;
+        Image messageImage;
+        Sprite quitMessageSprite;
 
         protected override void Awake()
         {
             base.Awake();
+            if (quitMessageGraphic != null)
+            {
+                messageImage = quitMessageGraphic.GetComponent<Image>();
+                quitMessageSprite = messageImage.sprite;
+            }
             yesButton.onClick.AddListener(() =>
             {
                 Close();
@@ -32,9 +39,20 @@ namespace CafeTime.UI
             if (quitMessageGraphic != null)
             {
                 bool quitting = message == "게임을 종료하시겠습니까?";
+                messageImage.sprite = quitMessageSprite;
                 quitMessageGraphic.SetActive(quitting);
                 messageText.gameObject.SetActive(!quitting);
             }
+            this.onYes = onYes;
+            Open();
+        }
+
+        // 고정 문구를 디자인 이미지로 표시 (docs/ART_STYLE.md 4장)
+        public void Open(Sprite message, Action onYes)
+        {
+            messageImage.sprite = message;
+            quitMessageGraphic.SetActive(true);
+            messageText.gameObject.SetActive(false);
             this.onYes = onYes;
             Open();
         }

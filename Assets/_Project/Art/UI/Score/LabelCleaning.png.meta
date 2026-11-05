@@ -1,0 +1,834 @@
+fileFormatVersion: 2
+guid: 0d6590aa9513c55499d57d0e97effa83
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -899392851690258346
+    second: LabelCleaning_0
+  - first:
+      213: 6465036703943519261
+    second: LabelCleaning_1
+  - first:
+      213: -1366499817333031667
+    second: LabelCleaning_2
+  - first:
+      213: 5024028870021685908
+    second: LabelCleaning_3
+  - first:
+      213: -780678306782015009
+    second: LabelCleaning_4
+  - first:
+      213: -1579733616677103758
+    second: LabelCleaning_5
+  - first:
+      213: -289812094566118237
+    second: LabelCleaning_6
+  - first:
+      213: -6528800259763784518
+    second: LabelCleaning_7
+  - first:
+      213: -7270996142608354973
+    second: LabelCleaning_8
+  - first:
+      213: 5544887188064011870
+    second: LabelCleaning_9
+  - first:
+      213: 6290019741894213119
+    second: LabelCleaning_10
+  - first:
+      213: 3490158903072612048
+    second: LabelCleaning_11
+  - first:
+      213: -6269831818753240712
+    second: LabelCleaning_12
+  - first:
+      213: 1717892537053246675
+    second: LabelCleaning_13
+  - first:
+      213: -5619384972805940328
+    second: LabelCleaning_14
+  - first:
+      213: 5136042586949143130
+    second: LabelCleaning_15
+  - first:
+      213: 2633984750640087673
+    second: LabelCleaning_16
+  - first:
+      213: 7844497381787058628
+    second: LabelCleaning_17
+  - first:
+      213: -6026093744594402754
+    second: LabelCleaning_18
+  - first:
+      213: -1836918953138557269
+    second: LabelCleaning_19
+  - first:
+      213: 6509892613932243145
+    second: LabelCleaning_20
+  - first:
+      213: -7493503305469657933
+    second: LabelCleaning_21
+  - first:
+      213: -617571720327722946
+    second: LabelCleaning_22
+  - first:
+      213: 6212341559128243691
+    second: LabelCleaning_23
+  - first:
+      213: 1740810720805612802
+    second: LabelCleaning_24
+  - first:
+      213: 6885961075750081391
+    second: LabelCleaning_25
+  - first:
+      213: -2593143250232232533
+    second: LabelCleaning_26
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LabelCleaning_0
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 0
+        width: 2113
+        height: 701
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6500a7177f6b483f0800000000000000
+      internalID: -899392851690258346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_1
+      rect:
+        serializedVersion: 2
+        x: 1078
+        y: 676
+        width: 23
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1c6a6601ac68b950800000000000000
+      internalID: 6465036703943519261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_2
+      rect:
+        serializedVersion: 2
+        x: 1099
+        y: 676
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0d7a3af7a7390de0800000000000000
+      internalID: -1366499817333031667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_3
+      rect:
+        serializedVersion: 2
+        x: 1110
+        y: 666
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49223fa83afe8b540800000000000000
+      internalID: 5024028870021685908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_4
+      rect:
+        serializedVersion: 2
+        x: 1548
+        y: 670
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd1976857397a25f0800000000000000
+      internalID: -780678306782015009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_5
+      rect:
+        serializedVersion: 2
+        x: 1596
+        y: 668
+        width: 9
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 277d73a35a8a31ae0800000000000000
+      internalID: -1579733616677103758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_6
+      rect:
+        serializedVersion: 2
+        x: 1614
+        y: 687
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ac46cb7f616afbf0800000000000000
+      internalID: -289812094566118237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_7
+      rect:
+        serializedVersion: 2
+        x: 1727
+        y: 679
+        width: 8
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab43d4b31ca0565a0800000000000000
+      internalID: -6528800259763784518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_8
+      rect:
+        serializedVersion: 2
+        x: 1734
+        y: 684
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 361f79c188b381b90800000000000000
+      internalID: -7270996142608354973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_9
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 676
+        width: 13
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e568b2cf48563fc40800000000000000
+      internalID: 5544887188064011870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_10
+      rect:
+        serializedVersion: 2
+        x: 1757
+        y: 676
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffd7cc911a3aa4750800000000000000
+      internalID: 6290019741894213119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_11
+      rect:
+        serializedVersion: 2
+        x: 1778
+        y: 657
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0de5f4bd7098f6030800000000000000
+      internalID: 3490158903072612048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_12
+      rect:
+        serializedVersion: 2
+        x: 787
+        y: 625
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87195c90e251df8a0800000000000000
+      internalID: -6269831818753240712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_13
+      rect:
+        serializedVersion: 2
+        x: 797
+        y: 637
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d47a51292e27d710800000000000000
+      internalID: 1717892537053246675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_14
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 611
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89bdbb7d32fe302b0800000000000000
+      internalID: -5619384972805940328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_15
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 615
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5ac16a5583e64740800000000000000
+      internalID: 5136042586949143130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_16
+      rect:
+        serializedVersion: 2
+        x: 953
+        y: 611
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 972c2bddc2bcd8420800000000000000
+      internalID: 2633984750640087673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_17
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 600
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c146ea8ec04ddc60800000000000000
+      internalID: 7844497381787058628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_18
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 600
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e324f3abaa30f5ca0800000000000000
+      internalID: -6026093744594402754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_19
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 595
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bae6efcc1f3f186e0800000000000000
+      internalID: -1836918953138557269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_20
+      rect:
+        serializedVersion: 2
+        x: 1945
+        y: 595
+        width: 13
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c8de5b67d8c75a50800000000000000
+      internalID: 6509892613932243145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_21
+      rect:
+        serializedVersion: 2
+        x: 1953
+        y: 587
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bcf34a227ab10890800000000000000
+      internalID: -7493503305469657933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_22
+      rect:
+        serializedVersion: 2
+        x: 1491
+        y: 579
+        width: 10
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e380a8adac1fd67f0800000000000000
+      internalID: -617571720327722946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_23
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 350
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bed3c3fcbbba63650800000000000000
+      internalID: 6212341559128243691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_24
+      rect:
+        serializedVersion: 2
+        x: 1377
+        y: 118
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20d6fca902a982810800000000000000
+      internalID: 1740810720805612802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_25
+      rect:
+        serializedVersion: 2
+        x: 1805
+        y: 88
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6310417d19df8f50800000000000000
+      internalID: 6885961075750081391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCleaning_26
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 33
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba5b436f3fd430cd0800000000000000
+      internalID: -2593143250232232533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      LabelCleaning_0: -899392851690258346
+      LabelCleaning_1: 6465036703943519261
+      LabelCleaning_10: 6290019741894213119
+      LabelCleaning_11: 3490158903072612048
+      LabelCleaning_12: -6269831818753240712
+      LabelCleaning_13: 1717892537053246675
+      LabelCleaning_14: -5619384972805940328
+      LabelCleaning_15: 5136042586949143130
+      LabelCleaning_16: 2633984750640087673
+      LabelCleaning_17: 7844497381787058628
+      LabelCleaning_18: -6026093744594402754
+      LabelCleaning_19: -1836918953138557269
+      LabelCleaning_2: -1366499817333031667
+      LabelCleaning_20: 6509892613932243145
+      LabelCleaning_21: -7493503305469657933
+      LabelCleaning_22: -617571720327722946
+      LabelCleaning_23: 6212341559128243691
+      LabelCleaning_24: 1740810720805612802
+      LabelCleaning_25: 6885961075750081391
+      LabelCleaning_26: -2593143250232232533
+      LabelCleaning_3: 5024028870021685908
+      LabelCleaning_4: -780678306782015009
+      LabelCleaning_5: -1579733616677103758
+      LabelCleaning_6: -289812094566118237
+      LabelCleaning_7: -6528800259763784518
+      LabelCleaning_8: -7270996142608354973
+      LabelCleaning_9: 5544887188064011870
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

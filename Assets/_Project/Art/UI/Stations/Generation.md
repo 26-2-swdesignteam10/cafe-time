@@ -1,0 +1,31 @@
+Generated with OpenAI 내장 image_gen 이미지 생성 도구. Style reference: Assets/_Project/Art/UI/Quit/{Panel,Yes,No,Message}.png; Assets/_Project/Art/UI/Settings/{Panel,Close}.png; Assets/_Project/Art/UI/OpenPrep/{CatalogPanel,CartPanel,TabNormal,TabSelected,CardFrame,BuyButton}.png; Assets/_Project/Art/UI/Settlement/Receipt.png; Assets/_Project/Art/UI/Nickname/Panel.png.
+
+Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: stylized-concept. ONE isolated production UI sprite, front view, no mockup. Reference the existing game sprites shown in conversation: Quit/Panel, Yes, No, Message; Settings/Panel, Close; OpenPrep/CatalogPanel, CartPanel, TabNormal, TabSelected, CardFrame, BuyButton; Settlement/Receipt; Nickname/Panel. Palette cream #FAEAC2 #FCF0CA #F7DCA5, honey #DF7015 #C57D1F #F1C97D, walnut #90471B #5D2608, dark coffee #380F00. Crisp pixel steps and 2-3 shade blocks. Genuine transparent background, no checkerboard painted in, no watermark. 
+
+파일별 프롬프트는 위 공통 프롬프트에 아래 내용을 덧붙여 개별 호출했다. PNG의 그림과 글자는 내장 도구로 생성했다. 저장 시 최근접 리샘플링으로 크기를 맞추고, 투명 영역을 잘라 사방 8px 여백을 맞췄다. 라벨 글자 높이는 크림 외곽선을 제외한 채움 영역의 세로 범위를 기준으로 측정한다. 픽업 안내는 각 행을 따로 크기 조정한 뒤 중앙 정렬하며 행 사이 간격은 16px이다.
+
+- DessertPanel.png: 2000×1200px. Rectangular walnut panel with thin honey gold inner trim and fully opaque empty cream interior. Painted bold dark coffee pixel title "디저트 진열장" centered at top INSIDE frame, flanked by small coffee beans like Nickname/Panel. Spell 디 저 트 [space] 진 열 장. Rest completely EMPTY. 사방 균일한 투명 여백, 패널 내부 완전 불투명, 프레임 위 돌출물 없음.
+- PickupPanel.png: 2200×1280px. Rectangular walnut panel with thin honey gold inner trim and fully opaque empty cream interior. Painted bold dark coffee pixel title "픽업대" centered at top INSIDE frame, flanked by small coffee beans like Nickname/Panel. Spell 픽 업 대. Rest completely EMPTY. 사방 균일한 투명 여백, 패널 내부 완전 불투명, 프레임 위 돌출물 없음.
+- PickupSlot.png: 360×360px. Square wooden tray slot, beveled walnut rim, gold inner trim, fully opaque cream inset inside, completely empty; no text, no objects. 사방 균일한 투명 여백, 패널 내부 완전 불투명, 프레임 위 돌출물 없음.
+- PickupHint.png: 텍스트 전용 투명 라벨. 정확한 문구 "음료·디저트를 끌어다 놓고\n위쪽 주문표를 눌러 배정하세요". 두 줄 중앙 정렬. 굵은 도트 글자, 다크 커피 #380F00 채움, 크림 #FCF0CA 외곽선 3px. 글자 높이 56px, 사방 투명 여백 8px. 패널·버튼·장식 없음.
+- LabelUnassigned.png: 텍스트 전용 투명 라벨. 정확한 문구 "미배정". 한 줄. 굵은 도트 글자, 경고색 #A3261B 채움, 크림 #FCF0CA 외곽선 3px. 글자 높이 56px, 사방 투명 여백 8px. 패널·버튼·장식 없음.
+- DrinkBarPanel.png: 2600×1520px. Rectangular walnut panel with thin honey gold inner trim and fully opaque empty cream interior. Painted bold dark coffee pixel title "음료 제조실" centered at top INSIDE frame, flanked by small coffee beans like Nickname/Panel. Spell 음 료 [space] 제 조 실. Rest completely EMPTY. 사방 균일한 투명 여백, 패널 내부 완전 불투명, 프레임 위 돌출물 없음.
+- ShakeBarPanel.png: 2600×1520px. Rectangular walnut panel with thin honey gold inner trim and fully opaque empty cream interior. Painted bold dark coffee pixel title "쉐이크 제조실" centered at top INSIDE frame, flanked by small coffee beans like Nickname/Panel. Spell 쉐 이 크 [space] 제 조 실. Rest completely EMPTY. 사방 균일한 투명 여백, 패널 내부 완전 불투명, 프레임 위 돌출물 없음.
+- TempMakerHint.png: 텍스트 전용 투명 라벨. 정확한 문구 "(임시) 메뉴를 누르면 완성된 음료를 손에 듭니다". 한 줄. 굵은 도트 글자, 다크 커피 #380F00 채움, 크림 #FCF0CA 외곽선 3px. 글자 높이 56px, 사방 투명 여백 8px. 패널·버튼·장식 없음.
+
+Unity 임포트: Texture Type Sprite (2D and UI), Sprite Mode Single, Filter Mode Point (no filter), Generate Mip Maps 끔, Alpha Is Transparency 켬. PNG는 표시 크기의 2배이고, 라벨은 원본의 절반 크기로 표시한다. 가로 또는 세로가 2048px를 넘는 파일은 요청한 원본 크기를 유지하도록 Max Size 4096을 사용한다. 그 외 파일은 Max Size 2048을 사용한다. `.meta`는 직접 만들지 않았으며 Unity 임포트가 필요하다.
+
+픽업대는 SFR-056 대응 아트 에셋. 제조실 패널은 요청된 임시 음료 제조 화면용이며 값이나 메뉴 이름을 이미지에 포함하지 않는다.
+
+최종 수정·검수:
+- DessertPanel.png, PickupPanel.png, ShakeBarPanel.png: 내장 도구의 precise-object-edit로 투명 구멍과 어두운 잔상을 크림 배경으로 복구했다. 기존 한글 제목·커피콩·호두나무 프레임·금색 선을 보존했다. 최종 프롬프트 핵심: Replace all interior holes and dark fuzzy fringes with fully opaque cream #FAEAC2; preserve existing title, beans, walnut frame and gold trim; transparency only outside perimeter.
+- DrinkBarPanel.png: 복구된 PickupPanel.png를 참조하여 내장 도구로 제목만 픽업대에서 정확한 음료 제조실로 변경했다. 불투명 크림 내부와 프레임·커피콩을 보존했다.
+- PickupSlot.png: 내장 도구로 정사각형 나무 슬롯을 파란 외부 배경의 불투명 중간 이미지로 생성한 뒤, 같은 내장 도구의 background-extraction으로 외부 파랑만 제거했다. 최종 프롬프트 핵심: Remove ONLY saturated blue #0000FF exterior; preserve all cream interior pixels and walnut rim exactly; no internal transparency. 중간 파랑은 최종 PNG에 포함하지 않는다.
+- PNG 저장 규격 보정: 최근접 크기 조정, 사방 투명 여백 8px, 프레임으로 둘러싸인 내부 알파 255 정규화. RGB 그림과 한글 글자 형태는 내장 생성·편집 도구 결과를 사용했다.
+- 한글·가운뎃점·괄호·두 줄 구성을 시각 검수했다. 라벨 채움 영역 높이는 각 행 56px이며 크림 외곽선은 측정에서 제외했다.
+
+- Preparing.png: OpenAI 내장 image_gen으로 생성. 스타일 참조: `Assets/_Project/Art/UI/Stations/LabelUnassigned.png`, `Assets/_Project/Art/UI/Pos/LabelOrderNo.png`, `Assets/_Project/Art/UI/Quit/Message.png`. 파일별 프롬프트: Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: stylized-concept. ONE text-only LABEL sprite. EXACT Korean text "기기 화면 준비 중", SINGLE horizontal line. Character sequence: 기 기 [space] 화 면 [space] 준 비 [space] 중. Preserve exactly three spaces. Match the reference bold stepped pixel Hangul lettering; dark coffee #380F00 fill, cream #FCF0CA outline 3px. LABEL M: every Korean glyph fill height exactly 72px excluding outline. Genuine transparent RGBA background, exactly 8px transparent padding on all sides. No panels, buttons, ornaments, shadows, or other text. 후속 편집 프롬프트: Preserve the exact text and bold pixel Hangul shapes; remove stray pixels, speckles, colored fringes, texture and gradients; use only flat solid dark coffee #380F00 fill and a clean cream #FCF0CA outline, transparent elsewhere. 저장 규격 보정: 생성된 한글 채움 형태를 최근접 방식으로 글자별 72px 높이에 맞추고, 채움색을 #380F00으로 정규화한 뒤 #FCF0CA 외곽선 3px와 사방 투명 여백 8px를 적용했다. 최종 548×94px. "기기 화면 준비 중"의 일곱 글자와 세 공백을 시각 검수했다. `.meta`는 생성하지 않았다.
+
+## 삭제됨 (2026-11-04)
+
+- DrinkBarPanel.png, ShakeBarPanel.png, TempMakerHint.png, Preparing.png: 임시 제조실·준비 중 창을 실제 기기 화면(ADR-0014)으로 교체하면서 삭제했다. 위 기록은 이력으로 남긴다.

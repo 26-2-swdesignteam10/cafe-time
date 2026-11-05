@@ -40,12 +40,12 @@
 
 ### 커밋 메시지
 
-[Conventional Commits](https://www.conventionalcommits.org/ko/) 형식을 쓴다.
+[Conventional Commits](https://www.conventionalcommits.org/ko/) 형식을 쓴다. **type은 영어, 요약과 본문은 한국어**로 쓴다.
 
 ```
-<type>: <요약 (50자 이내)>
+<type>: <한국어 요약 (50자 이내)>
 
-<필요하면 본문: 무엇을, 왜>
+<필요하면 한국어 본문: 무엇을, 왜>
 ```
 
 | type | 용도 |
@@ -57,7 +57,9 @@
 | `chore` | 빌드·설정·에셋 정리 등 기타 |
 | `ci` | GitHub Actions 변경 |
 
-예: `feat: add ingredient shop to open prep scene (SFR-010)`
+예: `feat: 오픈 준비 화면에 재료 구매 기능 추가 (SFR-010)`, `fix: 닉네임 입력 창이 다른 창 뒤에 뜨는 문제 수정`
+
+**PR 제목**도 같은 형식으로 쓴다 (`<type>: <한국어 요약>`). 예: `feat: 오픈 준비와 하루 정산 화면 구현 (SFR-010, SFR-071)`
 
 ## 3. Unity 작업 규칙
 

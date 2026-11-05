@@ -1,0 +1,387 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ca38a76844a9c4893e4af48ea871d3, type: 3}
+  m_Name: GameBalance
+  m_EditorClassIdentifier: Assembly-CSharp::CafeTime.Core.GameBalance
+  startingMoney: 150000
+  rentByDay: 60ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea0000i
+  initialReputation: 3
+  ingredients:
+  - id: bean
+    displayName: "\uC6D0\uB450"
+    category: 0
+    purchaseUnit: "\uBD09"
+    amountPerUnit: 20
+    baseUnit: "\uD68C"
+    price: 12000
+    icon: {fileID: 21300000, guid: 5e55f6bf34a2be340b00f64eb0d5333c, type: 3}
+  - id: milk
+    displayName: "\uC6B0\uC720"
+    category: 1
+    purchaseUnit: "\uD329"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 2500
+    icon: {fileID: 21300000, guid: 52a753e4859996148b265c3f690ce52a, type: 3}
+  - id: soda
+    displayName: "\uD0C4\uC0B0\uC218"
+    category: 1
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 1500
+    icon: {fileID: 21300000, guid: 526b298fd0f5560499cb8fc7498ad769, type: 3}
+  - id: condensed_milk
+    displayName: "\uC5F0\uC720"
+    category: 1
+    purchaseUnit: "\uD1B5"
+    amountPerUnit: 500
+    baseUnit: g
+    price: 4000
+    icon: {fileID: 21300000, guid: b02c75fe73d34634b9fe58297df8c6b4, type: 3}
+  - id: syrup_plain
+    displayName: "\uC77C\uBC18 \uC2DC\uB7FD"
+    category: 2
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 8000
+    icon: {fileID: 21300000, guid: 5f8d10b0d562dfe42aa33ac0b6cd5754, type: 3}
+  - id: syrup_vanilla
+    displayName: "\uBC14\uB2D0\uB77C \uC2DC\uB7FD"
+    category: 2
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 8000
+    icon: {fileID: 21300000, guid: 3c671a18fbb1d5e4d9f6e234f2fc924e, type: 3}
+  - id: syrup_caramel
+    displayName: "\uCE74\uB77C\uBA5C \uC2DC\uB7FD"
+    category: 2
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 8000
+    icon: {fileID: 21300000, guid: 291b002b6c7f05f4c99d02adee250939, type: 3}
+  - id: syrup_hazelnut
+    displayName: "\uD5E4\uC774\uC990\uB11B \uC2DC\uB7FD"
+    category: 2
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 8000
+    icon: {fileID: 21300000, guid: 0cc8f2c7ab6fa1145acb5088ba81c2c5, type: 3}
+  - id: syrup_chocolate
+    displayName: "\uCD08\uCF54 \uC2DC\uB7FD"
+    category: 2
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 8000
+    icon: {fileID: 21300000, guid: cb900da721b472646b1b9b17c097c9e2, type: 3}
+  - id: syrup_blue
+    displayName: "\uBE14\uB8E8 \uC2DC\uB7FD"
+    category: 2
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 8000
+    icon: {fileID: 21300000, guid: 761fd244f29ab884ba5e176f8357ac80, type: 3}
+  - id: cheong_strawberry
+    displayName: "\uB538\uAE30\uCCAD"
+    category: 2
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 10000
+    icon: {fileID: 21300000, guid: 104da210d8ef02947a4f54c2fa73090c, type: 3}
+  - id: cheong_grapefruit
+    displayName: "\uC790\uBABD\uCCAD"
+    category: 2
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 10000
+    icon: {fileID: 21300000, guid: e90e5827c865f144487ff574809c2642, type: 3}
+  - id: cheong_yuja
+    displayName: "\uC720\uC790\uCCAD"
+    category: 2
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 10000
+    icon: {fileID: 21300000, guid: ea6bcf5ce5ec54e46b5c9b6eada37f15, type: 3}
+  - id: tea_chamomile
+    displayName: "\uCE90\uBAA8\uB9C8\uC77C \uD2F0\uBC31"
+    category: 3
+    purchaseUnit: "\uBC15\uC2A4"
+    amountPerUnit: 10
+    baseUnit: "\uAC1C"
+    price: 5000
+    icon: {fileID: 21300000, guid: 5a983b21dc3c6ce47b1f5d4f3cde2152, type: 3}
+  - id: tea_earlgrey
+    displayName: "\uC5BC\uADF8\uB808\uC774 \uD2F0\uBC31"
+    category: 3
+    purchaseUnit: "\uBC15\uC2A4"
+    amountPerUnit: 10
+    baseUnit: "\uAC1C"
+    price: 5000
+    icon: {fileID: 21300000, guid: acf3c1e51d18c5e44b902fe706a296c1, type: 3}
+  - id: smoothie_strawberry
+    displayName: "\uB538\uAE30 \uC2A4\uBB34\uB514"
+    category: 4
+    purchaseUnit: "\uD329"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 9000
+    icon: {fileID: 21300000, guid: 3c88b47440a11fc43939c041130300ca, type: 3}
+  - id: smoothie_mango
+    displayName: "\uB9DD\uACE0 \uC2A4\uBB34\uB514"
+    category: 4
+    purchaseUnit: "\uD329"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 9000
+    icon: {fileID: 21300000, guid: 756f5d0eddaacae4dbfd6ba071a275b9, type: 3}
+  - id: smoothie_hallabong
+    displayName: "\uD55C\uB77C\uBD09 \uC2A4\uBB34\uB514"
+    category: 4
+    purchaseUnit: "\uD329"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 9000
+    icon: {fileID: 21300000, guid: 9e4c630464d3e6e459382e3884cda01a, type: 3}
+  - id: smoothie_melon
+    displayName: "\uBA5C\uB860 \uC2A4\uBB34\uB514"
+    category: 4
+    purchaseUnit: "\uD329"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 9000
+    icon: {fileID: 21300000, guid: 13816636e8c64cb4ca6cda5e4a674a35, type: 3}
+  - id: smoothie_cookie
+    displayName: "\uCFE0\uD0A4\uC564\uD06C\uB9BC"
+    category: 4
+    purchaseUnit: "\uD329"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 9000
+    icon: {fileID: 21300000, guid: 8f0d29fed35c2f44bbd4cd3607627111, type: 3}
+  - id: dessert_strawberry_cake
+    displayName: "\uB538\uAE30 \uCF00\uC774\uD06C"
+    category: 5
+    purchaseUnit: "\uAC1C"
+    amountPerUnit: 1
+    baseUnit: "\uAC1C"
+    price: 2500
+    icon: {fileID: 21300000, guid: 020105eb4ad3c8946a94700a7308bf53, type: 3}
+  - id: dessert_croissant
+    displayName: "\uD06C\uB8E8\uC544\uC0C1"
+    category: 5
+    purchaseUnit: "\uAC1C"
+    amountPerUnit: 1
+    baseUnit: "\uAC1C"
+    price: 1500
+    icon: {fileID: 21300000, guid: fd80494987a48904fa1199b17b3d87ac, type: 3}
+  - id: dessert_cookie
+    displayName: "\uCFE0\uD0A4"
+    category: 5
+    purchaseUnit: "\uAC1C"
+    amountPerUnit: 1
+    baseUnit: "\uAC1C"
+    price: 800
+    icon: {fileID: 21300000, guid: ca0a8ee8e9823064b88d0539eef21695, type: 3}
+  menus:
+  - id: americano
+    displayName: "\uC544\uBA54\uB9AC\uCE74\uB178"
+    category: 0
+    price: 4000
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: cafe_latte
+    displayName: "\uCE74\uD398\uB77C\uB5BC"
+    category: 0
+    price: 4500
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: vanilla_latte
+    displayName: "\uBC14\uB2D0\uB77C\uB77C\uB5BC"
+    category: 0
+    price: 5000
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: caramel_macchiato
+    displayName: "\uCE74\uB77C\uBA5C\uB9C8\uD0A4\uC544\uD1A0"
+    category: 0
+    price: 5500
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: hazelnut_latte
+    displayName: "\uD5E4\uC774\uC990\uB11B\uB77C\uB5BC"
+    category: 0
+    price: 5000
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: cafe_mocha
+    displayName: "\uCE74\uD398\uBAA8\uCE74"
+    category: 0
+    price: 5500
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: condensed_latte
+    displayName: "\uC5F0\uC720\uB77C\uB5BC"
+    category: 0
+    price: 5500
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: strawberry_latte
+    displayName: "\uB538\uAE30\uB77C\uB5BC"
+    category: 1
+    price: 5500
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: grapefruit_ade
+    displayName: "\uC790\uBABD\uC5D0\uC774\uB4DC"
+    category: 1
+    price: 5500
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: yuja_ade
+    displayName: "\uC720\uC790\uC5D0\uC774\uB4DC"
+    category: 1
+    price: 5500
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: strawberry_ade
+    displayName: "\uB538\uAE30\uC5D0\uC774\uB4DC"
+    category: 1
+    price: 5500
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: blue_lemon_ade
+    displayName: "\uBE14\uB8E8\uB808\uBAAC\uC5D0\uC774\uB4DC"
+    category: 1
+    price: 5500
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: yuja_tea
+    displayName: "\uC720\uC790\uCC28"
+    category: 1
+    price: 5000
+    hot: 1
+    ice: 0
+    stockId: 
+  - id: grapefruit_tea
+    displayName: "\uC790\uBABD\uCC28"
+    category: 1
+    price: 5000
+    hot: 1
+    ice: 0
+    stockId: 
+  - id: chamomile
+    displayName: "\uCE90\uBAA8\uB9C8\uC77C"
+    category: 1
+    price: 4500
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: earl_grey
+    displayName: "\uC5BC\uADF8\uB808\uC774"
+    category: 1
+    price: 4500
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: strawberry_smoothie
+    displayName: "\uB538\uAE30 \uC2A4\uBB34\uB514"
+    category: 2
+    price: 6000
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: mango_smoothie
+    displayName: "\uB9DD\uACE0 \uC2A4\uBB34\uB514"
+    category: 2
+    price: 6000
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: hallabong_smoothie
+    displayName: "\uD55C\uB77C\uBD09 \uC2A4\uBB34\uB514"
+    category: 2
+    price: 6000
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: melon_smoothie
+    displayName: "\uBA5C\uB860 \uC2A4\uBB34\uB514"
+    category: 2
+    price: 6000
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: cookie_shake
+    displayName: "\uCFE0\uD0A4\uC564\uD06C\uB9BC \uC250\uC774\uD06C"
+    category: 2
+    price: 6000
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: strawberry_cake
+    displayName: "\uB538\uAE30 \uCF00\uC774\uD06C"
+    category: 3
+    price: 6500
+    hot: 0
+    ice: 0
+    stockId: dessert_strawberry_cake
+  - id: croissant
+    displayName: "\uD06C\uB8E8\uC544\uC0C1"
+    category: 3
+    price: 4000
+    hot: 0
+    ice: 0
+    stockId: dessert_croissant
+  - id: cookie
+    displayName: "\uCFE0\uD0A4"
+    category: 3
+    price: 3000
+    hot: 0
+    ice: 0
+    stockId: dessert_cookie
+  secondsPerGameHour: 120
+  openHour: 9
+  entryCloseHour: 20
+  closeHour: 21
+  arrivalInterval: {x: 35, y: 70}
+  arrivalIntervalPerDay: 0.95
+  partySizeWeights: 04000000030000000200000001000000i
+  dessertChance: 0.35
+  orderPatience: 60
+  servePatience: 180
+  stayDuration: 20
+  maxTipChance: 0.6
+  tipPerPerson: 500
+  neutralSatisfaction: 60
+  maxReputationChange: 0.5
+  lowStockWarning: 5

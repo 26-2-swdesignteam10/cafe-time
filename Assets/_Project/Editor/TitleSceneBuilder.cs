@@ -35,15 +35,8 @@ namespace CafeTime.EditorTools
         const string TitlePrefabDir = "Assets/_Project/Prefabs/Title";
 
         static readonly Color WarmBg = new Color32(0xE9, 0xC0, 0x8E, 0xFF);
-        static readonly Color Paper = new Color32(0xF6, 0xE3, 0xC3, 0xFF);
-        static readonly Color Cream = new Color32(0xFB, 0xEF, 0xD9, 0xFF);
-        static readonly Color Wood = new Color32(0x8B, 0x45, 0x2A, 0xFF);
-        static readonly Color DarkBrown = new Color32(0x3E, 0x27, 0x1A, 0xFF);
-        static readonly Color Orange = new Color32(0xF2, 0xA9, 0x3B, 0xFF);
-        static readonly Color Warning = new Color32(0xC0, 0x39, 0x2B, 0xFF);
 
         static TMP_FontAsset font;
-        static Sprite rounded;
 
         [MenuItem("CafeTime/Setup Fonts")]
         public static void SetupFonts()
@@ -91,7 +84,6 @@ namespace CafeTime.EditorTools
                     "Title 씬과 시작 화면 팝업 프리팹을 새로 만듭니다.\n에디터에서 수정한 내용은 사라집니다.", "덮어쓰기", "취소"))
                 return;
 
-            rounded = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
             foreach (var path in new[] { BackgroundPath, SignPath, StartButtonPath, HowToButtonPath,
                 SettingsButtonPath, RankingButtonPath, QuitButtonPath })
             {
@@ -225,55 +217,13 @@ namespace CafeTime.EditorTools
         }
 
         // 닉네임 입력 (SFR-003)
-        static GameObject BuildNicknamePopup(Transform canvas)
-        {
-            var (root, window) = MakePopup(canvas, "NicknamePopup", "닉네임 입력", new Vector2(820, 580), Paper, DarkBrown);
-            var so = new SerializedObject(root.AddComponent<NicknamePopup>());
-            var warning = MakeText(window, "주의! 기존에 플레이했던 데이터가 사라집니다", 30, Warning);
-            warning.name = "OverwriteWarning";
-            Set(so, "overwriteWarning", warning.gameObject);
-            MakeText(window, "입력한 닉네임은 랭킹에 표시됩니다", 28, Wood);
-            Set(so, "nicknameInput", MakeInputField(window, "닉네임을 입력하세요"));
-            var row = MakeRow(window);
-            Set(so, "confirmButton", MakeButton(row, "시작", Orange));
-            Set(so, "cancelButton", MakeButton(row, "취소", Cream));
-            so.ApplyModifiedPropertiesWithoutUndo();
-            return root;
-        }
+        static GameObject BuildNicknamePopup(Transform canvas) => TitlePopupsBuilder.CreateNickname(canvas);
 
         // 게임 설명 (SFR-005)
-        static GameObject BuildHowToPopup(Transform canvas)
-        {
-            var (root, window) = MakePopup(canvas, "HowToPopup", "게임 설명", new Vector2(1400, 900), Paper, DarkBrown);
-            var so = new SerializedObject(root.AddComponent<Popup>());
-            var text = MakeText(window,
-                "<b>스토리</b>\n" +
-                "퇴직금으로 작은 베이커리 카페를 연 주인공.\n" +
-                "하지만 해외 전쟁으로 주식이 폭락하면서 자금이 바닥나 버렸습니다.\n" +
-                "주식을 팔지 않고 버티려면, 카페 매출만으로 매일 임대료를 내야 합니다.\n\n" +
-                "<b>진행 규칙</b>\n" +
-                "15일 동안 매일 임대료를 내며 카페를 운영하세요.\n" +
-                "임대료를 내지 못하면 카페는 문을 닫게 됩니다.\n\n" +
-                "<b>하루의 흐름</b>\n" +
-                "오픈 준비  →  주문 받기  →  음료 제조 및 매장 운영  →  하루 정산",
-                32, DarkBrown, TextAlignmentOptions.TopLeft);
-            text.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1;
-            Set(so, "closeButton", MakeCloseButton(window));
-            so.ApplyModifiedPropertiesWithoutUndo();
-            return root;
-        }
+        static GameObject BuildHowToPopup(Transform canvas) => TitlePopupsBuilder.CreateHowTo(canvas);
 
         // 랭킹 (서버 구현 전: SFR-070 연결 실패 안내)
-        static GameObject BuildRankingPopup(Transform canvas)
-        {
-            var (root, window) = MakePopup(canvas, "RankingPopup", "랭킹", new Vector2(900, 700), Paper, DarkBrown);
-            var so = new SerializedObject(root.AddComponent<Popup>());
-            MakeText(window, "랭킹 서버에 연결할 수 없습니다.", 34, Wood)
-                .gameObject.AddComponent<LayoutElement>().flexibleHeight = 1;
-            Set(so, "closeButton", MakeButton(window, "닫기", Cream));
-            so.ApplyModifiedPropertiesWithoutUndo();
-            return root;
-        }
+        static GameObject BuildRankingPopup(Transform canvas) => TitlePopupsBuilder.CreateRanking(canvas);
 
         // 설정: 왼쪽 탭 + 오른쪽 내용 (SFR-004)
         static GameObject BuildSettingsPopup(Transform canvas)
@@ -325,113 +275,5 @@ namespace CafeTime.EditorTools
             rt.anchorMax = Vector2.one;
             rt.offsetMin = rt.offsetMax = Vector2.zero;
         }
-
-        // 둥근 모서리 + 나무색 테두리 박스
-        static RectTransform MakeBox(Transform parent, string name, Color fill, float border)
-        {
-            var rt = NewUI(name, parent);
-            var img = rt.gameObject.AddComponent<Image>();
-            img.sprite = rounded;
-            img.type = Image.Type.Sliced;
-            img.color = fill;
-            if (border > 0)
-            {
-                var outline = rt.gameObject.AddComponent<Outline>();
-                outline.effectColor = Wood;
-                outline.effectDistance = new Vector2(border, border);
-            }
-            return rt;
-        }
-
-        static TextMeshProUGUI MakeText(Transform parent, string text, float size, Color color,
-            TextAlignmentOptions align = TextAlignmentOptions.Center)
-        {
-            var t = NewUI("Text", parent).gameObject.AddComponent<TextMeshProUGUI>();
-            t.font = font;
-            t.text = text;
-            t.fontSize = size;
-            t.color = color;
-            t.alignment = align;
-            t.raycastTarget = false;
-            return t;
-        }
-
-        static Button MakeButton(Transform parent, string label, Color fill, float height = 88, float fontSize = 38)
-        {
-            var rt = MakeBox(parent, label + " Button", fill, fill.a > 0 ? 4 : 0);
-            rt.sizeDelta = new Vector2(300, height);
-            rt.gameObject.AddComponent<LayoutElement>().preferredHeight = height;
-            var button = rt.gameObject.AddComponent<Button>();
-            var text = MakeText(rt, label, fontSize, DarkBrown);
-            Stretch(text.rectTransform);
-            return button;
-        }
-
-        static Button MakeCloseButton(RectTransform window)
-        {
-            var button = MakeButton(window, "X", Cream, 70, 40);
-            var rt = (RectTransform)button.transform;
-            button.GetComponent<LayoutElement>().ignoreLayout = true;
-            rt.anchorMin = rt.anchorMax = rt.pivot = Vector2.one;
-            rt.anchoredPosition = new Vector2(-20, -20);
-            rt.sizeDelta = new Vector2(70, 70);
-            return button;
-        }
-
-        static RectTransform MakeRow(Transform parent)
-        {
-            var row = NewUI("Row", parent);
-            row.gameObject.AddComponent<LayoutElement>().preferredHeight = 88;
-            var layout = row.gameObject.AddComponent<HorizontalLayoutGroup>();
-            layout.spacing = 24;
-            layout.childControlWidth = layout.childControlHeight = true;
-            layout.childForceExpandWidth = layout.childForceExpandHeight = true;
-            return row;
-        }
-
-        // 반투명 배경 + 가운데 창. title이 null이면 제목 없음
-        static (GameObject root, RectTransform window) MakePopup(Transform canvas, string name, string title,
-            Vector2 size, Color windowColor, Color titleColor)
-        {
-            var overlay = NewUI(name, canvas);
-            Stretch(overlay);
-            overlay.gameObject.AddComponent<Image>().color = new Color(0, 0, 0, 0.5f); // 뒤쪽 메뉴 클릭 차단
-
-            var window = MakeBox(overlay, "Window", windowColor, 8);
-            window.sizeDelta = size;
-            var layout = window.gameObject.AddComponent<VerticalLayoutGroup>();
-            layout.padding = new RectOffset(60, 60, 40, 50);
-            layout.spacing = 24;
-            layout.childControlWidth = layout.childControlHeight = true;
-            layout.childForceExpandWidth = true;
-            layout.childForceExpandHeight = false;
-
-            if (title != null) MakeText(window, title, 56, titleColor).name = "Title";
-            return (overlay.gameObject, window);
-        }
-
-        static TMP_InputField MakeInputField(Transform parent, string placeholder)
-        {
-            var go = TMP_DefaultControls.CreateInputField(new TMP_DefaultControls.Resources());
-            go.transform.SetParent(parent, false);
-            go.AddComponent<LayoutElement>().preferredHeight = 88;
-            var bgImage = go.GetComponent<Image>();
-            bgImage.sprite = rounded;
-            bgImage.type = Image.Type.Sliced;
-            bgImage.color = Cream;
-            var outline = go.AddComponent<Outline>();
-            outline.effectColor = Wood;
-            outline.effectDistance = new Vector2(4, 4);
-            var input = go.GetComponent<TMP_InputField>();
-            input.fontAsset = font;
-            input.pointSize = 38;
-            input.textComponent.color = DarkBrown;
-            input.textComponent.alignment = TextAlignmentOptions.Center;
-            var ph = (TMP_Text)input.placeholder;
-            ph.text = placeholder;
-            ph.alignment = TextAlignmentOptions.Center;
-            return input;
-        }
-
     }
 }

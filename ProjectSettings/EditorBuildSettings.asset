@@ -8,5 +8,23 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/Title.unity
     guid: 51b9a5573bffbc4428493066a5067b54
+  - enabled: 1
+    path: Assets/_Project/Scenes/Story.unity
+    guid: c8c6a9ab71438ac4dad7b85c6e0d1147
+  - enabled: 1
+    path: Assets/_Project/Scenes/OpenPrep.unity
+    guid: 9315188a76cbdce4384ad4f20911655c
+  - enabled: 1
+    path: Assets/_Project/Scenes/Cafe.unity
+    guid: 3d67b948424f4014baba5027c7ac5370
+  - enabled: 1
+    path: Assets/_Project/Scenes/Score.unity
+    guid: 12251a6597338aa46bfb395d33b8151c
+  - enabled: 1
+    path: Assets/_Project/Scenes/Settlement.unity
+    guid: a9f3e7a4df0db2a438ca42a9e2c313dc
+  - enabled: 1
+    path: Assets/_Project/Scenes/Ending.unity
+    guid: 8d1e80ee4c758ea4a91c491744424613
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

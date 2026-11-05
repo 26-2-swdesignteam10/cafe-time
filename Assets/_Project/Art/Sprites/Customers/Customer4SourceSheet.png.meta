@@ -1,0 +1,704 @@
+fileFormatVersion: 2
+guid: 808a051e5de00be4c9d35459bd673a3d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5054887119435700172
+    second: Customer4SourceSheet_0
+  - first:
+      213: 1065638262791297799
+    second: Customer4SourceSheet_1
+  - first:
+      213: -3870357573957711400
+    second: Customer4SourceSheet_2
+  - first:
+      213: -8598360015376721353
+    second: Customer4SourceSheet_3
+  - first:
+      213: -4030909053297774882
+    second: Customer4SourceSheet_4
+  - first:
+      213: -1513942172827315124
+    second: Customer4SourceSheet_5
+  - first:
+      213: 5544530180148449822
+    second: Customer4SourceSheet_6
+  - first:
+      213: -8394242160488897519
+    second: Customer4SourceSheet_7
+  - first:
+      213: 1819976622306429027
+    second: Customer4SourceSheet_8
+  - first:
+      213: -4890266778873501998
+    second: Customer4SourceSheet_9
+  - first:
+      213: 2056322902954043894
+    second: Customer4SourceSheet_10
+  - first:
+      213: 1081113161234333833
+    second: Customer4SourceSheet_11
+  - first:
+      213: 9143137839643324942
+    second: Customer4SourceSheet_12
+  - first:
+      213: -446203849725525057
+    second: Customer4SourceSheet_13
+  - first:
+      213: -1718634386498320378
+    second: Customer4SourceSheet_14
+  - first:
+      213: -3593110353306831731
+    second: Customer4SourceSheet_15
+  - first:
+      213: -8005732053863915181
+    second: Customer4SourceSheet_16
+  - first:
+      213: -5126795101167596432
+    second: Customer4SourceSheet_17
+  - first:
+      213: 6878917516491671117
+    second: Customer4SourceSheet_18
+  - first:
+      213: 2447043669103474256
+    second: Customer4SourceSheet_19
+  - first:
+      213: -661108134095512352
+    second: Customer4SourceSheet_20
+  - first:
+      213: 2498966905848628059
+    second: Customer4SourceSheet_21
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 9
+  spritePivot: {x: 0.5, y: 0}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Customer4SourceSheet_0
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 696
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc799ad9d01962640800000000000000
+      internalID: 5054887119435700172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_1
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 618
+        width: 437
+        height: 611
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70b5db0aa58e9ce00800000000000000
+      internalID: 1065638262791297799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_2
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 640
+        width: 303
+        height: 598
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d90282ea4ab94ac0800000000000000
+      internalID: -3870357573957711400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_3
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 21
+        width: 433
+        height: 1208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73a5c804f1d7ca880800000000000000
+      internalID: -8598360015376721353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 377
+        height: 602
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edea74c92955f08c0800000000000000
+      internalID: -4030909053297774882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_5
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 582
+        width: 40
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4415227d956dfae0800000000000000
+      internalID: -1513942172827315124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_6
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 564
+        width: 27
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e125e2a92d022fc40800000000000000
+      internalID: 5544530180148449822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_7
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 0
+        width: 391
+        height: 553
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 114a379ca39a18b80800000000000000
+      internalID: -8394242160488897519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_8
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 529
+        width: 50
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3680718681bd14910800000000000000
+      internalID: 1819976622306429027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_9
+      rect:
+        serializedVersion: 2
+        x: 866
+        y: 560
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d6e95c3648422cb0800000000000000
+      internalID: -4890266778873501998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_10
+      rect:
+        serializedVersion: 2
+        x: 876
+        y: 521
+        width: 25
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f9631e09c6898c10800000000000000
+      internalID: 2056322902954043894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_11
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 433
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9804f5131b2e00f00800000000000000
+      internalID: 1081113161234333833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_12
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 409
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e027f583c63f2ee70800000000000000
+      internalID: 9143137839643324942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_13
+      rect:
+        serializedVersion: 2
+        x: 858
+        y: 375
+        width: 11
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb3c2b776f3cec9f0800000000000000
+      internalID: -446203849725525057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_14
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 391
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6080ff5912f2628e0800000000000000
+      internalID: -1718634386498320378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_15
+      rect:
+        serializedVersion: 2
+        x: 846
+        y: 377
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d843e58bb25b22ec0800000000000000
+      internalID: -3593110353306831731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_16
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 240
+        width: 47
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 351ab7afc1de5e090800000000000000
+      internalID: -8005732053863915181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_17
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 212
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07c41b6b407f9d8b0800000000000000
+      internalID: -5126795101167596432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_18
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 211
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d46c2b10903d67f50800000000000000
+      internalID: 6878917516491671117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_19
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 214
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 056f7c68045a5f120800000000000000
+      internalID: 2447043669103474256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_20
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 60
+        width: 17
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ec9d1d97a543d6f0800000000000000
+      internalID: -661108134095512352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer4SourceSheet_21
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 65
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b538098292d1ea220800000000000000
+      internalID: 2498966905848628059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Customer4SourceSheet_0: 5054887119435700172
+      Customer4SourceSheet_1: 1065638262791297799
+      Customer4SourceSheet_10: 2056322902954043894
+      Customer4SourceSheet_11: 1081113161234333833
+      Customer4SourceSheet_12: 9143137839643324942
+      Customer4SourceSheet_13: -446203849725525057
+      Customer4SourceSheet_14: -1718634386498320378
+      Customer4SourceSheet_15: -3593110353306831731
+      Customer4SourceSheet_16: -8005732053863915181
+      Customer4SourceSheet_17: -5126795101167596432
+      Customer4SourceSheet_18: 6878917516491671117
+      Customer4SourceSheet_19: 2447043669103474256
+      Customer4SourceSheet_2: -3870357573957711400
+      Customer4SourceSheet_20: -661108134095512352
+      Customer4SourceSheet_21: 2498966905848628059
+      Customer4SourceSheet_3: -8598360015376721353
+      Customer4SourceSheet_4: -4030909053297774882
+      Customer4SourceSheet_5: -1513942172827315124
+      Customer4SourceSheet_6: 5544530180148449822
+      Customer4SourceSheet_7: -8394242160488897519
+      Customer4SourceSheet_8: 1819976622306429027
+      Customer4SourceSheet_9: -4890266778873501998
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

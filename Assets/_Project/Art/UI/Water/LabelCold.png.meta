@@ -1,0 +1,1432 @@
+fileFormatVersion: 2
+guid: 5a81a400e014ed84a90d1b1b9ad3d380
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4044055546034444452
+    second: LabelCold_0
+  - first:
+      213: -3280728444142775775
+    second: LabelCold_1
+  - first:
+      213: 3678384760165515169
+    second: LabelCold_2
+  - first:
+      213: -2709032610395481556
+    second: LabelCold_3
+  - first:
+      213: 7374210034064483069
+    second: LabelCold_4
+  - first:
+      213: 3164424111811355824
+    second: LabelCold_5
+  - first:
+      213: -3140576894670240459
+    second: LabelCold_6
+  - first:
+      213: -145465022356033160
+    second: LabelCold_7
+  - first:
+      213: 7279634716310986730
+    second: LabelCold_8
+  - first:
+      213: 4991682346998167847
+    second: LabelCold_9
+  - first:
+      213: -3431082347158874593
+    second: LabelCold_10
+  - first:
+      213: -7916966973840007312
+    second: LabelCold_11
+  - first:
+      213: -6172002260157752814
+    second: LabelCold_12
+  - first:
+      213: 7176254727211409980
+    second: LabelCold_13
+  - first:
+      213: -7276913782448382286
+    second: LabelCold_14
+  - first:
+      213: -2951784682012315836
+    second: LabelCold_15
+  - first:
+      213: -1376446802201585022
+    second: LabelCold_16
+  - first:
+      213: -4352839833952123268
+    second: LabelCold_17
+  - first:
+      213: 2630289865801359364
+    second: LabelCold_18
+  - first:
+      213: 3642804995887407614
+    second: LabelCold_19
+  - first:
+      213: 314552334588682985
+    second: LabelCold_20
+  - first:
+      213: 1699694416876949
+    second: LabelCold_21
+  - first:
+      213: 5146458775915999155
+    second: LabelCold_22
+  - first:
+      213: -891658814531405253
+    second: LabelCold_23
+  - first:
+      213: -7855865908286340161
+    second: LabelCold_24
+  - first:
+      213: 4750586519877772960
+    second: LabelCold_25
+  - first:
+      213: -3237610434361816836
+    second: LabelCold_26
+  - first:
+      213: -1891011010200428955
+    second: LabelCold_27
+  - first:
+      213: -8072399860827690871
+    second: LabelCold_28
+  - first:
+      213: -7038570192178636266
+    second: LabelCold_29
+  - first:
+      213: -8955544811164381991
+    second: LabelCold_30
+  - first:
+      213: 4821830601681896705
+    second: LabelCold_31
+  - first:
+      213: 1605489779007365167
+    second: LabelCold_32
+  - first:
+      213: -3512693055622192004
+    second: LabelCold_33
+  - first:
+      213: -4984402529266347653
+    second: LabelCold_34
+  - first:
+      213: 4185278722069081662
+    second: LabelCold_35
+  - first:
+      213: 2263370161443035397
+    second: LabelCold_36
+  - first:
+      213: -8968454612627365789
+    second: LabelCold_37
+  - first:
+      213: -1304691264545322044
+    second: LabelCold_38
+  - first:
+      213: 8495799420560693026
+    second: LabelCold_39
+  - first:
+      213: -6386628966909671358
+    second: LabelCold_40
+  - first:
+      213: 8205206217176941463
+    second: LabelCold_41
+  - first:
+      213: 5610305438506220034
+    second: LabelCold_42
+  - first:
+      213: -4703908538990551283
+    second: LabelCold_43
+  - first:
+      213: -7085761020111911089
+    second: LabelCold_44
+  - first:
+      213: -6325139483802554281
+    second: LabelCold_45
+  - first:
+      213: -3287765868741301188
+    second: LabelCold_46
+  - first:
+      213: 1023713498735381461
+    second: LabelCold_47
+  - first:
+      213: -2196249608629072383
+    second: LabelCold_48
+  - first:
+      213: -6285108707016368914
+    second: LabelCold_49
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LabelCold_0
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 11
+        width: 1466
+        height: 703
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a8d451c71f5f1830800000000000000
+      internalID: 4044055546034444452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_1
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 669
+        width: 20
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1229952bcd28872d0800000000000000
+      internalID: -3280728444142775775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_2
+      rect:
+        serializedVersion: 2
+        x: 1353
+        y: 668
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1af30e0537f3c0330800000000000000
+      internalID: 3678384760165515169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_3
+      rect:
+        serializedVersion: 2
+        x: 1492
+        y: 0
+        width: 638
+        height: 714
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2a9d64a135976ad0800000000000000
+      internalID: -2709032610395481556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_4
+      rect:
+        serializedVersion: 2
+        x: 1883
+        y: 676
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df2e88ba4f4765660800000000000000
+      internalID: 7374210034064483069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_5
+      rect:
+        serializedVersion: 2
+        x: 1891
+        y: 675
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b4623fb6fa4aeb20800000000000000
+      internalID: 3164424111811355824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_6
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 660
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 535816b24fd6a64d0800000000000000
+      internalID: -3140576894670240459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_7
+      rect:
+        serializedVersion: 2
+        x: 934
+        y: 627
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 871793735543bfdf0800000000000000
+      internalID: -145465022356033160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_8
+      rect:
+        serializedVersion: 2
+        x: 1885
+        y: 622
+        width: 7
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aef51509435760560800000000000000
+      internalID: 7279634716310986730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_9
+      rect:
+        serializedVersion: 2
+        x: 2046
+        y: 605
+        width: 30
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 729f964c5a4064540800000000000000
+      internalID: 4991682346998167847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_10
+      rect:
+        serializedVersion: 2
+        x: 1466
+        y: 580
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f165b7ea8c85260d0800000000000000
+      internalID: -3431082347158874593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_11
+      rect:
+        serializedVersion: 2
+        x: 1771
+        y: 601
+        width: 15
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07f54c1bb78412290800000000000000
+      internalID: -7916966973840007312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_12
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 517
+        width: 21
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21a936225a4a85aa0800000000000000
+      internalID: -6172002260157752814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_13
+      rect:
+        serializedVersion: 2
+        x: 1512
+        y: 549
+        width: 22
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c32672927ad279360800000000000000
+      internalID: 7176254727211409980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_14
+      rect:
+        serializedVersion: 2
+        x: 1514
+        y: 575
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2be15083875330b90800000000000000
+      internalID: -7276913782448382286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_15
+      rect:
+        serializedVersion: 2
+        x: 2022
+        y: 572
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44f673f88772907d0800000000000000
+      internalID: -2951784682012315836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_16
+      rect:
+        serializedVersion: 2
+        x: 2058
+        y: 541
+        width: 28
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28a5d861de0e5ece0800000000000000
+      internalID: -1376446802201585022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_17
+      rect:
+        serializedVersion: 2
+        x: 1442
+        y: 489
+        width: 7
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c760d1dbb3b9793c0800000000000000
+      internalID: -4352839833952123268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_18
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 462
+        width: 40
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 400666372baa08420800000000000000
+      internalID: 2630289865801359364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_19
+      rect:
+        serializedVersion: 2
+        x: 1510
+        y: 494
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef123e5e7d7dd8230800000000000000
+      internalID: 3642804995887407614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_20
+      rect:
+        serializedVersion: 2
+        x: 2016
+        y: 495
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e2ad668ea38d5400800000000000000
+      internalID: 314552334588682985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_21
+      rect:
+        serializedVersion: 2
+        x: 2089
+        y: 468
+        width: 37
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 595d1f1fcd9060000800000000000000
+      internalID: 1699694416876949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_22
+      rect:
+        serializedVersion: 2
+        x: 1452
+        y: 440
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bf2aa55df4eb6740800000000000000
+      internalID: 5146458775915999155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_23
+      rect:
+        serializedVersion: 2
+        x: 1460
+        y: 439
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3a720b480130a3f0800000000000000
+      internalID: -891658814531405253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_24
+      rect:
+        serializedVersion: 2
+        x: 1472
+        y: 405
+        width: 59
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb3cd7d149b5af290800000000000000
+      internalID: -7855865908286340161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_25
+      rect:
+        serializedVersion: 2
+        x: 1458
+        y: 376
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a6e21825497de140800000000000000
+      internalID: 4750586519877772960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_26
+      rect:
+        serializedVersion: 2
+        x: 1506
+        y: 384
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf804caa672b113d0800000000000000
+      internalID: -3237610434361816836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_27
+      rect:
+        serializedVersion: 2
+        x: 1490
+        y: 361
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56e96a65187c1c5e0800000000000000
+      internalID: -1891011010200428955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_28
+      rect:
+        serializedVersion: 2
+        x: 1509
+        y: 364
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 988e372981319ff80800000000000000
+      internalID: -8072399860827690871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_29
+      rect:
+        serializedVersion: 2
+        x: 1452
+        y: 344
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61a1a80c3b9f15e90800000000000000
+      internalID: -7038570192178636266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_30
+      rect:
+        serializedVersion: 2
+        x: 1434
+        y: 293
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dc4478517387b380800000000000000
+      internalID: -8955544811164381991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_31
+      rect:
+        serializedVersion: 2
+        x: 1448
+        y: 219
+        width: 90
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1058b5492659ae240800000000000000
+      internalID: 4821830601681896705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_32
+      rect:
+        serializedVersion: 2
+        x: 1470
+        y: 199
+        width: 39
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f202140a278d74610800000000000000
+      internalID: 1605489779007365167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_33
+      rect:
+        serializedVersion: 2
+        x: 1506
+        y: 196
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7468a6e648604fc0800000000000000
+      internalID: -3512693055622192004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_34
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 184
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b715581ee48d3dab0800000000000000
+      internalID: -4984402529266347653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_35
+      rect:
+        serializedVersion: 2
+        x: 1496
+        y: 178
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3eadeab2d8151a30800000000000000
+      internalID: 4185278722069081662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_36
+      rect:
+        serializedVersion: 2
+        x: 1466
+        y: 136
+        width: 28
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 509d7048b2b196f10800000000000000
+      internalID: 2263370161443035397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_37
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 62
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 360e126fb06a98380800000000000000
+      internalID: -8968454612627365789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_38
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 50
+        width: 18
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cb883b153ec4ede0800000000000000
+      internalID: -1304691264545322044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_39
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 56
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2275d717f8427e570800000000000000
+      internalID: 8495799420560693026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_40
+      rect:
+        serializedVersion: 2
+        x: 2032
+        y: 54
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 248012bdac22e57a0800000000000000
+      internalID: -6386628966909671358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_41
+      rect:
+        serializedVersion: 2
+        x: 2054
+        y: 66
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79388abd49fbed170800000000000000
+      internalID: 8205206217176941463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_42
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 48
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20afa97521fcbdd40800000000000000
+      internalID: 5610305438506220034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_43
+      rect:
+        serializedVersion: 2
+        x: 1591
+        y: 42
+        width: 21
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0f9a8d2b1c58beb0800000000000000
+      internalID: -4703908538990551283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_44
+      rect:
+        serializedVersion: 2
+        x: 1929
+        y: 26
+        width: 22
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f478be8e4e15aad90800000000000000
+      internalID: -7085761020111911089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_45
+      rect:
+        serializedVersion: 2
+        x: 2030
+        y: 52
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 750b629c6279838a0800000000000000
+      internalID: -6325139483802554281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_46
+      rect:
+        serializedVersion: 2
+        x: 1627
+        y: 40
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3c65099c528f52d0800000000000000
+      internalID: -3287765868741301188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_47
+      rect:
+        serializedVersion: 2
+        x: 1913
+        y: 27
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5db05e3d006f43e00800000000000000
+      internalID: 1023713498735381461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_48
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 32
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10ec29ffd9a5581e0800000000000000
+      internalID: -2196249608629072383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelCold_49
+      rect:
+        serializedVersion: 2
+        x: 1988
+        y: 34
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eec139f4eeec6c8a0800000000000000
+      internalID: -6285108707016368914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      LabelCold_0: 4044055546034444452
+      LabelCold_1: -3280728444142775775
+      LabelCold_10: -3431082347158874593
+      LabelCold_11: -7916966973840007312
+      LabelCold_12: -6172002260157752814
+      LabelCold_13: 7176254727211409980
+      LabelCold_14: -7276913782448382286
+      LabelCold_15: -2951784682012315836
+      LabelCold_16: -1376446802201585022
+      LabelCold_17: -4352839833952123268
+      LabelCold_18: 2630289865801359364
+      LabelCold_19: 3642804995887407614
+      LabelCold_2: 3678384760165515169
+      LabelCold_20: 314552334588682985
+      LabelCold_21: 1699694416876949
+      LabelCold_22: 5146458775915999155
+      LabelCold_23: -891658814531405253
+      LabelCold_24: -7855865908286340161
+      LabelCold_25: 4750586519877772960
+      LabelCold_26: -3237610434361816836
+      LabelCold_27: -1891011010200428955
+      LabelCold_28: -8072399860827690871
+      LabelCold_29: -7038570192178636266
+      LabelCold_3: -2709032610395481556
+      LabelCold_30: -8955544811164381991
+      LabelCold_31: 4821830601681896705
+      LabelCold_32: 1605489779007365167
+      LabelCold_33: -3512693055622192004
+      LabelCold_34: -4984402529266347653
+      LabelCold_35: 4185278722069081662
+      LabelCold_36: 2263370161443035397
+      LabelCold_37: -8968454612627365789
+      LabelCold_38: -1304691264545322044
+      LabelCold_39: 8495799420560693026
+      LabelCold_4: 7374210034064483069
+      LabelCold_40: -6386628966909671358
+      LabelCold_41: 8205206217176941463
+      LabelCold_42: 5610305438506220034
+      LabelCold_43: -4703908538990551283
+      LabelCold_44: -7085761020111911089
+      LabelCold_45: -6325139483802554281
+      LabelCold_46: -3287765868741301188
+      LabelCold_47: 1023713498735381461
+      LabelCold_48: -2196249608629072383
+      LabelCold_49: -6285108707016368914
+      LabelCold_5: 3164424111811355824
+      LabelCold_6: -3140576894670240459
+      LabelCold_7: -145465022356033160
+      LabelCold_8: 7279634716310986730
+      LabelCold_9: 4991682346998167847
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

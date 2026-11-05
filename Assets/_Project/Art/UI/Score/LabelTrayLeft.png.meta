@@ -1,0 +1,626 @@
+fileFormatVersion: 2
+guid: 4f127ea006129e144a725fa5b42f86d6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4079792283459544414
+    second: LabelTrayLeft_0
+  - first:
+      213: -2581694307474937477
+    second: LabelTrayLeft_1
+  - first:
+      213: 69764033338001452
+    second: LabelTrayLeft_2
+  - first:
+      213: -1868086122420771088
+    second: LabelTrayLeft_3
+  - first:
+      213: 82163952224071370
+    second: LabelTrayLeft_4
+  - first:
+      213: -5360971974328737004
+    second: LabelTrayLeft_5
+  - first:
+      213: 5972602836681584969
+    second: LabelTrayLeft_6
+  - first:
+      213: -1792252363373334464
+    second: LabelTrayLeft_7
+  - first:
+      213: 6100334668211081248
+    second: LabelTrayLeft_8
+  - first:
+      213: -1242964664724061907
+    second: LabelTrayLeft_9
+  - first:
+      213: 2962077676576365489
+    second: LabelTrayLeft_10
+  - first:
+      213: -2908791416774386550
+    second: LabelTrayLeft_11
+  - first:
+      213: 5247777667303764508
+    second: LabelTrayLeft_12
+  - first:
+      213: -5529250377301025201
+    second: LabelTrayLeft_13
+  - first:
+      213: 5570290738446314576
+    second: LabelTrayLeft_14
+  - first:
+      213: -6249054457194862594
+    second: LabelTrayLeft_15
+  - first:
+      213: 5206354191490875757
+    second: LabelTrayLeft_16
+  - first:
+      213: -869931892040285961
+    second: LabelTrayLeft_17
+  - first:
+      213: 5794832047302883443
+    second: LabelTrayLeft_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LabelTrayLeft_0
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 0
+        width: 1033
+        height: 719
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2aa930ba88aa167c0800000000000000
+      internalID: -4079792283459544414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_1
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 623
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b79ee4ca4bafb2cd0800000000000000
+      internalID: -2581694307474937477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_2
+      rect:
+        serializedVersion: 2
+        x: 1101
+        y: 23
+        width: 866
+        height: 700
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c28c539c40ad7f000800000000000000
+      internalID: 69764033338001452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_3
+      rect:
+        serializedVersion: 2
+        x: 1240
+        y: 702
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f6e547b1993316e0800000000000000
+      internalID: -1868086122420771088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_4
+      rect:
+        serializedVersion: 2
+        x: 1872
+        y: 613
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ace68a1eda7e32100800000000000000
+      internalID: 82163952224071370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_5
+      rect:
+        serializedVersion: 2
+        x: 1910
+        y: 685
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 413af4b94600a95b0800000000000000
+      internalID: -5360971974328737004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_6
+      rect:
+        serializedVersion: 2
+        x: 1934
+        y: 586
+        width: 97
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94175e0c2a2f2e250800000000000000
+      internalID: 5972602836681584969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_7
+      rect:
+        serializedVersion: 2
+        x: 2022
+        y: 561
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0403745a8f3a027e0800000000000000
+      internalID: -1792252363373334464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_8
+      rect:
+        serializedVersion: 2
+        x: 1994
+        y: 464
+        width: 87
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 020d8bd4f0eb8a450800000000000000
+      internalID: 6100334668211081248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_9
+      rect:
+        serializedVersion: 2
+        x: 2014
+        y: 564
+        width: 9
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2182c2193a10cee0800000000000000
+      internalID: -1242964664724061907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 427
+        width: 15
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bbd27df3f96b1920800000000000000
+      internalID: 2962077676576365489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_11
+      rect:
+        serializedVersion: 2
+        x: 1974
+        y: 503
+        width: 21
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8c157d2e95e1a7d0800000000000000
+      internalID: -2908791416774386550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_12
+      rect:
+        serializedVersion: 2
+        x: 1488
+        y: 108
+        width: 9
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c127ed70cf9d3d840800000000000000
+      internalID: 5247777667303764508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_13
+      rect:
+        serializedVersion: 2
+        x: 1972
+        y: 128
+        width: 83
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4e17cab3182443b0800000000000000
+      internalID: -5529250377301025201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_14
+      rect:
+        serializedVersion: 2
+        x: 1940
+        y: 64
+        width: 55
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05cadb8f9e5ad4d40800000000000000
+      internalID: 5570290738446314576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_15
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 47
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef724d08416e649a0800000000000000
+      internalID: -6249054457194862594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_16
+      rect:
+        serializedVersion: 2
+        x: 1776
+        y: 51
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d610eae7d8fa04840800000000000000
+      internalID: 5206354191490875757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_17
+      rect:
+        serializedVersion: 2
+        x: 1928
+        y: 50
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f0c724ad816de3f0800000000000000
+      internalID: -869931892040285961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelTrayLeft_18
+      rect:
+        serializedVersion: 2
+        x: 1223
+        y: 37
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 378b9807b016b6050800000000000000
+      internalID: 5794832047302883443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      LabelTrayLeft_0: -4079792283459544414
+      LabelTrayLeft_1: -2581694307474937477
+      LabelTrayLeft_10: 2962077676576365489
+      LabelTrayLeft_11: -2908791416774386550
+      LabelTrayLeft_12: 5247777667303764508
+      LabelTrayLeft_13: -5529250377301025201
+      LabelTrayLeft_14: 5570290738446314576
+      LabelTrayLeft_15: -6249054457194862594
+      LabelTrayLeft_16: 5206354191490875757
+      LabelTrayLeft_17: -869931892040285961
+      LabelTrayLeft_18: 5794832047302883443
+      LabelTrayLeft_2: 69764033338001452
+      LabelTrayLeft_3: -1868086122420771088
+      LabelTrayLeft_4: 82163952224071370
+      LabelTrayLeft_5: -5360971974328737004
+      LabelTrayLeft_6: 5972602836681584969
+      LabelTrayLeft_7: -1792252363373334464
+      LabelTrayLeft_8: 6100334668211081248
+      LabelTrayLeft_9: -1242964664724061907
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

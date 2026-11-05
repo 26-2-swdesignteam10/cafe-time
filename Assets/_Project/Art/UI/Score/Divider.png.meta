@@ -1,0 +1,1432 @@
+fileFormatVersion: 2
+guid: c179ab325c2f0b344aee2c4fd1ff0694
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2254368258629628073
+    second: Divider_0
+  - first:
+      213: 7431251596693621609
+    second: Divider_1
+  - first:
+      213: 1837910769256190118
+    second: Divider_2
+  - first:
+      213: -2232945012138272197
+    second: Divider_3
+  - first:
+      213: -7231773688439866190
+    second: Divider_4
+  - first:
+      213: 4890646619747263589
+    second: Divider_5
+  - first:
+      213: 2901265782940114089
+    second: Divider_6
+  - first:
+      213: 954477501408336944
+    second: Divider_7
+  - first:
+      213: -5905790271129739746
+    second: Divider_8
+  - first:
+      213: 6389135872423920970
+    second: Divider_9
+  - first:
+      213: 3934895647215884864
+    second: Divider_10
+  - first:
+      213: 3191353743993784987
+    second: Divider_11
+  - first:
+      213: 1279739782508246282
+    second: Divider_12
+  - first:
+      213: 4328684240181434500
+    second: Divider_13
+  - first:
+      213: 1775316774065373349
+    second: Divider_14
+  - first:
+      213: -4641152371955029931
+    second: Divider_15
+  - first:
+      213: -7774606006329597545
+    second: Divider_16
+  - first:
+      213: 4095831666569591714
+    second: Divider_17
+  - first:
+      213: -4879910268611763013
+    second: Divider_18
+  - first:
+      213: -1749495712369451368
+    second: Divider_19
+  - first:
+      213: 7445588485364431052
+    second: Divider_20
+  - first:
+      213: -8630651115977446196
+    second: Divider_21
+  - first:
+      213: -8863907990147238964
+    second: Divider_22
+  - first:
+      213: -2346982022968382602
+    second: Divider_23
+  - first:
+      213: -1774173620921217971
+    second: Divider_24
+  - first:
+      213: -7724481116307159419
+    second: Divider_25
+  - first:
+      213: -3049747089221399706
+    second: Divider_26
+  - first:
+      213: 6509031815283217619
+    second: Divider_27
+  - first:
+      213: -7679641696563802657
+    second: Divider_28
+  - first:
+      213: -302703328756235784
+    second: Divider_29
+  - first:
+      213: 571543570177954904
+    second: Divider_30
+  - first:
+      213: -744149619581516398
+    second: Divider_31
+  - first:
+      213: -6714455740278000686
+    second: Divider_32
+  - first:
+      213: 1491437266241407753
+    second: Divider_33
+  - first:
+      213: -6831142130111532430
+    second: Divider_34
+  - first:
+      213: -5281854743615486496
+    second: Divider_35
+  - first:
+      213: -702623656838481660
+    second: Divider_36
+  - first:
+      213: -5126367935050778074
+    second: Divider_37
+  - first:
+      213: -8735607701609777430
+    second: Divider_38
+  - first:
+      213: 8886883002916581556
+    second: Divider_39
+  - first:
+      213: 8766609967673622430
+    second: Divider_40
+  - first:
+      213: 6182618262197865877
+    second: Divider_41
+  - first:
+      213: -5884495994553695191
+    second: Divider_42
+  - first:
+      213: -2775292933554934513
+    second: Divider_43
+  - first:
+      213: -4927861428449433140
+    second: Divider_44
+  - first:
+      213: -7527577839367604667
+    second: Divider_45
+  - first:
+      213: -8894594791000594669
+    second: Divider_46
+  - first:
+      213: 3327021572754610878
+    second: Divider_47
+  - first:
+      213: -3614465579328725014
+    second: Divider_48
+  - first:
+      213: 3893938078618360137
+    second: Divider_49
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Divider_0
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 449
+        width: 307
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75f077f4300e6b0e0800000000000000
+      internalID: -2254368258629628073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_1
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 514
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96b4a7964fb112760800000000000000
+      internalID: 7431251596693621609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_2
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 490
+        width: 170
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a051626b12918910800000000000000
+      internalID: 1837910769256190118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_3
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 546
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3a9484975cf201e0800000000000000
+      internalID: -2232945012138272197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_4
+      rect:
+        serializedVersion: 2
+        x: 571
+        y: 468
+        width: 196
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bc768c552493ab90800000000000000
+      internalID: -7231773688439866190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_5
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 403
+        width: 390
+        height: 301
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 564200c50311fd340800000000000000
+      internalID: 4890646619747263589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_6
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 532
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ac1427abdd534820800000000000000
+      internalID: 2901265782940114089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_7
+      rect:
+        serializedVersion: 2
+        x: 1184
+        y: 449
+        width: 211
+        height: 132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03cdb810b3cfe3d00800000000000000
+      internalID: 954477501408336944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_8
+      rect:
+        serializedVersion: 2
+        x: 1432
+        y: 463
+        width: 339
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1e9a53e90b6a0ea0800000000000000
+      internalID: -5905790271129739746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_9
+      rect:
+        serializedVersion: 2
+        x: 1460
+        y: 354
+        width: 67
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4588819935caa850800000000000000
+      internalID: 6389135872423920970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_10
+      rect:
+        serializedVersion: 2
+        x: 1808
+        y: 424
+        width: 295
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04a98804ebe8b9630800000000000000
+      internalID: 3934895647215884864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_11
+      rect:
+        serializedVersion: 2
+        x: 2073
+        y: 532
+        width: 86
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9acc575257f94c20800000000000000
+      internalID: 3191353743993784987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_12
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 354
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a05f6554d8c82c110800000000000000
+      internalID: 1279739782508246282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_13
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 282
+        width: 113
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48898d0d163921c30800000000000000
+      internalID: 4328684240181434500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_14
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 357
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a085f1333133a810800000000000000
+      internalID: 1775316774065373349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_15
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 353
+        width: 92
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 558a821f180579fb0800000000000000
+      internalID: -4641152371955029931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_16
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 354
+        width: 92
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7912b14670d0b1490800000000000000
+      internalID: -7774606006329597545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_17
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 39
+        width: 810
+        height: 334
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ab3da9333157d830800000000000000
+      internalID: 4095831666569591714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_18
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 354
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb46d9f2773174cb0800000000000000
+      internalID: -4879910268611763013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_19
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 354
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89e56283bea88b7e0800000000000000
+      internalID: -1749495712369451368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_20
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 354
+        width: 69
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc8b2ed674b045760800000000000000
+      internalID: 7445588485364431052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_21
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 354
+        width: 92
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccce5d38984c93880800000000000000
+      internalID: -8630651115977446196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_22
+      rect:
+        serializedVersion: 2
+        x: 545
+        y: 353
+        width: 21
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc3f68d55a21df480800000000000000
+      internalID: -8863907990147238964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_23
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 354
+        width: 27
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67bedb2f848dd6fd0800000000000000
+      internalID: -2346982022968382602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_24
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 354
+        width: 44
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4c4f13ed7ed067e0800000000000000
+      internalID: -1774173620921217971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_25
+      rect:
+        serializedVersion: 2
+        x: 1010
+        y: 352
+        width: 247
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5868c4cc9512dc490800000000000000
+      internalID: -7724481116307159419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_26
+      rect:
+        serializedVersion: 2
+        x: 1259
+        y: 354
+        width: 43
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66b4d2c3e2f1da5d0800000000000000
+      internalID: -3049747089221399706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_27
+      rect:
+        serializedVersion: 2
+        x: 1301
+        y: 152
+        width: 132
+        height: 221
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d41cad13f9b45a50800000000000000
+      internalID: 6509031815283217619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_28
+      rect:
+        serializedVersion: 2
+        x: 1414
+        y: 354
+        width: 47
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdd4902c09e6c6590800000000000000
+      internalID: -7679641696563802657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_29
+      rect:
+        serializedVersion: 2
+        x: 1516
+        y: 57
+        width: 203
+        height: 316
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f108212de49ccbf0800000000000000
+      internalID: -302703328756235784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_30
+      rect:
+        serializedVersion: 2
+        x: 1526
+        y: 354
+        width: 47
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8549d1259d78ee700800000000000000
+      internalID: 571543570177954904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_31
+      rect:
+        serializedVersion: 2
+        x: 1644
+        y: 353
+        width: 42
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2950a191ddf3ca5f0800000000000000
+      internalID: -744149619581516398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_32
+      rect:
+        serializedVersion: 2
+        x: 1685
+        y: 354
+        width: 72
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d3b5a4341671d2a0800000000000000
+      internalID: -6714455740278000686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_33
+      rect:
+        serializedVersion: 2
+        x: 1754
+        y: 354
+        width: 44
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90b491baa46a2b410800000000000000
+      internalID: 1491437266241407753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_34
+      rect:
+        serializedVersion: 2
+        x: 1801
+        y: 210
+        width: 181
+        height: 163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2723f74fc68e231a0800000000000000
+      internalID: -6831142130111532430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_35
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 354
+        width: 117
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e5469b581513b6b0800000000000000
+      internalID: -5281854743615486496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_36
+      rect:
+        serializedVersion: 2
+        x: 2031
+        y: 353
+        width: 130
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4093b5bb187cf36f0800000000000000
+      internalID: -702623656838481660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_37
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 89
+        width: 164
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62a7853168b7bd8b0800000000000000
+      internalID: -5126367935050778074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_38
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 166
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae6f1602413e4c680800000000000000
+      internalID: -8735607701609777430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_39
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 134
+        width: 186
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b0bc45a10d845b70800000000000000
+      internalID: 8886883002916581556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_40
+      rect:
+        serializedVersion: 2
+        x: 1892
+        y: 140
+        width: 42
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9fb59f615149a970800000000000000
+      internalID: 8766609967673622430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_41
+      rect:
+        serializedVersion: 2
+        x: 1947
+        y: 41
+        width: 212
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59d85247d821dc550800000000000000
+      internalID: 6182618262197865877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_42
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 146
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9240b620212165ea0800000000000000
+      internalID: -5884495994553695191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_43
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 154
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0d6ec3f7cd2c79d0800000000000000
+      internalID: -2775292933554934513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_44
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 151
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc92ce6c328bc9bb0800000000000000
+      internalID: -4927861428449433140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_45
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 146
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 546346186dba88790800000000000000
+      internalID: -7527577839367604667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_46
+      rect:
+        serializedVersion: 2
+        x: 969
+        y: 150
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 317ae55c92d009480800000000000000
+      internalID: -8894594791000594669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_47
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 144
+        width: 18
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eba991c3e74fb2e20800000000000000
+      internalID: 3327021572754610878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_48
+      rect:
+        serializedVersion: 2
+        x: 1786
+        y: 106
+        width: 67
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aef1c33b4b6d6ddc0800000000000000
+      internalID: -3614465579328725014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Divider_49
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 55
+        width: 32
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9491a613d0c0a0630800000000000000
+      internalID: 3893938078618360137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Divider_0: -2254368258629628073
+      Divider_1: 7431251596693621609
+      Divider_10: 3934895647215884864
+      Divider_11: 3191353743993784987
+      Divider_12: 1279739782508246282
+      Divider_13: 4328684240181434500
+      Divider_14: 1775316774065373349
+      Divider_15: -4641152371955029931
+      Divider_16: -7774606006329597545
+      Divider_17: 4095831666569591714
+      Divider_18: -4879910268611763013
+      Divider_19: -1749495712369451368
+      Divider_2: 1837910769256190118
+      Divider_20: 7445588485364431052
+      Divider_21: -8630651115977446196
+      Divider_22: -8863907990147238964
+      Divider_23: -2346982022968382602
+      Divider_24: -1774173620921217971
+      Divider_25: -7724481116307159419
+      Divider_26: -3049747089221399706
+      Divider_27: 6509031815283217619
+      Divider_28: -7679641696563802657
+      Divider_29: -302703328756235784
+      Divider_3: -2232945012138272197
+      Divider_30: 571543570177954904
+      Divider_31: -744149619581516398
+      Divider_32: -6714455740278000686
+      Divider_33: 1491437266241407753
+      Divider_34: -6831142130111532430
+      Divider_35: -5281854743615486496
+      Divider_36: -702623656838481660
+      Divider_37: -5126367935050778074
+      Divider_38: -8735607701609777430
+      Divider_39: 8886883002916581556
+      Divider_4: -7231773688439866190
+      Divider_40: 8766609967673622430
+      Divider_41: 6182618262197865877
+      Divider_42: -5884495994553695191
+      Divider_43: -2775292933554934513
+      Divider_44: -4927861428449433140
+      Divider_45: -7527577839367604667
+      Divider_46: -8894594791000594669
+      Divider_47: 3327021572754610878
+      Divider_48: -3614465579328725014
+      Divider_49: 3893938078618360137
+      Divider_5: 4890646619747263589
+      Divider_6: 2901265782940114089
+      Divider_7: 954477501408336944
+      Divider_8: -5905790271129739746
+      Divider_9: 6389135872423920970
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

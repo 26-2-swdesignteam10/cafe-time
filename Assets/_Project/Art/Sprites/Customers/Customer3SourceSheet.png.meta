@@ -1,0 +1,4864 @@
+fileFormatVersion: 2
+guid: 6b0f7a3087a97624d89f1532c3080574
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -67706699775317295
+    second: Customer3SourceSheet_0
+  - first:
+      213: -7265910713949330131
+    second: Customer3SourceSheet_1
+  - first:
+      213: 3305210733151235975
+    second: Customer3SourceSheet_2
+  - first:
+      213: -4805218711197266852
+    second: Customer3SourceSheet_3
+  - first:
+      213: -1722894939000247447
+    second: Customer3SourceSheet_4
+  - first:
+      213: 8890861945698270407
+    second: Customer3SourceSheet_5
+  - first:
+      213: -8898323623945774040
+    second: Customer3SourceSheet_6
+  - first:
+      213: 2740477112104433255
+    second: Customer3SourceSheet_7
+  - first:
+      213: -4351691858431557591
+    second: Customer3SourceSheet_8
+  - first:
+      213: 3048149761473917851
+    second: Customer3SourceSheet_9
+  - first:
+      213: 3937547496848529955
+    second: Customer3SourceSheet_10
+  - first:
+      213: -154373896862014524
+    second: Customer3SourceSheet_11
+  - first:
+      213: -7802397642337657133
+    second: Customer3SourceSheet_12
+  - first:
+      213: 3673194201883619973
+    second: Customer3SourceSheet_13
+  - first:
+      213: 3136962381521441134
+    second: Customer3SourceSheet_14
+  - first:
+      213: -2983562648326615552
+    second: Customer3SourceSheet_15
+  - first:
+      213: -1151022972287533270
+    second: Customer3SourceSheet_16
+  - first:
+      213: -405566139670779058
+    second: Customer3SourceSheet_17
+  - first:
+      213: 579233816228197447
+    second: Customer3SourceSheet_18
+  - first:
+      213: 6988922560458979695
+    second: Customer3SourceSheet_19
+  - first:
+      213: -2715272229608511377
+    second: Customer3SourceSheet_20
+  - first:
+      213: 462493156886722675
+    second: Customer3SourceSheet_21
+  - first:
+      213: -2917608104430788104
+    second: Customer3SourceSheet_22
+  - first:
+      213: -4238906348745152553
+    second: Customer3SourceSheet_23
+  - first:
+      213: -5860767234318526406
+    second: Customer3SourceSheet_24
+  - first:
+      213: 8254082358799323754
+    second: Customer3SourceSheet_25
+  - first:
+      213: 2441033322611303223
+    second: Customer3SourceSheet_26
+  - first:
+      213: -2997993740356975982
+    second: Customer3SourceSheet_27
+  - first:
+      213: -5299967177457311245
+    second: Customer3SourceSheet_28
+  - first:
+      213: -4551788733258674162
+    second: Customer3SourceSheet_29
+  - first:
+      213: 562664470472552560
+    second: Customer3SourceSheet_30
+  - first:
+      213: 8352401344270774109
+    second: Customer3SourceSheet_31
+  - first:
+      213: -6829379035548744356
+    second: Customer3SourceSheet_32
+  - first:
+      213: -8079508584909609340
+    second: Customer3SourceSheet_33
+  - first:
+      213: -3136339157563557658
+    second: Customer3SourceSheet_34
+  - first:
+      213: -2791321277300278579
+    second: Customer3SourceSheet_35
+  - first:
+      213: 2623549233130898870
+    second: Customer3SourceSheet_36
+  - first:
+      213: -4729686386883084128
+    second: Customer3SourceSheet_37
+  - first:
+      213: 1412335526135273114
+    second: Customer3SourceSheet_38
+  - first:
+      213: -1296227714396788994
+    second: Customer3SourceSheet_39
+  - first:
+      213: 7239794432635957244
+    second: Customer3SourceSheet_40
+  - first:
+      213: 4303835542395107763
+    second: Customer3SourceSheet_41
+  - first:
+      213: -6530222574760981385
+    second: Customer3SourceSheet_42
+  - first:
+      213: 8352645660182131659
+    second: Customer3SourceSheet_43
+  - first:
+      213: -250192577159273434
+    second: Customer3SourceSheet_44
+  - first:
+      213: -7214147493180765311
+    second: Customer3SourceSheet_45
+  - first:
+      213: 4834367781275638895
+    second: Customer3SourceSheet_46
+  - first:
+      213: 7302762249523440943
+    second: Customer3SourceSheet_47
+  - first:
+      213: -8582559630359290396
+    second: Customer3SourceSheet_48
+  - first:
+      213: 5322043211317919882
+    second: Customer3SourceSheet_49
+  - first:
+      213: -7395954145405164139
+    second: Customer3SourceSheet_50
+  - first:
+      213: 3553804636741730316
+    second: Customer3SourceSheet_51
+  - first:
+      213: -4846660615488500735
+    second: Customer3SourceSheet_52
+  - first:
+      213: 8271276473382629723
+    second: Customer3SourceSheet_53
+  - first:
+      213: -6651865743806712726
+    second: Customer3SourceSheet_54
+  - first:
+      213: 7818758830771124604
+    second: Customer3SourceSheet_55
+  - first:
+      213: 3344934131518135763
+    second: Customer3SourceSheet_56
+  - first:
+      213: 7452745980411157683
+    second: Customer3SourceSheet_57
+  - first:
+      213: -4562642990300898764
+    second: Customer3SourceSheet_58
+  - first:
+      213: -5170769205243972298
+    second: Customer3SourceSheet_59
+  - first:
+      213: -680826227148683822
+    second: Customer3SourceSheet_60
+  - first:
+      213: 1768326611578415274
+    second: Customer3SourceSheet_61
+  - first:
+      213: 116698901047212173
+    second: Customer3SourceSheet_62
+  - first:
+      213: -7123786132899026590
+    second: Customer3SourceSheet_63
+  - first:
+      213: -2362579617693913554
+    second: Customer3SourceSheet_64
+  - first:
+      213: -6839791635094493505
+    second: Customer3SourceSheet_65
+  - first:
+      213: 3096061511544072559
+    second: Customer3SourceSheet_66
+  - first:
+      213: 3753050580426038397
+    second: Customer3SourceSheet_67
+  - first:
+      213: -7513409511778059243
+    second: Customer3SourceSheet_68
+  - first:
+      213: -6176788877103918085
+    second: Customer3SourceSheet_69
+  - first:
+      213: 5302277466973452914
+    second: Customer3SourceSheet_70
+  - first:
+      213: -8007216242294221148
+    second: Customer3SourceSheet_71
+  - first:
+      213: 3701158239991919966
+    second: Customer3SourceSheet_72
+  - first:
+      213: 8886477494214752832
+    second: Customer3SourceSheet_73
+  - first:
+      213: -5685513993086190728
+    second: Customer3SourceSheet_74
+  - first:
+      213: 6020161715846414034
+    second: Customer3SourceSheet_75
+  - first:
+      213: -7965754143181683470
+    second: Customer3SourceSheet_76
+  - first:
+      213: 4297082293223026699
+    second: Customer3SourceSheet_77
+  - first:
+      213: -6282401501592676156
+    second: Customer3SourceSheet_78
+  - first:
+      213: 2382394504151941443
+    second: Customer3SourceSheet_79
+  - first:
+      213: -7008495926841692006
+    second: Customer3SourceSheet_80
+  - first:
+      213: 2360878133140892189
+    second: Customer3SourceSheet_81
+  - first:
+      213: -5107121336879499740
+    second: Customer3SourceSheet_82
+  - first:
+      213: -8309988402264167307
+    second: Customer3SourceSheet_83
+  - first:
+      213: -3338993247865324528
+    second: Customer3SourceSheet_84
+  - first:
+      213: -2070788334450285487
+    second: Customer3SourceSheet_85
+  - first:
+      213: 5261685634382532221
+    second: Customer3SourceSheet_86
+  - first:
+      213: -1733036354213681763
+    second: Customer3SourceSheet_87
+  - first:
+      213: 3662639300972260727
+    second: Customer3SourceSheet_88
+  - first:
+      213: 2396905482109811593
+    second: Customer3SourceSheet_89
+  - first:
+      213: 5655102902031962873
+    second: Customer3SourceSheet_90
+  - first:
+      213: 4072564644998974223
+    second: Customer3SourceSheet_91
+  - first:
+      213: -1318627085278378922
+    second: Customer3SourceSheet_92
+  - first:
+      213: 3369820034169788210
+    second: Customer3SourceSheet_93
+  - first:
+      213: -6232061669546370655
+    second: Customer3SourceSheet_94
+  - first:
+      213: 2280849234385247206
+    second: Customer3SourceSheet_95
+  - first:
+      213: -74356233552024941
+    second: Customer3SourceSheet_96
+  - first:
+      213: -784540005619329993
+    second: Customer3SourceSheet_97
+  - first:
+      213: -595923478308137198
+    second: Customer3SourceSheet_98
+  - first:
+      213: -10682372016588718
+    second: Customer3SourceSheet_99
+  - first:
+      213: -125474487947815919
+    second: Customer3SourceSheet_100
+  - first:
+      213: -6452220189379621020
+    second: Customer3SourceSheet_101
+  - first:
+      213: 90392660567121884
+    second: Customer3SourceSheet_102
+  - first:
+      213: -8900764957987653981
+    second: Customer3SourceSheet_103
+  - first:
+      213: 785191498227923209
+    second: Customer3SourceSheet_104
+  - first:
+      213: -3521311208810123539
+    second: Customer3SourceSheet_105
+  - first:
+      213: 9082318005929257645
+    second: Customer3SourceSheet_106
+  - first:
+      213: 4711467284706464352
+    second: Customer3SourceSheet_107
+  - first:
+      213: 2150069535826490553
+    second: Customer3SourceSheet_108
+  - first:
+      213: 3463607891932822157
+    second: Customer3SourceSheet_109
+  - first:
+      213: -7667637952911022845
+    second: Customer3SourceSheet_110
+  - first:
+      213: 3239142987741840015
+    second: Customer3SourceSheet_111
+  - first:
+      213: 83730820532967002
+    second: Customer3SourceSheet_112
+  - first:
+      213: 8451483126018703069
+    second: Customer3SourceSheet_113
+  - first:
+      213: -9097489845049080642
+    second: Customer3SourceSheet_114
+  - first:
+      213: 4599506834934646927
+    second: Customer3SourceSheet_115
+  - first:
+      213: -5013238524139775112
+    second: Customer3SourceSheet_116
+  - first:
+      213: 4476234098228919380
+    second: Customer3SourceSheet_117
+  - first:
+      213: 5235518198138288116
+    second: Customer3SourceSheet_118
+  - first:
+      213: -6910059131144517813
+    second: Customer3SourceSheet_119
+  - first:
+      213: 5762034704269434521
+    second: Customer3SourceSheet_120
+  - first:
+      213: 4384336241785400241
+    second: Customer3SourceSheet_121
+  - first:
+      213: 2532236621626773902
+    second: Customer3SourceSheet_122
+  - first:
+      213: -6526530684931608037
+    second: Customer3SourceSheet_123
+  - first:
+      213: 2757297666291080781
+    second: Customer3SourceSheet_124
+  - first:
+      213: 9160294942992011650
+    second: Customer3SourceSheet_125
+  - first:
+      213: 8016411874442613259
+    second: Customer3SourceSheet_126
+  - first:
+      213: -5267638118865512325
+    second: Customer3SourceSheet_127
+  - first:
+      213: -9142576836661214652
+    second: Customer3SourceSheet_128
+  - first:
+      213: -600200340349075841
+    second: Customer3SourceSheet_129
+  - first:
+      213: -1965769933606521814
+    second: Customer3SourceSheet_130
+  - first:
+      213: 6720449990922594542
+    second: Customer3SourceSheet_131
+  - first:
+      213: 4062998048347942900
+    second: Customer3SourceSheet_132
+  - first:
+      213: -9062707051534223194
+    second: Customer3SourceSheet_133
+  - first:
+      213: 5232218965800119221
+    second: Customer3SourceSheet_134
+  - first:
+      213: 5391176571045760534
+    second: Customer3SourceSheet_135
+  - first:
+      213: 792329493683900817
+    second: Customer3SourceSheet_136
+  - first:
+      213: -730452982280161106
+    second: Customer3SourceSheet_137
+  - first:
+      213: 4489562090483530222
+    second: Customer3SourceSheet_138
+  - first:
+      213: 925533999364816378
+    second: Customer3SourceSheet_139
+  - first:
+      213: 2665846441170510058
+    second: Customer3SourceSheet_140
+  - first:
+      213: 3002132869750542547
+    second: Customer3SourceSheet_141
+  - first:
+      213: -4894841426717565169
+    second: Customer3SourceSheet_142
+  - first:
+      213: -7978451703688788500
+    second: Customer3SourceSheet_143
+  - first:
+      213: -3207664093101829699
+    second: Customer3SourceSheet_144
+  - first:
+      213: -4967738374896385732
+    second: Customer3SourceSheet_145
+  - first:
+      213: -1553179376359642267
+    second: Customer3SourceSheet_146
+  - first:
+      213: 4654800744527296542
+    second: Customer3SourceSheet_147
+  - first:
+      213: -9083714483260392568
+    second: Customer3SourceSheet_148
+  - first:
+      213: 5366243349841710943
+    second: Customer3SourceSheet_149
+  - first:
+      213: -2174101109240600035
+    second: Customer3SourceSheet_150
+  - first:
+      213: -2179279591208827056
+    second: Customer3SourceSheet_151
+  - first:
+      213: -6666662023572982815
+    second: Customer3SourceSheet_152
+  - first:
+      213: 1677115988238662853
+    second: Customer3SourceSheet_153
+  - first:
+      213: -8472313371314376645
+    second: Customer3SourceSheet_154
+  - first:
+      213: -2743335826917916058
+    second: Customer3SourceSheet_155
+  - first:
+      213: -3511072480530079657
+    second: Customer3SourceSheet_156
+  - first:
+      213: -7582012494896088668
+    second: Customer3SourceSheet_157
+  - first:
+      213: 9051617742788028219
+    second: Customer3SourceSheet_158
+  - first:
+      213: 8463354450294299326
+    second: Customer3SourceSheet_159
+  - first:
+      213: 4182623856341605372
+    second: Customer3SourceSheet_160
+  - first:
+      213: -7454170716217768936
+    second: Customer3SourceSheet_161
+  - first:
+      213: 7432578137805123209
+    second: Customer3SourceSheet_162
+  - first:
+      213: -8939236674865299920
+    second: Customer3SourceSheet_163
+  - first:
+      213: 5085297495066999622
+    second: Customer3SourceSheet_164
+  - first:
+      213: -3956885086763032734
+    second: Customer3SourceSheet_165
+  - first:
+      213: 6789239714150631134
+    second: Customer3SourceSheet_166
+  - first:
+      213: -1144107214496467654
+    second: Customer3SourceSheet_167
+  - first:
+      213: -7973608746105577053
+    second: Customer3SourceSheet_168
+  - first:
+      213: -5880963060969450546
+    second: Customer3SourceSheet_169
+  - first:
+      213: -5017623107671513304
+    second: Customer3SourceSheet_170
+  - first:
+      213: 4661801774791718213
+    second: Customer3SourceSheet_171
+  - first:
+      213: 5300565338153242270
+    second: Customer3SourceSheet_172
+  - first:
+      213: -5240595270094073274
+    second: Customer3SourceSheet_173
+  - first:
+      213: 7605547430545667288
+    second: Customer3SourceSheet_174
+  - first:
+      213: 7251681235043994490
+    second: Customer3SourceSheet_175
+  - first:
+      213: -1979887580776792560
+    second: Customer3SourceSheet_176
+  - first:
+      213: 3333030960943384373
+    second: Customer3SourceSheet_177
+  - first:
+      213: 6594098764051159771
+    second: Customer3SourceSheet_178
+  - first:
+      213: -7890952018739955397
+    second: Customer3SourceSheet_179
+  - first:
+      213: 7110656436925987444
+    second: Customer3SourceSheet_180
+  - first:
+      213: -8234078759401556142
+    second: Customer3SourceSheet_181
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 9
+  spritePivot: {x: 0.5, y: 0}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Customer3SourceSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 501
+        width: 407
+        height: 728
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1da6af28d157f0ff0800000000000000
+      internalID: -67706699775317295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_1
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 1132
+        width: 43
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d25685db3bc4a2b90800000000000000
+      internalID: -7265910713949330131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_2
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 554
+        width: 437
+        height: 682
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78fa94966a77edd20800000000000000
+      internalID: 3305210733151235975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_3
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 0
+        width: 496
+        height: 1234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5cc6039a0f605db0800000000000000
+      internalID: -4805218711197266852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_4
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 1197
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96b62976e2c0718e0800000000000000
+      internalID: -1722894939000247447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_5
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 1171
+        width: 25
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cc326475dfa26b70800000000000000
+      internalID: 8890861945698270407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_6
+      rect:
+        serializedVersion: 2
+        x: 854
+        y: 1180
+        width: 69
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82cde323fcdc28480800000000000000
+      internalID: -8898323623945774040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_7
+      rect:
+        serializedVersion: 2
+        x: 866
+        y: 1114
+        width: 37
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 766b21ee961280620800000000000000
+      internalID: 2740477112104433255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_8
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 1164
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9204a3e9f4fab93c0800000000000000
+      internalID: -4351691858431557591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_9
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 1114
+        width: 55
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9338daee043d4a20800000000000000
+      internalID: 3048149761473917851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_10
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 1175
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32a92eb169af4a630800000000000000
+      internalID: 3937547496848529955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_11
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 1157
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c362fa32cd8bddf0800000000000000
+      internalID: -154373896862014524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_12
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 1124
+        width: 25
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3de5e14eea058b390800000000000000
+      internalID: -7802397642337657133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_13
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 1156
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5823c4a4aaec9f230800000000000000
+      internalID: 3673194201883619973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_14
+      rect:
+        serializedVersion: 2
+        x: 878
+        y: 1145
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6159586aaab88b20800000000000000
+      internalID: 3136962381521441134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_15
+      rect:
+        serializedVersion: 2
+        x: 890
+        y: 1140
+        width: 9
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00e4e5534914896d0800000000000000
+      internalID: -2983562648326615552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_16
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 1132
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2fbc7084beb600f0800000000000000
+      internalID: -1151022972287533270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_17
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 1130
+        width: 23
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4b2ff7aeb32f5af0800000000000000
+      internalID: -405566139670779058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_18
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 1089
+        width: 7
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 744fc22461ad90800800000000000000
+      internalID: 579233816228197447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_19
+      rect:
+        serializedVersion: 2
+        x: 1188
+        y: 1062
+        width: 19
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f69fed23a04adf060800000000000000
+      internalID: 6988922560458979695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_20
+      rect:
+        serializedVersion: 2
+        x: 1208
+        y: 1081
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f68a3b51b4a615ad0800000000000000
+      internalID: -2715272229608511377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_21
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 1020
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3783847631b1b6600800000000000000
+      internalID: 462493156886722675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_22
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 1003
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f12a9d13e29287d0800000000000000
+      internalID: -2917608104430788104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_23
+      rect:
+        serializedVersion: 2
+        x: 1188
+        y: 1002
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d7a5ee62216c25c0800000000000000
+      internalID: -4238906348745152553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_24
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 986
+        width: 19
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a381237804f5aaea0800000000000000
+      internalID: -5860767234318526406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_25
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 949
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a625d0f5c246c8270800000000000000
+      internalID: 8254082358799323754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_26
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 923
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 733632fafda40e120800000000000000
+      internalID: 2441033322611303223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_27
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 915
+        width: 34
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2928d23c39cf466d0800000000000000
+      internalID: -2997993740356975982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_28
+      rect:
+        serializedVersion: 2
+        x: 1188
+        y: 835
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f16d6abeebb276b0800000000000000
+      internalID: -5299967177457311245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_29
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 803
+        width: 17
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e00dd75734cc4d0c0800000000000000
+      internalID: -4551788733258674162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_30
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 802
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 070ff32da5cfec700800000000000000
+      internalID: 562664470472552560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_31
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 802
+        width: 25
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5f21ca05c0b9e370800000000000000
+      internalID: 8352401344270774109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_32
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 790
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c550e9563fb2931a0800000000000000
+      internalID: -6829379035548744356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_33
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 769
+        width: 15
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4866eb4cfb1dfdf80800000000000000
+      internalID: -8079508584909609340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_34
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 785
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e8b64a372c7974d0800000000000000
+      internalID: -3136339157563557658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_35
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 772
+        width: 19
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcaf68c561c3349d0800000000000000
+      internalID: -2791321277300278579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_36
+      rect:
+        serializedVersion: 2
+        x: 1182
+        y: 789
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b5048b9028b86420800000000000000
+      internalID: 2623549233130898870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_37
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 765
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a045d24a47cc5eb0800000000000000
+      internalID: -4729686386883084128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_38
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 763
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9615fa9daf999310800000000000000
+      internalID: 1412335526135273114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_39
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 766
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef6ec5fe2cfd20ee0800000000000000
+      internalID: -1296227714396788994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_40
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 761
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cffed1cadaae87460800000000000000
+      internalID: 7239794432635957244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_41
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 757
+        width: 19
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b939248f9b4abb30800000000000000
+      internalID: 4303835542395107763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_42
+      rect:
+        serializedVersion: 2
+        x: 466
+        y: 732
+        width: 7
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77c8227ba2dff55a0800000000000000
+      internalID: -6530222574760981385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_43
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 713
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc33dd549fe8ae370800000000000000
+      internalID: 8352645660182131659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_44
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 696
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6246bf83d23278cf0800000000000000
+      internalID: -250192577159273434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_45
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 692
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18b8fafb31332eb90800000000000000
+      internalID: -7214147493180765311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_46
+      rect:
+        serializedVersion: 2
+        x: 846
+        y: 682
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6c178c22ef171340800000000000000
+      internalID: 4834367781275638895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_47
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 660
+        width: 21
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2d2af1039f985560800000000000000
+      internalID: 7302762249523440943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_48
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 658
+        width: 37
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ed93d01d7f94e880800000000000000
+      internalID: -8582559630359290396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_49
+      rect:
+        serializedVersion: 2
+        x: 882
+        y: 666
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8042e17a12bbd940800000000000000
+      internalID: 5322043211317919882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_50
+      rect:
+        serializedVersion: 2
+        x: 466
+        y: 641
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5952c04e3ea4c5990800000000000000
+      internalID: -7395954145405164139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_51
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 650
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c00802efc76a15130800000000000000
+      internalID: 3553804636741730316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_52
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 642
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10c8ee259d33dbcb0800000000000000
+      internalID: -4846660615488500735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_53
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 624
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b517403212a79c270800000000000000
+      internalID: 8271276473382629723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_54
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 622
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a64bfce5953dfa3a0800000000000000
+      internalID: -6651865743806712726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_55
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 607
+        width: 22
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c79bf842bbfc18c60800000000000000
+      internalID: 7818758830771124604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_56
+      rect:
+        serializedVersion: 2
+        x: 354
+        y: 610
+        width: 29
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ddd732ded79b6e20800000000000000
+      internalID: 3344934131518135763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_57
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 617
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bc90ab9bf87d6760800000000000000
+      internalID: 7452745980411157683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_58
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 612
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43a503ecf5c3ea0c0800000000000000
+      internalID: -4562642990300898764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_59
+      rect:
+        serializedVersion: 2
+        x: 742
+        y: 586
+        width: 33
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63577e1cdccbd38b0800000000000000
+      internalID: -5170769205243972298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_60
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 610
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d5880157283d86f0800000000000000
+      internalID: -680826227148683822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_61
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 592
+        width: 31
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa8600a2fab5a8810800000000000000
+      internalID: 1768326611578415274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_62
+      rect:
+        serializedVersion: 2
+        x: 1125
+        y: 616
+        width: 18
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d88f89e38099e9100800000000000000
+      internalID: 116698901047212173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_63
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 596
+        width: 29
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26923bc614a332d90800000000000000
+      internalID: -7123786132899026590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_64
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 0
+        width: 339
+        height: 605
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2ea6cdea5e663fd0800000000000000
+      internalID: -2362579617693913554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_65
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 602
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb621842fbd2411a0800000000000000
+      internalID: -6839791635094493505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_66
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 602
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f69e7568a8b67fa20800000000000000
+      internalID: 3096061511544072559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_67
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 594
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7c1e5e4e93851430800000000000000
+      internalID: 3753050580426038397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_68
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 602
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51c7d665bd10bb790800000000000000
+      internalID: -7513409511778059243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_69
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 570
+        width: 11
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf313a70e33a74aa0800000000000000
+      internalID: -6176788877103918085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_70
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 582
+        width: 15
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27ab2877349759940800000000000000
+      internalID: 5302277466973452914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_71
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 570
+        width: 25
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a6905e6047a0e090800000000000000
+      internalID: -8007216242294221148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_72
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 550
+        width: 44
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e557a384fc72d5330800000000000000
+      internalID: 3701158239991919966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_73
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 457
+        width: 53
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04a7c2bc23c135b70800000000000000
+      internalID: 8886477494214752832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_74
+      rect:
+        serializedVersion: 2
+        x: 709
+        y: 580
+        width: 32
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87bb59c752ff811b0800000000000000
+      internalID: -5685513993086190728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_75
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 491
+        width: 112
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2de7e633f29eb8350800000000000000
+      internalID: 6020161715846414034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_76
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 554
+        width: 11
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f44f87afc4f37190800000000000000
+      internalID: -7965754143181683470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_77
+      rect:
+        serializedVersion: 2
+        x: 858
+        y: 566
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b00fd2a249d42ab30800000000000000
+      internalID: 4297082293223026699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_78
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 562
+        width: 25
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c81031be1d60d8a0800000000000000
+      internalID: -6282401501592676156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_79
+      rect:
+        serializedVersion: 2
+        x: 1101
+        y: 570
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 341c1d6dd27ff0120800000000000000
+      internalID: 2382394504151941443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_80
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 0
+        width: 405
+        height: 567
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9034de4612dcbe90800000000000000
+      internalID: -7008495926841692006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_81
+      rect:
+        serializedVersion: 2
+        x: 717
+        y: 471
+        width: 98
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1aa9d3572683c020800000000000000
+      internalID: 2360878133140892189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_82
+      rect:
+        serializedVersion: 2
+        x: 866
+        y: 560
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 426ba7ae33cdf19b0800000000000000
+      internalID: -5107121336879499740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_83
+      rect:
+        serializedVersion: 2
+        x: 932
+        y: 535
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57cad6b839dfcac80800000000000000
+      internalID: -8309988402264167307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_84
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 535
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01c3f81f45389a1d0800000000000000
+      internalID: -3338993247865324528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_85
+      rect:
+        serializedVersion: 2
+        x: 951
+        y: 529
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15461183bf41343e0800000000000000
+      internalID: -2070788334450285487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_86
+      rect:
+        serializedVersion: 2
+        x: 1139
+        y: 533
+        width: 28
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7e8525f433450940800000000000000
+      internalID: 5261685634382532221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_87
+      rect:
+        serializedVersion: 2
+        x: 1178
+        y: 529
+        width: 11
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d95614c2e9403f7e0800000000000000
+      internalID: -1733036354213681763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_88
+      rect:
+        serializedVersion: 2
+        x: 1035
+        y: 511
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77d26dae90f44d230800000000000000
+      internalID: 3662639300972260727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_89
+      rect:
+        serializedVersion: 2
+        x: 1163
+        y: 512
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98b775d26d4834120800000000000000
+      internalID: 2396905482109811593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_90
+      rect:
+        serializedVersion: 2
+        x: 1073
+        y: 462
+        width: 25
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f255eb9026fa7e40800000000000000
+      internalID: 5655102902031962873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_91
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 481
+        width: 6
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0b8afd97f7a48830800000000000000
+      internalID: 4072564644998974223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_92
+      rect:
+        serializedVersion: 2
+        x: 1071
+        y: 467
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65406cef6ab43bde0800000000000000
+      internalID: -1318627085278378922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_93
+      rect:
+        serializedVersion: 2
+        x: 1075
+        y: 465
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2375fad877104ce20800000000000000
+      internalID: 3369820034169788210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_94
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 413
+        width: 27
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a95c503ee44389a0800000000000000
+      internalID: -6232061669546370655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_95
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 433
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6eb11c15b4437af10800000000000000
+      internalID: 2280849234385247206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_96
+      rect:
+        serializedVersion: 2
+        x: 1019
+        y: 429
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39aab484665d7fef0800000000000000
+      internalID: -74356233552024941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_97
+      rect:
+        serializedVersion: 2
+        x: 1150
+        y: 425
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7341af48501cc15f0800000000000000
+      internalID: -784540005619329993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_98
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 393
+        width: 21
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 217d02af0cadab7f0800000000000000
+      internalID: -595923478308137198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_99
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 198
+        width: 69
+        height: 201
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 258b792707c0adff0800000000000000
+      internalID: -10682372016588718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_100
+      rect:
+        serializedVersion: 2
+        x: 975
+        y: 387
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1141f753e99324ef0800000000000000
+      internalID: -125474487947815919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_101
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 403
+        width: 11
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46f8c6f4ceb1576a0800000000000000
+      internalID: -6452220189379621020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_102
+      rect:
+        serializedVersion: 2
+        x: 1069
+        y: 371
+        width: 27
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdfd76755a3214100800000000000000
+      internalID: 90392660567121884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_103
+      rect:
+        serializedVersion: 2
+        x: 1091
+        y: 389
+        width: 17
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a6b6e1dd612a7480800000000000000
+      internalID: -8900764957987653981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_104
+      rect:
+        serializedVersion: 2
+        x: 1127
+        y: 404
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 909388ce18f85ea00800000000000000
+      internalID: 785191498227923209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_105
+      rect:
+        serializedVersion: 2
+        x: 1047
+        y: 367
+        width: 17
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dee654fbc1ac12fc0800000000000000
+      internalID: -3521311208810123539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_106
+      rect:
+        serializedVersion: 2
+        x: 1180
+        y: 377
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: daa2c803b10ea0e70800000000000000
+      internalID: 9082318005929257645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_107
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 299
+        width: 84
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0629dc3788e726140800000000000000
+      internalID: 4711467284706464352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_108
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 359
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b4b35de9d496dd10800000000000000
+      internalID: 2150069535826490553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_109
+      rect:
+        serializedVersion: 2
+        x: 989
+        y: 339
+        width: 11
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8a35e7d605311030800000000000000
+      internalID: 3463607891932822157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_110
+      rect:
+        serializedVersion: 2
+        x: 998
+        y: 359
+        width: 6
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3056f6e18e3179590800000000000000
+      internalID: -7667637952911022845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_111
+      rect:
+        serializedVersion: 2
+        x: 1160
+        y: 351
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f82cc09b26fb3fc20800000000000000
+      internalID: 3239142987741840015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_112
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 343
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a569e96dcb8792100800000000000000
+      internalID: 83730820532967002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_113
+      rect:
+        serializedVersion: 2
+        x: 967
+        y: 337
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dde7d8f0023b94570800000000000000
+      internalID: 8451483126018703069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_114
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 345
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb4402ebf293fb180800000000000000
+      internalID: -9097489845049080642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_115
+      rect:
+        serializedVersion: 2
+        x: 1027
+        y: 345
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f88c24ed81bb4df30800000000000000
+      internalID: 4599506834934646927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_116
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 337
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87b5852af166d6ab0800000000000000
+      internalID: -5013238524139775112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_117
+      rect:
+        serializedVersion: 2
+        x: 1057
+        y: 343
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45cfc6c3237ce1e30800000000000000
+      internalID: 4476234098228919380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_118
+      rect:
+        serializedVersion: 2
+        x: 828
+        y: 331
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f7302fef0c48a840800000000000000
+      internalID: 5235518198138288116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_119
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 314
+        width: 14
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b47cf2fc4d98a10a0800000000000000
+      internalID: -6910059131144517813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_120
+      rect:
+        serializedVersion: 2
+        x: 1047
+        y: 304
+        width: 21
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99ed373f80cd6ff40800000000000000
+      internalID: 5762034704269434521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_121
+      rect:
+        serializedVersion: 2
+        x: 1081
+        y: 318
+        width: 19
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bb6d7b259a48dc30800000000000000
+      internalID: 4384336241785400241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_122
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 328
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e819c4f7acf442320800000000000000
+      internalID: 2532236621626773902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_123
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 296
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b12f6fccbea1d65a0800000000000000
+      internalID: -6526530684931608037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_124
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 254
+        width: 43
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4e1b436e93e34620800000000000000
+      internalID: 2757297666291080781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_125
+      rect:
+        serializedVersion: 2
+        x: 1017
+        y: 258
+        width: 27
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28198d2a7b7ef1f70800000000000000
+      internalID: 9160294942992011650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_126
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 270
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0210658024004f60800000000000000
+      internalID: 8016411874442613259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_127
+      rect:
+        serializedVersion: 2
+        x: 1045
+        y: 210
+        width: 33
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b78d6bf3a0795e6b0800000000000000
+      internalID: -5267638118865512325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_128
+      rect:
+        serializedVersion: 2
+        x: 1049
+        y: 278
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44208177eca0f1180800000000000000
+      internalID: -9142576836661214652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_129
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 272
+        width: 7
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7ebc6f68f8aba7f0800000000000000
+      internalID: -600200340349075841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_130
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 240
+        width: 13
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a247d3519ae28b4e0800000000000000
+      internalID: -1965769933606521814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_131
+      rect:
+        serializedVersion: 2
+        x: 938
+        y: 235
+        width: 10
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee8e7b709a5d34d50800000000000000
+      internalID: 6720449990922594542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_132
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 246
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ff62e2c23ba26830800000000000000
+      internalID: 4062998048347942900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_133
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 250
+        width: 17
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a8ffd1f3fbca3280800000000000000
+      internalID: -9062707051534223194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_134
+      rect:
+        serializedVersion: 2
+        x: 997
+        y: 256
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bbe39b8d639c9840800000000000000
+      internalID: 5232218965800119221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_135
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 232
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61e4796178e41da40800000000000000
+      internalID: 5391176571045760534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_136
+      rect:
+        serializedVersion: 2
+        x: 1019
+        y: 227
+        width: 11
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19118100a7beefa00800000000000000
+      internalID: 792329493683900817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_137
+      rect:
+        serializedVersion: 2
+        x: 1029
+        y: 240
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea8f01af1e8ecd5f0800000000000000
+      internalID: -730452982280161106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_138
+      rect:
+        serializedVersion: 2
+        x: 378
+        y: 208
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee9b4504fe02e4e30800000000000000
+      internalID: 4489562090483530222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_139
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 214
+        width: 17
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afdbfabc44828dc00800000000000000
+      internalID: 925533999364816378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_140
+      rect:
+        serializedVersion: 2
+        x: 932
+        y: 212
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae025b7c63dfef420800000000000000
+      internalID: 2665846441170510058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_141
+      rect:
+        serializedVersion: 2
+        x: 940
+        y: 209
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d0510660f7b9a920800000000000000
+      internalID: 3002132869750542547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_142
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 204
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0f12a808a7021cb0800000000000000
+      internalID: -4894841426717565169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_143
+      rect:
+        serializedVersion: 2
+        x: 1196
+        y: 207
+        width: 13
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce505087278d64190800000000000000
+      internalID: -7978451703688788500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_144
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 192
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db1d3e390861c73d0800000000000000
+      internalID: -3207664093101829699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_145
+      rect:
+        serializedVersion: 2
+        x: 969
+        y: 170
+        width: 85
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c31893ba44c0f0bb0800000000000000
+      internalID: -4967738374896385732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_146
+      rect:
+        serializedVersion: 2
+        x: 1051
+        y: 194
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56bee97169ff17ae0800000000000000
+      internalID: -1553179376359642267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_147
+      rect:
+        serializedVersion: 2
+        x: 1019
+        y: 140
+        width: 29
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e18f5cd6d9c299040800000000000000
+      internalID: 4654800744527296542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_148
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 176
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88b71381ec920f180800000000000000
+      internalID: -9083714483260392568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_149
+      rect:
+        serializedVersion: 2
+        x: 1174
+        y: 168
+        width: 21
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5f0e9525e9b87a40800000000000000
+      internalID: 5366243349841710943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_150
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 160
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1a6eed5f8a04d1e0800000000000000
+      internalID: -2174101109240600035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_151
+      rect:
+        serializedVersion: 2
+        x: 924
+        y: 162
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0574db312c4a1c1e0800000000000000
+      internalID: -2179279591208827056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_152
+      rect:
+        serializedVersion: 2
+        x: 1011
+        y: 160
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e3785706324b73a0800000000000000
+      internalID: -6666662023572982815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_153
+      rect:
+        serializedVersion: 2
+        x: 1153
+        y: 140
+        width: 28
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ccf7160b10564710800000000000000
+      internalID: 1677115988238662853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_154
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 144
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b30b30580eb4c6a80800000000000000
+      internalID: -8472313371314376645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_155
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 122
+        width: 15
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66284f8a996bde9d0800000000000000
+      internalID: -2743335826917916058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_156
+      rect:
+        serializedVersion: 2
+        x: 1196
+        y: 119
+        width: 11
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 750ea517e2a264fc0800000000000000
+      internalID: -3511072480530079657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_157
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 88
+        width: 9
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a9352f9ec747c690800000000000000
+      internalID: -7582012494896088668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_158
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 97
+        width: 11
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b37e089216ecd9d70800000000000000
+      internalID: 9051617742788028219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_159
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 91
+        width: 25
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eba53022800e37570800000000000000
+      internalID: 8463354450294299326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_160
+      rect:
+        serializedVersion: 2
+        x: 937
+        y: 47
+        width: 35
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfbd052ac3aab0a30800000000000000
+      internalID: 4182623856341605372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_161
+      rect:
+        serializedVersion: 2
+        x: 961
+        y: 99
+        width: 15
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81488bc3a377d8890800000000000000
+      internalID: -7454170716217768936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_162
+      rect:
+        serializedVersion: 2
+        x: 971
+        y: 87
+        width: 9
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98e6535df62d52760800000000000000
+      internalID: 7432578137805123209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_163
+      rect:
+        serializedVersion: 2
+        x: 1137
+        y: 91
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03e72873b9371f380800000000000000
+      internalID: -8939236674865299920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_164
+      rect:
+        serializedVersion: 2
+        x: 866
+        y: 65
+        width: 21
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64bf6a2f02b929640800000000000000
+      internalID: 5085297495066999622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_165
+      rect:
+        serializedVersion: 2
+        x: 902
+        y: 70
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26fd2726af15619c0800000000000000
+      internalID: -3956885086763032734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_166
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 81
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed64ce09c89383e50800000000000000
+      internalID: 6789239714150631134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_167
+      rect:
+        serializedVersion: 2
+        x: 932
+        y: 61
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a35f9f6dc805f10f0800000000000000
+      internalID: -1144107214496467654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_168
+      rect:
+        serializedVersion: 2
+        x: 973
+        y: 49
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a1ed66671d085190800000000000000
+      internalID: -7973608746105577053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_169
+      rect:
+        serializedVersion: 2
+        x: 989
+        y: 59
+        width: 7
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec3d8b5314f926ea0800000000000000
+      internalID: -5880963060969450546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_170
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 59
+        width: 17
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 827a27a3e52dd5ab0800000000000000
+      internalID: -5017623107671513304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_171
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 19
+        width: 15
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 545febfc30c02b040800000000000000
+      internalID: 4661801774791718213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_172
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 41
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9e4f5967146f8940800000000000000
+      internalID: 5300565338153242270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_173
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 37
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64253722e5aa547b0800000000000000
+      internalID: -5240595270094073274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_174
+      rect:
+        serializedVersion: 2
+        x: 1011
+        y: 31
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d43f0897155c8960800000000000000
+      internalID: 7605547430545667288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_175
+      rect:
+        serializedVersion: 2
+        x: 1018
+        y: 29
+        width: 8
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7bc92789a523a460800000000000000
+      internalID: 7251681235043994490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_176
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 31
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01e77943cb60684e0800000000000000
+      internalID: -1979887580776792560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_177
+      rect:
+        serializedVersion: 2
+        x: 1098
+        y: 31
+        width: 10
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 537c864fffd414e20800000000000000
+      internalID: 3333030960943384373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_178
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 29
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bda9c1d83e1f28b50800000000000000
+      internalID: 6594098764051159771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_179
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 15
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b397a5f62f4bd7290800000000000000
+      internalID: -7890952018739955397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_180
+      rect:
+        serializedVersion: 2
+        x: 924
+        y: 9
+        width: 58
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47a71d20b502ea260800000000000000
+      internalID: 7110656436925987444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Customer3SourceSheet_181
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 7
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 257f74d8efcaabd80800000000000000
+      internalID: -8234078759401556142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Customer3SourceSheet_0: -67706699775317295
+      Customer3SourceSheet_1: -7265910713949330131
+      Customer3SourceSheet_10: 3937547496848529955
+      Customer3SourceSheet_100: -125474487947815919
+      Customer3SourceSheet_101: -6452220189379621020
+      Customer3SourceSheet_102: 90392660567121884
+      Customer3SourceSheet_103: -8900764957987653981
+      Customer3SourceSheet_104: 785191498227923209
+      Customer3SourceSheet_105: -3521311208810123539
+      Customer3SourceSheet_106: 9082318005929257645
+      Customer3SourceSheet_107: 4711467284706464352
+      Customer3SourceSheet_108: 2150069535826490553
+      Customer3SourceSheet_109: 3463607891932822157
+      Customer3SourceSheet_11: -154373896862014524
+      Customer3SourceSheet_110: -7667637952911022845
+      Customer3SourceSheet_111: 3239142987741840015
+      Customer3SourceSheet_112: 83730820532967002
+      Customer3SourceSheet_113: 8451483126018703069
+      Customer3SourceSheet_114: -9097489845049080642
+      Customer3SourceSheet_115: 4599506834934646927
+      Customer3SourceSheet_116: -5013238524139775112
+      Customer3SourceSheet_117: 4476234098228919380
+      Customer3SourceSheet_118: 5235518198138288116
+      Customer3SourceSheet_119: -6910059131144517813
+      Customer3SourceSheet_12: -7802397642337657133
+      Customer3SourceSheet_120: 5762034704269434521
+      Customer3SourceSheet_121: 4384336241785400241
+      Customer3SourceSheet_122: 2532236621626773902
+      Customer3SourceSheet_123: -6526530684931608037
+      Customer3SourceSheet_124: 2757297666291080781
+      Customer3SourceSheet_125: 9160294942992011650
+      Customer3SourceSheet_126: 8016411874442613259
+      Customer3SourceSheet_127: -5267638118865512325
+      Customer3SourceSheet_128: -9142576836661214652
+      Customer3SourceSheet_129: -600200340349075841
+      Customer3SourceSheet_13: 3673194201883619973
+      Customer3SourceSheet_130: -1965769933606521814
+      Customer3SourceSheet_131: 6720449990922594542
+      Customer3SourceSheet_132: 4062998048347942900
+      Customer3SourceSheet_133: -9062707051534223194
+      Customer3SourceSheet_134: 5232218965800119221
+      Customer3SourceSheet_135: 5391176571045760534
+      Customer3SourceSheet_136: 792329493683900817
+      Customer3SourceSheet_137: -730452982280161106
+      Customer3SourceSheet_138: 4489562090483530222
+      Customer3SourceSheet_139: 925533999364816378
+      Customer3SourceSheet_14: 3136962381521441134
+      Customer3SourceSheet_140: 2665846441170510058
+      Customer3SourceSheet_141: 3002132869750542547
+      Customer3SourceSheet_142: -4894841426717565169
+      Customer3SourceSheet_143: -7978451703688788500
+      Customer3SourceSheet_144: -3207664093101829699
+      Customer3SourceSheet_145: -4967738374896385732
+      Customer3SourceSheet_146: -1553179376359642267
+      Customer3SourceSheet_147: 4654800744527296542
+      Customer3SourceSheet_148: -9083714483260392568
+      Customer3SourceSheet_149: 5366243349841710943
+      Customer3SourceSheet_15: -2983562648326615552
+      Customer3SourceSheet_150: -2174101109240600035
+      Customer3SourceSheet_151: -2179279591208827056
+      Customer3SourceSheet_152: -6666662023572982815
+      Customer3SourceSheet_153: 1677115988238662853
+      Customer3SourceSheet_154: -8472313371314376645
+      Customer3SourceSheet_155: -2743335826917916058
+      Customer3SourceSheet_156: -3511072480530079657
+      Customer3SourceSheet_157: -7582012494896088668
+      Customer3SourceSheet_158: 9051617742788028219
+      Customer3SourceSheet_159: 8463354450294299326
+      Customer3SourceSheet_16: -1151022972287533270
+      Customer3SourceSheet_160: 4182623856341605372
+      Customer3SourceSheet_161: -7454170716217768936
+      Customer3SourceSheet_162: 7432578137805123209
+      Customer3SourceSheet_163: -8939236674865299920
+      Customer3SourceSheet_164: 5085297495066999622
+      Customer3SourceSheet_165: -3956885086763032734
+      Customer3SourceSheet_166: 6789239714150631134
+      Customer3SourceSheet_167: -1144107214496467654
+      Customer3SourceSheet_168: -7973608746105577053
+      Customer3SourceSheet_169: -5880963060969450546
+      Customer3SourceSheet_17: -405566139670779058
+      Customer3SourceSheet_170: -5017623107671513304
+      Customer3SourceSheet_171: 4661801774791718213
+      Customer3SourceSheet_172: 5300565338153242270
+      Customer3SourceSheet_173: -5240595270094073274
+      Customer3SourceSheet_174: 7605547430545667288
+      Customer3SourceSheet_175: 7251681235043994490
+      Customer3SourceSheet_176: -1979887580776792560
+      Customer3SourceSheet_177: 3333030960943384373
+      Customer3SourceSheet_178: 6594098764051159771
+      Customer3SourceSheet_179: -7890952018739955397
+      Customer3SourceSheet_18: 579233816228197447
+      Customer3SourceSheet_180: 7110656436925987444
+      Customer3SourceSheet_181: -8234078759401556142
+      Customer3SourceSheet_19: 6988922560458979695
+      Customer3SourceSheet_2: 3305210733151235975
+      Customer3SourceSheet_20: -2715272229608511377
+      Customer3SourceSheet_21: 462493156886722675
+      Customer3SourceSheet_22: -2917608104430788104
+      Customer3SourceSheet_23: -4238906348745152553
+      Customer3SourceSheet_24: -5860767234318526406
+      Customer3SourceSheet_25: 8254082358799323754
+      Customer3SourceSheet_26: 2441033322611303223
+      Customer3SourceSheet_27: -2997993740356975982
+      Customer3SourceSheet_28: -5299967177457311245
+      Customer3SourceSheet_29: -4551788733258674162
+      Customer3SourceSheet_3: -4805218711197266852
+      Customer3SourceSheet_30: 562664470472552560
+      Customer3SourceSheet_31: 8352401344270774109
+      Customer3SourceSheet_32: -6829379035548744356
+      Customer3SourceSheet_33: -8079508584909609340
+      Customer3SourceSheet_34: -3136339157563557658
+      Customer3SourceSheet_35: -2791321277300278579
+      Customer3SourceSheet_36: 2623549233130898870
+      Customer3SourceSheet_37: -4729686386883084128
+      Customer3SourceSheet_38: 1412335526135273114
+      Customer3SourceSheet_39: -1296227714396788994
+      Customer3SourceSheet_4: -1722894939000247447
+      Customer3SourceSheet_40: 7239794432635957244
+      Customer3SourceSheet_41: 4303835542395107763
+      Customer3SourceSheet_42: -6530222574760981385
+      Customer3SourceSheet_43: 8352645660182131659
+      Customer3SourceSheet_44: -250192577159273434
+      Customer3SourceSheet_45: -7214147493180765311
+      Customer3SourceSheet_46: 4834367781275638895
+      Customer3SourceSheet_47: 7302762249523440943
+      Customer3SourceSheet_48: -8582559630359290396
+      Customer3SourceSheet_49: 5322043211317919882
+      Customer3SourceSheet_5: 8890861945698270407
+      Customer3SourceSheet_50: -7395954145405164139
+      Customer3SourceSheet_51: 3553804636741730316
+      Customer3SourceSheet_52: -4846660615488500735
+      Customer3SourceSheet_53: 8271276473382629723
+      Customer3SourceSheet_54: -6651865743806712726
+      Customer3SourceSheet_55: 7818758830771124604
+      Customer3SourceSheet_56: 3344934131518135763
+      Customer3SourceSheet_57: 7452745980411157683
+      Customer3SourceSheet_58: -4562642990300898764
+      Customer3SourceSheet_59: -5170769205243972298
+      Customer3SourceSheet_6: -8898323623945774040
+      Customer3SourceSheet_60: -680826227148683822
+      Customer3SourceSheet_61: 1768326611578415274
+      Customer3SourceSheet_62: 116698901047212173
+      Customer3SourceSheet_63: -7123786132899026590
+      Customer3SourceSheet_64: -2362579617693913554
+      Customer3SourceSheet_65: -6839791635094493505
+      Customer3SourceSheet_66: 3096061511544072559
+      Customer3SourceSheet_67: 3753050580426038397
+      Customer3SourceSheet_68: -7513409511778059243
+      Customer3SourceSheet_69: -6176788877103918085
+      Customer3SourceSheet_7: 2740477112104433255
+      Customer3SourceSheet_70: 5302277466973452914
+      Customer3SourceSheet_71: -8007216242294221148
+      Customer3SourceSheet_72: 3701158239991919966
+      Customer3SourceSheet_73: 8886477494214752832
+      Customer3SourceSheet_74: -5685513993086190728
+      Customer3SourceSheet_75: 6020161715846414034
+      Customer3SourceSheet_76: -7965754143181683470
+      Customer3SourceSheet_77: 4297082293223026699
+      Customer3SourceSheet_78: -6282401501592676156
+      Customer3SourceSheet_79: 2382394504151941443
+      Customer3SourceSheet_8: -4351691858431557591
+      Customer3SourceSheet_80: -7008495926841692006
+      Customer3SourceSheet_81: 2360878133140892189
+      Customer3SourceSheet_82: -5107121336879499740
+      Customer3SourceSheet_83: -8309988402264167307
+      Customer3SourceSheet_84: -3338993247865324528
+      Customer3SourceSheet_85: -2070788334450285487
+      Customer3SourceSheet_86: 5261685634382532221
+      Customer3SourceSheet_87: -1733036354213681763
+      Customer3SourceSheet_88: 3662639300972260727
+      Customer3SourceSheet_89: 2396905482109811593
+      Customer3SourceSheet_9: 3048149761473917851
+      Customer3SourceSheet_90: 5655102902031962873
+      Customer3SourceSheet_91: 4072564644998974223
+      Customer3SourceSheet_92: -1318627085278378922
+      Customer3SourceSheet_93: 3369820034169788210
+      Customer3SourceSheet_94: -6232061669546370655
+      Customer3SourceSheet_95: 2280849234385247206
+      Customer3SourceSheet_96: -74356233552024941
+      Customer3SourceSheet_97: -784540005619329993
+      Customer3SourceSheet_98: -595923478308137198
+      Customer3SourceSheet_99: -10682372016588718
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
