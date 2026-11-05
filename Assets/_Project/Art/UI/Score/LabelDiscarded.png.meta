@@ -1,0 +1,1198 @@
+fileFormatVersion: 2
+guid: 5541d07b9904145408bf80ce47e95596
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6703059783920248444
+    second: LabelDiscarded_0
+  - first:
+      213: 3577444530258034367
+    second: LabelDiscarded_1
+  - first:
+      213: 807894051019721274
+    second: LabelDiscarded_2
+  - first:
+      213: 9091746719286050905
+    second: LabelDiscarded_3
+  - first:
+      213: 2837673543112754859
+    second: LabelDiscarded_4
+  - first:
+      213: -927331131225507419
+    second: LabelDiscarded_5
+  - first:
+      213: 2131448325462144076
+    second: LabelDiscarded_6
+  - first:
+      213: -6985685430529740229
+    second: LabelDiscarded_7
+  - first:
+      213: 2985431064764952287
+    second: LabelDiscarded_8
+  - first:
+      213: -1299020464162168561
+    second: LabelDiscarded_9
+  - first:
+      213: 543860486101443191
+    second: LabelDiscarded_10
+  - first:
+      213: -7274721779626175801
+    second: LabelDiscarded_11
+  - first:
+      213: -2069883015030080688
+    second: LabelDiscarded_12
+  - first:
+      213: 2506707351008590576
+    second: LabelDiscarded_13
+  - first:
+      213: 7242910779787795976
+    second: LabelDiscarded_14
+  - first:
+      213: 7786424638244876358
+    second: LabelDiscarded_15
+  - first:
+      213: 4451293174131093172
+    second: LabelDiscarded_16
+  - first:
+      213: -80514351283523921
+    second: LabelDiscarded_17
+  - first:
+      213: -5853643602126682878
+    second: LabelDiscarded_18
+  - first:
+      213: -2262160909116020046
+    second: LabelDiscarded_19
+  - first:
+      213: 1398472483939971455
+    second: LabelDiscarded_20
+  - first:
+      213: -7282133157848750498
+    second: LabelDiscarded_21
+  - first:
+      213: -2099229119624298927
+    second: LabelDiscarded_22
+  - first:
+      213: 7960162661492852219
+    second: LabelDiscarded_23
+  - first:
+      213: 5460974817443549224
+    second: LabelDiscarded_24
+  - first:
+      213: 4956240438049904582
+    second: LabelDiscarded_25
+  - first:
+      213: -9096161436272789603
+    second: LabelDiscarded_26
+  - first:
+      213: 3564318642167745727
+    second: LabelDiscarded_27
+  - first:
+      213: 900542805940689366
+    second: LabelDiscarded_28
+  - first:
+      213: 8283418499547339888
+    second: LabelDiscarded_29
+  - first:
+      213: 2942155414580775357
+    second: LabelDiscarded_30
+  - first:
+      213: 8197560549209856736
+    second: LabelDiscarded_31
+  - first:
+      213: 1334384876685732566
+    second: LabelDiscarded_32
+  - first:
+      213: -8868067995789576624
+    second: LabelDiscarded_33
+  - first:
+      213: 3662941129492826117
+    second: LabelDiscarded_34
+  - first:
+      213: -7486809454904557426
+    second: LabelDiscarded_35
+  - first:
+      213: -1278373931681608996
+    second: LabelDiscarded_36
+  - first:
+      213: -6331812812114150722
+    second: LabelDiscarded_37
+  - first:
+      213: 1296427030015060036
+    second: LabelDiscarded_38
+  - first:
+      213: -1836828976755409986
+    second: LabelDiscarded_39
+  - first:
+      213: -5053366750234633878
+    second: LabelDiscarded_40
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LabelDiscarded_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 811
+        height: 721
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c76e5c0fb5d060d50800000000000000
+      internalID: 6703059783920248444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_1
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 680
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbeb1bd98d2a5a130800000000000000
+      internalID: 3577444530258034367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_2
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 670
+        width: 14
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3a8e27eb57363b00800000000000000
+      internalID: 807894051019721274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_3
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 632
+        width: 60
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9504ed6987f5c2e70800000000000000
+      internalID: 9091746719286050905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_4
+      rect:
+        serializedVersion: 2
+        x: 1003
+        y: 669
+        width: 244
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba682c58d01716720800000000000000
+      internalID: 2837673543112754859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_5
+      rect:
+        serializedVersion: 2
+        x: 1388
+        y: 688
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a97426df357123f0800000000000000
+      internalID: -927331131225507419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_6
+      rect:
+        serializedVersion: 2
+        x: 1875
+        y: 670
+        width: 47
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c44b54885fc649d10800000000000000
+      internalID: 2131448325462144076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_7
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 614
+        width: 119
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3237a8dc1cdd0f90800000000000000
+      internalID: -6985685430529740229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_8
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 672
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fde2bb46cb16e6920800000000000000
+      internalID: 2985431064764952287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_9
+      rect:
+        serializedVersion: 2
+        x: 746
+        y: 0
+        width: 1423
+        height: 674
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f01a6a535c3f8fde0800000000000000
+      internalID: -1299020464162168561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_10
+      rect:
+        serializedVersion: 2
+        x: 2046
+        y: 630
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 772a2790b3e2c8700800000000000000
+      internalID: 543860486101443191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_11
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 600
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c29595a51ffa0b90800000000000000
+      internalID: -7274721779626175801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_12
+      rect:
+        serializedVersion: 2
+        x: 1241
+        y: 607
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05b74825d5c4643e0800000000000000
+      internalID: -2069883015030080688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_13
+      rect:
+        serializedVersion: 2
+        x: 1245
+        y: 609
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fa3abcfd0d99c220800000000000000
+      internalID: 2506707351008590576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_14
+      rect:
+        serializedVersion: 2
+        x: 2110
+        y: 560
+        width: 51
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80e5919cafcf38460800000000000000
+      internalID: 7242910779787795976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_15
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 592
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6407fe844ffee0c60800000000000000
+      internalID: 7786424638244876358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_16
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 582
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4be6433de8b26cd30800000000000000
+      internalID: 4451293174131093172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_17
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 576
+        width: 12
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faeac64cf94f1eef0800000000000000
+      internalID: -80514351283523921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_18
+      rect:
+        serializedVersion: 2
+        x: 1302
+        y: 594
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2054085682ea3cea0800000000000000
+      internalID: -5853643602126682878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_19
+      rect:
+        serializedVersion: 2
+        x: 1308
+        y: 592
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ba6d5b73a03b90e0800000000000000
+      internalID: -2262160909116020046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_20
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 578
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f717661905f586310800000000000000
+      internalID: 1398472483939971455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_21
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 566
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e56e45fa97aa0fa90800000000000000
+      internalID: -7282133157848750498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_22
+      rect:
+        serializedVersion: 2
+        x: 1207
+        y: 577
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15e33a6ec3a0ed2e0800000000000000
+      internalID: -2099229119624298927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_23
+      rect:
+        serializedVersion: 2
+        x: 1731
+        y: 572
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf50c9014cd287e60800000000000000
+      internalID: 7960162661492852219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_24
+      rect:
+        serializedVersion: 2
+        x: 1091
+        y: 568
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8209319b9a749cb40800000000000000
+      internalID: 5460974817443549224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_25
+      rect:
+        serializedVersion: 2
+        x: 730
+        y: 528
+        width: 7
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c7146b4b6a18c440800000000000000
+      internalID: 4956240438049904582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_26
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 456
+        width: 14
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d977a530e51f3c180800000000000000
+      internalID: -9096161436272789603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_27
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 472
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbc06b4abe0077130800000000000000
+      internalID: 3564318642167745727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_28
+      rect:
+        serializedVersion: 2
+        x: 744
+        y: 443
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d9d02529ee5f7c00800000000000000
+      internalID: 900542805940689366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_29
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 421
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07c1b67ec3d94f270800000000000000
+      internalID: 8283418499547339888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_30
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 394
+        width: 7
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db94418e2c2a4d820800000000000000
+      internalID: 2942155414580775357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_31
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 375
+        width: 10
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ead86013e593c170800000000000000
+      internalID: 8197560549209856736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_32
+      rect:
+        serializedVersion: 2
+        x: 734
+        y: 377
+        width: 29
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6daa188b9ffa48210800000000000000
+      internalID: 1334384876685732566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_33
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 307
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 056b3f2942b4ee480800000000000000
+      internalID: -8868067995789576624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_34
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 291
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5088698dc8165d230800000000000000
+      internalID: 3662941129492826117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_35
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 242
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e80c063b772891890800000000000000
+      internalID: -7486809454904557426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_36
+      rect:
+        serializedVersion: 2
+        x: 742
+        y: 229
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cda8ff7aead424ee0800000000000000
+      internalID: -1278373931681608996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_37
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 81
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eba3ba57bc1e028a0800000000000000
+      internalID: -6331812812114150722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_38
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 79
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4482349d385ddf110800000000000000
+      internalID: 1296427030015060036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_39
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 77
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebb795f07c54286e0800000000000000
+      internalID: -1836828976755409986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabelDiscarded_40
+      rect:
+        serializedVersion: 2
+        x: 1795
+        y: 51
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a699e7ce6b5ded9b0800000000000000
+      internalID: -5053366750234633878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      LabelDiscarded_0: 6703059783920248444
+      LabelDiscarded_1: 3577444530258034367
+      LabelDiscarded_10: 543860486101443191
+      LabelDiscarded_11: -7274721779626175801
+      LabelDiscarded_12: -2069883015030080688
+      LabelDiscarded_13: 2506707351008590576
+      LabelDiscarded_14: 7242910779787795976
+      LabelDiscarded_15: 7786424638244876358
+      LabelDiscarded_16: 4451293174131093172
+      LabelDiscarded_17: -80514351283523921
+      LabelDiscarded_18: -5853643602126682878
+      LabelDiscarded_19: -2262160909116020046
+      LabelDiscarded_2: 807894051019721274
+      LabelDiscarded_20: 1398472483939971455
+      LabelDiscarded_21: -7282133157848750498
+      LabelDiscarded_22: -2099229119624298927
+      LabelDiscarded_23: 7960162661492852219
+      LabelDiscarded_24: 5460974817443549224
+      LabelDiscarded_25: 4956240438049904582
+      LabelDiscarded_26: -9096161436272789603
+      LabelDiscarded_27: 3564318642167745727
+      LabelDiscarded_28: 900542805940689366
+      LabelDiscarded_29: 8283418499547339888
+      LabelDiscarded_3: 9091746719286050905
+      LabelDiscarded_30: 2942155414580775357
+      LabelDiscarded_31: 8197560549209856736
+      LabelDiscarded_32: 1334384876685732566
+      LabelDiscarded_33: -8868067995789576624
+      LabelDiscarded_34: 3662941129492826117
+      LabelDiscarded_35: -7486809454904557426
+      LabelDiscarded_36: -1278373931681608996
+      LabelDiscarded_37: -6331812812114150722
+      LabelDiscarded_38: 1296427030015060036
+      LabelDiscarded_39: -1836828976755409986
+      LabelDiscarded_4: 2837673543112754859
+      LabelDiscarded_40: -5053366750234633878
+      LabelDiscarded_5: -927331131225507419
+      LabelDiscarded_6: 2131448325462144076
+      LabelDiscarded_7: -6985685430529740229
+      LabelDiscarded_8: 2985431064764952287
+      LabelDiscarded_9: -1299020464162168561
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

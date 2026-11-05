@@ -10,6 +10,7 @@ namespace CafeTime.Core
         public int day = 1;   // 다음에 진행할 DAY
         public int money;     // 보유 자금
         public float reputation = 3f; // 카페 평판 ★1~5 (SFR-072)
+        public int bestScore;         // 하루 최고 점수 (SFR-067). 하루 정산에서 갱신해 저장
         public List<IngredientStock> stocks = new List<IngredientStock>(); // 재료 재고, 기본 단위 (ADR-0010)
         // 스토리 선택 결과는 해당 기능 구현 시 추가
 

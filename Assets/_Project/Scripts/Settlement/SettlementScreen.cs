@@ -60,15 +60,18 @@ namespace CafeTime.Settlement
                 moneyText.text = $"₩{save.money:N0}";
                 rentWarningLabel.SetActive(true);
                 next = Next.Ending;
+                Endings.Pending = EndingType.ClosedCafe;
             }
             else
             {
                 save.money -= rent; // 당일 임대료 자동 차감
                 save.day = day + 1;
+                save.bestScore = Mathf.Max(save.bestScore, result.score); // 하루 최고 점수 (SFR-067)
                 SaveSystem.SaveCurrent(); // 하루 정산 후 자동 저장 (ADR-0005)
                 moneyText.text = $"₩{save.money:N0}";
                 rentWarningLabel.SetActive(false);
                 next = day >= GameBalance.TotalDays ? Next.Ending : Next.NextDay; // DAY 15 정산 후 엔딩
+                if (next == Next.Ending) Endings.Pending = Endings.Decide(save, balance);
                 nextButtonText.text = $"DAY {save.day} 시작";
             }
             endingLabel.SetActive(next == Next.Ending);
