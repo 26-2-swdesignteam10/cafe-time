@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using CafeTime.Cafe;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -97,7 +98,7 @@ namespace CafeTime.EspressoShot
         {
             if (Slot != null && Slot.Locked)   // 추출 중 / 분쇄 중에는 분리 불가
             {
-                EspressoToast.Show("작업 중에는 분리할 수 없습니다.");
+                Toast.Show(ToastMessage.Extracting); // SFR-033
                 dragging = false;
                 return;
             }

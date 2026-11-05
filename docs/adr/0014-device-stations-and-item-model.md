@@ -15,7 +15,7 @@ ADR-0013 은 영업 루프만 만들고, 음료 제조는 메뉴를 누르면 �
 
 1. **물건 모델**: 손에 드는 것은 모두 `HeldItem` 상속 클래스다 (`Cup`, `ShotGlass`, `IceScoop`, `DessertItem`, `Towel`).
    잔은 내용물(`Mixture`, 재료 키 → 양)을 가지고, '완성'을 누르면 메뉴·등급이 정해진다. 서빙(픽업대)에는 `Servable` 인 물건만 놓을 수 있다.
-2. **기기 상태와 화면 분리**: 기기 상태는 항상 켜져 있는 `Business` 오브젝트의 컴포넌트(`CupShelf`, `EspressoBar`, `IceMaker`, `WaterDispenser`, `DrinkStation`, `Blender`, `TrayReturn`, `DishStation`, `CleaningManager`)에 두고,
+2. **기기 상태와 화면 분리**: 기기 상태는 항상 켜져 있는 `Business` 오브젝트의 컴포넌트(`CupShelf`, `EspressoMachine`(ADR-0015), `IceMaker`, `WaterDispenser`, `DrinkStation`, `Blender`, `TrayReturn`, `DishStation`, `CleaningManager`)에 두고,
    기기 화면(`StationScreen` 상속 Popup)은 상태를 그리기만 한다. 화면을 닫아도 타이머는 `GameClock.Delta` 로 계속 흐르고, 맵의 `WorkStatusIcon` 이 게이지·완료 아이콘을 보여 준다.
 3. **레시피 판정**: 잔에 든 재료 **키 집합**이 정확히 같은 레시피를 그 메뉴로 인식한다. 맞는 레시피가 없으면 '실패한 음료'.
    재료별 상대 오차 중 최댓값으로 완벽/좋음/나쁨을 정하고, 잔 종류(HOT=도자기, ICE=플라스틱)가 틀리면 '나쁨'. 레시피는 `GameBalance.recipes`.

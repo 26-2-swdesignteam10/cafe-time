@@ -93,7 +93,7 @@ namespace CafeTime.Cafe
                     break;
                 case ShotGlass glass:
                     Take(hand);
-                    EspressoBar.Instance.ReturnGlass(glass);
+                    CafeTime.EspressoShot.ShotCupSlot.Return(glass); // SFR-034
                     break;
                 case IceScoop scoop when scoop.HasIce:
                     scoop.HasIce = false; // 얼음은 구매 재료가 아니라 감점 없음

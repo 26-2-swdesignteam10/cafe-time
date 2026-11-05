@@ -63,7 +63,7 @@ docs/              기여 가이드, ADR, 게임 데이터, 아트 스타일
 - **Build Title Scene / Build Open Prep Scene / Build Settlement Scene**: 씬과 프리팹을 코드로 생성 (처음 한 번).
 - **Build Title Popups**: 닉네임·게임 설명·랭킹 팝업 프리팹만 다시 생성 (Title 씬은 그대로).
 - **Build Cafe Scene** (`CafeSceneBuilder.cs`, `CafeUiBuilder.cs`, `StationUiBuilder.cs`): 영업 씬(맵, 플레이어, 기기, 손님, HUD, 기기 화면 전체, 일시정지 메뉴)을 코드로 생성.
-  그림은 `Art/Sprites/Cafe`, `Art/Sprites/Player`, `Art/Sprites/Customers`, `Art/Icons/Items`, `Art/UI/CafeHud`, `Art/UI/Pos`, `Art/UI/Stations`, `Art/UI/<기기>`(CupShelf, Espresso, IceMaker, Water, DrinkRoom, ShakeRoom, TrayReturn, Dishwash, Pause) 에 있다.
+  그림은 `Art/Sprites/Cafe`, `Art/Sprites/Player`, `Art/Sprites/Customers`, `Art/Icons/Items`, `Art/UI/CafeHud`, `Art/UI/Pos`, `Art/UI/Stations`, `Art/UI/<기기>`(CupShelf, EspressoMachine, IceMaker, Water, DrinkRoom, ShakeRoom, TrayReturn, Dishwash, Pause) 에 있다.
   일시정지 메뉴는 Title 씬이 만든 설정·확인 창 프리팹을 쓰므로 Build Title Scene 을 먼저 실행한다.
 - **Build Score Scene / Build Ending Scene**: 득점 결과(SFR-067)·엔딩(SFR-073) 씬 생성. 그림은 `Art/UI/Score`, `Art/UI/Ending`.
 

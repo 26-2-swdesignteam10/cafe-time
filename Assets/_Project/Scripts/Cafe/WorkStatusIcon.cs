@@ -5,7 +5,7 @@ namespace CafeTime.Cafe
     // 맵의 기기 위 작업 상태 표시 (SFR-022): 작업 중이면 진행 게이지, 끝나면 완료 아이콘(기기 화면을 열면 사라짐)
     public class WorkStatusIcon : MonoBehaviour
     {
-        [Tooltip("IWorkStatus 를 구현한 기기 (EspressoBar, WaterDispenser, Blender, DishStation)")]
+        [Tooltip("IWorkStatus 를 구현한 기기 (EspressoMachine, WaterDispenser, Blender, DishStation)")]
         [SerializeField] MonoBehaviour source;
         [SerializeField] SpriteRenderer doneIcon;
         [SerializeField] Sprite gaugeFrame;

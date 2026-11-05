@@ -1,3 +1,4 @@
+using CafeTime.Cafe;
 using TMPro;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace CafeTime.EspressoShot
             if (grinder.Grinding)
                 label.text = "분쇄 중…\n" + Mathf.CeilToInt(grinder.TimeLeft) + "초 남음";
             else
-                label.text = "원두 " + BeanInventory.Beans;
+                label.text = "원두 " + Mathf.FloorToInt(Pantry.Available(Grinder.BeanId));
         }
     }
 }

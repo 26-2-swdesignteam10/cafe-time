@@ -31,7 +31,7 @@ namespace CafeTime.EditorTools
             public PickupScreen Pickup;
             public DessertShowcaseScreen Dessert;
             public CupShelfScreen CupShelf;
-            public EspressoScreen Espresso;
+            public CafeTime.UI.Popup Espresso;
             public IceMakerScreen IceMaker;
             public WaterScreen Water;
             public DrinkRoomScreen DrinkRoom;
@@ -56,7 +56,7 @@ namespace CafeTime.EditorTools
             {
                 Speech = BuildSpeech(main),
                 CupShelf = StationUiBuilder.BuildCupShelf(main),
-                Espresso = StationUiBuilder.BuildEspresso(main),
+                Espresso = StationUiBuilder.BuildEspresso(main, managers.Business.GetComponent<CafeTime.EspressoShot.EspressoMachine>()),
                 IceMaker = StationUiBuilder.BuildIceMaker(main),
                 Water = StationUiBuilder.BuildWater(main),
                 DrinkRoom = StationUiBuilder.BuildDrinkRoom(main),

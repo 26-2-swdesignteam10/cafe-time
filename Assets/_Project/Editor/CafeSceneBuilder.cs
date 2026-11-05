@@ -276,7 +276,7 @@ namespace CafeTime.EditorTools
             go.AddComponent<HandInventory>();
             // 기기 상태 (기기 화면을 닫아도 유지, ADR-0014)
             go.AddComponent<CupShelf>();
-            go.AddComponent<EspressoBar>();
+            go.AddComponent<CafeTime.EspressoShot.EspressoMachine>();
             go.AddComponent<IceMaker>();
             go.AddComponent<WaterDispenser>();
             go.AddComponent<DrinkStation>();
@@ -335,14 +335,14 @@ namespace CafeTime.EditorTools
                 so.FindProperty("promptHeight").floatValue = size.y - Mathf.Min(size.y, 1f) + 0.35f;
                 Set(so, "highlight", highlight.gameObject);
                 so.ApplyModifiedPropertiesWithoutUndo();
-                Connect(interactable.OnInteract, s, ui, go);
+                Connect(interactable.OnInteract, s, ui, go, business);
                 AddWorkStatus(s.screen, business, go, size.y);
                 highlight.gameObject.SetActive(false);
             }
         }
 
         static void Connect(UnityEvent onInteract, (string name, string action, string sprite, float x, float y, Screen screen) s,
-            CafeUiBuilder.Screens ui, GameObject station)
+            CafeUiBuilder.Screens ui, GameObject station, GameObject business)
         {
             switch (s.screen)
             {
@@ -361,7 +361,9 @@ namespace CafeTime.EditorTools
                     UnityEventTools.AddVoidPersistentListener(onInteract, ui.Dessert.Open);
                     break;
                 case Screen.CupShelf: Open(onInteract, ui.CupShelf); break;
-                case Screen.Espresso: Open(onInteract, ui.Espresso); break;
+                case Screen.Espresso: // 완료 아이콘 지우기(SFR-022)까지 EspressoMachine.Open 이 처리
+                    UnityEventTools.AddVoidPersistentListener(onInteract, business.GetComponent<CafeTime.EspressoShot.EspressoMachine>().Open);
+                    break;
                 case Screen.IceMaker: Open(onInteract, ui.IceMaker); break;
                 case Screen.Water: Open(onInteract, ui.Water); break;
                 case Screen.DrinkRoom: Open(onInteract, ui.DrinkRoom); break;
@@ -382,7 +384,7 @@ namespace CafeTime.EditorTools
         {
             MonoBehaviour source = screen switch
             {
-                Screen.Espresso => business.GetComponent<EspressoBar>(),
+                Screen.Espresso => business.GetComponent<CafeTime.EspressoShot.EspressoMachine>(),
                 Screen.Water => business.GetComponent<WaterDispenser>(),
                 Screen.ShakeRoom => business.GetComponent<Blender>(),
                 Screen.Dishwash => business.GetComponent<DishStation>(),

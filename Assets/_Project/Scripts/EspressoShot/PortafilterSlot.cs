@@ -1,3 +1,4 @@
+using CafeTime.Cafe;
 using UnityEngine;
 
 namespace CafeTime.EspressoShot
@@ -17,6 +18,8 @@ namespace CafeTime.EspressoShot
         public SlotType type;
         [Tooltip("처음부터 이 자리에 놓여 있을 포터필터")]
         public Portafilter startingPortafilter;
+        [Tooltip("GroupHead 만: 아래 컵 자리 (SFR-034). 비워 두면 컵 없이 추출")]
+        public ShotCupSlot cup;
 
         public Portafilter Current { get; private set; }
         public bool Locked { get; set; }   // 추출/분쇄 중에는 분리 불가
@@ -30,15 +33,11 @@ namespace CafeTime.EspressoShot
         // 드롭 시 호출. false면 포터필터는 원래 자리로 돌아감.
         public bool TryAccept(Portafilter pf)
         {
-            if (Current != null && Current != pf)
-            {
-                EspressoToast.Show("이미 포터필터가 있습니다.");
-                return false;
-            }
+            if (Current != null && Current != pf) return false; // 이미 다른 포터필터가 있음
             // SFR-033: 탬핑 완료된 것만 그룹헤드에 장착
             if (type == SlotType.GroupHead && pf.State != PortafilterState.Tamped)
             {
-                EspressoToast.Show("탬핑을 완료한 포터필터만 장착할 수 있습니다.");
+                Toast.Show(ToastMessage.TampedOnly);
                 return false;
             }
             pf.AttachTo(this);
@@ -49,7 +48,7 @@ namespace CafeTime.EspressoShot
         internal void Place(Portafilter pf)
         {
             Current = pf;
-            // 넉박스에 사용 완료(찌꺼기) 포터필터를 두드리면 빈 필터로 (가정)
+            // SFR-036: 넉박스에 사용 완료(찌꺼기) 포터필터를 두드리면 빈 필터로
             if (type == SlotType.Knockbox && pf.State == PortafilterState.Used)
                 pf.SetState(PortafilterState.Empty);
         }
