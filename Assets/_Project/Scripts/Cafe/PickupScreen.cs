@@ -35,7 +35,8 @@ namespace CafeTime.Cafe
 
         public void PlaceFromHand(PickupSlotView slot, int hand)
         {
-            if (slot.Item != null || HandInventory.Instance[hand] == null) return;
+            // 완성 음료·디저트만 놓을 수 있다 (만드는 중인 잔, 샷 컵 등은 불가)
+            if (slot.Item != null || HandInventory.Instance[hand] == null || !HandInventory.Instance[hand].Servable) return;
             slot.Item = HandInventory.Instance.Take(hand);
             selected = slot; // 놓자마자 주문표를 누르면 배정되도록
             Refresh();

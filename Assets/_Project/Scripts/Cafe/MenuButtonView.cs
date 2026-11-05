@@ -23,7 +23,7 @@ namespace CafeTime.Cafe
             detailText.text = $"₩{menu.Price:N0}";
             if (icon != null)
             {
-                icon.sprite = ItemIcons.Instance != null ? ItemIcons.Instance.For(menu, menu.IsDessert ? Temperature.None : Temperature.Ice) : null;
+                icon.sprite = ItemIcons.ForMenu(menu, menu.IsDessert ? Temperature.None : Temperature.Ice);
                 icon.enabled = icon.sprite != null;
             }
             button.onClick.AddListener(() => onClick(menu));

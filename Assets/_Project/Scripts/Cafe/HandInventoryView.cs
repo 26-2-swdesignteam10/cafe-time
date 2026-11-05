@@ -39,7 +39,7 @@ namespace CafeTime.Cafe
 
         void Refresh()
         {
-            foreach (var slot in slots) slot.Refresh(HandInventory.Instance[slot.Hand]);
+            foreach (var slot in slots) slot.Refresh(HandInventory.Instance[slot.Hand], HandInventory.Instance.Selected == slot.Hand);
         }
 
         public void OpenMenu(HandSlotView slot)

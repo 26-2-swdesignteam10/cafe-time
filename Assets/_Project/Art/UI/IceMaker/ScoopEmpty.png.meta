@@ -1,0 +1,1042 @@
+fileFormatVersion: 2
+guid: 8890fe071eb204242a454f2a881e52a6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2499746170221462329
+    second: ScoopEmpty_0
+  - first:
+      213: -7301357353121563713
+    second: ScoopEmpty_1
+  - first:
+      213: -4134208979950454670
+    second: ScoopEmpty_2
+  - first:
+      213: 9193859123419917648
+    second: ScoopEmpty_3
+  - first:
+      213: 4669210422780111997
+    second: ScoopEmpty_4
+  - first:
+      213: 6831033446643912188
+    second: ScoopEmpty_5
+  - first:
+      213: -9067498165110184406
+    second: ScoopEmpty_6
+  - first:
+      213: 495415581955576575
+    second: ScoopEmpty_7
+  - first:
+      213: -3183375388324341046
+    second: ScoopEmpty_8
+  - first:
+      213: -8453867709702564808
+    second: ScoopEmpty_9
+  - first:
+      213: 700019635088098438
+    second: ScoopEmpty_10
+  - first:
+      213: 5648306682370099140
+    second: ScoopEmpty_11
+  - first:
+      213: 6168302980980080656
+    second: ScoopEmpty_12
+  - first:
+      213: 456819426285706164
+    second: ScoopEmpty_13
+  - first:
+      213: -4631999275672618615
+    second: ScoopEmpty_14
+  - first:
+      213: 6457064301981507788
+    second: ScoopEmpty_15
+  - first:
+      213: -1912771135368400669
+    second: ScoopEmpty_16
+  - first:
+      213: -2561010350058977846
+    second: ScoopEmpty_17
+  - first:
+      213: -4526275789965481618
+    second: ScoopEmpty_18
+  - first:
+      213: -7906824745862526937
+    second: ScoopEmpty_19
+  - first:
+      213: -1176887086290166678
+    second: ScoopEmpty_20
+  - first:
+      213: 1578662360904382256
+    second: ScoopEmpty_21
+  - first:
+      213: -4694448210532264508
+    second: ScoopEmpty_22
+  - first:
+      213: -9135508777569274372
+    second: ScoopEmpty_23
+  - first:
+      213: -87123442435374071
+    second: ScoopEmpty_24
+  - first:
+      213: 5374372158521103801
+    second: ScoopEmpty_25
+  - first:
+      213: -7554538155644224398
+    second: ScoopEmpty_26
+  - first:
+      213: -3576561665518061224
+    second: ScoopEmpty_27
+  - first:
+      213: 5670043552300715512
+    second: ScoopEmpty_28
+  - first:
+      213: -8961314186004572728
+    second: ScoopEmpty_29
+  - first:
+      213: -8099884094981197755
+    second: ScoopEmpty_30
+  - first:
+      213: -3233138632432270510
+    second: ScoopEmpty_31
+  - first:
+      213: 2398067790703857255
+    second: ScoopEmpty_32
+  - first:
+      213: 1803505802008209535
+    second: ScoopEmpty_33
+  - first:
+      213: -6446163385752177304
+    second: ScoopEmpty_34
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ScoopEmpty_0
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 87
+        width: 1450
+        height: 856
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cc7e473a1e1f4dd0800000000000000
+      internalID: -2499746170221462329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_1
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 795
+        width: 60
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbbb00deb2e5caa90800000000000000
+      internalID: -7301357353121563713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_2
+      rect:
+        serializedVersion: 2
+        x: 573
+        y: 842
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 278b2d236d650a6c0800000000000000
+      internalID: -4134208979950454670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_3
+      rect:
+        serializedVersion: 2
+        x: 793
+        y: 784
+        width: 132
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05dad6e5926279f70800000000000000
+      internalID: 9193859123419917648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_4
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 796
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7c2c57142e5cc040800000000000000
+      internalID: 4669210422780111997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_5
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 800
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfdc5043ab4bcce50800000000000000
+      internalID: 6831033446643912188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_6
+      rect:
+        serializedVersion: 2
+        x: 759
+        y: 796
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a26e913e576c92280800000000000000
+      internalID: -9067498165110184406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_7
+      rect:
+        serializedVersion: 2
+        x: 1446
+        y: 407
+        width: 54
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff2d7a2d8d110e600800000000000000
+      internalID: 495415581955576575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_8
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 289
+        width: 315
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acad43853f062d3d0800000000000000
+      internalID: -3183375388324341046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_9
+      rect:
+        serializedVersion: 2
+        x: 938
+        y: 257
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8349809cb14ddaa80800000000000000
+      internalID: -8453867709702564808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_10
+      rect:
+        serializedVersion: 2
+        x: 1173
+        y: 245
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68489353628f6b900800000000000000
+      internalID: 700019635088098438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_11
+      rect:
+        serializedVersion: 2
+        x: 1215
+        y: 217
+        width: 60
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c782296001d26e40800000000000000
+      internalID: 5648306682370099140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_12
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 247
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0100d4051e63a9550800000000000000
+      internalID: 6168302980980080656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_13
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 245
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bbd14e09d2f65600800000000000000
+      internalID: 456819426285706164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_14
+      rect:
+        serializedVersion: 2
+        x: 1123
+        y: 223
+        width: 49
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 989baad3335d7bfb0800000000000000
+      internalID: -4631999275672618615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_15
+      rect:
+        serializedVersion: 2
+        x: 1193
+        y: 225
+        width: 20
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc0a67b85c91c9950800000000000000
+      internalID: 6457064301981507788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_16
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 225
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e0feb369c87475e0800000000000000
+      internalID: -1912771135368400669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_17
+      rect:
+        serializedVersion: 2
+        x: 972
+        y: 223
+        width: 32
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac5c2aac7a6757cd0800000000000000
+      internalID: -2561010350058977846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_18
+      rect:
+        serializedVersion: 2
+        x: 1045
+        y: 223
+        width: 7
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6928a776207f21c0800000000000000
+      internalID: -4526275789965481618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_19
+      rect:
+        serializedVersion: 2
+        x: 1067
+        y: 223
+        width: 39
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 728889929c0554290800000000000000
+      internalID: -7906824745862526937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_20
+      rect:
+        serializedVersion: 2
+        x: 1171
+        y: 223
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6c1ee03e6bdaafe0800000000000000
+      internalID: -1176887086290166678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_21
+      rect:
+        serializedVersion: 2
+        x: 1211
+        y: 229
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0373cf99d0988e510800000000000000
+      internalID: 1578662360904382256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_22
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 209
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c591ca8938f9deb0800000000000000
+      internalID: -4694448210532264508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_23
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 176
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf535863b27283180800000000000000
+      internalID: -9135508777569274372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_24
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 167
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 904c702d0b97acef0800000000000000
+      internalID: -87123442435374071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_25
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 119
+        width: 27
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b55667e00b959a40800000000000000
+      internalID: 5374372158521103801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_26
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 129
+        width: 11
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27cf0b6b293e82790800000000000000
+      internalID: -7554538155644224398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_27
+      rect:
+        serializedVersion: 2
+        x: 496
+        y: 129
+        width: 25
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85934895d108d5ec0800000000000000
+      internalID: -3576561665518061224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_28
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 129
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fdc0e3d19a00be40800000000000000
+      internalID: 5670043552300715512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_29
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 125
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c557861a3403a380800000000000000
+      internalID: -8961314186004572728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_30
+      rect:
+        serializedVersion: 2
+        x: 545
+        y: 127
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5403fc4a45e679f80800000000000000
+      internalID: -8099884094981197755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_31
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 119
+        width: 36
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25348403b859123d0800000000000000
+      internalID: -3233138632432270510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_32
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 131
+        width: 13
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76e853c33f5a74120800000000000000
+      internalID: 2398067790703857255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_33
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 130
+        width: 17
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f782e07b8f6570910800000000000000
+      internalID: 1803505802008209535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScoopEmpty_34
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 125
+        width: 17
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 865bc1ccd80aa86a0800000000000000
+      internalID: -6446163385752177304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ScoopEmpty_0: -2499746170221462329
+      ScoopEmpty_1: -7301357353121563713
+      ScoopEmpty_10: 700019635088098438
+      ScoopEmpty_11: 5648306682370099140
+      ScoopEmpty_12: 6168302980980080656
+      ScoopEmpty_13: 456819426285706164
+      ScoopEmpty_14: -4631999275672618615
+      ScoopEmpty_15: 6457064301981507788
+      ScoopEmpty_16: -1912771135368400669
+      ScoopEmpty_17: -2561010350058977846
+      ScoopEmpty_18: -4526275789965481618
+      ScoopEmpty_19: -7906824745862526937
+      ScoopEmpty_2: -4134208979950454670
+      ScoopEmpty_20: -1176887086290166678
+      ScoopEmpty_21: 1578662360904382256
+      ScoopEmpty_22: -4694448210532264508
+      ScoopEmpty_23: -9135508777569274372
+      ScoopEmpty_24: -87123442435374071
+      ScoopEmpty_25: 5374372158521103801
+      ScoopEmpty_26: -7554538155644224398
+      ScoopEmpty_27: -3576561665518061224
+      ScoopEmpty_28: 5670043552300715512
+      ScoopEmpty_29: -8961314186004572728
+      ScoopEmpty_3: 9193859123419917648
+      ScoopEmpty_30: -8099884094981197755
+      ScoopEmpty_31: -3233138632432270510
+      ScoopEmpty_32: 2398067790703857255
+      ScoopEmpty_33: 1803505802008209535
+      ScoopEmpty_34: -6446163385752177304
+      ScoopEmpty_4: 4669210422780111997
+      ScoopEmpty_5: 6831033446643912188
+      ScoopEmpty_6: -9067498165110184406
+      ScoopEmpty_7: 495415581955576575
+      ScoopEmpty_8: -3183375388324341046
+      ScoopEmpty_9: -8453867709702564808
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

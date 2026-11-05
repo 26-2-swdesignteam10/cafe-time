@@ -20,6 +20,7 @@ namespace CafeTime.Cafe
         public float MaxPatience { get; set; }
         public float WaitedSeconds { get; set; }      // 주문 후 서빙까지 걸린 시간 (만족도)
         public float StayLeft { get; set; }
+        public List<HeldItem> Served { get; set; }    // 받은 음료·디저트 (퇴식구 쟁반 내용, SFR-060)
         public WorldGauge Gauge { get; set; }
 
         public Customer Leader => Members[0];

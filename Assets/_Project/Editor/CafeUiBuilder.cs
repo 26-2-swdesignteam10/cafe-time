@@ -30,14 +30,21 @@ namespace CafeTime.EditorTools
             public PosScreen Pos;
             public PickupScreen Pickup;
             public DessertShowcaseScreen Dessert;
-            public TempDrinkMakerScreen DrinkBar;
-            public TempDrinkMakerScreen ShakeBar;
-            public StationScreenPlaceholder Placeholder;
+            public CupShelfScreen CupShelf;
+            public EspressoScreen Espresso;
+            public IceMakerScreen IceMaker;
+            public WaterScreen Water;
+            public DrinkRoomScreen DrinkRoom;
+            public ShakeRoomScreen ShakeRoom;
+            public TrayReturnScreen TrayReturn;
+            public DishwashScreen Dishwash;
+            public PauseMenu Pause;
         }
 
         public static Screens Build(CafeSceneBuilder.Managers managers)
         {
             foreach (var folder in new[] { Hud, Pos, Stations, OpenPrep, Settlement }) PrepareSprites(folder);
+            StationUiBuilder.PrepareAll();
             new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
 
             // 기기 화면 아래, HUD(주문표·양손 칸·안내)는 기기 화면 위에 그린다 → 픽업대 화면에서 손 칸을 끌고 주문표를 누를 수 있음
@@ -47,10 +54,15 @@ namespace CafeTime.EditorTools
             var hud = BuildStatus(main);
             var screens = new Screens
             {
-                Placeholder = BuildPlaceholder(main),
                 Speech = BuildSpeech(main),
-                DrinkBar = BuildMaker(main, "DrinkBarScreen", "DrinkBarPanel", new[] { MenuCategory.Coffee, MenuCategory.Beverage }),
-                ShakeBar = BuildMaker(main, "ShakeBarScreen", "ShakeBarPanel", new[] { MenuCategory.Smoothie }),
+                CupShelf = StationUiBuilder.BuildCupShelf(main),
+                Espresso = StationUiBuilder.BuildEspresso(main),
+                IceMaker = StationUiBuilder.BuildIceMaker(main),
+                Water = StationUiBuilder.BuildWater(main),
+                DrinkRoom = StationUiBuilder.BuildDrinkRoom(main),
+                ShakeRoom = StationUiBuilder.BuildShakeRoom(main),
+                TrayReturn = StationUiBuilder.BuildTrayReturn(main, GameBalance.Instance.TrayReturnSlots),
+                Dishwash = StationUiBuilder.BuildDishwash(main),
                 Dessert = BuildDessert(main),
                 Pickup = BuildPickup(main),
             };
@@ -63,6 +75,7 @@ namespace CafeTime.EditorTools
             BuildToast(overlay);
             var banner = Centered("ClosedBanner", overlay, 0, 100, 900, 220);
             AddImage(banner, LoadSprite($"{Hud}/BannerClosed.png"), Cream);
+            screens.Pause = StationUiBuilder.BuildPause(overlay); // HUD 위
 
             var day = new SerializedObject(managers.Day);
             Set(day, "clock", managers.Clock);
@@ -204,20 +217,16 @@ namespace CafeTime.EditorTools
             var so = new SerializedObject(toast);
             Set(so, "panel", panel.gameObject);
             Set(so, "label", label);
-            SetArray(so, "messages", new Object[]
-            {
-                LoadSprite($"{Hud}/ToastNoCustomer.png"),
-                LoadSprite($"{Hud}/ToastHandsFull.png"),
-                LoadSprite($"{Hud}/ToastNoStock.png"),
-                LoadSprite($"{Hud}/ToastEntryClosed.png"),
-            });
+            // ToastMessage 순서. 파일 이름 = "Toast" + 값 이름
+            SetArray(so, "messages", System.Enum.GetNames(typeof(ToastMessage))
+                .Select(n => (Object)LoadSprite($"{Hud}/Toast{n}.png")).ToArray());
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         // ───────── 팝업 공통 ─────────
 
         // 반투명 배경 + 가운데 창. 창 크기는 그림 기준 좌표계, scale 로 화면 크기 조절
-        static (T popup, RectTransform window) Window<T>(Transform canvas, string name, Sprite panel, float width, float height,
+        internal static (T popup, RectTransform window) Window<T>(Transform canvas, string name, Sprite panel, float width, float height,
             float y = 0, float scale = 1f, float dim = 0.45f) where T : Popup
         {
             var root = NewUI(name, canvas);
@@ -232,12 +241,12 @@ namespace CafeTime.EditorTools
             return (popup, window);
         }
 
-        static Button CloseButton(RectTransform window, float x, float y, float size = 64)
+        internal static Button CloseButton(RectTransform window, float x, float y, float size = 64)
         {
             return AddButton(TopLeft("CloseButton", window, x, y, size, size), LoadSprite(CloseIcon), Cream);
         }
 
-        static void SetClose(Popup popup, Button close)
+        internal static void SetClose(Popup popup, Button close)
         {
             var so = new SerializedObject(popup);
             Set(so, "closeButton", close);
@@ -300,17 +309,6 @@ namespace CafeTime.EditorTools
         }
 
         // ───────── 기기 화면 ─────────
-
-        static StationScreenPlaceholder BuildPlaceholder(Transform canvas)
-        {
-            var (popup, window) = Window<StationScreenPlaceholder>(canvas, "StationScreenPlaceholder", LoadSprite(QuitPanel), 1000, 650);
-            var so = new SerializedObject(popup);
-            Set(so, "titleText", AddText(TopLeft("StationName", window, 100, 240, 800, 80), "", 52, DarkCoffee));
-            so.ApplyModifiedPropertiesWithoutUndo();
-            Label(window, "Preparing", LoadSprite($"{Stations}/Preparing.png"), 500, 380, PivotCenter);
-            SetClose(popup, CloseButton(window, 880, 150));
-            return popup;
-        }
 
         // 손님 주문 대사 (SFR-026)
         static SpeechPopup BuildSpeech(Transform canvas)
@@ -406,24 +404,6 @@ namespace CafeTime.EditorTools
             Set(so, "sumText", AddText(TopLeft("Sum", window, 245, 624, 300, 52), "₩0", 34, DarkCoffee, TextAlignmentOptions.Right));
             so.ApplyModifiedPropertiesWithoutUndo();
             SetClose(popup, AddButton(TopLeft("ConfirmButton", window, 170, 710, 300, 84), LoadSprite($"{Pos}/ConfirmButton.png"), Cream));
-            return popup;
-        }
-
-        // (임시) 음료 제조실 / 쉐이크 제조실 (ADR-0013)
-        static TempDrinkMakerScreen BuildMaker(Transform canvas, string name, string panel, MenuCategory[] categories)
-        {
-            var (popup, window) = Window<TempDrinkMakerScreen>(canvas, name, LoadSprite($"{Stations}/{panel}.png"), 1300, 760);
-            var so = new SerializedObject(popup);
-            var categoriesProp = so.FindProperty("categories");
-            categoriesProp.arraySize = categories.Length;
-            for (int i = 0; i < categories.Length; i++) categoriesProp.GetArrayElementAtIndex(i).enumValueIndex = (int)categories[i];
-            Set(so, "temperature", TemperatureButtons(window, 100, 175));
-            Label(window, "Hint", LoadSprite($"{Stations}/TempMakerHint.png"), 390, 203, PivotLeft);
-            var grid = Grid(window, "Menus", 100, 255, 1100, 440, new Vector2(260, 98), 4);
-            Set(so, "menuContainer", grid);
-            Set(so, "menuTemplate", MenuTemplate(grid, LoadSprite($"{Pos}/MenuButton.png"), new Vector2(260, 98), false));
-            so.ApplyModifiedPropertiesWithoutUndo();
-            SetClose(popup, CloseButton(window, 1166, 66));
             return popup;
         }
 

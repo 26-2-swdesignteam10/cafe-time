@@ -46,11 +46,18 @@ namespace CafeTime.Cafe
                 Toast.Show(ToastMessage.NoStock);
                 return;
             }
-            if (!HandInventory.Instance.TryAdd(new HeldItem(menu, Temperature.None, DrinkGrade.Perfect)))
+            if (!HandInventory.Instance.HasSpace)
             {
                 Toast.Show(ToastMessage.HandsFull);
                 return;
             }
+            // 디저트는 접시에 담아 꺼낸다. 접시는 설거지·건조 후 돌아옴 (SFR-064)
+            if (!CupShelf.Instance.TryTakePlate())
+            {
+                Toast.Show(ToastMessage.NoPlate);
+                return;
+            }
+            HandInventory.Instance.TryAdd(new DessertItem(menu));
             Save.AddStock(menu.StockId, -1);
             Refresh();
         }

@@ -56,6 +56,76 @@ namespace CafeTime.Core
         [Tooltip("이 양보다 적으면 HUD 재고를 경고색으로 (기본 단위, SFR-013)")]
         [SerializeField] int lowStockWarning = 5;
 
+        [Header("레시피 (SFR-051) — 정량 임시값")]
+        [SerializeField] List<RecipeDefinition> recipes = DefaultRecipes();
+        [Tooltip("재료별 오차 비율이 이 값 이하면 '완벽'")]
+        [SerializeField] float perfectTolerance = 0.1f;
+        [Tooltip("이 값 이하면 '좋음', 넘으면 '나쁨'")]
+        [SerializeField] float goodTolerance = 0.25f;
+
+        [Header("커피잔·접시 (SFR-028, 064) — 임시값. 매일 영업 시작 때 모두 선반에 있다")]
+        [SerializeField] int ceramicCups = 8;
+        [SerializeField] int plasticCups = 10;
+        [SerializeField] int plates = 6;
+
+        [Header("에스프레소 머신 (SFR-031, 035)")]
+        [SerializeField] float grindSeconds = 5f;
+        [SerializeField] float extractSeconds = 5f;
+
+        [Header("제빙기 (SFR-038, 039) — 임시값")]
+        [SerializeField] int iceMax = 24;
+        [Tooltip("얼음 1개를 만드는 시간 (실제 초)")]
+        [SerializeField] float iceSecondsPerCube = 3f;
+        [Tooltip("스쿱 1회에 담는 얼음 개수")]
+        [SerializeField] int icePerScoop = 4;
+
+        [Header("정수기 (SFR-043) — 임시값")]
+        [SerializeField] float waterSeconds = 3f;
+        [SerializeField] float waterAmount = 200f;
+
+        [Header("음료·쉐이크 제조실 (SFR-046, 047, 053, 054) — 임시값")]
+        [Tooltip("시럽·청·연유 클릭 1회 투입량 (g)")]
+        [SerializeField] float syrupPerClick = 10f;
+        [Tooltip("스무디 원액 클릭 1회 투입량 (g)")]
+        [SerializeField] float smoothiePerClick = 50f;
+        [Tooltip("우유·탄산수를 누르고 있을 때 1초에 부어지는 양 (g)")]
+        [SerializeField] float pourPerSecond = 50f;
+        [Tooltip("저울에 표시되는 샷 1개 무게 (g)")]
+        [SerializeField] float shotWeight = 30f;
+        [Tooltip("저울에 표시되는 얼음 스쿱 1회 무게 (g)")]
+        [SerializeField] float iceScoopWeight = 100f;
+        [SerializeField] float teabagWeight = 2f;
+        [SerializeField] float blendSeconds = 5f;
+
+        [Header("퇴식구·설거지 (SFR-060, 064, 065) — 임시값")]
+        [SerializeField] int trayReturnSlots = 4;
+        [Range(0f, 1f)] [SerializeField] float napkinChance = 0.5f;
+        [Tooltip("얼룩을 다 지우는 데 필요한 수세미 이동 거리 (화면 px)")]
+        [SerializeField] float scrubDistance = 1200f;
+        [SerializeField] float dryingSeconds = 15f;
+
+        [Header("청소 요청 (SFR-066) — 임시값")]
+        [SerializeField] float cleaningTimeLimit = 90f;
+        [Tooltip("DAY 1 무작위 청소 요청 간격 (실제 초)")]
+        [SerializeField] float cleaningInterval = 300f;
+        [Tooltip("DAY가 지날 때마다 간격에 곱하는 값")]
+        [SerializeField] float cleaningIntervalPerDay = 0.92f;
+
+        [Header("점수 (SFR-068) — 임시값")]
+        [SerializeField] int pointsPerOrder = 100;
+        [Tooltip("손님 만족도(0~100) 1점당 점수")]
+        [SerializeField] float pointsPerSatisfaction = 1f;
+        [SerializeField] int penaltyLost = 100;
+        [SerializeField] int penaltyDiscarded = 20;
+        [SerializeField] int penaltyTrayLeft = 50;
+        [SerializeField] int penaltyCleaning = 50;
+
+        [Header("엔딩 (SFR-073) — 임시값. 최종 수익 = 최종 보유금 - 시작 자금")]
+        [SerializeField] int ending03Profit = 150000;
+        [SerializeField] float ending03Reputation = 3f;
+        [SerializeField] int ending04Profit = 600000;
+        [SerializeField] float ending04Reputation = 4f;
+
         static GameBalance instance;
 
         public static GameBalance Instance
@@ -93,6 +163,49 @@ namespace CafeTime.Core
         public float NeutralSatisfaction => neutralSatisfaction;
         public float MaxReputationChange => maxReputationChange;
         public int LowStockWarning => lowStockWarning;
+
+        public IReadOnlyList<RecipeDefinition> Recipes => recipes;
+        public float PerfectTolerance => perfectTolerance;
+        public float GoodTolerance => goodTolerance;
+        public int CeramicCups => ceramicCups;
+        public int PlasticCups => plasticCups;
+        public int Plates => plates;
+        public float GrindSeconds => grindSeconds;
+        public float ExtractSeconds => extractSeconds;
+        public int IceMax => iceMax;
+        public float IceSecondsPerCube => iceSecondsPerCube;
+        public int IcePerScoop => icePerScoop;
+        public float WaterSeconds => waterSeconds;
+        public float WaterAmount => waterAmount;
+        public float SyrupPerClick => syrupPerClick;
+        public float SmoothiePerClick => smoothiePerClick;
+        public float PourPerSecond => pourPerSecond;
+        public float ShotWeight => shotWeight;
+        public float IceScoopWeight => iceScoopWeight;
+        public float TeabagWeight => teabagWeight;
+        public float BlendSeconds => blendSeconds;
+        public int TrayReturnSlots => trayReturnSlots;
+        public float NapkinChance => napkinChance;
+        public float ScrubDistance => scrubDistance;
+        public float DryingSeconds => dryingSeconds;
+        public float CleaningTimeLimit => cleaningTimeLimit;
+        public float CleaningInterval => cleaningInterval;
+        public float CleaningIntervalPerDay => cleaningIntervalPerDay;
+        public int PointsPerOrder => pointsPerOrder;
+        public float PointsPerSatisfaction => pointsPerSatisfaction;
+        public int PenaltyLost => penaltyLost;
+        public int PenaltyDiscarded => penaltyDiscarded;
+        public int PenaltyTrayLeft => penaltyTrayLeft;
+        public int PenaltyCleaning => penaltyCleaning;
+        public int Ending03Profit => ending03Profit;
+        public float Ending03Reputation => ending03Reputation;
+        public int Ending04Profit => ending04Profit;
+        public float Ending04Reputation => ending04Reputation;
+
+        // 재료 클릭 1회 투입량 (SFR-046, 053). 티백은 1개
+        public float AmountPerClick(IngredientDefinition ingredient) =>
+            ingredient.Category == IngredientCategory.Smoothie ? smoothiePerClick :
+            ingredient.Category == IngredientCategory.Tea ? 1f : syrupPerClick;
 
         public int GetRent(int day) => rentByDay[Mathf.Clamp(day - 1, 0, rentByDay.Length - 1)];
 
@@ -142,6 +255,60 @@ namespace CafeTime.Core
                 new("croissant", "크루아상", dessert, 4000, false, false, "dessert_croissant"),
                 new("cookie", "쿠키", dessert, 3000, false, false, "dessert_cookie"),
             };
+        }
+
+        // 메뉴별 레시피 (SFR-051, 정량 임시). HOT = 도자기 잔, ICE = 플라스틱 컵 + 얼음 1스쿱
+        static List<RecipeDefinition> DefaultRecipes()
+        {
+            const Temperature hot = Temperature.Hot;
+            const Temperature ice = Temperature.Ice;
+            static RecipeAmount A(string key, float amount) => new RecipeAmount(key, amount);
+            var shot = A(RecipeKeys.Shot, 1);
+            var cube = A(RecipeKeys.Ice, 1);
+            var hotWater = A(RecipeKeys.HotWater, 200);
+            var coldWater = A(RecipeKeys.ColdWater, 200);
+            var milk = A("milk", 200);
+            var soda = A("soda", 200);
+            var list = new List<RecipeDefinition>
+            {
+                new("americano", hot, shot, hotWater),
+                new("americano", ice, shot, coldWater, cube),
+            };
+            // 라떼류: 샷 + (시럽) + 우유
+            foreach (var (id, syrup, grams) in new[]
+                     {
+                         ("cafe_latte", "", 0f), ("vanilla_latte", "syrup_vanilla", 20f), ("caramel_macchiato", "syrup_caramel", 20f),
+                         ("hazelnut_latte", "syrup_hazelnut", 20f), ("cafe_mocha", "syrup_chocolate", 30f), ("condensed_latte", "condensed_milk", 30f),
+                     })
+            {
+                var parts = new List<RecipeAmount> { shot };
+                if (syrup != "") parts.Add(A(syrup, grams));
+                parts.Add(milk);
+                list.Add(new RecipeDefinition(id, hot, parts.ToArray()));
+                parts.Add(cube);
+                list.Add(new RecipeDefinition(id, ice, parts.ToArray()));
+            }
+            list.Add(new("strawberry_latte", ice, A("cheong_strawberry", 40), milk, cube));
+            list.Add(new("grapefruit_ade", ice, A("cheong_grapefruit", 40), soda, cube));
+            list.Add(new("yuja_ade", ice, A("cheong_yuja", 40), soda, cube));
+            list.Add(new("strawberry_ade", ice, A("cheong_strawberry", 40), soda, cube));
+            list.Add(new("blue_lemon_ade", ice, A("syrup_blue", 30), A("syrup_plain", 10), soda, cube));
+            list.Add(new("yuja_tea", hot, A("cheong_yuja", 40), hotWater));
+            list.Add(new("grapefruit_tea", hot, A("cheong_grapefruit", 40), hotWater));
+            foreach (var (id, bag) in new[] { ("chamomile", "tea_chamomile"), ("earl_grey", "tea_earlgrey") })
+            {
+                list.Add(new RecipeDefinition(id, hot, A(bag, 1), hotWater));
+                list.Add(new RecipeDefinition(id, ice, A(bag, 1), coldWater, cube));
+            }
+            // 스무디·쉐이크 (믹서기): 원액 + 우유 + 얼음 1스쿱
+            foreach (var (id, fruit) in new[]
+                     {
+                         ("strawberry_smoothie", "smoothie_strawberry"), ("mango_smoothie", "smoothie_mango"),
+                         ("hallabong_smoothie", "smoothie_hallabong"), ("melon_smoothie", "smoothie_melon"),
+                     })
+                list.Add(new RecipeDefinition(id, ice, A(fruit, 150), A("milk", 100), cube));
+            list.Add(new("cookie_shake", ice, A("smoothie_cookie", 150), A("milk", 150), cube));
+            return list;
         }
 
         static List<IngredientDefinition> DefaultIngredients()

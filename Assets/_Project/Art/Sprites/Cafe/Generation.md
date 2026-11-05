@@ -52,3 +52,24 @@ Unity 확인 순서:
 1. Unity 6000.6.4f1 에디터로 돌아가 새 PNG와 이 문서를 임포트한다. `.meta`는 에디터가 생성하게 한다.
 2. 새 스프라이트는 Sprite (2D and UI), Single, Pixels Per Unit 128, Point 필터, Mip Maps 끔, Alpha Is Transparency 켬, Pivot Bottom Center를 확인한다. 기존 타일의 임포트 설정과 `.meta`는 이번 작업에서 변경하지 않았다.
 3. Cafe 씬에서 타일 반복과 오브젝트 크기를 확인한다. 새 가구·기기의 씬 연결은 이번 이미지 제작 작업 범위에 포함하지 않았다.
+
+
+## 2026-11-04 — 기기 상태 말풍선과 테이블 쟁반
+
+Generated with OpenAI built-in image_gen (내장 이미지 생성 도구). Style reference: Assets/_Project/Art/Sprites/Cafe/Table.png; Assets/_Project/Art/Sprites/Cafe/StationEspresso.png.
+
+Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: style-transfer. ONE isolated world sprite, no sheet, no labels or text. Match reference pixel art, 2-3 flat shade blocks, no blur, no gradients. Dark coffee #380F00 stepped outline 3-4px at FINAL small size. Palette cream #FCF0CA #FAEAC2 #F7DCA5, walnut #90471B #5D2608, honey #C57D1F. Upper-left light. Transparent RGBA background, even 4px final transparent padding. 
+
+- WorkDone.png (96×96): ONE round cream speech bubble, short bottom-center tail, dark coffee outline, subtle honey-cream bevel; large clear GREEN CHECK MARK centered inside. NO letters. Exact FINAL canvas 96x96 pixels, NOT doubled. Design readable at this small size.
+- WorkBubble.png (96×96): ONE round cream speech bubble, short bottom-center tail, dark coffee outline, subtle honey-cream bevel; small simple walnut-and-honey HOURGLASS with sand centered inside. Identical bubble family to WorkDone. Exact FINAL canvas 96x96 pixels, NOT doubled. Design readable at this small size.
+- CleanRequest.png (96×96): ONE round cream speech bubble, short bottom-center tail, dark coffee outline, subtle honey-cream bevel; folded light-blue cleaning CLOTH with one cream-gold four-point SPARKLE inside. Identical bubble family to WorkDone. Exact FINAL canvas 96x96 pixels, NOT doubled. Design readable at this small size.
+- TrayOnTable.png (160×112): ONE brown walnut rectangular tray containing two used cups (one cream ceramic, one clear plastic), one crumpled cream napkin and one cream dessert plate with crumbs. Orthographic top-down 3/4 cafe map view matching Table.png tabletop and StationEspresso, horizontal front edge horizontal, vertical cup sides vertical, not isometric diamond. Top-left light. NO table, legs, furniture, background or shadow. Compact low tray fully visible. Exact FINAL canvas 160x112 pixels, NOT doubled. Design readable at this small size.
+
+최종 규격 및 검수:
+
+- 상태 말풍선 3종은 각각 96×96, TrayOnTable은 160×112 RGBA PNG이다. 투명 배경이며 글자는 없다.
+- 생성 원본의 알파 128 이상 영역을 기준으로 종횡비를 유지해 최근접 보간으로 축소했다. 최종 캔버스에서 최소 4px 여백을 확보하고 중앙 정렬했다. 알파는 0/255, 투명 픽셀 RGB는 0으로 정리했다.
+- 초록 체크, 모래시계, 파란 천과 반짝임을 최종 크기에서 육안으로 확인했다. 쟁반에는 사용한 컵 2개·구겨진 냅킨·부스러기가 있는 접시가 있으며, 기존 Table과 같은 수평 앞면의 3/4 시점을 확인했다.
+- 체크에는 초록색, 청소 천에는 옅은 파란색 보조색을 사용했다. 기존 월드 스프라이트와 .meta는 변경하지 않았다.
+- Unity 6000.6.4f1에서 임포트해 .meta를 생성한다. Sprite (2D and UI), Single, PPU 128, Point 필터, Mip Maps 끔, Alpha Is Transparency 켬, Bottom Center Pivot을 확인한다. 실제 씬에서 말풍선 위치와 쟁반 배치를 확인한다. 씬 연결과 스크립트 변경은 포함하지 않았다.
+

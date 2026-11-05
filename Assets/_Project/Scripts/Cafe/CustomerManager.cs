@@ -211,7 +211,8 @@ namespace CafeTime.Cafe
             float satisfaction = party.Satisfaction(items, balance.ServePatience);
             Result.ordersCompleted++;
             Result.satisfactionSum += satisfaction;
-            Result.drinksSold += items.Count(i => !i.Menu.IsDessert);
+            Result.drinksSold += items.Count(i => !(i is DessertItem));
+            party.Served = items.ToList();
 
             // 만족도가 높을수록 높은 확률로 팁, 보유 자금에 바로 더함
             if (Random.value < balance.MaxTipChance * satisfaction / 100f)
@@ -248,7 +249,13 @@ namespace CafeTime.Cafe
             if (party.Table.Party == party) party.Table.Party = null;
             party.Gauge.Show(false);
             party.Current = CustomerParty.State.Leaving;
-            // 쟁반 반납(퇴식구, SFR-057·060)은 퇴식구 구현 시 추가
+            // 다 마시고 떠나면 퇴식구에 쟁반 반납. 가득 차 있으면 테이블에 두고 감 → 청소 요청 (SFR-057, 060, 062)
+            if (party.Served != null)
+            {
+                var tray = Tray.FromServed(party.Served, balance);
+                if (!TrayReturn.Instance.TryReturn(tray)) CleaningManager.Instance.TrayLeft(party.Table, tray);
+                party.Served = null;
+            }
             foreach (var member in party.Members)
             {
                 var p = member.transform.position;

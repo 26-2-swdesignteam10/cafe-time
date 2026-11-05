@@ -17,6 +17,7 @@ namespace CafeTime.Cafe
             // Cafe 씬을 바로 Play 해도 동작하도록 (ADR-0011 미리보기 데이터)
             SaveSystem.EnsureCurrentForPreview();
             if (DayResult.Today == null) DayResult.StartNewDay();
+            Pantry.StartDay();
             closedBanner.SetActive(false);
         }
 
@@ -32,8 +33,7 @@ namespace CafeTime.Cafe
             closedBanner.SetActive(true);
             yield return new WaitForSecondsRealtime(bannerSeconds);
             DayResult.Today.reputationChange = ReputationChange(DayResult.Today, GameBalance.Instance);
-            // 득점 결과 화면(SFR-067)이 생기면 그 화면을 먼저 거친다
-            SceneLoader.Load(SceneNames.Settlement);
+            SceneLoader.Load(SceneNames.Score); // 득점 결과 → 하루 정산 (SFR-067, 071)
         }
 
         // 그날 손님 만족도 평균으로 평판 변동 (SFR-072, 기준은 임시값). 떠난 손님은 만족도 0으로 친다

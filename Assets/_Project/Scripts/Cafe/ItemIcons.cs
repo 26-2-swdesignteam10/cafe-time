@@ -3,40 +3,43 @@ using UnityEngine;
 
 namespace CafeTime.Cafe
 {
-    // 완성 음료·디저트 아이콘 (Art/Icons/Items, 디저트는 재료 아이콘 재사용)
+    // 물건 아이콘 (Art/Icons/Items). 디저트는 재료 아이콘을 재사용
     public class ItemIcons : MonoBehaviour
     {
-        [SerializeField] Sprite hotCoffee;
-        [SerializeField] Sprite iceCoffee;
-        [SerializeField] Sprite hotTea;
-        [SerializeField] Sprite iceDrink;
-        [SerializeField] Sprite smoothie;
+        [Tooltip("ItemSprite 순서대로")]
+        [SerializeField] Sprite[] sprites;
 
-        public static ItemIcons Instance { get; private set; }
+        static ItemIcons instance;
 
-        void Awake() => Instance = this;
+        void Awake() => instance = this;
 
         void OnDestroy()
         {
-            if (Instance == this) Instance = null;
+            if (instance == this) instance = null;
         }
 
-        public Sprite For(MenuDefinition menu, Temperature temperature)
+        public static Sprite Get(ItemSprite id) =>
+            instance != null && (int)id < instance.sprites.Length ? instance.sprites[(int)id] : null;
+
+        // 완성 음료·디저트 아이콘
+        public static Sprite ForMenu(MenuDefinition menu, Temperature temperature)
         {
             switch (menu.Category)
             {
                 case MenuCategory.Coffee:
-                    return temperature == Temperature.Hot ? hotCoffee : iceCoffee;
+                    return Get(temperature == Temperature.Hot ? ItemSprite.HotCoffee : ItemSprite.IceCoffee);
                 case MenuCategory.Beverage:
-                    return temperature == Temperature.Hot ? hotTea : iceDrink;
+                    return Get(temperature == Temperature.Hot ? ItemSprite.HotTea : ItemSprite.IceDrink);
                 case MenuCategory.Smoothie:
-                    return smoothie;
+                    return Get(ItemSprite.Smoothie);
                 default:
                     var ingredient = GameBalance.Instance.FindIngredient(menu.StockId);
                     return ingredient != null ? ingredient.Icon : null;
             }
         }
 
-        public static Sprite Of(HeldItem item) => Instance != null && item != null ? Instance.For(item.Menu, item.Temperature) : null;
+        public static Sprite Of(HeldItem item) => item?.Icon;
+
+        public static Sprite Of(TrayItemKind kind) => Get((ItemSprite)System.Enum.Parse(typeof(ItemSprite), kind.ToString()));
     }
 }

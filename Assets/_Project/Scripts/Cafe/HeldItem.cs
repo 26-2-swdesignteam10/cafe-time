@@ -1,21 +1,19 @@
 using CafeTime.Core;
+using UnityEngine;
 
 namespace CafeTime.Cafe
 {
-    // 손에 들거나 픽업대에 올린 완성 음료·디저트 1개 (SFR-021, 056)
-    public class HeldItem
+    // 손에 들 수 있는 물건 1개 (SFR-021): 커피잔, 샷 컵, 얼음 스쿱, 디저트, 행주 (ADR-0014)
+    public abstract class HeldItem
     {
-        public MenuDefinition Menu { get; }
-        public Temperature Temperature { get; }
-        public DrinkGrade Grade { get; }
+        public abstract Sprite Icon { get; }
 
-        public HeldItem(MenuDefinition menu, Temperature temperature, DrinkGrade grade)
-        {
-            Menu = menu;
-            Temperature = temperature;
-            Grade = grade;
-        }
+        // 픽업대에 올릴 수 있는 완성 음료·디저트인지 (SFR-056)
+        public virtual bool Servable => false;
 
-        public string Label => OrderText.ItemLabel(Menu, Temperature);
+        // 서빙 판정용 (SFR-068). 완성 음료·디저트가 아니거나 실패한 음료면 null
+        public virtual MenuDefinition Menu => null;
+        public virtual Temperature Temperature => Temperature.None;
+        public virtual DrinkGrade Grade => DrinkGrade.Failed;
     }
 }

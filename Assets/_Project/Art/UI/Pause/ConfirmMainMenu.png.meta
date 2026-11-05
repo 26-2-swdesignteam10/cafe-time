@@ -1,0 +1,1224 @@
+fileFormatVersion: 2
+guid: 9ec5940516dcef3428c3b7b33d6b0d6f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1660241616326218882
+    second: ConfirmMainMenu_0
+  - first:
+      213: 968010946092115701
+    second: ConfirmMainMenu_1
+  - first:
+      213: 2142938916903237500
+    second: ConfirmMainMenu_2
+  - first:
+      213: -4704014416961729655
+    second: ConfirmMainMenu_3
+  - first:
+      213: -7384273991590815001
+    second: ConfirmMainMenu_4
+  - first:
+      213: -1896264648048531022
+    second: ConfirmMainMenu_5
+  - first:
+      213: 462322406925783153
+    second: ConfirmMainMenu_6
+  - first:
+      213: -6098493313968037358
+    second: ConfirmMainMenu_7
+  - first:
+      213: -7332938667036183612
+    second: ConfirmMainMenu_8
+  - first:
+      213: 7638906829829242085
+    second: ConfirmMainMenu_9
+  - first:
+      213: 3925217109863139261
+    second: ConfirmMainMenu_10
+  - first:
+      213: 8585679272096541285
+    second: ConfirmMainMenu_11
+  - first:
+      213: 5710213687239645239
+    second: ConfirmMainMenu_12
+  - first:
+      213: -749535580715123520
+    second: ConfirmMainMenu_13
+  - first:
+      213: -1995058551498919703
+    second: ConfirmMainMenu_14
+  - first:
+      213: -8449851520573632079
+    second: ConfirmMainMenu_15
+  - first:
+      213: 867828654562218593
+    second: ConfirmMainMenu_16
+  - first:
+      213: 5985151300509910873
+    second: ConfirmMainMenu_17
+  - first:
+      213: -4871096775457431925
+    second: ConfirmMainMenu_18
+  - first:
+      213: 3888647538429891451
+    second: ConfirmMainMenu_19
+  - first:
+      213: -2700142611862773739
+    second: ConfirmMainMenu_20
+  - first:
+      213: 8704420756942986
+    second: ConfirmMainMenu_21
+  - first:
+      213: 410295686490339010
+    second: ConfirmMainMenu_22
+  - first:
+      213: 8579750531564873322
+    second: ConfirmMainMenu_23
+  - first:
+      213: 652489580992735482
+    second: ConfirmMainMenu_24
+  - first:
+      213: 5447541543785811856
+    second: ConfirmMainMenu_25
+  - first:
+      213: -5401146093410247884
+    second: ConfirmMainMenu_26
+  - first:
+      213: 1437746044332960748
+    second: ConfirmMainMenu_27
+  - first:
+      213: 1840121147279192261
+    second: ConfirmMainMenu_28
+  - first:
+      213: 86192858559769149
+    second: ConfirmMainMenu_29
+  - first:
+      213: -8616483769821532795
+    second: ConfirmMainMenu_30
+  - first:
+      213: -268136309970933871
+    second: ConfirmMainMenu_31
+  - first:
+      213: 4293510022325089242
+    second: ConfirmMainMenu_32
+  - first:
+      213: 316586085523205410
+    second: ConfirmMainMenu_33
+  - first:
+      213: -2784714767633508320
+    second: ConfirmMainMenu_34
+  - first:
+      213: 7079415219072636836
+    second: ConfirmMainMenu_35
+  - first:
+      213: 1202516189047580698
+    second: ConfirmMainMenu_36
+  - first:
+      213: -2901659789255075226
+    second: ConfirmMainMenu_37
+  - first:
+      213: -117285028967059132
+    second: ConfirmMainMenu_38
+  - first:
+      213: -5249117872527540863
+    second: ConfirmMainMenu_39
+  - first:
+      213: 1045026710528503913
+    second: ConfirmMainMenu_40
+  - first:
+      213: -7195577815279238134
+    second: ConfirmMainMenu_41
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ConfirmMainMenu_0
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 420
+        width: 92
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 284d17624fc5a0710800000000000000
+      internalID: 1660241616326218882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_1
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 416
+        width: 93
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f6a284a3d01f6d00800000000000000
+      internalID: 968010946092115701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_2
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 456
+        width: 60
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c77b065579f3dbd10800000000000000
+      internalID: 2142938916903237500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_3
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 446
+        width: 28
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98b0eaa8fcbf7beb0800000000000000
+      internalID: -4704014416961729655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_4
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 416
+        width: 98
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ead21f9de9c58990800000000000000
+      internalID: -7384273991590815001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_5
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 446
+        width: 100
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b9afe4795d1fa5e0800000000000000
+      internalID: -1896264648048531022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_6
+      rect:
+        serializedVersion: 2
+        x: 761
+        y: 416
+        width: 89
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 170d38497cf7a6600800000000000000
+      internalID: 462322406925783153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_7
+      rect:
+        serializedVersion: 2
+        x: 855
+        y: 416
+        width: 89
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21227d364accd5ba0800000000000000
+      internalID: -6098493313968037358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_8
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 451
+        width: 90
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c3f497422b2c3a90800000000000000
+      internalID: -7332938667036183612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_9
+      rect:
+        serializedVersion: 2
+        x: 1078
+        y: 416
+        width: 89
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ecf6400a49d20a60800000000000000
+      internalID: 7638906829829242085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_10
+      rect:
+        serializedVersion: 2
+        x: 1174
+        y: 416
+        width: 97
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db78dab2a2c297630800000000000000
+      internalID: 3925217109863139261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_11
+      rect:
+        serializedVersion: 2
+        x: 1272
+        y: 416
+        width: 90
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56aafb02fc5762770800000000000000
+      internalID: 8585679272096541285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_12
+      rect:
+        serializedVersion: 2
+        x: 1370
+        y: 427
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7381e733811ce3f40800000000000000
+      internalID: 5710213687239645239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_13
+      rect:
+        serializedVersion: 2
+        x: 1432
+        y: 416
+        width: 27
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cc75fc4c5d1995f0800000000000000
+      internalID: -749535580715123520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_14
+      rect:
+        serializedVersion: 2
+        x: 1495
+        y: 462
+        width: 59
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e03dc351d02054e0800000000000000
+      internalID: -1995058551498919703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_15
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 416
+        width: 93
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b11a6fafc81cba80800000000000000
+      internalID: -8449851520573632079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_16
+      rect:
+        serializedVersion: 2
+        x: 1594
+        y: 416
+        width: 88
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 162161930952b0c00800000000000000
+      internalID: 867828654562218593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_17
+      rect:
+        serializedVersion: 2
+        x: 1689
+        y: 430
+        width: 58
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9574cd9a5678f0350800000000000000
+      internalID: 5985151300509910873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_18
+      rect:
+        serializedVersion: 2
+        x: 1747
+        y: 416
+        width: 27
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8e1f487a43666cb0800000000000000
+      internalID: -4871096775457431925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_19
+      rect:
+        serializedVersion: 2
+        x: 1782
+        y: 430
+        width: 59
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b739fc0555047f530800000000000000
+      internalID: 3888647538429891451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_20
+      rect:
+        serializedVersion: 2
+        x: 1840
+        y: 416
+        width: 39
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5102609b99a278ad0800000000000000
+      internalID: -2700142611862773739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_21
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 416
+        width: 80
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a807133ef9cee1000800000000000000
+      internalID: 8704420756942986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_22
+      rect:
+        serializedVersion: 2
+        x: 637
+        y: 416
+        width: 82
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c6b126c0c9a1b500800000000000000
+      internalID: 410295686490339010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_23
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 416
+        width: 81
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a66a467a6a5611770800000000000000
+      internalID: 8579750531564873322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_24
+      rect:
+        serializedVersion: 2
+        x: 1878
+        y: 416
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af827be11db1e0900800000000000000
+      internalID: 652489580992735482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_25
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 226
+        width: 100
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09f4988fb2e899b40800000000000000
+      internalID: 5447541543785811856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_26
+      rect:
+        serializedVersion: 2
+        x: 475
+        y: 269
+        width: 61
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43b1b4a9e364b05b0800000000000000
+      internalID: -5401146093410247884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_27
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 257
+        width: 29
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ceb60b9e866e3f310800000000000000
+      internalID: 1437746044332960748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_28
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 226
+        width: 100
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c0b24f1f6c698910800000000000000
+      internalID: 1840121147279192261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_29
+      rect:
+        serializedVersion: 2
+        x: 699
+        y: 226
+        width: 93
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3a61acb2f7323100800000000000000
+      internalID: 86192858559769149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_30
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 230
+        width: 92
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58d6ed6d9a91c6880800000000000000
+      internalID: -8616483769821532795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_31
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 226
+        width: 94
+        height: 104
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1976ccc5273674cf0800000000000000
+      internalID: -268136309970933871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_32
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 226
+        width: 97
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad334480e9c959b30800000000000000
+      internalID: 4293510022325089242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_33
+      rect:
+        serializedVersion: 2
+        x: 1113
+        y: 226
+        width: 89
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22d21701e5db46400800000000000000
+      internalID: 316586085523205410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_34
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 238
+        width: 64
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0289b624ca4ba59d0800000000000000
+      internalID: -2784714767633508320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_35
+      rect:
+        serializedVersion: 2
+        x: 1265
+        y: 226
+        width: 28
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a7915622a22f3260800000000000000
+      internalID: 7079415219072636836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_36
+      rect:
+        serializedVersion: 2
+        x: 1298
+        y: 226
+        width: 97
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1866dc4a1230b010800000000000000
+      internalID: 1202516189047580698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_37
+      rect:
+        serializedVersion: 2
+        x: 1399
+        y: 226
+        width: 91
+        height: 104
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66a9a6a9bcb3bb7d0800000000000000
+      internalID: -2901659789255075226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_38
+      rect:
+        serializedVersion: 2
+        x: 1495
+        y: 240
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44172f633e15f5ef0800000000000000
+      internalID: -117285028967059132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_39
+      rect:
+        serializedVersion: 2
+        x: 1555
+        y: 226
+        width: 29
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18d77df1b136727b0800000000000000
+      internalID: -5249117872527540863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_40
+      rect:
+        serializedVersion: 2
+        x: 1588
+        y: 226
+        width: 153
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 960b8d5a14ea08e00800000000000000
+      internalID: 1045026710528503913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConfirmMainMenu_41
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 226
+        width: 82
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a04899ec91c242c90800000000000000
+      internalID: -7195577815279238134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ConfirmMainMenu_0: 1660241616326218882
+      ConfirmMainMenu_1: 968010946092115701
+      ConfirmMainMenu_10: 3925217109863139261
+      ConfirmMainMenu_11: 8585679272096541285
+      ConfirmMainMenu_12: 5710213687239645239
+      ConfirmMainMenu_13: -749535580715123520
+      ConfirmMainMenu_14: -1995058551498919703
+      ConfirmMainMenu_15: -8449851520573632079
+      ConfirmMainMenu_16: 867828654562218593
+      ConfirmMainMenu_17: 5985151300509910873
+      ConfirmMainMenu_18: -4871096775457431925
+      ConfirmMainMenu_19: 3888647538429891451
+      ConfirmMainMenu_2: 2142938916903237500
+      ConfirmMainMenu_20: -2700142611862773739
+      ConfirmMainMenu_21: 8704420756942986
+      ConfirmMainMenu_22: 410295686490339010
+      ConfirmMainMenu_23: 8579750531564873322
+      ConfirmMainMenu_24: 652489580992735482
+      ConfirmMainMenu_25: 5447541543785811856
+      ConfirmMainMenu_26: -5401146093410247884
+      ConfirmMainMenu_27: 1437746044332960748
+      ConfirmMainMenu_28: 1840121147279192261
+      ConfirmMainMenu_29: 86192858559769149
+      ConfirmMainMenu_3: -4704014416961729655
+      ConfirmMainMenu_30: -8616483769821532795
+      ConfirmMainMenu_31: -268136309970933871
+      ConfirmMainMenu_32: 4293510022325089242
+      ConfirmMainMenu_33: 316586085523205410
+      ConfirmMainMenu_34: -2784714767633508320
+      ConfirmMainMenu_35: 7079415219072636836
+      ConfirmMainMenu_36: 1202516189047580698
+      ConfirmMainMenu_37: -2901659789255075226
+      ConfirmMainMenu_38: -117285028967059132
+      ConfirmMainMenu_39: -5249117872527540863
+      ConfirmMainMenu_4: -7384273991590815001
+      ConfirmMainMenu_40: 1045026710528503913
+      ConfirmMainMenu_41: -7195577815279238134
+      ConfirmMainMenu_5: -1896264648048531022
+      ConfirmMainMenu_6: 462322406925783153
+      ConfirmMainMenu_7: -6098493313968037358
+      ConfirmMainMenu_8: -7332938667036183612
+      ConfirmMainMenu_9: 7638906829829242085
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

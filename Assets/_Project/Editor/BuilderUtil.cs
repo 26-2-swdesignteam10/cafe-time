@@ -137,6 +137,11 @@ namespace CafeTime.EditorTools
                 image.sprite = sprite;
                 image.color = Color.white;
             }
+            else if (fallback == Color.clear)
+            {
+                // 아이콘 자리: 실행 중에 sprite 를 넣는다. 색을 투명으로 두면 sprite 를 넣어도 보이지 않으므로 흰색
+                image.color = Color.white;
+            }
             else
             {
                 image.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");

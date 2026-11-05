@@ -16,7 +16,8 @@ namespace CafeTime.EditorTools
 {
     // 영업 씬(카페 맵) 생성 도구 (ADR-0006). CafeTime > Build Cafe Scene
     //   - 타일맵 맵 + 테이블 + 기기 배치 (SFR-012), 플레이어 (SFR-015~021), 카메라 (SFR-019)
-    //   - 영업 루프: 시계, 손님, 주문표, 포스기, 픽업대, 디저트 진열장, 임시 제조실 (ADR-0013)
+    //   - 영업 루프: 시계, 손님, 주문표, 포스기, 픽업대, 디저트 진열장 (ADR-0013)
+    //   - 기기: 커피잔 선반, 에스프레소, 제빙기, 정수기, 음료·쉐이크 제조실, 퇴식구, 설거지실, 행주 걸이, 테이블 청소 (ADR-0014)
     //   - UI 는 CafeUiBuilder
     // 맵 그림은 1칸 = 128px (docs/ART_STYLE.md 5장). 다시 실행하면 씬을 덮어씀
     public static class CafeSceneBuilder
@@ -37,25 +38,25 @@ namespace CafeTime.EditorTools
 
         static readonly Color DarkBrown = new Color32(0x3E, 0x27, 0x1A, 0xFF);
 
-        enum Screen { Placeholder, Pos, Pickup, Dessert, DrinkBar, ShakeBar }
+        enum Screen { Pos, Pickup, Dessert, CupShelf, Espresso, IceMaker, Water, DrinkRoom, ShakeRoom, TrayReturn, Dishwash, Towel }
 
         // 기기 배치: 이름, 안내 문구, 그림, 가운데 x, 아래쪽 y, 연결할 화면 (SFR-012). 크기는 그림 크기로 정해짐
         static readonly (string name, string action, string sprite, float x, float y, Screen screen)[] Stations =
         {
             // 뒤쪽 작업대 (위쪽 벽 앞)
-            ("커피잔 선반", "열기", "StationCupShelf", 2.2f, 12, Screen.Placeholder),
-            ("에스프레소 머신", "사용", "StationEspresso", 5, 12, Screen.Placeholder),
-            ("제빙기", "사용", "StationIceMaker", 7.6f, 12, Screen.Placeholder),
-            ("정수기", "사용", "StationWater", 9.6f, 12, Screen.Placeholder),
-            ("음료 제조실", "열기", "StationDrinkBar", 12, 12, Screen.DrinkBar),
-            ("쉐이크 제조실", "열기", "StationShakeBar", 14.8f, 12, Screen.ShakeBar),
-            ("설거지실", "열기", "StationDishwash", 19.5f, 12, Screen.Placeholder),
-            ("행주 걸이", "사용", "StationTowel", 22.6f, 12, Screen.Placeholder),
+            ("커피잔 선반", "열기", "StationCupShelf", 2.2f, 12, Screen.CupShelf),
+            ("에스프레소 머신", "사용", "StationEspresso", 5, 12, Screen.Espresso),
+            ("제빙기", "사용", "StationIceMaker", 7.6f, 12, Screen.IceMaker),
+            ("정수기", "사용", "StationWater", 9.6f, 12, Screen.Water),
+            ("음료 제조실", "열기", "StationDrinkBar", 12, 12, Screen.DrinkRoom),
+            ("쉐이크 제조실", "열기", "StationShakeBar", 14.8f, 12, Screen.ShakeRoom),
+            ("설거지실", "열기", "StationDishwash", 19.5f, 12, Screen.Dishwash),
+            ("행주 걸이", "사용", "StationTowel", 22.6f, 12, Screen.Towel),
             // 앞쪽 카운터 위 (작업 공간 쪽에서 상호작용)
             ("포스기", "사용", "StationPos", 3, FrontCounterY, Screen.Pos),
             ("픽업대", "열기", "StationPickup", 8, FrontCounterY, Screen.Pickup),
             ("디저트 진열장", "열기", "StationDessertCase", 12.2f, FrontCounterY, Screen.Dessert),
-            ("퇴식구", "열기", "StationTrayReturn", 20.5f, FrontCounterY, Screen.Placeholder),
+            ("퇴식구", "열기", "StationTrayReturn", 20.5f, FrontCounterY, Screen.TrayReturn),
         };
 
         // 테이블 (테이블 수는 추후 결정, SFR-024). 아래쪽 줄의 y 와 손님이 걸어오는 가로 통로 y
@@ -69,7 +70,7 @@ namespace CafeTime.EditorTools
             if (!ConfirmOverwrite(ScenePath, "Cafe 씬")) return;
 
             GameBalanceAssetBuilder.CreateOrUpdate();
-            PrepareWorldSprites(MapArtDir, new[] { "Floor", "Wall", "Counter", "Door" });
+            PrepareWorldSprites(MapArtDir, new[] { "Floor", "Wall", "Counter", "Door", "WorkDone", "WorkBubble", "CleanRequest" });
             PrepareWorldSprites(PlayerArtDir, null);
             PrepareWorldSprites(CustomerArtDir, null);
             var worldHud = new[] { "PromptUse", "PromptOpen", "GaugeFrame", "GaugeFill" }; // 맵 위에 그리는 HUD 그림
@@ -83,7 +84,7 @@ namespace CafeTime.EditorTools
             var tables = BuildSeating();
             var managers = BuildManagers(tables);
             var ui = CafeUiBuilder.Build(managers);
-            BuildStations(ui);
+            BuildStations(ui, managers.Business);
             var player = BuildPlayer();
 
             var camGo = new GameObject("Main Camera");
@@ -100,7 +101,9 @@ namespace CafeTime.EditorTools
             Set(follow, "mapBounds", walls);
             follow.ApplyModifiedPropertiesWithoutUndo();
 
-            new GameObject("CafeSceneInput", typeof(CafeSceneInput));
+            var input = new SerializedObject(new GameObject("CafeSceneInput").AddComponent<CafeSceneInput>());
+            Set(input, "pauseMenu", ui.Pause);
+            input.ApplyModifiedPropertiesWithoutUndo();
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             if (EditorBuildSettings.scenes.All(s => s.path != ScenePath))
@@ -199,10 +202,31 @@ namespace CafeTime.EditorTools
                 SetArray(so, "seats", seats.Cast<Object>().ToArray());
                 so.FindProperty("laneY").floatValue = laneY;
                 Set(so, "gaugePoint", Point("GaugePoint", table.transform, x, y - 0.3f)); // 테이블 앞쪽 (뒤쪽은 포스기 줄과 겹침)
+                // 청소 (SFR-066): 두고 간 쟁반, 청소 요청 아이콘, 행주를 들고 E
+                Set(so, "trayOnTable", Decoration("TrayOnTable", table.transform, LoadSprite($"{MapArtDir}/TrayOnTable.png"), x, y + 0.35f, 1));
+                Set(so, "cleanIcon", Decoration("CleanRequest", table.transform, LoadSprite($"{MapArtDir}/CleanRequest.png"), x, y + 1.3f, 5));
+                var cleanSpot = table.AddComponent<TableCleanSpot>();
+                var cso = new SerializedObject(cleanSpot);
+                Set(cso, "table", component);
+                cso.ApplyModifiedPropertiesWithoutUndo();
+                cleanSpot.enabled = false; // 청소 요청이 있을 때만
+                Set(so, "cleanSpot", cleanSpot);
                 so.ApplyModifiedPropertiesWithoutUndo();
                 tables.Add(component);
             }
             return tables.ToArray();
+        }
+
+        // 충돌 없는 그림 (테이블 위 쟁반, 머리 위 아이콘). 처음엔 꺼 둔다
+        static GameObject Decoration(string name, Transform parent, Sprite sprite, float x, float y, int order)
+        {
+            var sr = new GameObject(name).AddComponent<SpriteRenderer>();
+            sr.transform.SetParent(parent, false);
+            sr.transform.position = new Vector3(x, y, 0);
+            sr.sprite = sprite;
+            sr.sortingOrder = order;
+            sr.gameObject.SetActive(false);
+            return sr.gameObject;
         }
 
         static Transform Point(string name, Transform parent, float x, float y)
@@ -235,6 +259,7 @@ namespace CafeTime.EditorTools
             public GameClock Clock;
             public CustomerManager Customers;
             public BusinessDay Day;
+            public GameObject Business;
         }
 
         static Managers BuildManagers(CafeTable[] tables)
@@ -245,13 +270,27 @@ namespace CafeTime.EditorTools
                 Clock = go.AddComponent<GameClock>(),
                 Customers = go.AddComponent<CustomerManager>(),
                 Day = go.AddComponent<BusinessDay>(),
+                Business = go,
             };
             go.AddComponent<OrderBoard>();
             go.AddComponent<HandInventory>();
+            // 기기 상태 (기기 화면을 닫아도 유지, ADR-0014)
+            go.AddComponent<CupShelf>();
+            go.AddComponent<EspressoBar>();
+            go.AddComponent<IceMaker>();
+            go.AddComponent<WaterDispenser>();
+            go.AddComponent<DrinkStation>();
+            go.AddComponent<Blender>();
+            go.AddComponent<TrayReturn>();
+            go.AddComponent<DishStation>();
+            var cleaning = new SerializedObject(go.AddComponent<CleaningManager>());
+            SetArray(cleaning, "tables", tables.Cast<Object>().ToArray());
+            cleaning.ApplyModifiedPropertiesWithoutUndo();
 
+            // 물건 아이콘: ItemSprite 순서, 파일 이름 = 값 이름
             var icons = new SerializedObject(go.AddComponent<ItemIcons>());
-            foreach (var name in new[] { "HotCoffee", "IceCoffee", "HotTea", "IceDrink", "Smoothie" })
-                Set(icons, char.ToLower(name[0]) + name.Substring(1), LoadSprite($"{ItemIconDir}/{name}.png"));
+            SetArray(icons, "sprites", System.Enum.GetNames(typeof(ItemSprite))
+                .Select(n => (Object)LoadSprite($"{ItemIconDir}/{n}.png")).ToArray());
             icons.ApplyModifiedPropertiesWithoutUndo();
 
             var customers = new SerializedObject(managers.Customers);
@@ -272,7 +311,7 @@ namespace CafeTime.EditorTools
 
         // ───────── 기기 (SFR-012, 020) ─────────
 
-        static void BuildStations(CafeUiBuilder.Screens ui)
+        static void BuildStations(CafeUiBuilder.Screens ui, GameObject business)
         {
             var root = new GameObject("Stations").transform;
             foreach (var s in Stations)
@@ -297,6 +336,7 @@ namespace CafeTime.EditorTools
                 Set(so, "highlight", highlight.gameObject);
                 so.ApplyModifiedPropertiesWithoutUndo();
                 Connect(interactable.OnInteract, s, ui, go);
+                AddWorkStatus(s.screen, business, go, size.y);
                 highlight.gameObject.SetActive(false);
             }
         }
@@ -320,17 +360,46 @@ namespace CafeTime.EditorTools
                 case Screen.Dessert:
                     UnityEventTools.AddVoidPersistentListener(onInteract, ui.Dessert.Open);
                     break;
-                case Screen.DrinkBar:
-                    UnityEventTools.AddVoidPersistentListener(onInteract, ui.DrinkBar.Open);
-                    break;
-                case Screen.ShakeBar:
-                    UnityEventTools.AddVoidPersistentListener(onInteract, ui.ShakeBar.Open);
-                    break;
-                default:
-                    // 아직 기기 화면이 없는 기기는 임시 창 (각 기기 화면 구현 시 교체)
-                    UnityEventTools.AddStringPersistentListener(onInteract, ui.Placeholder.Open, s.name);
+                case Screen.CupShelf: Open(onInteract, ui.CupShelf); break;
+                case Screen.Espresso: Open(onInteract, ui.Espresso); break;
+                case Screen.IceMaker: Open(onInteract, ui.IceMaker); break;
+                case Screen.Water: Open(onInteract, ui.Water); break;
+                case Screen.DrinkRoom: Open(onInteract, ui.DrinkRoom); break;
+                case Screen.ShakeRoom: Open(onInteract, ui.ShakeRoom); break;
+                case Screen.TrayReturn: Open(onInteract, ui.TrayReturn); break;
+                case Screen.Dishwash: Open(onInteract, ui.Dishwash); break;
+                case Screen.Towel:
+                    UnityEventTools.AddVoidPersistentListener(onInteract, station.AddComponent<TowelRack>().Interact);
                     break;
             }
+        }
+
+        static void Open(UnityEvent onInteract, CafeTime.UI.Popup screen) =>
+            UnityEventTools.AddVoidPersistentListener(onInteract, screen.Open);
+
+        // 작업 시간이 있는 기기 위 진행 게이지 / 완료 아이콘 (SFR-022)
+        static void AddWorkStatus(Screen screen, GameObject business, GameObject station, float height)
+        {
+            MonoBehaviour source = screen switch
+            {
+                Screen.Espresso => business.GetComponent<EspressoBar>(),
+                Screen.Water => business.GetComponent<WaterDispenser>(),
+                Screen.ShakeRoom => business.GetComponent<Blender>(),
+                Screen.Dishwash => business.GetComponent<DishStation>(),
+                _ => null,
+            };
+            if (source == null) return;
+            var go = new GameObject("WorkStatus");
+            go.transform.SetParent(station.transform, false);
+            go.transform.localPosition = new Vector3(0, height + 0.2f, 0);
+            var done = Decoration("Done", go.transform, LoadSprite($"{MapArtDir}/WorkDone.png"), 0, 0, 20);
+            done.transform.localPosition = new Vector3(0, 0.35f, 0);
+            var status = new SerializedObject(go.AddComponent<WorkStatusIcon>());
+            Set(status, "source", source);
+            Set(status, "doneIcon", done.GetComponent<SpriteRenderer>());
+            Set(status, "gaugeFrame", LoadSprite($"{HudArt}/GaugeFrame.png"));
+            Set(status, "gaugeFill", LoadSprite($"{HudArt}/GaugeFill.png"));
+            status.ApplyModifiedPropertiesWithoutUndo();
         }
 
         // 기기 그림의 투명하지 않은 부분을 몇 픽셀 넓혀 만든 노란 외곽선. 그림이 바뀌면 다시 만든다
