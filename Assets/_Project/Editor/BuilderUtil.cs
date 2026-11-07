@@ -90,7 +90,7 @@ namespace CafeTime.EditorTools
         public static bool ConfirmOverwrite(string path, string what)
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return false;
-            return !File.Exists(path) || EditorUtility.DisplayDialog($"{what} 다시 생성",
+            return Application.isBatchMode || !File.Exists(path) || EditorUtility.DisplayDialog($"{what} 다시 생성",
                 $"{path}\n을(를) 새로 만듭니다. 에디터에서 수정한 내용은 사라집니다.", "덮어쓰기", "취소");
         }
 

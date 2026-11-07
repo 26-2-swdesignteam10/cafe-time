@@ -31,37 +31,41 @@ namespace CafeTime.EditorTools
         const string ItemIconDir = "Assets/_Project/Art/Icons/Items";
         const int PixelsPerUnit = 128;
 
-        // 맵 크기 (타일). 바깥 한 줄 + 위쪽 두 줄은 벽
+        // 맵 크기 (타일). 바깥 한 줄 + 위쪽 두 줄은 벽 (배치는 ADR-0016)
         const int MapWidth = 26;
-        const int MapHeight = 16;
+        const int MapHeight = 15;
         const int FrontCounterY = 8;
+        const int KitchenRightX = 10; // 주방과 홀 사이 칸막이 벽의 x
+        const float BackWallY = 12;
+        const float CounterTopY = 8.55f; // 카운터 위에 놓는 기기의 아래쪽 y (상판 위)
 
         static readonly Color DarkBrown = new Color32(0x3E, 0x27, 0x1A, 0xFF);
 
         enum Screen { Pos, Pickup, Dessert, CupShelf, Espresso, IceMaker, Water, DrinkRoom, ShakeRoom, TrayReturn, Dishwash, Towel }
 
-        // 기기 배치: 이름, 안내 문구, 그림, 가운데 x, 아래쪽 y, 연결할 화면 (SFR-012). 크기는 그림 크기로 정해짐
-        static readonly (string name, string action, string sprite, float x, float y, Screen screen)[] Stations =
+        // 기기 배치: 이름, 그림, 가운데 x, 아래쪽 y, 연결할 화면 (SFR-012, ADR-0016). 크기는 그림 크기로 정해짐
+        static readonly (string name, string sprite, float x, float y, Screen screen)[] Stations =
         {
-            // 뒤쪽 작업대 (위쪽 벽 앞)
-            ("커피잔 선반", "열기", "StationCupShelf", 2.2f, 12, Screen.CupShelf),
-            ("에스프레소 머신", "사용", "StationEspresso", 5, 12, Screen.Espresso),
-            ("제빙기", "사용", "StationIceMaker", 7.6f, 12, Screen.IceMaker),
-            ("정수기", "사용", "StationWater", 9.6f, 12, Screen.Water),
-            ("음료 제조실", "열기", "StationDrinkBar", 12, 12, Screen.DrinkRoom),
-            ("쉐이크 제조실", "열기", "StationShakeBar", 14.8f, 12, Screen.ShakeRoom),
-            ("설거지실", "열기", "StationDishwash", 19.5f, 12, Screen.Dishwash),
-            ("행주 걸이", "사용", "StationTowel", 22.6f, 12, Screen.Towel),
-            // 앞쪽 카운터 위 (작업 공간 쪽에서 상호작용)
-            ("포스기", "사용", "StationPos", 3, FrontCounterY, Screen.Pos),
-            ("픽업대", "열기", "StationPickup", 8, FrontCounterY, Screen.Pickup),
-            ("디저트 진열장", "열기", "StationDessertCase", 12.2f, FrontCounterY, Screen.Dessert),
-            ("퇴식구", "열기", "StationTrayReturn", 20.5f, FrontCounterY, Screen.TrayReturn),
+            // 뒤쪽 벽 (왼쪽부터)
+            ("설거지실", "StationDishwash", 1.75f, BackWallY, Screen.Dishwash),
+            ("쉐이크 제조실", "StationShakeBar", 3.125f, BackWallY, Screen.ShakeRoom),
+            ("제빙기", "StationIceMaker", 4.25f, BackWallY, Screen.IceMaker),
+            ("커피잔 선반", "StationCupShelf", 5.25f, BackWallY, Screen.CupShelf),
+            ("음료 제조실", "StationDrinkBar", 6.375f, BackWallY, Screen.DrinkRoom),
+            ("정수기", "StationWater", 7.5f, BackWallY, Screen.Water),
+            ("에스프레소 머신", "StationEspresso", 9, BackWallY, Screen.Espresso),
+            // 앞쪽 카운터 위 (왼쪽부터). 맨 왼쪽 x1 칸은 주방 출입구
+            ("행주 걸이", "StationTowel", 2.5f, CounterTopY, Screen.Towel),
+            ("디저트 진열장", "StationDessertCase", 3.5f, CounterTopY, Screen.Dessert),
+            ("포스기", "StationPos", 4.625f, CounterTopY, Screen.Pos),
+            ("픽업대", "StationPickup", 7.625f, CounterTopY, Screen.Pickup),
+            // 홀 왼쪽 벽 (받침대 위)
+            ("퇴식구", "StationTrayReturn", 1.5f, 5.2f, Screen.TrayReturn),
         };
 
         // 테이블 (테이블 수는 추후 결정, SFR-024). 아래쪽 줄의 y 와 손님이 걸어오는 가로 통로 y
-        static readonly float[] TableXs = { 4f, 9f, 14f, 20f };
-        static readonly (float y, float laneY)[] TableRows = { (5f, 6.6f), (2f, 4.25f) };
+        static readonly float[] TableXs = { 13f, 16.4f, 19.8f };
+        static readonly (float y, float laneY)[] TableRows = { (8.5f, 10.1f), (5.2f, 6.8f), (1.9f, 3.7f) };
 
         [MenuItem("CafeTime/Build Cafe Scene")]
         public static void Build()
@@ -70,10 +74,10 @@ namespace CafeTime.EditorTools
             if (!ConfirmOverwrite(ScenePath, "Cafe 씬")) return;
 
             GameBalanceAssetBuilder.CreateOrUpdate();
-            PrepareWorldSprites(MapArtDir, new[] { "Floor", "Wall", "Counter", "Door", "WorkDone", "WorkBubble", "CleanRequest" });
+            PrepareWorldSprites(MapArtDir, new[] { "Floor", "FloorKitchen", "Wall", "WallPlain", "WallKitchen", "WallTop", "Counter", "Door", "WorkDone", "WorkBubble", "CleanRequest" });
             PrepareWorldSprites(PlayerArtDir, null);
             PrepareWorldSprites(CustomerArtDir, null);
-            var worldHud = new[] { "PromptUse", "PromptOpen", "GaugeFrame", "GaugeFill" }; // 맵 위에 그리는 HUD 그림
+            var worldHud = new[] { "PromptKey", "GaugeFrame", "GaugeFill" }; // 맵 위에 그리는 HUD 그림
             PrepareWorldSprites(HudArt, worldHud, worldHud);
             PrepareSprites(ItemIconDir);
 
@@ -82,6 +86,7 @@ namespace CafeTime.EditorTools
 
             var walls = BuildMap();
             var tables = BuildSeating();
+            BuildDecor();
             var managers = BuildManagers(tables);
             var ui = CafeUiBuilder.Build(managers);
             BuildStations(ui, managers.Business);
@@ -91,7 +96,7 @@ namespace CafeTime.EditorTools
             camGo.tag = "MainCamera";
             var cam = camGo.AddComponent<Camera>();
             cam.orthographic = true;
-            cam.orthographicSize = 5;
+            cam.orthographicSize = 4; // 세로 8칸이 보임. 기기가 잘 보이도록 확대 (ADR-0016)
             cam.clearFlags = CameraClearFlags.SolidColor;
             cam.backgroundColor = DarkBrown;
             camGo.AddComponent<AudioListener>();
@@ -119,7 +124,12 @@ namespace CafeTime.EditorTools
         static Tilemap BuildMap()
         {
             var floor = LoadTile("Floor");
+            var kitchenFloor = LoadTile("FloorKitchen");
+            // 위쪽 벽은 정면이 보이는 2줄, 옆벽·아래벽·칸막이는 윗면만 보이는 어두운 띠
             var wall = LoadTile("Wall");
+            var wallPlain = LoadTile("WallPlain");
+            var wallKitchen = LoadTile("WallKitchen");
+            var wallTop = LoadTile("WallTop");
             var counter = LoadTile("Counter");
             var door = LoadTile("Door");
 
@@ -130,6 +140,7 @@ namespace CafeTime.EditorTools
 
             // 6000.6.4f1에서 SetTile(위치, 타일) 한 칸씩 넣기가 반영되지 않아 SetTiles로 한 번에 넣음
             var floorCells = new List<Vector3Int>();
+            var floorTiles = new List<TileBase>();
             var wallCells = new List<Vector3Int>();
             var wallTiles = new List<TileBase>();
             for (int x = 0; x < MapWidth; x++)
@@ -137,16 +148,26 @@ namespace CafeTime.EditorTools
             {
                 var cell = new Vector3Int(x, y, 0);
                 bool border = x == 0 || x == MapWidth - 1 || y == 0 || y >= MapHeight - 2;
-                // 앞쪽 카운터: 왼쪽 x1~14, 오른쪽(퇴식구) x18~24, 사이 x15~17은 통로
-                bool frontCounter = !border && y == FrontCounterY && (x < 15 || x > 17);
-                if (border || frontCounter)
+                // 앞쪽 카운터: x2~9. x1 은 주방 출입구
+                bool frontCounter = !border && y == FrontCounterY && x >= 2 && x < KitchenRightX;
+                bool partition = !border && x == KitchenRightX && y >= FrontCounterY;
+                if (border || frontCounter || partition)
                 {
                     wallCells.Add(cell);
-                    wallTiles.Add(frontCounter ? counter : y == 0 && (x == 12 || x == 13) ? door : wall);
+                    bool facade = y >= MapHeight - 2 && x > 0 && x < MapWidth - 1;
+                    wallTiles.Add(frontCounter ? counter
+                        : y == 0 && (x == 1 || x == 2) ? door
+                        : !facade ? wallTop
+                        : y == MapHeight - 1 ? wallPlain
+                        : x < KitchenRightX ? wallKitchen : wall);
                 }
-                if (!border) floorCells.Add(cell);
+                if (!border && !partition)
+                {
+                    floorCells.Add(cell);
+                    floorTiles.Add(x < KitchenRightX && y > FrontCounterY ? kitchenFloor : floor);
+                }
             }
-            floorMap.SetTiles(floorCells.ToArray(), floorCells.Select(_ => floor).ToArray());
+            floorMap.SetTiles(floorCells.ToArray(), floorTiles.ToArray());
             wallMap.SetTiles(wallCells.ToArray(), wallTiles.ToArray());
             return wallMap;
         }
@@ -215,6 +236,31 @@ namespace CafeTime.EditorTools
                 tables.Add(component);
             }
             return tables.ToArray();
+        }
+
+        // 기능 없는 가구 (ADR-0016): 창문, 빵 진열대, 퇴식구 받침대, 화분 칸막이, 창가 바, 스툴, 부스
+        static void BuildDecor()
+        {
+            var root = new GameObject("Decor").transform;
+            for (int i = 0; i < 6; i++)
+                Decor("창문", root, "WindowHall", 12.75f + i * 2.1f, 13.4f, Vector2.one);
+            Decor("빵 진열대 왼쪽", root, "BreadShelf", 4.3f, 1.5f, new Vector2(1.9f, 5.06f));
+            Decor("빵 진열대 오른쪽", root, "BreadShelf", 7.7f, 1.5f, new Vector2(1.9f, 5.06f));
+            Decor("퇴식구 받침대", root, "TrayStand", 1.5f, 3.2f, new Vector2(0.75f, 3.6f));
+            foreach (float y in new[] { 1f, 2f, 4.4f, 5f, 6f, 7f }) // 사이 y3~4.4 는 좌석으로 가는 통로
+                Decor("화분 칸막이", root, "PlanterSegment", 10.5f, y, Vector2.one);
+            for (int x = 11; x < MapWidth - 1; x++)
+                Decor("창가 바", root, "BarSegment", x + 0.5f, 12, Vector2.one);
+            for (int i = 0; i < 10; i++)
+                Decor($"스툴 {i + 1}", root, "Stool", 11.8f + i * 1.03f, 11.1f, new Vector2(0.6f, 0.6f));
+            foreach (float y in new[] { 2f, 4.6f, 7.2f, 9.8f })
+                Decor("부스", root, "Booth", 23.6f, y, new Vector2(2.56f, 1.6f));
+        }
+
+        static void Decor(string name, Transform parent, string sprite, float x, float y, Vector2 collider)
+        {
+            var go = WorldObject(name, parent, LoadSprite($"{MapArtDir}/{sprite}.png"), x, y, collider);
+            go.GetComponent<SpriteRenderer>().sortingOrder = -1; // 캐릭터와 위에 올라가는 기기보다 항상 뒤
         }
 
         // 충돌 없는 그림 (테이블 위 쟁반, 머리 위 아이콘). 처음엔 꺼 둔다
@@ -319,20 +365,20 @@ namespace CafeTime.EditorTools
                 var spritePath = $"{MapArtDir}/{s.sprite}.png";
                 var sprite = LoadSprite(spritePath);
                 var size = sprite != null ? (Vector2)sprite.bounds.size : new Vector2(1.5f, 1.5f);
-                var go = WorldObject(s.name, root, sprite, s.x, s.y, new Vector2(size.x - 0.1f, Mathf.Min(size.y, 1f)));
+                // 카운터 위 기기는 충돌 영역을 상판 안으로 줄여 작업 공간을 막지 않게 함
+                float colliderHeight = s.y == CounterTopY ? FrontCounterY + 1 - CounterTopY : Mathf.Min(size.y, 1f);
+                var go = WorldObject(s.name, root, sprite, s.x, s.y, new Vector2(size.x - 0.1f, colliderHeight));
 
-                // 다가가면 켜지는 테두리 (SFR-013): 기기 그림 모양을 따라 만든 외곽선 그림
+                // 다가가면 켜지는 테두리 (SFR-013): 기기 그림 모양을 따라 만든 외곽선 그림. 기기와 같은 앞뒤 정렬이라 앞에 선 플레이어를 가리지 않음
                 var highlight = new GameObject("Highlight").AddComponent<SpriteRenderer>();
                 highlight.transform.SetParent(go.transform, false);
                 highlight.sprite = OutlineSprite(spritePath);
                 highlight.spriteSortPoint = SpriteSortPoint.Pivot;
-                highlight.sortingOrder = 1;
 
                 var interactable = go.AddComponent<Interactable>();
                 var so = new SerializedObject(interactable);
-                so.FindProperty("actionLabel").stringValue = s.action;
                 // 키 안내는 충돌 영역(발밑) 위가 아니라 그림 위쪽에 뜨도록
-                so.FindProperty("promptHeight").floatValue = size.y - Mathf.Min(size.y, 1f) + 0.35f;
+                so.FindProperty("promptHeight").floatValue = size.y - colliderHeight + 0.35f;
                 Set(so, "highlight", highlight.gameObject);
                 so.ApplyModifiedPropertiesWithoutUndo();
                 Connect(interactable.OnInteract, s, ui, go, business);
@@ -341,7 +387,7 @@ namespace CafeTime.EditorTools
             }
         }
 
-        static void Connect(UnityEvent onInteract, (string name, string action, string sprite, float x, float y, Screen screen) s,
+        static void Connect(UnityEvent onInteract, (string name, string sprite, float x, float y, Screen screen) s,
             CafeUiBuilder.Screens ui, GameObject station, GameObject business)
         {
             switch (s.screen)
@@ -447,7 +493,7 @@ namespace CafeTime.EditorTools
         static Transform BuildPlayer()
         {
             var go = new GameObject("Player");
-            go.transform.position = new Vector3(8, 10.2f, 0);
+            go.transform.position = new Vector3(5.5f, 10.5f, 0);
             var body = go.AddComponent<Rigidbody2D>();
             body.interpolation = RigidbodyInterpolation2D.Interpolate;
             // 발밑만 충돌 영역 → 기기 앞까지 자연스럽게 다가감
@@ -483,13 +529,11 @@ namespace CafeTime.EditorTools
             // 상호작용 키 안내 (오브젝트 위에 표시, 하나를 옮겨 가며 사용)
             var prompt = new GameObject("InteractPrompt").AddComponent<SpriteRenderer>();
             prompt.sortingOrder = 300;
-            prompt.sprite = LoadSprite($"{HudArt}/PromptUse.png");
+            prompt.sprite = LoadSprite($"{HudArt}/PromptKey.png");
             prompt.gameObject.SetActive(false);
 
             var interactor = new SerializedObject(go.AddComponent<PlayerInteractor>());
             Set(interactor, "prompt", prompt);
-            Set(interactor, "promptUse", LoadSprite($"{HudArt}/PromptUse.png"));
-            Set(interactor, "promptOpen", LoadSprite($"{HudArt}/PromptOpen.png"));
             interactor.ApplyModifiedPropertiesWithoutUndo();
             return go.transform;
         }

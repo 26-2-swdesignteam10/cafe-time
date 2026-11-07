@@ -27,3 +27,4 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0013](0013-business-loop-structure.md) | 영업 루프 구조와 임시 제조실 | 제안 |
 | [0014](0014-device-stations-and-item-model.md) | 기기 화면, 물건 모델, 레시피 판정 구조 | 제안 |
 | [0015](0015-espresso-shot-integration.md) | 에스프레소 머신은 팀원의 EspressoShot 구현으로 통합한다 | 제안 |
+| [0016](0016-cafe-map-layout-and-modern-style.md) | 카페 맵을 주방 축소 배치와 모던 스타일로 바꾼다 | 제안 |

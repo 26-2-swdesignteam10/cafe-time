@@ -17,8 +17,20 @@ namespace CafeTime.Cafe
             // Cafe 씬을 바로 Play 해도 동작하도록 (ADR-0011 미리보기 데이터)
             SaveSystem.EnsureCurrentForPreview();
             if (DayResult.Today == null) DayResult.StartNewDay();
+            if (GameBalance.Instance.TestFullStock) FillStocksForTest();
             Pantry.StartDay();
             closedBanner.SetActive(false);
+        }
+
+        // 플레이 테스트용: 모든 재료·디저트를 쓸 수 있는 상태로 만든다 (GameBalance.testFullStock)
+        static void FillStocksForTest()
+        {
+            const int full = 99999;
+            var save = SaveSystem.Current;
+            var balance = GameBalance.Instance;
+            foreach (var ingredient in balance.Ingredients) save.AddStock(ingredient.Id, full - save.GetStock(ingredient.Id));
+            foreach (var menu in balance.Menus)
+                if (!string.IsNullOrEmpty(menu.StockId)) save.AddStock(menu.StockId, full - save.GetStock(menu.StockId));
         }
 
         void Start()

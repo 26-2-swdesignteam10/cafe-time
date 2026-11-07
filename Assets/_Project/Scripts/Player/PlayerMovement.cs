@@ -19,7 +19,7 @@ namespace CafeTime.Player
             (Key.D, Key.RightArrow, Vector2.right),
         };
 
-        [SerializeField] float walkSpeed = 3f;      // 이동 속도 (추후 결정)
+        [SerializeField] float walkSpeed = 4.5f;    // 이동 속도 (추후 결정)
         [SerializeField] float runMultiplier = 1.6f; // 달리기 속도 배율 (추후 결정)
 
         // 누르고 있는 방향을 누른 순서대로 보관. 마지막 원소가 현재 이동 방향
