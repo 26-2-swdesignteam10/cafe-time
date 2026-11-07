@@ -29,7 +29,7 @@
    - 추출이 끝나면 컵이 '샷이 든 컵'이 되고, 손 칸으로 회수해 음료 제조실에서 붓는다.
    - 머신에는 컵 2개가 놓인 채로 시작한다.
 5. 원두는 `Pantry`(오픈 준비에서 산 재고)에서 차감한다. 경고 문구는 게임 공통 `Toast`(`ToastMessage`)로 띄운다. `BeanInventory` 는 삭제한다.
-6. 영업 씬 화면은 `StationUiBuilder.BuildEspresso` 가 ShotTest 와 같은 좌표로 만든다. 손 칸이 보이도록 0.8배로 줄인다.
+6. 영업 씬 화면은 `StationUiBuilder.BuildEspresso` 가 만든다. 사용자가 팀원 그림의 화면 디자인이 이상하다고 해서 새 그림 `Art/UI/ShotRoom` 과 새 배치(1536x864)로 다시 만들었다. 스크립트 동작은 그대로다. `Art/UI/EspressoMachine` 은 ShotTest 씬이 쓰므로 남긴다.
 7. 기존 `EspressoBar`, `EspressoScreen`, `Cafe/Portafilter*` 와 Codex 그림 `Art/UI/Espresso` 는 삭제한다.
 8. ShotTest 씬은 그대로 둔다. 팀원 테스트용이며, 컵 자리가 없으면 컵 없이 추출한다.
 

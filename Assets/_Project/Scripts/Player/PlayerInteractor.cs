@@ -5,14 +5,12 @@ using UnityEngine.InputSystem;
 
 namespace CafeTime.Player
 {
-    // 오브젝트 상호작용 (SFR-020), 접근 시 테두리 + "E 사용" 안내 (SFR-013)
+    // 오브젝트 상호작용 (SFR-020), 접근 시 테두리 + E 키 안내 (SFR-013)
     // 범위 안의 Interactable 중 가장 가까운 1개만 대상으로 함
     public class PlayerInteractor : MonoBehaviour
     {
         [SerializeField] float range = 0.8f; // 상호작용 거리 (추후 결정). 오브젝트 충돌 영역 가장자리까지의 거리
-        [SerializeField] SpriteRenderer prompt; // 오브젝트 위에 띄우는 키 안내 ("E 사용" / "E 열기" 글자 이미지)
-        [SerializeField] Sprite promptUse;
-        [SerializeField] Sprite promptOpen;
+        [SerializeField] SpriteRenderer prompt; // 오브젝트 위에 띄우는 E 키 안내
 
         Interactable target;
 
@@ -31,7 +29,6 @@ namespace CafeTime.Player
             if (target == null) return;
 
             prompt.transform.position = target.PromptPosition;
-            prompt.sprite = target.ActionLabel == "열기" ? promptOpen : promptUse;
 
             if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
                 target.Interact();

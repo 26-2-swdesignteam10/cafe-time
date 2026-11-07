@@ -13,14 +13,12 @@ namespace CafeTime.Cafe
 
         public static IReadOnlyList<Interactable> All => all;
 
-        [SerializeField] string actionLabel = "사용"; // 키 안내 문구: "E 열기" / "E 사용"
         [SerializeField] GameObject highlight;        // 플레이어가 다가가면 켜지는 테두리 (SFR-013)
         [SerializeField] float promptHeight = 0.3f;   // 오브젝트 위쪽 끝에서 키 안내까지의 높이
         [SerializeField] UnityEvent onInteract = new UnityEvent();
 
         Collider2D area;
 
-        public string ActionLabel => actionLabel;
         public UnityEvent OnInteract => onInteract;
         public Vector3 PromptPosition => new Vector3(area.bounds.center.x, area.bounds.max.y + promptHeight, 0);
 

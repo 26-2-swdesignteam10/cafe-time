@@ -21,7 +21,7 @@ namespace CafeTime.EditorTools
         static readonly Color Invisible = new Color(1, 1, 1, 0);  // 그림 위에 겹친 놓는 자리 (클릭·드롭만 받음)
 
         public static readonly string[] Folders =
-            { "CupShelf", "IceMaker", "Water", "DrinkRoom", "ShakeRoom", "TrayReturn", "Dishwash", "Pause" };
+            { "CupShelf", "IceMaker", "Water", "DrinkRoom", "ShakeRoom", "TrayReturn", "Dishwash", "Pause", "ShotRoom" };
         // EspressoMachine 폴더(팀원 그림)는 임포트 설정을 바꾸지 않는다: ShotTest 씬이 Multiple 모드의 하위 스프라이트(tamper_0 등)를 참조함
 
         static Sprite S(string folder, string name) => LoadSprite($"{Art}/{folder}/{name}.png");
@@ -116,36 +116,46 @@ namespace CafeTime.EditorTools
         }
 
         // ───────── 에스프레소 머신 (SFR-029~036) ─────────
-        // 팀원의 샷 내리기 화면(Scripts/EspressoShot, ShotTest 씬)을 같은 배치로 만든다 (ADR-0015)
-        // 좌표는 ShotTest 와 같은 1920x1080 중심 기준. 손 칸이 보이도록 창을 0.8배로 줄인다
+        // 팀원의 샷 내리기 스크립트(Scripts/EspressoShot) 위에 새 화면을 만든다 (ADR-0015)
+        // 좌표는 창 가운데 기준이며 Panel.png 에 그려진 자리와 맞춘다 (Art/UI/ShotRoom/Generation.md)
 
         public static Popup BuildEspresso(Transform canvas, EspressoMachine machine)
         {
-            const string F = "EspressoMachine";
-            var (popup, window) = Window<Popup>(canvas, "EspressoScreen", S(F, "cafetime_shot_bg"), 1920, 1080, 20, 0.8f);
-            var close = AddButton(Centered("CloseButton", window, 960 - 41 - 130, 540 - 31 - 48, 260, 97), S(F, "cafetime_close_button"), Cream);
-            SetClose(popup, close);
+            const string F = "ShotRoom";
+            const float W = 1536, H = 864;
+            var lcdColor = new Color32(0xE4, 0xF1, 0xE0, 0xFF); // 어두운 LCD 위 글자
+
+            var (popup, window) = Window<Popup>(canvas, "EspressoScreen", S(F, "Panel"), W, H);
+            SetClose(popup, CloseButton(window, W - 100, 36));
 
             PortafilterSlot Slot(string name, SlotType type, float x, float y)
             {
-                var rt = Centered(name, window, x, y, 184, 71);
+                var rt = Centered(name, window, x, y, 184, 72);
                 AddImage(rt, null, Invisible, true); // 드롭 인식용
                 var slot = rt.gameObject.AddComponent<PortafilterSlot>();
                 slot.type = type;
                 return slot;
             }
 
-            var grinderSlot = Slot("Slot_Grinder", SlotType.Grinder, -654, -143);
-            var tampSlot = Slot("Slot_Tamp", SlotType.Tamp, -317, -143);
-            Slot("Slot_Knockbox", SlotType.Knockbox, 654, -153);
-            var racks = new[] { Slot("Slot_Rack1", SlotType.Rack, 97, -234), Slot("Slot_Rack2", SlotType.Rack, 97, -346) };
-            var heads = new[] { Slot("Slot_GroupL", SlotType.GroupHead, -148, 122), Slot("Slot_GroupR", SlotType.GroupHead, 240, 122) };
+            void StepLabel(string name, float x, float y) => Label(window, name, S(F, name), W / 2 + x, H / 2 - y, PivotCenter);
+
+            StepLabel("LabelGrind", -570, -153);
+            StepLabel("LabelTamp", -280, -153);
+            StepLabel("LabelExtract", 150, -153);
+            StepLabel("LabelKnock", 600, -153);
+            StepLabel("LabelRack", 145, -360);
+
+            var grinderSlot = Slot("Slot_Grinder", SlotType.Grinder, -570, -30);
+            var tampSlot = Slot("Slot_Tamp", SlotType.Tamp, -280, -30);
+            Slot("Slot_Knockbox", SlotType.Knockbox, 620, -40);
+            var racks = new[] { Slot("Slot_Rack1", SlotType.Rack, 0, -270), Slot("Slot_Rack2", SlotType.Rack, 290, -270) };
+            var heads = new[] { Slot("Slot_GroupL", SlotType.GroupHead, -20, 90), Slot("Slot_GroupR", SlotType.GroupHead, 320, 90) };
 
             // 포터필터 2개 (받침대에서 시작)
-            var states = new[] { S(F, "portafilter_empty"), S(F, "portafilter_ground"), S(F, "portafilter_tamped"), S(F, "portafilter_used") };
+            var states = new[] { S(F, "PortafilterEmpty"), S(F, "PortafilterGround"), S(F, "PortafilterTamped"), S(F, "PortafilterUsed") };
             for (int i = 0; i < 2; i++)
             {
-                var rt = Centered($"Portafilter{i + 1}", racks[i].transform, 0, 0, 184, 71);
+                var rt = Centered($"Portafilter{i + 1}", racks[i].transform, 0, 0, 184, 72);
                 AddImage(rt, states[0], Cream, true).preserveAspect = true;
                 rt.gameObject.AddComponent<CanvasGroup>();
                 var pf = rt.gameObject.AddComponent<Portafilter>();
@@ -154,16 +164,16 @@ namespace CafeTime.EditorTools
             }
 
             // 탬퍼: 아래로 끌어 누름 (SFR-032)
-            var tamperRt = Centered("Tamper", window, -363, -38, 92, 138);
-            AddImage(tamperRt, S(F, "tamper"), Cream, true).preserveAspect = true;
+            var tamperRt = Centered("Tamper", window, -280, 130, 92, 138);
+            AddImage(tamperRt, S(F, "Tamper"), Cream, true).preserveAspect = true;
             tamperRt.gameObject.AddComponent<TamperHandle>().tampSlot = tampSlot;
 
             // 그라인더 (SFR-031)
             var grinder = NewUI("Grinder", window).gameObject.AddComponent<Grinder>();
             grinder.slot = grinderSlot;
-            var grind = ShotButton(window, "GrindButton", "분쇄", -710, 102, 194, 61);
+            var grind = AddButton(Centered("GrindButton", window, -570, 70, 170, 60), S(F, "GrindButton"), Cream);
             UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(grind.onClick, grinder.OnClickGrind);
-            var grinderLcd = AddText(Centered("LCD_Grinder", window, -700, 204, 235, 61), "", 24, DarkCoffee);
+            var grinderLcd = AddText(Centered("LCD_Grinder", window, -570, 150, 190, 60), "", 24, lcdColor);
             var gd = grinderLcd.gameObject.AddComponent<GrinderDisplay>();
             gd.grinder = grinder;
             gd.label = grinderLcd;
@@ -171,10 +181,10 @@ namespace CafeTime.EditorTools
             // 그룹헤드별 추출 버튼·LCD (SFR-035) + 아래 샷 컵 자리 (SFR-034)
             for (int g = 0; g < 2; g++)
             {
-                float x = g == 0 ? -194 : 194;
-                var extract = ShotButton(window, g == 0 ? "ExtractButton_L" : "ExtractButton_R", "추출", x, 321, 112, 51);
+                float x = g == 0 ? -20 : 320;
+                var extract = AddButton(Centered(g == 0 ? "ExtractButton_L" : "ExtractButton_R", window, x, 225, 140, 56), S(F, "ExtractButton"), Cream);
                 UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(extract.onClick, heads[g].OnClickExtract);
-                var lcd = AddText(Centered(g == 0 ? "LCD_ExtractL" : "LCD_ExtractR", window, x, 402, 123, 61), "", 18, DarkCoffee);
+                var lcd = AddText(Centered(g == 0 ? "LCD_ExtractL" : "LCD_ExtractR", window, x, 300, 130, 56), "", 20, lcdColor);
                 var ed = lcd.gameObject.AddComponent<ExtractDisplay>();
                 ed.head = heads[g];
                 ed.label = lcd;
@@ -192,13 +202,6 @@ namespace CafeTime.EditorTools
             machine.screenPanel = popup.gameObject;
             EditorUtility.SetDirty(machine);
             return popup;
-        }
-
-        static Button ShotButton(Transform parent, string name, string text, float x, float y, float w, float h)
-        {
-            var button = AddButton(Centered(name, parent, x, y, w, h), null, Cream);
-            StretchText(button.transform, "Text", text, 26, DarkCoffee);
-            return button;
         }
 
         // ───────── 제빙기 (SFR-037~040) ─────────

@@ -6,7 +6,8 @@ using UnityEngine;
 namespace CafeTime.Cafe
 {
     // 손님 일행의 입장·줄·주문·서빙·퇴장을 관리 (SFR-024, 025, 027, 056, 057, 058)
-    // 동선: 문 → 가운데 세로 통로(aisleX) → 포스기 앞 가로 줄(queueLaneY) / 테이블 줄의 가로 통로(CafeTable.LaneY)
+    // 동선: 문 → 입구 세로 통로(aisleX) → 포스기 앞 가로 줄(queueLaneY) → 진열대 오른쪽 통로(hallRouteX)
+    //       → 화분 사이(hallLaneY) → 좌석 세로 통로(hallAisleX) → 테이블 줄의 가로 통로(CafeTable.LaneY) (ADR-0016)
     public class CustomerManager : MonoBehaviour
     {
         [Header("외형 (Art/Sprites/Customers)")]
@@ -15,12 +16,16 @@ namespace CafeTime.Cafe
         [SerializeField] Sprite gaugeFill;
 
         [Header("동선 (맵 좌표, 1칸 = 1)")]
-        [SerializeField] Vector2 doorOutside = new Vector2(13f, 0.3f);
+        [SerializeField] Vector2 doorOutside = new Vector2(2f, 0.3f);
         [SerializeField] float bottomLaneY = 1.25f;  // 문 바로 안쪽 가로 통로
-        [SerializeField] float aisleX = 11.5f;       // 가운데 세로 통로
-        [SerializeField] float queueLaneY = 7.15f;   // 포스기 앞 줄
-        [SerializeField] float queueStartX = 3f;     // 줄 맨 앞 (포스기 바로 앞)
+        [SerializeField] float aisleX = 2.5f;        // 입구 세로 통로
+        [SerializeField] float queueLaneY = 7.25f;   // 포스기 앞 줄
+        [SerializeField] float queueStartX = 4.625f; // 줄 맨 앞 (포스기 바로 앞). 줄은 왼쪽으로 이어짐
         [SerializeField] float queueSpacing = 1.8f;  // 일행 사이 간격
+        [SerializeField] int maxQueue = 5;           // 줄이 입구까지 차면 더 들어오지 않음
+        [SerializeField] float hallRouteX = 9.5f;    // 진열대 오른쪽 세로 통로
+        [SerializeField] float hallLaneY = 3.7f;     // 화분 사이로 좌석 구역에 들어가는 가로 통로
+        [SerializeField] float hallAisleX = 11.1f;   // 좌석 구역 세로 통로
         [SerializeField] float headHeight = 1.7f;    // 머리 위 게이지 높이
         [SerializeField] CafeTable[] tables;
 
@@ -77,7 +82,7 @@ namespace CafeTime.Cafe
         void TrySpawn()
         {
             var free = tables.Where(t => t.IsFree).ToList();
-            if (free.Count == 0) return; // 만석이면 들어오지 않고 돌아감 (감점 없음)
+            if (free.Count == 0 || queue.Count >= maxQueue) return; // 만석이거나 줄이 가득 차면 들어오지 않음 (감점 없음)
 
             int size = WeightedPartySize();
             var party = new GameObject("Party").AddComponent<CustomerParty>();
@@ -116,12 +121,12 @@ namespace CafeTime.Cafe
 
         // ───────── 줄 (SFR-025) ─────────
 
-        // 줄 칸 위치. 가로 줄이 차면 가운데 통로를 따라 아래로 이어 선다
+        // 줄 칸 위치. 가로 줄이 차면 입구 세로 통로를 따라 아래로 이어 선다
         Vector3 QueueSlot(int index)
         {
-            float x = queueStartX + index * queueSpacing;
-            if (x <= aisleX - queueSpacing * 0.5f) return new Vector3(x, queueLaneY);
-            int lastOnLane = Mathf.FloorToInt((aisleX - queueSpacing * 0.5f - queueStartX) / queueSpacing);
+            float x = queueStartX - index * queueSpacing;
+            if (x >= aisleX + queueSpacing * 0.5f) return new Vector3(x, queueLaneY);
+            int lastOnLane = Mathf.FloorToInt((queueStartX - aisleX - queueSpacing * 0.5f) / queueSpacing);
             return new Vector3(aisleX, queueLaneY - (index - lastOnLane) * queueSpacing * 0.8f);
         }
 
@@ -134,7 +139,7 @@ namespace CafeTime.Cafe
             {
                 var member = party.Members[i];
                 // 일행은 대표 뒤에 조금씩 겹쳐 선다
-                var offset = OnLane(slot) ? new Vector3(0.3f * i, -0.12f * i) : new Vector3(0.25f * i, -0.25f * i);
+                var offset = OnLane(slot) ? new Vector3(-0.3f * i, -0.12f * i) : new Vector3(0, -0.25f * i);
                 var points = new List<Vector3>();
                 if (fromDoor)
                 {
@@ -181,20 +186,19 @@ namespace CafeTime.Cafe
             party.Gauge.Show(false);
             party.Current = CustomerParty.State.ToTable;
             var table = party.Table;
-            bool frontRow = table.LaneY > queueLaneY - 1.5f; // 포스기 앞 줄과 붙은 테이블 줄
             for (int i = 0; i < party.Members.Count; i++)
             {
                 var member = party.Members[i];
                 var seat = table.Seat(i);
-                var points = new List<Vector3>();
-                if (!frontRow)
+                var points = new List<Vector3>
                 {
-                    points.Add(new Vector3(aisleX, queueLaneY));
-                    points.Add(new Vector3(aisleX, table.LaneY));
-                }
-                else points.Add(new Vector3(member.transform.position.x, table.LaneY));
-                points.Add(new Vector3(seat.x, table.LaneY));
-                points.Add(seat);
+                    new Vector3(hallRouteX, queueLaneY),
+                    new Vector3(hallRouteX, hallLaneY),
+                    new Vector3(hallAisleX, hallLaneY),
+                    new Vector3(hallAisleX, table.LaneY),
+                    new Vector3(seat.x, table.LaneY),
+                    seat,
+                };
                 member.Walk(points);
             }
             return order;
@@ -243,8 +247,6 @@ namespace CafeTime.Cafe
         void Leave(CustomerParty party, bool lost)
         {
             if (lost) Result.customersLost++;
-            bool fromTable = party.Current == CustomerParty.State.ToTable || party.Current == CustomerParty.State.Waiting ||
-                             party.Current == CustomerParty.State.Drinking;
             if (party.QueueIndex >= 0) LeaveQueue(party);
             if (party.Table.Party == party) party.Table.Party = null;
             party.Gauge.Show(false);
@@ -258,15 +260,36 @@ namespace CafeTime.Cafe
             }
             foreach (var member in party.Members)
             {
-                var p = member.transform.position;
-                // 지금 있는 가로 통로(테이블 줄 또는 포스기 앞 줄)를 따라 가운데 통로로 간 뒤 문으로
-                float laneY = fromTable ? party.Table.LaneY : OnLane(p) ? queueLaneY : p.y;
-                var points = new List<Vector3> { new Vector3(p.x, laneY), new Vector3(aisleX, laneY) };
-                points.Add(new Vector3(aisleX, bottomLaneY));
-                points.Add(new Vector3(doorOutside.x, bottomLaneY));
-                points.Add(doorOutside);
-                member.Walk(points);
+                member.Walk(ExitPath(member.transform.position, party.Table.LaneY));
             }
+        }
+
+        // 지금 위치에서 문까지 들어온 길을 되짚는 경로
+        List<Vector3> ExitPath(Vector3 p, float tableLaneY)
+        {
+            var points = new List<Vector3>();
+            if (p.x >= hallAisleX) // 좌석 구역
+            {
+                points.Add(new Vector3(p.x, tableLaneY));
+                points.Add(new Vector3(hallAisleX, tableLaneY));
+                points.Add(new Vector3(hallAisleX, hallLaneY));
+                points.Add(new Vector3(hallRouteX, hallLaneY));
+                points.Add(new Vector3(hallRouteX, queueLaneY));
+                points.Add(new Vector3(aisleX, queueLaneY));
+            }
+            else if (p.x > aisleX + 0.5f) // 포스기 앞 줄 또는 진열대 오른쪽 통로
+            {
+                if (!OnLane(p))
+                {
+                    points.Add(new Vector3(hallRouteX, p.y));
+                    points.Add(new Vector3(hallRouteX, queueLaneY));
+                }
+                points.Add(new Vector3(aisleX, queueLaneY));
+            }
+            points.Add(new Vector3(aisleX, bottomLaneY));
+            points.Add(new Vector3(doorOutside.x, bottomLaneY));
+            points.Add(doorOutside);
+            return points;
         }
 
         // 21:00 영업 종료: 음료를 못 받은 주문은 이탈과 같이 처리(환불·감점), 나머지 손님은 그냥 퇴장 (SFR-014)

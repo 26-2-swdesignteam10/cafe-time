@@ -10,6 +10,10 @@ namespace CafeTime.Core
     {
         public const int TotalDays = 15; // SFR-005
 
+        [Header("테스트")]
+        [Tooltip("켜면 영업 시작 때 모든 재료·디저트 재고를 가득 채운다. 플레이 테스트용이므로 출시 전에 끈다")]
+        [SerializeField] bool testFullStock = true;
+
         [Header("진행")]
         [SerializeField] int startingMoney = 150000;
         [Tooltip("DAY 1 ~ 15 임대료 (SFR-071)")]
@@ -144,6 +148,7 @@ namespace CafeTime.Core
 
         public int StartingMoney => startingMoney;
         public float InitialReputation => initialReputation;
+        public bool TestFullStock => testFullStock;
         public IReadOnlyList<IngredientDefinition> Ingredients => ingredients;
         public IReadOnlyList<MenuDefinition> Menus => menus;
 

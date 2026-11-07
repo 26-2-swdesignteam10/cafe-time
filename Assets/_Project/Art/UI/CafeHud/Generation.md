@@ -139,3 +139,16 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
   - Prompt: Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. ONE text-only transparent sprite label with exact Korean "스쿱을 먼저 반납해 주세요.". Check characters 스 / 쿱 / 을 /   / 먼 / 저 /   / 반 / 납 / 해 /   / 주 / 세 / 요 / .. Match reference bold square geometric pixel Hangul; flat dark coffee #380F00 lettering, cream #FCF0CA 3px outline. Single line, glyph height56px including outline, tight 8px alpha-zero padding. No background, panel, ornament, shadow, distress, glow, grain or speckles. True transparent exterior and counters.
 - ToastExtracting.png: 정확한 문구 "추출 중에는 뺄 수 없습니다.".
   - Prompt: Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. ONE text-only transparent sprite label with exact Korean "추출 중에는 뺄 수 없습니다.". Check characters 추 / 출 /   / 중 / 에 / 는 /   / 뺄 /   / 수 /   / 없 / 습 / 니 / 다 / .. Match reference bold square geometric pixel Hangul; flat dark coffee #380F00 lettering, cream #FCF0CA 3px outline. Single line, glyph height56px including outline, tight 8px alpha-zero padding. No background, panel, ornament, shadow, distress, glow, grain or speckles. True transparent exterior and counters.
+
+
+## E 키 안내
+
+﻿Generated with Python 3 / Pillow (기존 이미지 픽셀 추출). Style reference: Assets/_Project/Art/UI/CafeHud/PromptUse.png, PromptOpen.png.
+
+Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding.
+
+- PromptKey.png: PromptUse.png에서 E 키 외곽선과 내부 픽셀을 그대로 추출했다. 안내 문구와 키 밖 배경 패널은 제거했다. image_gen 재생성과 확대·축소는 하지 않았다.
+  - 원본 추출 범위: x=24..65, y=16..56 (0부터 시작, 양 끝 포함). 각 행의 x=20..69 중 R<210인 픽셀의 양 끝을 키 경계로 삼아 그 사이 원본 픽셀만 복사했다.
+  - 원본 키: 42×41px. 출력: 50×50px PNG, RGBA. 여백: 왼쪽·오른쪽·위 4px, 아래 5px. 원본 가로·세로가 1px 달라, 원본 크기와 정사각형을 유지하면 사방 정확히 4px를 동시에 만족할 수 없다.
+  - 실제 파일 검사 통과: 알파 값 {0,255}, 불투명 영역 bbox=(4,4,46,45). 모든 투명 픽셀은 RGBA=(0,0,0,0). 모든 불투명 픽셀은 원본 대응 좌표와 RGBA까지 동일하다.
+  - 저장소 파일 변경 없음. Unity 적용 시 Point (no filter), Mip Maps 끔, Alpha Is Transparency 켬. 기존 키의 표시 크기를 유지하려면 기존 프롬프트와 같은 픽셀당 표시 배율을 사용한다.
