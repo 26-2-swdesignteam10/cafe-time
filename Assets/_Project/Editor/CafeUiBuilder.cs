@@ -180,12 +180,13 @@ namespace CafeTime.EditorTools
             for (int i = 0; i < 2; i++)
             {
                 var slot = TopLeft(i == 0 ? "LeftHand" : "RightHand", root, i * 165, 0, 150, 150);
-                AddImage(slot, LoadSprite($"{Hud}/{(i == 0 ? "HandSlotLeft" : "HandSlotRight")}.png"), Cream, true);
+                var frame = AddImage(slot, LoadSprite($"{Hud}/{(i == 0 ? "HandSlotLeft" : "HandSlotRight")}.png"), Cream, true);
                 var icon = AddImage(Centered("Icon", slot, 0, 0, 104, 104), null, Color.clear);
                 icon.preserveAspect = true;
                 var slotView = slot.gameObject.AddComponent<HandSlotView>();
                 var sso = new SerializedObject(slotView);
                 sso.FindProperty("hand").intValue = i;
+                Set(sso, "frame", frame);
                 Set(sso, "icon", icon);
                 Set(sso, "owner", view);
                 sso.ApplyModifiedPropertiesWithoutUndo();

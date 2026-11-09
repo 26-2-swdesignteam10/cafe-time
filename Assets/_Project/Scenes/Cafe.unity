@@ -3796,7 +3796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CafeTime.Cafe.HandSlotView
   hand: 0
-  frame: {fileID: 0}
+  frame: {fileID: 171921158}
   icon: {fileID: 603417848}
   owner: {fileID: 1371514509}
 --- !u!114 &171921158
@@ -46216,7 +46216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CafeTime.Cafe.HandSlotView
   hand: 1
-  frame: {fileID: 0}
+  frame: {fileID: 2057540272}
   icon: {fileID: 1551956845}
   owner: {fileID: 1371514509}
 --- !u!114 &2057540272
