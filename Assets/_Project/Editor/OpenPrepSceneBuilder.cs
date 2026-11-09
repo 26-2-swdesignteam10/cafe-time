@@ -30,9 +30,10 @@ namespace CafeTime.EditorTools
 
             GameBalanceAssetBuilder.CreateOrUpdate();
             PrepareSprites(Art);
-            var card = BuildCardPrefab();
 
             var canvas = NewSceneWithCanvas(new Color32(0xE9, 0xC0, 0x8E, 0xFF));
+            // 프리팹은 새 씬을 만든 뒤에 저장한다. 먼저 저장하면 NewScene 이 참조 없는 에셋을 내려 cardPrefab 이 비어 저장된다
+            var card = BuildCardPrefab();
             AddBackground(canvas, LoadSprite(BackgroundPath), Cream, 0.35f);
             var screen = canvas.gameObject.AddComponent<OpenPrepScreen>();
             var so = new SerializedObject(screen);
