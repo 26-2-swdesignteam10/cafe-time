@@ -16,15 +16,12 @@ namespace CafeTime.UI
         Action onYes;
         Image messageImage;
         Sprite quitMessageSprite;
+        bool graphicCached;
 
         protected override void Awake()
         {
             base.Awake();
-            if (quitMessageGraphic != null)
-            {
-                messageImage = quitMessageGraphic.GetComponent<Image>();
-                quitMessageSprite = messageImage.sprite;
-            }
+            CacheGraphic();
             yesButton.onClick.AddListener(() =>
             {
                 Close();
@@ -33,8 +30,20 @@ namespace CafeTime.UI
             noButton.onClick.AddListener(Close);
         }
 
+        // 팝업이 꺼진 채로 씬이 시작되면 Awake 는 처음 열 때에야 실행된다.
+        // Open 에서 문구 이미지를 먼저 쓰기 때문에, 한 번만 준비하는 함수를 Awake 와 Open 양쪽에서 부른다.
+        void CacheGraphic()
+        {
+            if (graphicCached) return;
+            graphicCached = true;
+            if (quitMessageGraphic == null) return;
+            messageImage = quitMessageGraphic.GetComponent<Image>();
+            quitMessageSprite = messageImage.sprite; // 바꾸기 전의 기본(종료) 문구를 기억
+        }
+
         public void Open(string message, Action onYes)
         {
+            CacheGraphic();
             messageText.text = message;
             if (quitMessageGraphic != null)
             {
@@ -50,6 +59,7 @@ namespace CafeTime.UI
         // 고정 문구를 디자인 이미지로 표시 (docs/ART_STYLE.md 4장)
         public void Open(Sprite message, Action onYes)
         {
+            CacheGraphic();
             messageImage.sprite = message;
             quitMessageGraphic.SetActive(true);
             messageText.gameObject.SetActive(false);
