@@ -108,17 +108,17 @@ namespace CafeTime.EditorTools
             // 1줄: DAY  시각  [보유금] ₩    2줄: [임대료] ₩   [평판] ★★★★★
             var bar = TopLeft("StatusBar", canvas, 20, 20, 760, 120);
             AddImage(bar, LoadSprite($"{Hud}/StatusBar.png"), new Color32(0x90, 0x47, 0x1B, 0xFF));
-            Set(so, "dayText", AddText(TopLeft("Day", bar, 36, 10, 140, 52), "DAY 1", 34, Cream, TextAlignmentOptions.Left));
-            Set(so, "clockText", AddText(TopLeft("Clock", bar, 176, 10, 130, 52), "09:00", 34, Cream, TextAlignmentOptions.Left));
-            Label(bar, "MoneyLabel", LoadSprite($"{OpenPrep}/LabelMoney.png"), 318, 36, PivotLeft, 0.4f);
-            Set(so, "moneyText", AddText(TopLeft("Money", bar, 440, 10, 290, 52), "₩0", 32, Cream, TextAlignmentOptions.Left));
-            Label(bar, "RentLabel", LoadSprite($"{Hud}/LabelRent.png"), 36, 88, PivotLeft, 0.4f);
-            Set(so, "rentText", AddText(TopLeft("Rent", bar, 126, 64, 190, 48), "₩0", 26, Cream, TextAlignmentOptions.Left));
-            Label(bar, "ReputationLabel", LoadSprite($"{Hud}/LabelReputation.png"), 318, 88, PivotLeft, 0.4f);
+            Set(so, "dayText", AddText(TopLeft("Day", bar, 40, 20, 140, 52), "DAY 1", 26, Cream, TextAlignmentOptions.Left));
+            Set(so, "clockText", AddText(TopLeft("Clock", bar, 176, 20, 130, 52), "09:00", 25, Cream, TextAlignmentOptions.Left));
+            Label(bar, "MoneyLabel", LoadSprite($"{OpenPrep}/LabelMoney.png"), 318, 43, PivotLeft, 0.4f);
+            Set(so, "moneyText", AddText(TopLeft("Money", bar, 440, 20, 290, 52), "₩0", 26, Cream, TextAlignmentOptions.Left));
+            Label(bar, "RentLabel", LoadSprite($"{Hud}/LabelRent.png"), 36, 80, PivotLeft, 0.4f);
+            Set(so, "rentText", AddText(TopLeft("Rent", bar, 126, 55, 190, 48), "₩0", 20, Cream, TextAlignmentOptions.Left));
+            Label(bar, "ReputationLabel", LoadSprite($"{Hud}/LabelReputation.png"), 318, 80, PivotLeft, 0.4f);
             var starFull = LoadSprite($"{Settlement}/Star.png");
             var stars = new Object[5];
             for (int i = 0; i < stars.Length; i++)
-                stars[i] = AddImage(TopLeft($"Star {i + 1}", bar, 385 + i * 34, 72, 30, 30), starFull, Cream);
+                stars[i] = AddImage(TopLeft($"Star {i + 1}", bar, 385 + i * 34, 65, 30, 30), starFull, Cream);
             SetArray(so, "stars", stars);
             Set(so, "starFull", starFull);
             Set(so, "starEmpty", LoadSprite($"{Settlement}/StarEmpty.png"));
@@ -130,9 +130,9 @@ namespace CafeTime.EditorTools
             var texts = new Object[2];
             for (int i = 0; i < 2; i++)
             {
-                icons[i] = AddImage(TopLeft($"StockIcon {i}", stock, 34, 12 + i * 50, 44, 44), null, Color.clear);
+                icons[i] = AddImage(TopLeft($"StockIcon {i}", stock, 34, 20 + i * 38, 40, 40), null, Color.clear);
                 ((Image)icons[i]).preserveAspect = true;
-                texts[i] = AddText(TopLeft($"StockText {i}", stock, 90, 12 + i * 50, 190, 44), "0", 26, Cream, TextAlignmentOptions.Left);
+                texts[i] = AddText(TopLeft($"StockText {i}", stock, 90, 20 + i * 38, 190, 44), "0", 24, Cream, TextAlignmentOptions.Left);
             }
             SetArray(so, "stockIcons", icons);
             SetArray(so, "stockTexts", texts);

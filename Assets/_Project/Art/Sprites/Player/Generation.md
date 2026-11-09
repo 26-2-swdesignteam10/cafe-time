@@ -39,3 +39,9 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
 | PlayerRight0.png | 128?192 | ? | (22, 8, 107, 188) |
 | PlayerRight1.png | 128?192 | ? | (19, 10, 110, 188) |
 | PlayerRight2.png | 128?192 | ? | (21, 10, 108, 188) |
+
+## PR #8 교체 (2026-11)
+
+Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구 확인과 파일별 프롬프트는 작성자에게 받아 보충한다.
+
+- 교체한 파일: PlayerDown0.png, PlayerDown1.png, PlayerDown2.png, PlayerLeft0.png, PlayerLeft1.png, PlayerLeft2.png, PlayerRight0.png, PlayerRight1.png, PlayerRight2.png, PlayerSheet.png, PlayerSourceSheet.png, PlayerUp0.png, PlayerUp1.png, PlayerUp2.png
