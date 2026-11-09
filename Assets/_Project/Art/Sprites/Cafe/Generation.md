@@ -355,3 +355,9 @@ Unity 임포트와 게임 내 배치는 이번 작업 범위에 포함하지 않
 
 저장소 공통 검사: `bash .github/scripts/check-repo.sh` 통과 (파일 1353개).
 
+
+## PR #8 교체 (2026-11)
+
+Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구 확인과 파일별 프롬프트는 작성자에게 받아 보충한다.
+
+- 교체한 파일: Booth.png, BreadShelf.png, ChairLeft.png, ChairRight.png, Counter.png, Floor.png, PlanterSegment.png, StationCupShelf.png, StationDessertCase.png, StationDishwash.png, StationDrinkBar.png, StationEspresso.png, StationIceMaker.png, StationPickup.png, StationPos.png, StationShakeBar.png, StationTowel.png, StationTrayReturn.png, StationWater.png, Stool.png, Table.png, WindowHall.png

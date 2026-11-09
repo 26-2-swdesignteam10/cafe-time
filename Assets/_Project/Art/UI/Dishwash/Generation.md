@@ -25,3 +25,9 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
 - DryingRack.png는 생성한 6개 빈 슬롯을 최근접 좌표 매핑으로 표시 x=60,148,236,324,412,500(PNG x=120,296,472,648,824,1000)에 맞췄다. 컵 바닥 지지선은 표시 y=230(PNG y=460)이다. 컵은 없다.
 - .meta 파일은 직접 생성하지 않았다. Unity 6000.6.4f1에서 임포트가 필요하다. 패널의 원본 3200px 폭을 유지하려면 Max Size 4096, Sprite (2D and UI)/Single, Point, Mip Maps 끔, Alpha Is Transparency 켬을 사용한다. LABEL 표시는 PNG의 절반 크기다.
 
+
+## PR #8 교체 (2026-11)
+
+Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구 확인과 파일별 프롬프트는 작성자에게 받아 보충한다.
+
+- 교체한 파일: Sponge.png
