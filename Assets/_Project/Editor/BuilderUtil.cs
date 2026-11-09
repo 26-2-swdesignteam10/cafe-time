@@ -24,7 +24,7 @@ namespace CafeTime.EditorTools
         public static TMP_FontAsset GameFont => font != null ? font : font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(FontAssetPath);
 
         // 폴더의 PNG를 도트 스프라이트 설정으로 맞춤 (docs/ART_STYLE.md 6장)
-        public static void PrepareSprites(string folder)
+        public static void PrepareSprites(string folder, FilterMode filter = FilterMode.Point)
         {
             if (!Directory.Exists(folder)) return;
             foreach (var path in Directory.GetFiles(folder, "*.png").Select(p => p.Replace('\\', '/')))
@@ -32,7 +32,7 @@ namespace CafeTime.EditorTools
                 if (!(AssetImporter.GetAtPath(path) is TextureImporter importer)) continue;
                 importer.textureType = TextureImporterType.Sprite;
                 importer.spriteImportMode = SpriteImportMode.Single;
-                importer.filterMode = FilterMode.Point;
+                importer.filterMode = filter;
                 importer.textureCompression = TextureImporterCompression.Uncompressed;
                 importer.mipmapEnabled = false;
                 importer.alphaIsTransparency = true;

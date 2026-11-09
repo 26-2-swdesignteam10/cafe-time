@@ -20,6 +20,8 @@ namespace CafeTime.EspressoShot
         public Portafilter startingPortafilter;
         [Tooltip("GroupHead 만: 아래 컵 자리 (SFR-034). 비워 두면 컵 없이 추출")]
         public ShotCupSlot cup;
+        [Tooltip("놓인 포터필터의 세로 위치 보정 (캔버스 단위). 그림 크기가 슬롯과 다를 때 사용")]
+        public float portafilterOffsetY;
 
         public Portafilter Current { get; private set; }
         public bool Locked { get; set; }   // 추출/분쇄 중에는 분리 불가

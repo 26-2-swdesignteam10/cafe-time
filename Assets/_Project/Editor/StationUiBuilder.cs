@@ -28,7 +28,9 @@ namespace CafeTime.EditorTools
 
         public static void PrepareAll()
         {
-            foreach (var folder in Folders) PrepareSprites($"{Art}/{folder}");
+            // 샷 내리기 창만 도트가 아닌 일러스트라 부드럽게 표시한다 (docs/ART_STYLE.md 1장)
+            foreach (var folder in Folders)
+                PrepareSprites($"{Art}/{folder}", folder == "ShotRoom" ? FilterMode.Bilinear : FilterMode.Point);
         }
 
         // ───────── 공통 ─────────
@@ -128,31 +130,36 @@ namespace CafeTime.EditorTools
             var (popup, window) = Window<Popup>(canvas, "EspressoScreen", S(F, "Panel"), W, H);
             SetClose(popup, CloseButton(window, W - 100, 36));
 
-            PortafilterSlot Slot(string name, SlotType type, float x, float y)
+            PortafilterSlot Slot(string name, SlotType type, float x, float y, float portafilterOffsetY = 0)
             {
                 var rt = Centered(name, window, x, y, 184, 72);
                 AddImage(rt, null, Invisible, true); // 드롭 인식용
                 var slot = rt.gameObject.AddComponent<PortafilterSlot>();
                 slot.type = type;
+                slot.portafilterOffsetY = portafilterOffsetY;
                 return slot;
             }
 
-            void StepLabel(string name, float x, float y) => Label(window, name, S(F, name), W / 2 + x, H / 2 - y, PivotCenter);
+            // 줄여 표시하면 Point 필터에서 픽셀이 빠지므로 표시 크기로 만든 라벨을 1:1 로 쓴다
+            void StepLabel(string name, float x, float y) => Label(window, name, S(F, name), W / 2 + x, H / 2 - y, PivotCenter, 1f);
 
             StepLabel("LabelGrind", -570, -153);
             StepLabel("LabelTamp", -280, -153);
             StepLabel("LabelExtract", 150, -153);
             StepLabel("LabelKnock", 600, -153);
-            StepLabel("LabelRack", 145, -360);
+            StepLabel("LabelRack", 0, -370);
 
-            var grinderSlot = Slot("Slot_Grinder", SlotType.Grinder, -570, -30);
-            var tampSlot = Slot("Slot_Tamp", SlotType.Tamp, -280, -30);
+            // 앞모습은 184x88 이라 위끝을 슬롯 위끝에 맞추려고 8 내린다. 장착 그림은 그룹헤드 아래에 물리게 56 내린다
+            const float FrontOffset = -8, MountedOffset = -56;
+            var grinderSlot = Slot("Slot_Grinder", SlotType.Grinder, -570, -30, FrontOffset);
+            var tampSlot = Slot("Slot_Tamp", SlotType.Tamp, -280, -30, FrontOffset);
             Slot("Slot_Knockbox", SlotType.Knockbox, 620, -40);
-            var racks = new[] { Slot("Slot_Rack1", SlotType.Rack, 0, -270), Slot("Slot_Rack2", SlotType.Rack, 290, -270) };
-            var heads = new[] { Slot("Slot_GroupL", SlotType.GroupHead, -20, 90), Slot("Slot_GroupR", SlotType.GroupHead, 320, 90) };
+            var racks = new[] { Slot("Slot_Rack1", SlotType.Rack, -145, -270), Slot("Slot_Rack2", SlotType.Rack, 145, -270) };
+            var heads = new[] { Slot("Slot_GroupL", SlotType.GroupHead, -20, 90, MountedOffset), Slot("Slot_GroupR", SlotType.GroupHead, 320, 90, MountedOffset) };
 
             // 포터필터 2개 (받침대에서 시작)
             var states = new[] { S(F, "PortafilterEmpty"), S(F, "PortafilterGround"), S(F, "PortafilterTamped"), S(F, "PortafilterUsed") };
+            var frontStates = new[] { S(F, "PortafilterFrontEmpty"), S(F, "PortafilterFrontGround"), S(F, "PortafilterFrontTamped"), S(F, "PortafilterFrontUsed") };
             for (int i = 0; i < 2; i++)
             {
                 var rt = Centered($"Portafilter{i + 1}", racks[i].transform, 0, 0, 184, 72);
@@ -160,6 +167,8 @@ namespace CafeTime.EditorTools
                 rt.gameObject.AddComponent<CanvasGroup>();
                 var pf = rt.gameObject.AddComponent<Portafilter>();
                 pf.stateSprites = states;
+                pf.frontStateSprites = frontStates;
+                pf.mountedSprite = S(F, "PortafilterMounted");
                 racks[i].startingPortafilter = pf;
             }
 
@@ -197,6 +206,7 @@ namespace CafeTime.EditorTools
                 cup.head = heads[g];
                 cup.glassIcon = icon;
                 heads[g].cup = cup;
+                heads[g].transform.SetAsLastSibling(); // 장착한 포터필터 손잡이가 컵 앞에 보이게
             }
 
             machine.screenPanel = popup.gameObject;

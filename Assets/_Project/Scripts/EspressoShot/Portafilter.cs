@@ -22,6 +22,12 @@ namespace CafeTime.EspressoShot
         [Header("상태별 스프라이트 (선택) 순서: 빈, 원두가루, 탬핑완료, 사용완료")]
         public Sprite[] stateSprites;
 
+        [Header("앞모습 스프라이트 (선택) 그라인더·탬핑·그룹헤드에서 사용. 순서는 위와 같음")]
+        public Sprite[] frontStateSprites;
+
+        [Header("그룹헤드에 장착했을 때 스프라이트 (선택). 끼우면 내용물이 보이지 않아 상태와 관계없이 같음")]
+        public Sprite mountedSprite;
+
         [Header("상태 글자 (선택)")]
         public TMP_Text stateLabel;
 
@@ -33,12 +39,14 @@ namespace CafeTime.EspressoShot
         RectTransform rect;
         Canvas rootCanvas;
         bool dragging;
+        Vector2 sideSize;
 
         void Awake()
         {
             image = GetComponent<Image>();
             group = GetComponent<CanvasGroup>();
             rect = (RectTransform)transform;
+            sideSize = rect.sizeDelta;
             rootCanvas = GetComponentInParent<Canvas>().rootCanvas;
             Refresh();
         }
@@ -49,12 +57,23 @@ namespace CafeTime.EspressoShot
             Refresh();
         }
 
+        // 그라인더·탬핑·그룹헤드에서는 손잡이가 앞을 향한다
+        bool FacesFront => Slot != null &&
+            (Slot.type == SlotType.Grinder || Slot.type == SlotType.Tamp || Slot.type == SlotType.GroupHead);
+
         void Refresh()
         {
             if (image == null) return;
             int i = (int)State;
-            bool hasSprite = stateSprites != null && i < stateSprites.Length && stateSprites[i] != null;
-            if (hasSprite) { image.sprite = stateSprites[i]; image.color = Color.white; }
+            bool front = FacesFront && frontStateSprites != null && frontStateSprites.Length > 0;
+            Sprite[] sprites = front ? frontStateSprites : stateSprites;
+            Sprite sprite = sprites != null && i < sprites.Length ? sprites[i] : null;
+            if (!dragging && mountedSprite != null && Slot != null && Slot.type == SlotType.GroupHead)
+                sprite = mountedSprite;
+            bool hasSprite = sprite != null;
+            // 앞모습·장착 그림은 옆모습과 크기가 달라 그림 크기를 그대로 쓴다
+            rect.sizeDelta = front && hasSprite ? sprite.rect.size : sideSize;
+            if (hasSprite) { image.sprite = sprite; image.color = Color.white; }
             else
             {
                 image.color = State switch
@@ -84,13 +103,14 @@ namespace CafeTime.EspressoShot
             Slot = slot;
             slot.Place(this);
             SnapToSlot();
+            Refresh();
         }
 
         void SnapToSlot()
         {
             transform.SetParent(Slot.transform, false);
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = Vector2.zero;
+            rect.anchoredPosition = new Vector2(0f, Slot.portafilterOffsetY);
         }
 
         // ---------- 드래그 ----------
@@ -103,6 +123,7 @@ namespace CafeTime.EspressoShot
                 return;
             }
             dragging = true;
+            Refresh();                         // 그룹헤드에서 빼면 장착 그림 대신 내용물이 보이게
             group.blocksRaycasts = false;      // 드롭 위치의 슬롯을 레이캐스트로 찾기 위해
             transform.SetParent(rootCanvas.transform, true);
             transform.SetAsLastSibling();
@@ -134,6 +155,7 @@ namespace CafeTime.EspressoShot
             // 놓을 수 없는 곳 / 거절된 곳 → 원래 위치로 (SFR-030)
             if (target == null || target == Slot || !target.TryAccept(this))
                 SnapToSlot();
+            Refresh();
         }
     }
 }
