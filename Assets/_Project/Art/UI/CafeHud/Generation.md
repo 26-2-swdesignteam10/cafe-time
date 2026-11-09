@@ -152,3 +152,9 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
   - 원본 키: 42×41px. 출력: 50×50px PNG, RGBA. 여백: 왼쪽·오른쪽·위 4px, 아래 5px. 원본 가로·세로가 1px 달라, 원본 크기와 정사각형을 유지하면 사방 정확히 4px를 동시에 만족할 수 없다.
   - 실제 파일 검사 통과: 알파 값 {0,255}, 불투명 영역 bbox=(4,4,46,45). 모든 투명 픽셀은 RGBA=(0,0,0,0). 모든 불투명 픽셀은 원본 대응 좌표와 RGBA까지 동일하다.
   - 저장소 파일 변경 없음. Unity 적용 시 Point (no filter), Mip Maps 끔, Alpha Is Transparency 켬. 기존 키의 표시 크기를 유지하려면 기존 프롬프트와 같은 픽셀당 표시 배율을 사용한다.
+
+## PR #8 교체 (2026-11)
+
+Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구 확인과 파일별 프롬프트는 작성자에게 받아 보충한다.
+
+- 교체한 파일: BannerClosed.png, LabelRent.png, LabelReputation.png, Ticket.png, TicketSelected.png, Toast.png

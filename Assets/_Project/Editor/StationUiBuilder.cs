@@ -211,12 +211,12 @@ namespace CafeTime.EditorTools
             const string F = "IceMaker";
             var popup = Screen<IceMakerScreen>(canvas, F, "IceMakerScreen", 1100, 700, out var window);
             var so = new SerializedObject(popup);
-            Label(window, "Hint", S(F, "Hint"), 550, 135, PivotCenter);
+            Label(window, "Hint", S(F, "Hint"), 550, 620, PivotCenter, 2f / 3f);
             Set(so, "bin", Zone(window, "IceBin", 90, 190, 520, 340, S(F, "IceBin"), Cream));
-            Label(window, "LabelIce", S(F, "LabelIce"), 110, 580, PivotLeft);
-            Set(so, "iceText", AddText(TopLeft("Ice", window, 220, 556, 260, 48), "0 / 0", 32, DarkCoffee, TextAlignmentOptions.Left));
-            Label(window, "LabelSpeed", S(F, "LabelSpeed"), 110, 635, PivotLeft);
-            Set(so, "speedText", AddText(TopLeft("Speed", window, 260, 611, 300, 48), "", 28, TextBrown, TextAlignmentOptions.Left));
+            Label(window, "LabelIce", S(F, "LabelIce"), 110, 550, PivotLeft);
+            Set(so, "iceText", AddText(TopLeft("Ice", window, 220, 526, 260, 48), "0 / 0", 26, DarkCoffee, TextAlignmentOptions.Left));
+            Label(window, "LabelSpeed", S(F, "LabelSpeed"), 380, 550, PivotLeft);
+            Set(so, "speedText", AddText(TopLeft("Speed", window, 550, 528, 300, 48), "", 26, TextBrown, TextAlignmentOptions.Left));
 
             var spot = Zone(window, "ScoopSpot", 760, 260, 200, 170, S(F, "ScoopSpot"), Cream);
             Label(window, "LabelScoop", S(F, "LabelScoop"), 860, 455, PivotCenter);
@@ -321,7 +321,7 @@ namespace CafeTime.EditorTools
             var so = new SerializedObject(popup);
 
             // 재료 선반: 선반 판 윗면 y = 150, 310, 470, 630 → 칸 120 + 줄 간격 40
-            var shelf = TopLeft("Shelf", window, 70, 160, 920, 660);
+            var shelf = TopLeft("Shelf", window, 100, 200, 920, 660);
             AddImage(shelf, S(F, "Shelf"), new Color32(0x6B, 0x45, 0x2A, 0xFF));
             var grid = shelf.gameObject.AddComponent<GridLayoutGroup>();
             grid.cellSize = new Vector2(120, 120);
@@ -331,18 +331,18 @@ namespace CafeTime.EditorTools
             grid.constraintCount = 6;
             Set(so, "shelf", shelf);
             Set(so, "slotTemplate", SlotTemplate(shelf, F));
-            Label(window, "PourHint", S(F, "PourHint"), 530, 850, PivotCenter);
+            Label(window, "PourHint", S(F, "PourHint"), 780, 850, PivotCenter);
 
             // 전자저울: 판 윗면 y = 40 (저울 그림 기준), LCD x 90~270, y 120~180
             var scale = Zone(window, "Scale", 1100, 300, 360, 340, null, Invisible);
-            AddImage(TopLeft("ScaleImage", scale.transform, 0, 130, 360, 210), S(F, "Scale"), Cream);
+            AddImage(TopLeft("ScaleImage", scale.transform, -20, 130, 360, 210), S(F, "Scale"), Cream);
             Set(so, "scale", scale);
-            Set(so, "cupIcon", Icon(scale.transform, "Cup", 116, 42, 128));
-            Set(so, "weightText", AddText(TopLeft("Weight", scale.transform, 90, 250, 180, 60), "0g", 34,
+            Set(so, "cupIcon", Icon(scale.transform, "Cup", 96, 42, 128));
+            Set(so, "weightText", AddText(TopLeft("Weight", scale.transform, 70, 250, 180, 60), "0g", 34,
                 new Color32(0xB8, 0xF5, 0x9A, 0xFF)));
 
-            Set(so, "emptyButton", Btn(window, "EmptyButton", S(F, "EmptyButton"), 1070, 700, 220, 80));
-            Set(so, "completeButton", Btn(window, "CompleteButton", S(F, "CompleteButton"), 1310, 695, 260, 90));
+            Set(so, "emptyButton", Btn(window, "EmptyButton", S(F, "EmptyButton"), 1040, 700, 220, 80));
+            Set(so, "completeButton", Btn(window, "CompleteButton", S(F, "CompleteButton"), 1270, 700, 220, 80));
             Set(so, "result", Result(window));
             Set(so, "tooltip", Tooltip(window));
             so.ApplyModifiedPropertiesWithoutUndo();
@@ -356,7 +356,7 @@ namespace CafeTime.EditorTools
             const string F = "ShakeRoom";
             var popup = Screen<ShakeRoomScreen>(canvas, F, "ShakeRoomScreen", 1600, 900, out var window);
             var so = new SerializedObject(popup);
-            Label(window, "Hint", S(F, "Hint"), 800, 135, PivotCenter);
+            Label(window, "Hint", S(F, "Hint"), 800, 780, PivotCenter, 1f);
 
             Label(window, "LabelBase", S(F, "LabelBase"), 110, 210, PivotLeft);
             var shelf = TopLeft("Bases", window, 100, 240, 640, 130);
@@ -378,17 +378,17 @@ namespace CafeTime.EditorTools
             Set(so, "blenderZone", blender);
             Set(so, "blenderImage", blender.GetComponent<Image>());
             SetArray(so, "blenderSprites", new Object[] { S(F, "BlenderEmpty"), S(F, "BlenderFilled"), S(F, "BlenderBlended") });
-            Set(so, "weightText", AddText(TopLeft("Weight", window, 800, 620, 280, 50), "0g", 32, DarkCoffee));
-            Set(so, "blendButton", Btn(window, "BlendButton", S(F, "BlendButton"), 830, 680, 220, 80));
+            Set(so, "weightText", AddText(TopLeft("Weight", window, 800, 580, 280, 50), "0g", 32, DarkCoffee));
+            Set(so, "blendButton", Btn(window, "BlendButton", S(F, "BlendButton"), 830, 650, 220, 80));
             Set(so, "blendProgress", Progress(window, "BlendProgress", 830, 770, 220));
 
             // 커피잔 자리 (오른쪽)
             var cup = Zone(window, "CupSpot", 1180, 400, 260, 220, null, Invisible);
-            AddImage(TopLeft("Coaster", cup.transform, 20, 150, 220, 70), S(F, "CupSpot"), Spot);
+            AddImage(TopLeft("Coaster", cup.transform, 20, 120, 220, 70), S(F, "CupSpot"), Spot);
             Set(so, "cupSpot", cup);
             Set(so, "cupIcon", Icon(cup.transform, "Cup", 66, 30, 128));
-            Label(window, "LabelCupSpot", S(F, "LabelCupSpot"), 1310, 645, PivotCenter);
-            Set(so, "pourButton", Btn(window, "PourButton", S(F, "PourButton"), 1200, 680, 220, 80));
+            Label(window, "LabelCupSpot", S(F, "LabelCupSpot"), 1310, 625, PivotCenter);
+            Set(so, "pourButton", Btn(window, "PourButton", S(F, "PourButton"), 1200, 650, 220, 80));
 
             Set(so, "result", Result(window));
             Set(so, "tooltip", Tooltip(window));
@@ -443,14 +443,14 @@ namespace CafeTime.EditorTools
             const string F = "Dishwash";
             var popup = Screen<DishwashScreen>(canvas, F, "DishwashScreen", 1600, 900, out var window);
             var so = new SerializedObject(popup);
-            Label(window, "Hint", S(F, "Hint"), 760, 600, PivotCenter);
+            Label(window, "Hint", S(F, "Hint"), 760, 750, PivotCenter, 1f);
 
-            AddImage(TopLeft("WaitingCrate", window, 70, 200, 300, 240), S(F, "WaitingCrate"), Cream);
-            Label(window, "LabelWaiting", S(F, "LabelWaiting"), 220, 470, PivotCenter);
-            Set(so, "waitingText", AddText(TopLeft("Waiting", window, 120, 495, 200, 48), "0개", 32, DarkCoffee));
+            AddImage(TopLeft("WaitingCrate", window, 100, 200, 300, 240), S(F, "WaitingCrate"), Cream);
+            Label(window, "LabelWaiting", S(F, "LabelWaiting"), 250, 470, PivotCenter);
+            Set(so, "waitingText", AddText(TopLeft("Waiting", window, 150, 495, 200, 48), "0개", 32, DarkCoffee));
 
             // 싱크대: 가운데에 잔 1개, 그 위에 얼룩. 수세미는 좌우로만 조금 따라 움직임
-            var sink = TopLeft("Sink", window, 420, 180, 640, 380);
+            var sink = TopLeft("Sink", window, 420, 250, 640, 380);
             AddImage(sink, S(F, "Sink"), new Color32(0xB8, 0xC0, 0xC4, 0xFF));
             var item = Icon(sink, "Item", 240, 120, 160);
             Set(so, "sinkItem", item);

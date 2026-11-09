@@ -61,3 +61,9 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
 - 금속은 회색, 물·얼음·청소 천은 옅은 파란색 보조색을 사용했다.
 - 새 PNG의 .meta는 직접 만들지 않았다. Unity 6000.6.4f1에서 임포트 후 Sprite (2D and UI), Single, Point 필터, Mip Maps 끔, Alpha Is Transparency 켬을 확인한다. 게임 표시 크기는 128×128이다.
 
+
+## PR #8 교체 (2026-11)
+
+Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구 확인과 파일별 프롬프트는 작성자에게 받아 보충한다.
+
+- 교체한 파일: CupCeramic.png, CupCeramicMixing.png, CupCeramicWater.png, CupPlastic.png, CupPlasticMixing.png, CupPlasticWater.png, FailedDrink.png, HotCoffee.png, HotTea.png, Plate.png, ShotGlass.png, ShotGlassFull.png, Towel.png

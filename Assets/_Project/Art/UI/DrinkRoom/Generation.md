@@ -47,3 +47,9 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
 - GradeFailed.png: LABEL text-only sprite, exact Korean text "??? ??". Bold pixel Korean letters, deep brick red #A3261B fill and cream #FCF0CA outline 3px thick. Korean glyph body height exactly 72px (M), all glyphs same height. Tight crop with 8px even transparent padding. Single line, exact spaces. No panel, button, decoration, beans, shadows, texture or background, ONLY text. Match reference letter shapes.
 
 ?? ???: ?? ?? ??? ??? ??, ??? ?? ??, ?? ??? ? ????, ?? ? ??? ?? ??? ?? ??. .meta? Unity?? ????.
+
+## PR #8 교체 (2026-11)
+
+Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구 확인과 파일별 프롬프트는 작성자에게 받아 보충한다.
+
+- 교체한 파일: Scale.png
