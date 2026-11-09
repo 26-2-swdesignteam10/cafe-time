@@ -21,7 +21,7 @@ namespace CafeTime.EditorTools
         const string Stations = "Assets/_Project/Art/UI/Stations";
         const string OpenPrep = "Assets/_Project/Art/UI/OpenPrep";
         const string Settlement = "Assets/_Project/Art/UI/Settlement";
-        const string CloseIcon = "Assets/_Project/Art/UI/Settings/Close.png";
+        const string CloseIcon = "Assets/_Project/Art/UI/Stations/Close.png"; // 기기 작업 창 공용 닫기 (일러스트)
         const string QuitPanel = "Assets/_Project/Art/UI/Quit/Panel.png";
 
         public class Screens
@@ -43,7 +43,9 @@ namespace CafeTime.EditorTools
 
         public static Screens Build(CafeSceneBuilder.Managers managers)
         {
-            foreach (var folder in new[] { Hud, Pos, Stations, OpenPrep, Settlement }) PrepareSprites(folder);
+            foreach (var folder in new[] { Hud, OpenPrep, Settlement }) PrepareSprites(folder);
+            // 기기 작업 창은 도트가 아닌 일러스트라 부드럽게 표시한다 (docs/ART_STYLE.md 1장)
+            foreach (var folder in new[] { Pos, Stations }) PrepareSprites(folder, FilterMode.Bilinear);
             StationUiBuilder.PrepareAll();
             new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
 

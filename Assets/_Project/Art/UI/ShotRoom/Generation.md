@@ -30,3 +30,30 @@ Panel의 빈 장비 자리에는 동적 스프라이트나 글자를 굽지 않�
 - `PortafilterMounted.png` (140×64): 실제 폭 120px, row 0~63. 잠금 귀와 테두리, 바스켓 옆면, 좌우 추출구, 앞으로 나온 손잡이 순으로 배치하고 내용물은 보이지 않게 했다. 생성 원본: `exec-e77f8ba0-e293-4c41-a310-bcdad229ee40.png`.
 
 앞모습 네 장은 내용물 영역 바깥에 동일한 빈 몸체 픽셀을 사용한다. 검증은 프로젝트 밖 `shotroom-preview/FrontStates4x.png`에서 4배 확대하고 `shotroom-preview/PanelComposite.png`에서 Panel, Tamper, ShotGlass와 합성해 수행했다. 기존 옆모습 `PortafilterGround.png`는 이번 최종 결과에서 변경하지 않았다.
+## 2026-11-09 분쇄·추출 애니메이션
+
+도구: 프로젝트 밖 임시 PowerShell 스크립트의 System.Drawing으로 투명 프레임을 제작하고 2배 합성 미리보기에서 접점을 확인했다. 스타일 참조: 이 폴더의 Panel.png, PortafilterFrontEmpty.png, PortafilterMounted.png와 Art/Icons/Items/ShotGlass.png. 공통 스타일은 위의 ShotRoom 공통 프롬프트를 따른다. 프레임은 같은 형태를 유지하면서 입자와 크레마 하이라이트의 세로 위치만 순환한다.
+
+- GrindStream0.png~GrindStream3.png (각 48×30): “Fine irregular roasted-brown microgranules falling from the grinder chute into the front-facing portafilter basket; coherent soft edges, transparent background.” 배출구 아래끝 이미지 y≈407, 바스켓 입구 y≈437에 맞춰 중심 창 좌표 (-570, 9)로 합성했다.
+- ExtractStream0.png~ExtractStream3.png (각 100×52): “Two slender dark espresso threads from the mounted portafilter's twin spouts to just inside the shot glass, with restrained crema-colored highlights; transparent background.” 두 그룹헤드에 같은 프레임을 각각 중심 (-20, 13), (320, 13)으로 합성했다.
+
+미리보기: 프로젝트 밖 %TEMP%/cafe-time-preview-20261109/ShotRoom2x.png. 기존 PNG는 수정하지 않았다.
+
+
+## 2026-11-09 사용자 피드백 보정: 호퍼·분쇄·추출 줄기
+
+도구: 내장 image_gen 편집을 시도했으나 사용 한도(HTTP 429)에 도달하여, 프로젝트 밖 임시 PowerShell/C# 스크립트와 System.Drawing으로 원본 픽셀을 참조해 국소 보정했다. 스타일 참조: 이 폴더의 기존 Panel.png, PortafilterFrontEmpty.png, PortafilterMounted.png 및 Art/Icons/Items/ShotGlass.png. 모든 프레임은 투명 RGBA이며 동일한 크기의 짝수 캔버스를 사용한다.
+
+- `Panel.png` (1536×864): 그라인더의 투명 원두통 윗부분만 위로 약 33px 늘렸다. 기존 투명부 y≈129~210을 y≈96~210으로 확장하여 높이를 약 41% 늘리고 뚜껑을 34px 올렸다. 원두와 하단 연결부, 그라인더 몸체는 원래 픽셀을 유지했다. 수정 영역은 이미지 좌표 x≈76~318, y≈63~144다.
+- `GrindStream0.png`~`GrindStream7.png` (각 56×44): 배출구 y≈407에서 앞모습 바스켓 입구 y≈437 안쪽까지 이어지는 고운 갈색 분쇄 줄기. 아래로 조금 퍼지는 중심부, 가장자리 미세 입자, 바스켓 근처의 가벼운 튐을 그렸다. 입자 및 밝은 무늬는 프레임마다 아래로 이동한다. 창 중심 좌표는 (-570, 8)이다.
+- `ExtractStream0.png`~`ExtractStream7.png` (각 112×64): 장착 포터필터의 두 추출구에서 샷 잔 안쪽으로 모이는 두 갈래 갈색 줄기. 금갈색 크레마 하이라이트와 잔 안쪽의 작은 거품을 추가하고 명암 무늬를 프레임마다 아래로 이동시켰다. 두 그룹헤드에 같은 그림을 각각 창 중심 좌표 (-20, 12), (320, 12)로 배치한다.
+
+2배 미리보기: `%TEMP%/cafe-time-shotroom-20261109/Panel2x.png`, `GrindFrames2x.png`, `ExtractFrames2x.png`. 움직임 확인: 같은 폴더의 `Grind.gif`, `Extract.gif` (각 8프레임).
+
+## 2026-11-09 그라인더 호퍼 보정
+
+도구: OpenAI 내장 image_gen 편집을 시도했으나 HTTP 429 사용 한도로 완료되지 않아, 프로젝트 밖 임시 C#/System.Drawing 스크립트로 원본 픽셀을 국소 보정했다. 스타일 참조: 기존 ShotRoom/Panel.png의 따뜻한 벽 조명, 투명 호퍼 반사, 금속 뚜껑.
+
+- Panel.png: 호퍼 뒤 벽의 직사각형 패치를 주변 그라데이션과 대각 빛결로 복원했다. 늘린 유리 구간의 가로 반복 무늬를 세로 반사광과 약한 굴절로 교체하고, 양쪽 유리 외곽선을 뚜껑부터 원두 구간까지 연속된 사다리꼴로 이었다. 뚜껑 윗선의 톱니를 부드럽게 다듬었다. 호퍼 높이와 그라인더 몸체·LCD·배출구 이하, 다른 Panel 영역의 픽셀은 유지했다.
+
+검수 미리보기: 프로젝트 밖 scratchpad의 Hopper_final4x.png(x 20~360, y 20~200, 4배)와 Panel_final_full.png.

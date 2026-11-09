@@ -29,3 +29,11 @@ Unity 임포트: Texture Type Sprite (2D and UI), Sprite Mode Single, Filter Mod
 ## 삭제됨 (2026-11-04)
 
 - DrinkBarPanel.png, ShakeBarPanel.png, TempMakerHint.png, Preparing.png: 임시 제조실·준비 중 창을 실제 기기 화면(ADR-0014)으로 교체하면서 삭제했다. 위 기록은 이력으로 남긴다.
+
+## 2026-11-09 자연스러운 일러스트 닫기 버튼
+
+- 도구: OpenAI 내장 `image_gen.imagegen`으로 원화를 생성하고, 프로젝트 밖 PowerShell `System.Drawing`으로 투명 원화를 128×128에 고품질 축소했다.
+- 스타일 참조: `../ShotRoom/Panel.png`.
+- 공통 프롬프트: “Premium hand-painted 2D illustration for a cozy Korean cafe game. Clean charcoal contours, tactile neutral brushed stainless steel, matte black handles, light oak, warm greige wall, restrained sage accents. Soft upper-left light, crisp highlights and coherent material rendering. No photographic finish, no vector-like flat shapes, no text inside AI art.” 도트 격자·계단 외곽선은 적용하지 않았다.
+- `Close.png` (128×128): “Small round muted sage enamel close button with dark beveled side, subtle cream upper-left highlight and a centered crisp dark charcoal X. No other markings. Transparent isolated.” 원화 `exec-b40fb793-96eb-47f2-a1c4-a857afa0c4fb.png`의 버튼 부분을 118×118로 줄여 사방 5px 투명 여백에 배치했다.
+- 현재 빌더는 `Settings/Close.png`를 참조하므로, 이 파일의 실제 표시에는 빌더 연결 변경과 Unity 임포트가 필요하다. 이번 작업 지시에 따라 스크립트와 `.meta`는 수정하지 않았다.

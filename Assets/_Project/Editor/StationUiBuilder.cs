@@ -1,3 +1,4 @@
+using System.Linq;
 using CafeTime.Cafe;
 using CafeTime.EspressoShot;
 using CafeTime.UI;
@@ -21,16 +22,16 @@ namespace CafeTime.EditorTools
         static readonly Color Invisible = new Color(1, 1, 1, 0);  // 그림 위에 겹친 놓는 자리 (클릭·드롭만 받음)
 
         public static readonly string[] Folders =
-            { "CupShelf", "IceMaker", "Water", "DrinkRoom", "ShakeRoom", "TrayReturn", "Dishwash", "Pause", "ShotRoom" };
+            { "CupShelf", "IceMaker", "Water", "DrinkRoom", "ShakeRoom", "TrayReturn", "Dishwash", "Pause", "ShotRoom", "KnockRoom" };
         // EspressoMachine 폴더(팀원 그림)는 임포트 설정을 바꾸지 않는다: ShotTest 씬이 Multiple 모드의 하위 스프라이트(tamper_0 등)를 참조함
 
         static Sprite S(string folder, string name) => LoadSprite($"{Art}/{folder}/{name}.png");
 
         public static void PrepareAll()
         {
-            // 샷 내리기 창만 도트가 아닌 일러스트라 부드럽게 표시한다 (docs/ART_STYLE.md 1장)
+            // 기기 작업 창은 도트가 아닌 일러스트라 부드럽게 표시한다. 일시정지 창만 도트 (docs/ART_STYLE.md 1장)
             foreach (var folder in Folders)
-                PrepareSprites($"{Art}/{folder}", folder == "ShotRoom" ? FilterMode.Bilinear : FilterMode.Point);
+                PrepareSprites($"{Art}/{folder}", folder == "Pause" ? FilterMode.Point : FilterMode.Bilinear);
         }
 
         // ───────── 공통 ─────────
@@ -144,16 +145,18 @@ namespace CafeTime.EditorTools
             void StepLabel(string name, float x, float y) => Label(window, name, S(F, name), W / 2 + x, H / 2 - y, PivotCenter, 1f);
 
             StepLabel("LabelGrind", -570, -153);
-            StepLabel("LabelTamp", -280, -153);
+            StepLabel("LabelTamp", -320, -153);
             StepLabel("LabelExtract", 150, -153);
             StepLabel("LabelKnock", 600, -153);
             StepLabel("LabelRack", 0, -370);
 
             // 앞모습은 184x88 이라 위끝을 슬롯 위끝에 맞추려고 8 내린다. 장착 그림은 그룹헤드 아래에 물리게 56 내린다
-            const float FrontOffset = -8, MountedOffset = -56;
+            // 탬핑 자리는 바스켓이 매트 위에 앉도록 22 더 내린다 (탬퍼도 그만큼 더 내려가야 닿음)
+            const float FrontOffset = -8, TampOffset = -30, MountedOffset = -56;
             var grinderSlot = Slot("Slot_Grinder", SlotType.Grinder, -570, -30, FrontOffset);
-            var tampSlot = Slot("Slot_Tamp", SlotType.Tamp, -280, -30, FrontOffset);
-            Slot("Slot_Knockbox", SlotType.Knockbox, 620, -40);
+            var tampSlot = Slot("Slot_Tamp", SlotType.Tamp, -320, -30, TampOffset); // 탬핑 매트 가운데
+            var knockSlot = Slot("Slot_Knockbox", SlotType.Knockbox, 620, -40);
+            knockSlot.knockScreen = BuildKnock(canvas);
             var racks = new[] { Slot("Slot_Rack1", SlotType.Rack, -145, -270), Slot("Slot_Rack2", SlotType.Rack, 145, -270) };
             var heads = new[] { Slot("Slot_GroupL", SlotType.GroupHead, -20, 90, MountedOffset), Slot("Slot_GroupR", SlotType.GroupHead, 320, 90, MountedOffset) };
 
@@ -173,9 +176,11 @@ namespace CafeTime.EditorTools
             }
 
             // 탬퍼: 아래로 끌어 누름 (SFR-032)
-            var tamperRt = Centered("Tamper", window, -280, 130, 92, 138);
+            var tamperRt = Centered("Tamper", window, -320, 130, 92, 138);
             AddImage(tamperRt, S(F, "Tamper"), Cream, true).preserveAspect = true;
-            tamperRt.gameObject.AddComponent<TamperHandle>().tampSlot = tampSlot;
+            var tamper = tamperRt.gameObject.AddComponent<TamperHandle>();
+            tamper.tampSlot = tampSlot;
+            tamper.travel = 88; // 내린 포터필터의 가루 윗면까지
 
             // 그라인더 (SFR-031)
             var grinder = NewUI("Grinder", window).gameObject.AddComponent<Grinder>();
@@ -186,6 +191,8 @@ namespace CafeTime.EditorTools
             var gd = grinderLcd.gameObject.AddComponent<GrinderDisplay>();
             gd.grinder = grinder;
             gd.label = grinderLcd;
+            // 분쇄 중 가루 줄기 (위치는 Art/UI/ShotRoom/Generation.md)
+            grinder.stream = Stream(window, "GrindStream", GrindStreamPos).gameObject;
 
             // 그룹헤드별 추출 버튼·LCD (SFR-035) + 아래 샷 컵 자리 (SFR-034)
             for (int g = 0; g < 2; g++)
@@ -206,11 +213,66 @@ namespace CafeTime.EditorTools
                 cup.head = heads[g];
                 cup.glassIcon = icon;
                 heads[g].cup = cup;
+                heads[g].extractStream = Stream(window, g == 0 ? "ExtractStream_L" : "ExtractStream_R",
+                    new Vector2(x, ExtractStreamPos.y)).gameObject;
                 heads[g].transform.SetAsLastSibling(); // 장착한 포터필터 손잡이가 컵 앞에 보이게
             }
 
             machine.screenPanel = popup.gameObject;
             EditorUtility.SetDirty(machine);
+            return popup;
+
+            // 꺼진 채로 두었다가 작업 중에만 켜는 반복 그림 (GrindStream0~, ExtractStream0~ 있는 만큼)
+            SpriteLoop Stream(RectTransform parent, string name, Vector2 pos)
+            {
+                string prefix = $"{Art}/{F}/{name.Split('_')[0]}";
+                var frames = Enumerable.Range(0, 16).Select(i => AssetDatabase.LoadAssetAtPath<Sprite>($"{prefix}{i}.png"))
+                    .TakeWhile(sprite => sprite != null).ToArray();
+                if (frames.Length == 0) frames = new Sprite[] { null };
+                var size = frames[0] != null ? frames[0].rect.size : new Vector2(40, 80);
+                var rt = Centered(name, parent, pos.x, pos.y, size.x, size.y);
+                AddImage(rt, frames[0], Invisible);
+                var loop = rt.gameObject.AddComponent<SpriteLoop>();
+                loop.frames = frames;
+                rt.gameObject.SetActive(false);
+                return loop;
+            }
+        }
+
+        // 분쇄·추출 줄기 위치 (창 가운데 기준). 추출은 x 를 그룹헤드마다 바꿔 쓴다
+        static readonly Vector2 GrindStreamPos = new Vector2(-570, 8);
+        static readonly Vector2 ExtractStreamPos = new Vector2(-20, 12);
+
+        // 찌꺼기 털기 창 (SFR-036). 넉박스에 사용한 포터필터를 대면 샷 창 위에 열린다
+        static KnockScreen BuildKnock(Transform canvas)
+        {
+            const string F = "KnockRoom";
+            const float W = 1536, H = 864;
+            var (popup, window) = Window<KnockScreen>(canvas, "KnockScreen", S(F, "Panel"), W, H);
+            SetClose(popup, CloseButton(window, W - 100, 36));
+
+            RectTransform Part(string name, Sprite sprite, Vector2 pos, Vector2 size, bool raycast)
+            {
+                var rt = Centered(name, window, pos.x, pos.y, size.x, size.y);
+                AddImage(rt, sprite, Cream, raycast).preserveAspect = true;
+                return rt;
+            }
+
+            popup.knockSprite = S(F, "PortafilterKnock");
+            popup.knockEmptySprite = S(F, "PortafilterKnockEmpty");
+            popup.brushSprite = S(F, "PortafilterBrush");
+            popup.portafilter = Part("Portafilter", popup.knockSprite, popup.knockStart, popup.knockSize, true).GetComponent<Image>();
+            popup.residue = Part("Residue", S(F, "Residue"), popup.brushPosition, popup.brushViewSize, false).GetComponent<Image>();
+            popup.residue.transform.SetParent(popup.portafilter.transform, false); // 포터필터 가운데에 겹쳐 같이 움직임
+            popup.residue.rectTransform.anchoredPosition = Vector2.zero;
+            popup.puck = Part("Puck", S(F, "Puck"), Vector2.zero, new Vector2(160, 80), false);
+            popup.brush = Part("Brush", S(F, "Brush"), popup.brushHome, new Vector2(240, 120), true);
+            popup.hintKnock = S(F, "HintKnock");
+            popup.hintHarder = S(F, "HintHarder");
+            popup.hintBrush = S(F, "HintBrush");
+            popup.hint = Part("Hint", popup.hintKnock, new Vector2(0, 340),
+                popup.hintKnock != null ? popup.hintKnock.rect.size : new Vector2(600, 48), false).GetComponent<Image>();
+            EditorUtility.SetDirty(popup);
             return popup;
         }
 
@@ -347,7 +409,7 @@ namespace CafeTime.EditorTools
             var scale = Zone(window, "Scale", 1100, 300, 360, 340, null, Invisible);
             AddImage(TopLeft("ScaleImage", scale.transform, -20, 130, 360, 210), S(F, "Scale"), Cream);
             Set(so, "scale", scale);
-            Set(so, "cupIcon", Icon(scale.transform, "Cup", 96, 42, 128));
+            Set(so, "cupIcon", Icon(scale.transform, "Cup", 96, 56, 128)); // 저울 상판 위에 앉게
             Set(so, "weightText", AddText(TopLeft("Weight", scale.transform, 70, 250, 180, 60), "0g", 34,
                 new Color32(0xB8, 0xF5, 0x9A, 0xFF)));
 

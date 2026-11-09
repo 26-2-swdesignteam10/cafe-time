@@ -53,3 +53,23 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
 Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구 확인과 파일별 프롬프트는 작성자에게 받아 보충한다.
 
 - 교체한 파일: Scale.png
+
+## 2026-11-09 영업 중 일러스트 교체
+
+도구: 이전 작업에서 OpenAI 내장 `image_gen.imagegen`으로 생성한 원화와 PowerShell `System.Drawing`의 고품질 축소·합성. 새 생성 요청은 429 사용 한도에 걸려 원화 재사용만 했다. 스타일 참조: `../ShotRoom/Panel.png`, `../ShotRoom/Generation.md`, 이 폴더의 기존 PNG(정확한 크기와 문구), `StationUiBuilder.BuildDrinkRoom`(배치).
+
+공통 프롬프트(기존 원화 제작 시 사용):
+
+> Premium hand-painted 2D illustration for a cozy Korean cafe game. Clean charcoal contours, tactile neutral brushed stainless steel, matte black handles, light oak, warm greige wall, restrained sage accents. Soft upper-left light, crisp highlights and coherent material rendering. No photographic finish, no vector-like flat shapes, no text inside AI art.
+
+파일별 원화·프롬프트 및 수정:
+
+- `Panel.png` — `exec-6d1c9ab6-7fcd-46df-8d32-e0c8623887c8.png`: 목재 프레임, 그릭 벽, 바닥에 닿는 오크 하부장과 상판이 연결된 빈 카페 작업대. 3200×1800으로 확대하고 원래 문구 `음료 제조실`을 상단에 넣었다.
+- `Shelf.png` — `exec-731cca30-5c56-4410-9a1b-b3cfcca8863c.png`: 스테인리스 지지대가 있는 4단 오크 선반. 원화의 투명 배경을 유지해 1840×1320으로 축소했다.
+- `ShelfSlot.png`, `ShelfSlotHover.png` — `exec-c1fd11c5-f01c-4e72-aa25-00cd4dfb5a9b.png`: 위에서 본 빈 중성 스테인리스 트레이와 오크 받침. 동일한 몸체를 240×240에 넣고 Hover는 세이지 색만 강조했다.
+- `Scale.png` — `exec-02ba407a-d553-4213-bfae-9d3d81194cfd.png`: 브러시드 스테인리스 저울, 검정 LCD와 버튼, 받침발. 720×420으로 축소했다.
+- `EmptyButton.png`, `CompleteButton.png`, `Tooltip.png` — `exec-ef47f3fa-24a4-49b8-9628-4fea533f0c0f.png`: 세이지 무광 에나멜 버튼 몸체. 원래 문구 `비우기`, `완성`을 버튼에 넣고 Tooltip은 빈 몸체로 썼다. 각각 기존 캔버스 크기를 유지했다.
+- `ResultPanel.png` — `exec-15377f8b-553f-4ba3-9508-7d6bdb375728.png`: 목재 프레임과 빈 그릭 벽·오크 카운터 장면. 1280×760으로 축소하고 원래 문구 `판정 결과`를 넣었다.
+- `PourHint.png`, `GradePerfect.png`, `GradeGood.png`, `GradeBad.png`, `GradeFailed.png` — 기존 PNG의 문구 `우유·탄산수는 누르고 있는 동안 부어집니다`, `완벽`, `좋음`, `나쁨`, `실패한 음료`를 Galmuri11로 재조판했다. 어두운 커피색 `#380F00` 채움과 크림색 `#FCF0CA` 외곽선, 투명 배경을 적용했다.
+
+모든 PNG의 파일명과 캔버스 크기를 유지했다. 2배 배치 미리보기는 프로젝트 밖 `%TEMP%/cafe-time-illustration-preview/DrinkRoom2x.png`에 저장했다. 선반·저울의 받침과 슬롯 위치, 문구를 확인했다. 빌더 좌표 `(scale: 1100,300; cup icon: 96,42)`에서는 컵 아이콘이 저울 상판보다 떠 보인다. 빌더는 이번 범위 밖이므로 수정하지 않았다.

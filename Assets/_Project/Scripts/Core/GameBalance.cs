@@ -73,8 +73,8 @@ namespace CafeTime.Core
         [SerializeField] int plates = 6;
 
         [Header("에스프레소 머신 (SFR-031, 035)")]
-        [SerializeField] float grindSeconds = 5f;
-        [SerializeField] float extractSeconds = 5f;
+        [SerializeField] float grindSeconds = 7f;
+        [SerializeField] float extractSeconds = 7f;
 
         [Header("제빙기 (SFR-038, 039) — 임시값")]
         [SerializeField] int iceMax = 24;

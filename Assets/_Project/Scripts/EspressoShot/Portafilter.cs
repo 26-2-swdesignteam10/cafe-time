@@ -40,6 +40,10 @@ namespace CafeTime.EspressoShot
         Canvas rootCanvas;
         bool dragging;
         Vector2 sideSize;
+        Image fillOverlay; // 분쇄 중 아래부터 차오르는 다음 상태 그림
+
+        // 놓은 곳이 슬롯 밖이어도 이 거리(캔버스 단위) 안의 빈 슬롯에 끼운다
+        const float SnapRadius = 130f;
 
         void Awake()
         {
@@ -94,6 +98,35 @@ namespace CafeTime.EspressoShot
                     _                       => "사용 완료",
                 };
             }
+        }
+
+        // 분쇄처럼 서서히 바뀌는 동안, 다음 상태의 앞모습을 아래부터 amount(0~1)만큼 겹쳐 보인다
+        public void ShowFill(PortafilterState next, float amount)
+        {
+            int i = (int)next;
+            if (frontStateSprites == null || i >= frontStateSprites.Length || frontStateSprites[i] == null) return;
+            if (fillOverlay == null)
+            {
+                var rt = new GameObject("Fill", typeof(RectTransform)).GetComponent<RectTransform>();
+                rt.SetParent(transform, false);
+                rt.anchorMin = Vector2.zero;
+                rt.anchorMax = Vector2.one;
+                rt.offsetMin = rt.offsetMax = Vector2.zero;
+                fillOverlay = rt.gameObject.AddComponent<Image>();
+                fillOverlay.raycastTarget = false;
+                fillOverlay.type = Image.Type.Filled;
+                fillOverlay.fillMethod = Image.FillMethod.Vertical;
+                fillOverlay.fillOrigin = (int)Image.OriginVertical.Bottom;
+            }
+            fillOverlay.sprite = frontStateSprites[i];
+            fillOverlay.preserveAspect = image.preserveAspect;
+            fillOverlay.fillAmount = amount;
+            fillOverlay.gameObject.SetActive(true);
+        }
+
+        public void HideFill()
+        {
+            if (fillOverlay != null) fillOverlay.gameObject.SetActive(false);
         }
 
         // 슬롯에 붙이기 (슬롯 쪽에서 호출)
@@ -151,11 +184,36 @@ namespace CafeTime.EspressoShot
                 target = h.gameObject.GetComponentInParent<PortafilterSlot>();
                 if (target != null) break;
             }
+            if (target == null) target = NearestSlot(e);
 
+            if (target == Slot)
+            {
+                SnapToSlot();
+                Slot.Place(this); // 넉박스에서 털다 만 포터필터를 다시 대면 털기 창이 다시 열림
+            }
             // 놓을 수 없는 곳 / 거절된 곳 → 원래 위치로 (SFR-030)
-            if (target == null || target == Slot || !target.TryAccept(this))
+            else if (target == null || !target.TryAccept(this))
                 SnapToSlot();
             Refresh();
+        }
+
+        // 슬롯 위가 아닌 곳에 놓았을 때, 이 거리 안에서 가장 가까운 빈 슬롯 (없으면 null)
+        PortafilterSlot NearestSlot(PointerEventData e)
+        {
+            PortafilterSlot best = null;
+            float bestDistance = SnapRadius * rootCanvas.scaleFactor;
+            foreach (var slot in rootCanvas.GetComponentsInChildren<PortafilterSlot>())
+            {
+                if (slot.Current != null && slot.Current != this) continue;
+                Vector2 p = RectTransformUtility.WorldToScreenPoint(e.pressEventCamera, slot.transform.position);
+                float d = Vector2.Distance(p, e.position);
+                if (d < bestDistance)
+                {
+                    bestDistance = d;
+                    best = slot;
+                }
+            }
+            return best;
         }
     }
 }

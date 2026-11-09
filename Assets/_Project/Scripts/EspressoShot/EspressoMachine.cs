@@ -120,8 +120,16 @@ namespace CafeTime.EspressoShot
             }
 
             head.Locked = true; // 추출 중에는 포터필터 분리·컵 회수 불가
-            RunTimed(GameBalance.Instance.ExtractSeconds, left => head.TimeLeft = left, () =>
+            float seconds = GameBalance.Instance.ExtractSeconds;
+            if (head.extractStream != null) head.extractStream.SetActive(true);
+            RunTimed(seconds, left =>
             {
+                head.TimeLeft = left;
+                if (cup != null) cup.ShowFilling(1f - left / seconds); // 잔에 커피가 차오름
+            }, () =>
+            {
+                if (head.extractStream != null) head.extractStream.SetActive(false);
+                if (cup != null) cup.HideFilling();
                 pf.SetState(PortafilterState.Used); // → '사용 완료(찌꺼기)'
                 if (cup != null) cup.FillShot();    // → '샷이 든 컵'
                 head.Locked = false;
