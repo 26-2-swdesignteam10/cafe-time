@@ -112,3 +112,35 @@ Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구
 검수: 확대본에서 `구·매 / 후 / 잔·액`, `오·늘 / 임·대·료`와 띄어쓰기를 글자별로 눈으로 대조했다. `LabelTotal.png`와 나란히 비교하고, `CartPanel.png` 위에 NEAREST로 약 0.4배(각각 143×38px, 150×38px) 표시한 임시 합성본에서도 가독성을 확인했다. 합성본은 검토용이며 기존 PNG에는 저장하지 않았다. 최종 PNG는 RGBA, 알파 0/255, 본체 높이 72px, 외곽선 3px, 사방 투명 여백 8px이다.
 
 Unity 확인 순서: Unity **6000.6.4f1**에서 새 PNG 2개를 임포트해 `.meta`를 자동 생성하고, Sprite (2D and UI) / Single / Point (no filter) / Generate Mip Maps 끔 / Alpha Is Transparency 켬 / Max Size 2048로 설정한다. 장바구니 판 안에서 원본의 약 0.4배로 표시해 확인한다. 이번 작업에서는 `.meta`, 코드, 씬, 프리팹, `.asset`, 기존 PNG를 생성·수정하지 않았다. ADR 추가·변경은 없다.
+
+
+## 2026-11-12 Jua 재조판 (ADR-0026)
+
+- 도구: Python / Pillow의 Jua-Regular.ttf 조판(4배 안티앨리어싱, Lanczos 축소). 바탕이 필요한 파일은 주변 재질 표본 복원 또는 NumPy 확산 인페인트를 사용했다. 글리프를 1px 굵게 만들거나 최근접 보간하는 도트 처리는 하지 않았다.
+- 스타일 참조: 이 폴더의 작업 직전 PNG, `Assets/_Project/Art/Fonts/Jua-Regular.ttf`, `docs/ART_STYLE.md` 4장, 승인 ADR-0026. 기존 Galmuri11 조판·AI 글자 설명은 이 절로 대체하며, 과거 기록은 삭제하지 않았다.
+- 문구·공백·문장부호는 작업 직전 실제 PNG와 생성 기록을 대조했다. 고정 문구만 재조판하고 가변 게임 값은 새로 넣지 않았다. 글자 없는 그림·아이콘·이미 제거된 패널 제목은 그대로 보존했다.
+- Jua에 없는 가운뎃점(`·`)은 같은 Jua의 마침표 글리프를 가운데 높이에 배치했다. 다른 폰트의 글리프를 섞지 않았다.
+- 투명 라벨의 채움 높이는 S 56 / M 72 / L 96px이며, 원래 캔버스 높이와 최소 8px 투명 여백을 유지했다. 기존 높이 72px인 외곽선 라벨은 채움 50px, 높이 48px인 라벨은 채움 36px·외곽선 2px·상하 여백 4px로 기존 캔버스 높이를 우선했다. `Pos/TabDessert.png`의 높이 76px는 채움 56px·외곽선 3px·상하 여백 7px다. 해당하는 파일만 아래 표의 규격 예외가 적용된다. 폭이 부족한 라벨은 폭만 늘렸다.
+
+| 파일 | 고정 문구 | 채움 높이 | 채움색 | 외곽선 | 처리 방식 | 캔버스 (전 → 후) |
+|---|---|---:|---|---|---|---|
+| CartEmpty.png | 담은 재료가 없습니다. | 56px | #9E6840 | 없음 | Pillow Jua 4배 안티앨리어싱 조판 | 492×72 → **541×72 (폭 확대)** |
+| LabelMoney.png | 보유금 | 72px | #FCF0CA | #380F00 3px | Pillow Jua 4배 안티앨리어싱 조판; 기존 장식 픽셀 보존 | 280×94 → **286×94 (폭 확대)** |
+| LabelOpenPrep.png | 오픈 준비 | 72px | #FCF0CA | #380F00 3px | Pillow Jua 4배 안티앨리어싱 조판 | 306×94 → **327×94 (폭 확대)** |
+| LabelRemaining.png | 구매 후 잔액 | 72px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 358×94 → **408×94 (폭 확대)** |
+| LabelRent.png | 오늘 임대료 | 72px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 374×94 → **395×94 (폭 확대)** |
+| LabelStock.png | 재고 | 56px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 139×78 |
+| LabelTotal.png | 총액 | 72px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 156×94 |
+| MessageBought.png | 구매 완료! | 56px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판; 기존 장식 픽셀 보존 | 298×78 → **326×78 (폭 확대)** |
+| TabCoffee.png | 커피 | 56px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 130×78 → **131×78 (폭 확대)** |
+| TabDessert.png | 디저트 | 56px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 179×78 → **181×78 (폭 확대)** |
+| TabMilk.png | 우유·액체 | 56px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 283×78 |
+| TabSmoothie.png | 스무디 | 56px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 198×78 |
+| TabSyrup.png | 시럽·청 | 56px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 220×78 |
+| TabTea.png | 티 | 56px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 72×78 → **77×78 (폭 확대)** |
+| BuyButton.png | 구매확정 | 80px | #380F00 | #FCF0CA 4px | 주변 재질 표본으로 글자 영역 국소 복원 + Pillow Jua 조판 | 1040×220 |
+| CartPanel.png | 장바구니 | 68px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 600×860 |
+| ConfirmUnbought.png | 장바구니에 구매하지 않은 재료가 있습니다. / 그대로 영업을 시작할까요? | 84px | #380F00 | #FCF0CA 3px | Pillow Jua 조판 (투명 캔버스·기존 장식 보존) | 2112×745 |
+| StartButton.png | 영업 시작 | 80px | #380F00 | #FCF0CA 3px | 주변 재질 표본으로 글자 영역 국소 복원 + Pillow Jua 조판 | 1040×220 |
+
+- 검수: 완성 PNG에서 한글 철자·공백·문장부호와 잘림을 눈으로 확인했다. 그림 포함 PNG는 지정 글자 영역 밖의 RGBA가 원본과 일치하고 알파·캔버스 크기가 동일한지 검사했다. 투명 라벨의 높이는 모두 유지했다. `.meta`, 코드, 씬, 프리팹, `.asset`, `docs/`는 수정하지 않았다. Unity에서 재임포트한 뒤 실제 표시 크기의 가독성과 라벨 폭 증가에 따른 배치를 확인해야 한다.

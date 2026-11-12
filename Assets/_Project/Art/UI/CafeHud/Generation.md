@@ -206,3 +206,52 @@ Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구
 - 검수: 최종 PNG의 NEAREST2배 확대본에서 **물 / 을 / 공백 / 먼 / 저 / 공백 / 받 / 아 / 공백 / 주 / 세 / 요 / .** 를 글자별로 눈으로 확인했다. DrinkTools의 부드러운 그림 예외와 달리 이 토스트는 HUD 도트 글자이며 Unity에서 **Point(no filter)**, Single, Mip Maps끔, Alpha Is Transparency켬으로 임포트한다. 기본 표시는257×36(원본 절반), 기존 토스트 표시 영역에 가운데 정렬한다.
 - 생성 원본: `C:/Users/k9425/.codex/generated_images/01a1ceb5-1e0c-7031-92cd-2a8d521c4cfc/exec-7c1f565b-3046-43f5-bb7e-c1ebd2f26bd0.png`.
 - 미리보기: Assets 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/fec95591-d3a3-47b1-89d7-0c4e1896d871/scratchpad/drinktools-phase2/ToastWaterFirst2x.png`. 기존 PNG·.meta·코드·씬·프리팹·에셋은 수정하지 않았다.
+
+
+## 2026-11-12 Jua 재조판 (ADR-0026)
+
+- 도구: Python / Pillow의 Jua-Regular.ttf 조판(4배 안티앨리어싱, Lanczos 축소). 바탕이 필요한 파일은 주변 재질 표본 복원 또는 NumPy 확산 인페인트를 사용했다. 글리프를 1px 굵게 만들거나 최근접 보간하는 도트 처리는 하지 않았다.
+- 스타일 참조: 이 폴더의 작업 직전 PNG, `Assets/_Project/Art/Fonts/Jua-Regular.ttf`, `docs/ART_STYLE.md` 4장, 승인 ADR-0026. 기존 Galmuri11 조판·AI 글자 설명은 이 절로 대체하며, 과거 기록은 삭제하지 않았다.
+- 문구·공백·문장부호는 작업 직전 실제 PNG와 생성 기록을 대조했다. 고정 문구만 재조판하고 가변 게임 값은 새로 넣지 않았다. 글자 없는 그림·아이콘·이미 제거된 패널 제목은 그대로 보존했다.
+- Jua에 없는 가운뎃점(`·`)은 같은 Jua의 마침표 글리프를 가운데 높이에 배치했다. 다른 폰트의 글리프를 섞지 않았다.
+- 투명 라벨의 채움 높이는 S 56 / M 72 / L 96px이며, 원래 캔버스 높이와 최소 8px 투명 여백을 유지했다. 기존 높이 72px인 외곽선 라벨은 채움 50px, 높이 48px인 라벨은 채움 36px·외곽선 2px·상하 여백 4px로 기존 캔버스 높이를 우선했다. `Pos/TabDessert.png`의 높이 76px는 채움 56px·외곽선 3px·상하 여백 7px다. 해당하는 파일만 아래 표의 규격 예외가 적용된다. 폭이 부족한 라벨은 폭만 늘렸다.
+
+| 파일 | 고정 문구 | 채움 높이 | 채움색 | 외곽선 | 처리 방식 | 캔버스 (전 → 후) |
+|---|---|---:|---|---|---|---|
+| LabelRent.png | 임대료 | 50px | #FCF0CA | #380F00 3px | Pillow Jua 4배 안티앨리어싱 조판 | 178×72 |
+| LabelReputation.png | 평판 | 50px | #FCF0CA | #380F00 3px | Pillow Jua 4배 안티앨리어싱 조판 | 132×72 |
+| ToastAttachPortafilter.png | 포터필터를 장착해 주세요. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 573×72 → **590×72 (폭 확대)** |
+| ToastBlenderEmpty.png | 믹서기에 재료를 넣어 주세요. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 551×72 → **658×72 (폭 확대)** |
+| ToastBlendFirst.png | 먼저 믹서기를 돌려 주세요. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 546×72 → **608×72 (폭 확대)** |
+| ToastCupFirst.png | 커피잔을 먼저 올려 주세요. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 540×72 → **606×72 (폭 확대)** |
+| ToastEmptyCupOnly.png | 빈 컵만 되돌릴 수 있습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 589×72 → **615×72 (폭 확대)** |
+| ToastEmptyPortafilterOnly.png | 빈 포터필터만 사용할 수 있습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 675×72 → **750×72 (폭 확대)** |
+| ToastEntryClosed.png | 손님 입장이 마감되었습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 550×72 → **629×72 (폭 확대)** |
+| ToastExtracting.png | 추출 중에는 뺄 수 없습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 548×72 → **596×72 (폭 확대)** |
+| ToastHandsFull.png | 인벤토리가 가득 찼습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 568×72 → **587×72 (폭 확대)** |
+| ToastNeedTowel.png | 행주를 들고 와 주세요. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 484×72 → **516×72 (폭 확대)** |
+| ToastNoBean.png | 원두가 부족합니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 449×72 |
+| ToastNoCleanCup.png | 깨끗한 커피잔이 없습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 555×72 → **580×72 (폭 확대)** |
+| ToastNoCustomer.png | 주문할 손님이 없습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 504×72 → **526×72 (폭 확대)** |
+| ToastNoIce.png | 얼음이 부족합니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 451×72 |
+| ToastNoIngredient.png | 재료가 부족합니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 425×72 |
+| ToastNoPlate.png | 깨끗한 접시가 없습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 507×72 → **530×72 (폭 확대)** |
+| ToastNoStock.png | 재고가 없습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 386×72 |
+| ToastNothingToComplete.png | 완성할 음료가 없습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 490×72 → **531×72 (폭 확대)** |
+| ToastOrderSkipped.png | 먼저 들어온 주문부터 서빙해 주세요. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 758×72 → **815×72 (폭 확대)** |
+| ToastPlaceCup.png | 커피잔을 놓아 주세요. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 497×72 |
+| ToastPlaceShotGlass.png | 빈 컵을 놓아 주세요. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 468×72 |
+| ToastReturnScoop.png | 스쿱을 먼저 반납해 주세요. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 562×72 → **609×72 (폭 확대)** |
+| ToastSetPortafilter.png | 포터필터를 먼저 세팅해 주세요. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 600×72 → **707×72 (폭 확대)** |
+| ToastShotAlready.png | 이미 샷이 담긴 컵입니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 533×72 → **560×72 (폭 확대)** |
+| ToastTampedOnly.png | 탬핑을 완료한 포터필터만 장착할 수 있습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 837×72 → **1008×72 (폭 확대)** |
+| ToastWaterFirst.png | 물을 먼저 받아 주세요. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 514×72 → **515×72 (폭 확대)** |
+| BannerClosed.png | 영업 종료 | 145px | #FCF0CA → #EEAB31 | #5D2608 9px | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 1800×440 |
+| DiscardButton.png | 버리기 | 48px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 380×124 |
+| PromptKey.png | E | 20px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 50×50 |
+| PromptOpen.png | E | 24px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 192×72 |
+| PromptOpen.png | 열기 | 36px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 192×72 |
+| PromptUse.png | E | 24px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 192×72 |
+| PromptUse.png | 사용 | 36px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 192×72 |
+
+- 검수: 완성 PNG에서 한글 철자·공백·문장부호와 잘림을 눈으로 확인했다. 그림 포함 PNG는 지정 글자 영역 밖의 RGBA가 원본과 일치하고 알파·캔버스 크기가 동일한지 검사했다. 투명 라벨의 높이는 모두 유지했다. `.meta`, 코드, 씬, 프리팹, `.asset`, `docs/`는 수정하지 않았다. Unity에서 재임포트한 뒤 실제 표시 크기의 가독성과 라벨 폭 증가에 따른 배치를 확인해야 한다.
