@@ -115,64 +115,6 @@ namespace CafeTime.EditorTools
             Debug.Log("베이커리 동선 갱신, 행주 걸이 오른쪽 한 칸 이동, 기존 받침대 한 칸 제거를 적용했습니다. 씬을 저장하세요.");
         }
 
-        // 이동·그림의 세로 크기 변경 후 남은 예전 충돌 영역을 갱신한다 (SFR-012, 020).
-        [MenuItem("CafeTime/Fix Bakery Colliders")]
-        public static void FixBakeryColliders()
-        {
-            var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
-            if (EditorApplication.isPlaying || scene.path != ScenePath)
-            {
-                Debug.LogWarning("Play를 멈추고 Cafe 씬을 연 뒤 실행하세요.");
-                return;
-            }
-            var roots = scene.GetRootGameObjects();
-            var shelves = roots.SelectMany(root => root.GetComponentsInChildren<SpriteRenderer>(true))
-                .Where(renderer => renderer.sprite != null &&
-                    (renderer.name.StartsWith("빵 진열대") || AssetDatabase.GetAssetPath(renderer.sprite) == $"{MapArtDir}/BreadShelf.png"))
-                .ToArray();
-            if (shelves.Length == 0)
-            {
-                Debug.LogWarning("빵 진열대 그림을 찾지 못했습니다. 변경하지 않았습니다.");
-                return;
-            }
-            Undo.IncrementCurrentGroup();
-            int group = Undo.GetCurrentGroup();
-            Undo.SetCurrentGroupName("빵 진열대 충돌 영역 맞추기");
-            foreach (var shelf in shelves) FitBakeryCollider(shelf, recordUndo: true);
-            // 옮겨 둔 가구의 실제 위치에서 픽업한다. 그림의 위치·스케일·크기는 수정하지 않는다.
-            var customers = roots.SelectMany(root => root.GetComponentsInChildren<CustomerManager>(true)).FirstOrDefault();
-            if (customers != null && shelves.Length == 2)
-            {
-                var so = new SerializedObject(customers);
-                so.FindProperty("bakeryPickupPoint").vector2Value = new Vector2(
-                    shelves.Average(shelf => shelf.bounds.center.x), shelves.Average(shelf => shelf.bounds.center.y));
-                so.ApplyModifiedProperties();
-            }
-            Undo.CollapseUndoOperations(group);
-            EditorSceneManager.MarkSceneDirty(scene);
-            Debug.Log($"빵 진열대 {shelves.Length}개의 충돌 영역을 현재 그림 크기에 맞췄습니다. 씬을 저장하세요.");
-        }
-
-        static void FitBakeryCollider(SpriteRenderer renderer, bool recordUndo)
-        {
-            var box = renderer.GetComponent<BoxCollider2D>();
-            if (box == null) box = recordUndo ? Undo.AddComponent<BoxCollider2D>(renderer.gameObject) : renderer.gameObject.AddComponent<BoxCollider2D>();
-            if (recordUndo) Undo.RecordObject(box, "진열대 충돌 영역 갱신");
-            var bounds = renderer.localBounds;
-            // Simple 스프라이트는 투명 여백을 제외한 실제 메시 범위를 사용한다.
-            if (renderer.drawMode == SpriteDrawMode.Simple)
-            {
-                var vertices = renderer.sprite.vertices;
-                if (vertices.Length > 0)
-                {
-                    bounds = new Bounds(vertices[0], Vector3.zero);
-                    foreach (var vertex in vertices) bounds.Encapsulate((Vector3)vertex);
-                }
-            }
-            box.size = new Vector2(bounds.size.x, bounds.size.y);
-            box.offset = new Vector2(bounds.center.x, bounds.center.y);
-        }
-
         static void SetBakeryPickupPoint(CustomerManager customers)
         {
             var so = new SerializedObject(customers);
@@ -361,11 +303,8 @@ namespace CafeTime.EditorTools
             var root = new GameObject("Decor").transform;
             for (int i = 0; i < 6; i++)
                 Decor("창문", root, "WindowHall", 12.75f + i * 2.1f, 13.4f, Vector2.one);
-            foreach (var (name, x) in new[] { ("빵 진열대 왼쪽", 4.3f), ("빵 진열대 오른쪽", 7.7f) })
-            {
-                var shelf = Decor(name, root, "BreadShelf", x, 2.5f, Vector2.zero);
-                FitBakeryCollider(shelf.GetComponent<SpriteRenderer>(), recordUndo: false);
-            }
+            Decor("빵 진열대 왼쪽", root, "BreadShelf", 4.3f, 1.5f, new Vector2(1.9f, 5.06f));
+            Decor("빵 진열대 오른쪽", root, "BreadShelf", 7.7f, 1.5f, new Vector2(1.9f, 5.06f));
             Decor("퇴식구 받침대", root, "TrayStand", 1.5f, 3.2f, new Vector2(0.75f, 3.6f));
             foreach (float y in new[] { 1f, 2f, 4.4f, 5f, 6f, 7f }) // 사이 y3~4.4 는 좌석으로 가는 통로
                 Decor("화분 칸막이", root, "PlanterSegment", 10.5f, y, Vector2.one);
@@ -377,11 +316,10 @@ namespace CafeTime.EditorTools
                 Decor("부스", root, "Booth", 23.6f, y, new Vector2(2.56f, 1.6f));
         }
 
-        static GameObject Decor(string name, Transform parent, string sprite, float x, float y, Vector2 collider)
+        static void Decor(string name, Transform parent, string sprite, float x, float y, Vector2 collider)
         {
             var go = WorldObject(name, parent, LoadSprite($"{MapArtDir}/{sprite}.png"), x, y, collider);
             go.GetComponent<SpriteRenderer>().sortingOrder = -1; // 캐릭터와 위에 올라가는 기기보다 항상 뒤
-            return go;
         }
 
         // 충돌 없는 그림 (테이블 위 쟁반, 머리 위 아이콘). 처음엔 꺼 둔다
