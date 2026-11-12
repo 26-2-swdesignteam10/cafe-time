@@ -164,3 +164,33 @@ Unity 6000.6.4f1에서 임포트 후 Sprite (2D and UI), Single, Point (no filte
 - 후처리: 각 생성 셀의 알파 경계를 크롭해 동일한 304×112 본체 크기로 맞추고 320×128 RGBA 캔버스에 사방 8px 투명 여백으로 배치했다. 2px 단위 계단 경계를 최근접 방식으로 유지하고 색상 14개 이하로 정리했다. 알파는 0/255다. HOT·ICE 철자와 160×64 표시 크기에서의 가독성을 눈으로 확인했다.
 - 선택 상태는 기존 BadgeHot의 빨강·주황, BadgeIce의 하늘색을 따른다. 비선택 상태는 요청대로 차분한 크림이며 글자색은 다크 커피다.
 - Unity 6000.6.4f1에서 새 4개 PNG 임포트: Sprite (2D and UI), Single, Point (no filter), Mip Maps 끔, Alpha Is Transparency 켬. `.meta`는 Unity가 만들도록 둔다. 코드·씬·프리팹·에셋 정의는 수정하지 않았다. 승인 ADR-0019를 따른 작업이며 새 ADR은 없다.
+
+
+## 2026-11-12 Jua 재조판 (ADR-0026)
+
+- 도구: Python / Pillow의 Jua-Regular.ttf 조판(4배 안티앨리어싱, Lanczos 축소). 바탕이 필요한 파일은 주변 재질 표본 복원 또는 NumPy 확산 인페인트를 사용했다. 글리프를 1px 굵게 만들거나 최근접 보간하는 도트 처리는 하지 않았다.
+- 스타일 참조: 이 폴더의 작업 직전 PNG, `Assets/_Project/Art/Fonts/Jua-Regular.ttf`, `docs/ART_STYLE.md` 4장, 승인 ADR-0026. 기존 Galmuri11 조판·AI 글자 설명은 이 절로 대체하며, 과거 기록은 삭제하지 않았다.
+- 문구·공백·문장부호는 작업 직전 실제 PNG와 생성 기록을 대조했다. 고정 문구만 재조판하고 가변 게임 값은 새로 넣지 않았다. 글자 없는 그림·아이콘·이미 제거된 패널 제목은 그대로 보존했다.
+- Jua에 없는 가운뎃점(`·`)은 같은 Jua의 마침표 글리프를 가운데 높이에 배치했다. 다른 폰트의 글리프를 섞지 않았다.
+- 투명 라벨의 채움 높이는 S 56 / M 72 / L 96px이며, 원래 캔버스 높이와 최소 8px 투명 여백을 유지했다. 기존 높이 72px인 외곽선 라벨은 채움 50px, 높이 48px인 라벨은 채움 36px·외곽선 2px·상하 여백 4px로 기존 캔버스 높이를 우선했다. `Pos/TabDessert.png`의 높이 76px는 채움 56px·외곽선 3px·상하 여백 7px다. 해당하는 파일만 아래 표의 규격 예외가 적용된다. 폭이 부족한 라벨은 폭만 늘렸다.
+
+| 파일 | 고정 문구 | 채움 높이 | 채움색 | 외곽선 | 처리 방식 | 캔버스 (전 → 후) |
+|---|---|---:|---|---|---|---|
+| EmptyOrders.png | 주문이 없습니다. | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 424×72 |
+| LabelBeverage.png | 음료 | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 126×72 |
+| LabelCoffee.png | 커피 | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 144×72 |
+| LabelPickup.png | 픽업대 | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 170×72 |
+| LabelSmoothie.png | 스무디 | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 189×72 |
+| LabelTotal.png | 합계 | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 122×72 |
+| TitleOrders.png | 주문 내역 | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 280×72 |
+| TitleRecipe.png | 레시피 | 50px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 186×72 |
+| BadgeHot.png | HOT | 35px | #FCF0CA | #380F00 3px | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 200×88 |
+| BadgeIce.png | ICE | 38px | #FCF0CA | #380F00 3px | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 200×88 |
+| OrdersButton.png | 주문 내역 | 48px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 380×220 |
+| RecipeButton.png | 레시피 | 72px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 380×220 |
+| ToggleHotOff.png | HOT | 50px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 320×128 |
+| ToggleHotOn.png | HOT | 50px | #FCF0CA | #380F00 3px | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 320×128 |
+| ToggleIceOff.png | ICE | 50px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 320×128 |
+| ToggleIceOn.png | ICE | 50px | #FCF0CA | #380F00 3px | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 320×128 |
+
+- 검수: 완성 PNG에서 한글 철자·공백·문장부호와 잘림을 눈으로 확인했다. 그림 포함 PNG는 지정 글자 영역 밖의 RGBA가 원본과 일치하고 알파·캔버스 크기가 동일한지 검사했다. 투명 라벨의 높이는 모두 유지했다. `.meta`, 코드, 씬, 프리팹, `.asset`, `docs/`는 수정하지 않았다. Unity에서 재임포트한 뒤 실제 표시 크기의 가독성과 라벨 폭 증가에 따른 배치를 확인해야 한다.

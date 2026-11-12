@@ -102,7 +102,7 @@ namespace CafeTime.EditorTools
             foreach (var popup in roots.SelectMany(root => root.GetComponentsInChildren<DessertShowcaseScreen>(true)).ToArray())
                 Undo.DestroyObjectImmediate(popup.gameObject);
             SetBakeryPickupPoint(customers);
-            // 절대 좌표로 적용해 메뉴를 여러 번 눌러도 한 칸씩 계속 이동하지 않는다 (ADR-0029).
+            // 절대 좌표로 적용해 메뉴를 여러 번 눌러도 한 칸씩 계속 이동하지 않는다 (ADR-0032).
             Undo.RecordObject(towel, "행주 걸이 오른쪽으로 한 칸 이동");
             towel.position = new Vector3(TowelX, towel.position.y, towel.position.z);
             Undo.RegisterCompleteObjectUndo(wallMap, "기존 행주 걸이 아래 받침대 제거");
@@ -206,7 +206,7 @@ namespace CafeTime.EditorTools
             {
                 var cell = new Vector3Int(x, y, 0);
                 bool border = x == 0 || x == MapWidth - 1 || y == 0 || y >= MapHeight - 2;
-                // 앞쪽 카운터: x3~9. x1~2는 주방 출입구 (ADR-0029)
+                // 앞쪽 카운터: x3~9. x1~2는 주방 출입구 (ADR-0032)
                 bool frontCounter = !border && y == FrontCounterY && x >= FrontCounterStartX && x < KitchenRightX;
                 bool partition = !border && x == KitchenRightX && y >= FrontCounterY;
                 if (border || frontCounter || partition)
@@ -297,7 +297,7 @@ namespace CafeTime.EditorTools
             return tables.ToArray();
         }
 
-        // 가구 (ADR-0016, 0028): 빵 진열대는 손님 픽업 위치이며 플레이어 상호작용은 없다. 창문, 퇴식구 받침대, 화분 칸막이, 창가 바, 스툴, 부스
+        // 가구 (ADR-0016, 0031): 빵 진열대는 손님 픽업 위치이며 플레이어 상호작용은 없다. 창문, 퇴식구 받침대, 화분 칸막이, 창가 바, 스툴, 부스
         static void BuildDecor()
         {
             var root = new GameObject("Decor").transform;

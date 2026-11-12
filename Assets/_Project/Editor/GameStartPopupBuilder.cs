@@ -58,7 +58,7 @@ namespace CafeTime.EditorTools
             var start = MakeButton(window, "NewGameButton", sprites["NewGame"], 50, 180, 620, 140);
             var resume = MakeButton(window, "ContinueButton", sprites["Continue"], 50, 365, 620, 140);
             var info = At(resume.transform, "ContinueInfo", 155, 83, 445, 35).gameObject.AddComponent<TextMeshProUGUI>();
-            info.font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/_Project/Art/Fonts/Galmuri11 SDF.asset");
+            info.font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/_Project/Art/Fonts/Jua SDF.asset");
             info.text = "저장된 데이터 없음";
             info.fontSize = 24;
             info.alignment = TextAlignmentOptions.Center;
