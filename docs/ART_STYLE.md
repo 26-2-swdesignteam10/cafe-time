@@ -9,7 +9,7 @@
 - 고해상도 이미지에 **계단식 픽셀 외곽선**을 쓴 "도트풍" 일러스트 (저해상도 원본 도트를 확대한 방식이 아님)
 - 부드러운 그라데이션보다 2~3단계 명암 블록을 쓴다
 - **카페 맵 그림은 예외**: 도트는 유지하되 깔끔하고 모던한 미니멀 스타일로 그린다 (웜 화이트 벽, 밝은 오크 바닥, 스테인리스·무광 검정 기기, 포인트 색은 세이지 그린 하나, 차콜색 얇은 외곽선). 2장 팔레트는 UI에만 적용한다. 시안 진행 중 ([ADR-0016](adr/0016-cafe-map-layout-and-modern-style.md))
-- **영업 중 기기 작업 창은 예외**: 도트 규칙을 적용하지 않은 부드러운 일러스트로 그리고 Bilinear 필터로 표시한다. 기준은 샷 내리기 창(`Art/UI/ShotRoom`)이고, 대상 폴더는 `Art/UI/` 의 `ShotRoom`, `KnockRoom`, `CupShelf`, `IceMaker`, `Water`, `DrinkRoom`, `DrinkTools`, `ShakeRoom`, `TrayReturn`, `Dishwash`, `Pos`, `Stations` 이다. 글자는 Galmuri11을 유지한다. 영업 HUD, 일시정지 창, 아이템·재료 아이콘은 도트 그대로다 (2026-11-09 사용자 요청, 2026-11-12 재료 작업 창 `DrinkTools` 포함)
+- **영업 중 기기 작업 창은 예외**: 도트 규칙을 적용하지 않은 부드러운 일러스트로 그리고 Bilinear 필터로 표시한다. 기준은 샷 내리기 창(`Art/UI/ShotRoom`)이고, 대상 폴더는 `Art/UI/` 의 `ShotRoom`, `KnockRoom`, `CupShelf`, `IceMaker`, `Water`, `DrinkRoom`, `DrinkTools`, `DrinkResult`, `ShakeRoom`, `TrayReturn`, `Dishwash`, `Pos`, `Stations` 이다. 글자는 게임 폰트(4장)를 쓴다. 영업 HUD, 일시정지 창, 아이템·재료 아이콘은 도트 그대로다 (2026-11-09 사용자 요청, 2026-11-12 재료 작업 창 `DrinkTools` 포함)
 - **커피잔 아이콘도 예외**: `Art/Icons/Items` 의 `CupCeramic*`, `CupPlastic*`, `DirtyCeramic`, `DirtyPlastic` 은 샷 내리기 창과 같은 깔끔한 일러스트로 그리고 Bilinear로 표시한다. 게임 안 이름은 도자기 잔 → **HOT 컵**, 플라스틱 컵 → **ICE 컵** (2026-11-09 사용자 요청)
 
 ## 2. 팔레트
@@ -42,11 +42,11 @@
 
 ## 4. 글자
 
-- 게임 폰트: **Galmuri11** (`Art/Fonts/Galmuri11 SDF.asset`)
+- 게임 폰트: **Jua** (`Art/Fonts/Jua-Regular.ttf`, TMP는 `Art/Fonts/Jua SDF.asset`). 이미지 속 글자도 Jua로 조판한다. 2026-11-12 Galmuri11에서 변경 ([ADR-0026](adr/0026-game-font-jua.md))
 - **UI는 도형(Unity 기본 박스, Outline)으로 그리지 않는다.** 창, 버튼, 입력 칸, 탭 등 모든 컴포넌트는 디자인 에셋(PNG)으로 만든다.
 - **고정 문구는 전부 이미지**로 넣는다: 창 제목, 버튼 이름, 탭 이름, 항목 이름("방문 손님", "총액"), 안내·경고 문구, 확인 팝업 메시지.
   - 버튼·창 제목은 버튼·패널 이미지에 직접 그린다.
-  - 나머지는 글자만 있는 투명 PNG(라벨)로 만든다. 다크 커피 굵은 도트 글자 + 크림 외곽선 (어두운 나무 위는 반대 색, 경고는 `#A3261B`).
+  - 나머지는 글자만 있는 투명 PNG(라벨)로 만든다. 다크 커피 Jua 글자 + 크림 외곽선 (어두운 나무 위는 반대 색, 경고는 `#A3261B`).
   - 라벨 글자 높이: S 56px · M 72px · L 96px, 사방 여백 8px. 게임에서는 PNG의 **절반 크기**로 표시한다 (`BuilderUtil.Label`).
 - 이미지에 넣지 않는 글자(TextMeshPro): 금액, 수량, DAY, 닉네임, 재고, 재료 이름처럼 바뀌는 값과 긴 본문(게임 설명 내용)
 - 한국어 글자가 들어간 이미지는 철자를 반드시 눈으로 확인한다.

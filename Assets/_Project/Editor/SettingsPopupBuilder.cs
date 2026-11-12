@@ -76,7 +76,7 @@ namespace CafeTime.EditorTools
 
             var keys = At(window, "KeyTab", 470, 330, 810, 400);
             var text = keys.gameObject.AddComponent<TextMeshProUGUI>();
-            text.font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/_Project/Art/Fonts/Galmuri11 SDF.asset");
+            text.font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/_Project/Art/Fonts/Jua SDF.asset");
             text.text = "이동<pos=42%>W A S D / 방향키\n달리기<pos=42%>Shift (누르고 있기)\n상호작용<pos=42%>E\n일시정지 / 닫기<pos=42%>ESC\n다음 대사<pos=42%>클릭 / 지정 키\n버리기<pos=42%>양손 칸 우클릭";
             text.fontSize = 32;
             text.lineSpacing = 28;

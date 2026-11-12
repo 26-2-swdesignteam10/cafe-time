@@ -95,3 +95,26 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
 - PNG의 RGBA·크기·투명 영역·동일 프레임 캔버스와 위끝 앵커, 패널 내부 알파 255, 컵 받침 접촉, 닫기 버튼 회피, 세 문구의 한글 철자와 공백을 확인했다.
 - Unity **6000.6.4f1**로 돌아가 PNG를 임포트한다. `.meta`는 Unity가 생성하도록 둔다. 패널·정수기·버튼·물줄기는 Sprite / Single / **Bilinear** / Mip Maps 끔 / Alpha Is Transparency 켬. 패널은 Max Size **4096**. 글자 라벨은 Galmuri11 형태 보존을 위해 Point 권장.
 - 이번 작업에서는 `.meta`, `.cs`, `.unity`, `.prefab`, `.asset`을 생성·수정하지 않았다. 새 프레임의 연결과 이 표의 배치 적용, Play 상태에서 물 받기 중에만 애니메이션 표시되는지 확인하는 작업은 별도 Unity 반영이 필요하다.
+
+
+## 2026-11-12 Jua 재조판 (ADR-0026)
+
+- 도구: Python / Pillow의 Jua-Regular.ttf 조판(4배 안티앨리어싱, Lanczos 축소). 바탕이 필요한 파일은 주변 재질 표본 복원 또는 NumPy 확산 인페인트를 사용했다. 글리프를 1px 굵게 만들거나 최근접 보간하는 도트 처리는 하지 않았다.
+- 스타일 참조: 이 폴더의 작업 직전 PNG, `Assets/_Project/Art/Fonts/Jua-Regular.ttf`, `docs/ART_STYLE.md` 4장, 승인 ADR-0026. 기존 Galmuri11 조판·AI 글자 설명은 이 절로 대체하며, 과거 기록은 삭제하지 않았다.
+- 문구·공백·문장부호는 작업 직전 실제 PNG와 생성 기록을 대조했다. 고정 문구만 재조판하고 가변 게임 값은 새로 넣지 않았다. 글자 없는 그림·아이콘·이미 제거된 패널 제목은 그대로 보존했다.
+- Jua에 없는 가운뎃점(`·`)은 같은 Jua의 마침표 글리프를 가운데 높이에 배치했다. 다른 폰트의 글리프를 섞지 않았다.
+- 투명 라벨의 채움 높이는 S 56 / M 72 / L 96px이며, 원래 캔버스 높이와 최소 8px 투명 여백을 유지했다. 기존 높이 72px인 외곽선 라벨은 채움 50px, 높이 48px인 라벨은 채움 36px·외곽선 2px·상하 여백 4px로 기존 캔버스 높이를 우선했다. `Pos/TabDessert.png`의 높이 76px는 채움 56px·외곽선 3px·상하 여백 7px다. 해당하는 파일만 아래 표의 규격 예외가 적용된다. 폭이 부족한 라벨은 폭만 늘렸다.
+- `WaterButton.png`: 내장 ImageGen으로 `물 받기` 글자와 외곽선만 지운 세이지 바탕을 생성하고, 중앙 글자 영역만 원래 버튼에 사용했다. 나무 테두리·하이라이트·캔버스·원래 알파는 보존했다.
+
+| 파일 | 고정 문구 | 채움 높이 | 채움색 | 외곽선 | 처리 방식 | 캔버스 (전 → 후) |
+|---|---|---:|---|---|---|---|
+| Hint.png | 커피잔을 끌어다 놓고 물 받기를 누르세요 | 56px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 873×78 → **1036×78 (폭 확대)** |
+| LabelCold.png | 차가운 물 | 56px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 289×78 |
+| LabelHot.png | 뜨거운 물 | 56px | #380F00 | #FCF0CA 3px | Pillow Jua 4배 안티앨리어싱 조판 | 289×78 |
+| WaterButton.png | 물 받기 | 46px | #FCF0CA | #380F00 3px | ImageGen 글자 없는 바탕 인페인트(중앙 영역만 사용) + Pillow Jua 조판 | 440×144 |
+
+- 검수: 완성 PNG에서 한글 철자·공백·문장부호와 잘림을 눈으로 확인했다. 그림 포함 PNG는 지정 글자 영역 밖의 RGBA가 원본과 일치하고 알파·캔버스 크기가 동일한지 검사했다. 투명 라벨의 높이는 모두 유지했다. `.meta`, 코드, 씬, 프리팹, `.asset`, `docs/`는 수정하지 않았다. Unity에서 재임포트한 뒤 실제 표시 크기의 가독성과 라벨 폭 증가에 따른 배치를 확인해야 한다.
+- 내장 ImageGen 편집 프롬프트 요약: “Remove ONLY the existing central Korean letters and their outlines; restore continuous matching parchment/sage material. Preserve original silhouette, framing, ornaments, highlights, layout and transparent exterior. No new text; blank base for exact Jua typesetting.”
+
+- `WaterButton.png` 내장 ImageGen 실제 편집 프롬프트: “Use case: precise-object-edit. Remove only the centered Korean text 물 받기 and its dark outlines from this sage enamel button, restoring continuous softly textured muted sage enamel in that exact area. Keep the original wide aspect ratio, wood and gold rim, highlights, rounded silhouette, dimensions/composition and transparent exterior unchanged. No letters or new markings. Blank base for deterministic Jua font typesetting.”
+- 인페인트 바탕 원본: `C:/Users/k9425/.codex/generated_images/01a1cecf-f5f9-7c41-8144-696f513874a7/exec-d4023f99-f7ff-41e1-9aee-5490c8a315b7.png`. 최종 PNG에는 필요한 글자 영역만 사용했다.

@@ -13,7 +13,7 @@ namespace CafeTime.EditorTools
     // 씬 빌더들이 함께 쓰는 UI 생성 도우미 (ADR-0006). 좌표는 1920x1080 기준
     public static class BuilderUtil
     {
-        public const string FontAssetPath = "Assets/_Project/Art/Fonts/Galmuri11 SDF.asset";
+        public const string FontAssetPath = "Assets/_Project/Art/Fonts/Jua SDF.asset";
         public static readonly Color TextBrown = new Color32(0x5A, 0x35, 0x20, 0xFF);
         public static readonly Color DarkCoffee = new Color32(0x38, 0x0F, 0x00, 0xFF);
         public static readonly Color Cream = new Color32(0xFA, 0xEA, 0xC2, 0xFF);

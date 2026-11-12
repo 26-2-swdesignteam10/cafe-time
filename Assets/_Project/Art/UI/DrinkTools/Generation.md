@@ -92,3 +92,99 @@
 | TeaBagInCupPlastic | `exec-169ecab1-a4f0-463c-ac51-dc84662e5288.png` |
 | WeightPlate | `exec-2682ccbe-1d19-47ef-846c-803aa4fe6d6a.png` |
 | SodaBottlePour | `exec-18fb2523-dd08-4c0c-a20d-5a6c7cc24b73.png` |
+
+
+### 배치 2차 (2026-11-12)
+
+이번 추가분은 청 숟가락·티백 끌기와 1회 담그기 **그림만** 제공한다. 기존 PNG와 코드·씬·프리팹·에셋·.meta는 수정하지 않았다. 새 ADR은 없다. 사용자 지정 동작을 그리기 위한 배치이며 코드의 동작 변경은 이 작업에 포함하지 않는다.
+
+모든 좌표는 창 **1100×700, 왼쪽 위 기준 px**, 이미지의 투명 여백을 포함한다. 창 전체 1.3배 표시 시 1430×910이 되며, 아래 좌표·크기·잡는 점을 부모 변환과 함께 1.3배 적용한다. PNG 원본을 확대 저장하지 않는다. 기존 `TeaBag` 배치 행은 **잔에 남는 TeaBagInCup 덧그림**이고, 아래 `TeaBag`은 **마우스로 끄는 독립 티백**이다.
+
+| 요소 | x | y | w | h | 잡는 점 / 용도 |
+|---|---:|---:|---:|---:|---|
+| CheongJarOpen | 260 | 84 | 500 | 400 | CheongJar와 같은 1000×800 원본·같은 위치, 병 바닥 y480 |
+| CheongGrab | 446 | 104 | 56 | 86 | 기존 CheongJar의 위쪽 은색 손잡이; 창 기준 추천 시작점 (474,142) |
+| TeaGrab | 378 | 188 | 98 | 72 | TeaBox 앞쪽으로 올라온 개별 티백 포장 부근; 시작점 (427,224) |
+| SpoonFull | 마우스 x−22 | 마우스 y−40 | 320 | 80 | 표시 이미지 왼쪽 위 기준 잡는 점 **(22,40)**; 원본 (44,80) |
+| TeaBag | 마우스 x−112 | 마우스 y−71 | 128 | 160 | 꼬리표의 잡는 점 **(112,71)**; 원본 (224,142) |
+| SpoonPour | 428 | 78 | 320 | 160 | 끝의 청 접점 약 (732,231), 컵 입구 안쪽으로 수직 낙하 |
+| SyrupDrip HOT | 714 | 231 | 36 | 109 | 줄기 중심 x732, 하단 (732,340) |
+| SyrupDrip ICE | 714 | 231 | 36 | 70 | 줄기 중심 x732, 하단 (732,301) |
+| TeaSteep HOT | 616 | 164 | 256 | 320 | Cup과 정확히 같은 영역; TeaSteepCeramic0~7 |
+| TeaSteep ICE | 616 | 164 | 256 | 320 | Cup과 정확히 같은 영역; TeaSteepPlastic0~7 |
+| TeaBagInCup 최종 | 616 | 164 | 256 | 320 | 기존 Ceramic/Plastic 덧그림으로 교체 |
+
+- 끌기 그림은 잡는 점이 마우스에 놓이게 한다. 1.3배 실제 화면에서 SpoonFull은 416×104, 잡는 점 (28.6,52), TeaBag은 166.4×208, 잡는 점 (145.6,92.3)이다. 마우스 좌표를 창 로컬 좌표로 변환했다면 표의 원래 값을 사용한다.
+- 청 붓기 레이어: Panel → WeightPlate → CheongJarOpen → Cup → SpoonPour → SyrupDrip. 숟가락이 돌아오면 기존 CheongJar로 복귀한다. 기존 `CheongJarScoop`은 이번 끌기/붓기 그림에 사용하지 않는다.
+- 담그기 레이어: Panel → WeightPlate → TeaBox → **BigCup*Water** → **TeaSteep***. TeaSteep에 줄·꼬리표가 들어 있으므로 재생 중 TeaBagInCup을 중복 표시하지 않는다.
+- TeaSteep은 **0→1→…→7, 프레임당 0.125초, 총 약 1초, 루프 없음**을 미리보기 기준으로 삼았다. 종료 시 아래를 **BigCup*Mixing**으로 바꾸고 TeaSteep을 숨긴 다음 기존 **TeaBagInCup***만 올린다. 마지막 프레임의 색은 Mixing 원본에서 가져와 연결했다. 이는 아트 재생 안내이며 코드·GameBalance를 변경한 값이 아니다.
+
+### 2차 도구·참조·파일별 프롬프트
+
+- 도구: OpenAI 내장 `image_gen.imagegen` (투명 배경 원화 생성 및 편집), Python 3 / Pillow (마스크, 원본 픽셀 복원, Lanczos 비례 축소·정렬, 액체 영역 제한, 확산·파문 위상 정리, 합성 검수).
+- 참조: `CheongJar.png`, `CheongJarScoop.png`(숟가락에 가렸던 병 입구 복원용), `TeaBox.png`, `TeaBagInCupCeramic.png`, `TeaBagInCupPlastic.png`, `../DrinkRoom/BigCupCeramicWater.png`, `BigCupPlasticWater.png`, `BigCupCeramicMixing.png`, `BigCupPlasticMixing.png`. 토스트는 CafeHud/Generation.md에 별도 기록한다.
+- 공통 스타일: “Production Unity isolated sprite, premium soft painted 2D cafe illustration, clean contours, soft upper-left light, neutral brushed silver, warm cream, restrained sage accents, match existing tools and cups. Not pixel art or photo. True alpha background, fully visible with padding, no text, hands or background.”
+
+| 파일 | 생성 프롬프트 / 후처리 | 원본 크기 |
+|---|---|---|
+| CheongJarOpen.png | 편집 지시: “Remove ONLY the upright metal spoon entirely including its immersed bowl, reconstruct exposed amber fruit preserve surface and back rim. Keep jar, preserve, blank cream sage label, contours, perspective, lighting, position and size EXACTLY unchanged; open lid state, no lid or spare objects; same 1000×800 canvas.” 생성본의 입구 재질·경계가 미세하게 달라 **생성본은 채택하지 않았다**. 최종은 기존 CheongJar를 보존하고 CheongJarScoop에서 동일 위치의 숟가락 없는 입구만 가져와 원본 숟가락 가림 영역에 마스킹했다. y270 위 손잡이는 투명화했다. y358 아래 병 전체는 원본과 픽셀 단위 동일하다. | 1000×800 |
+| SpoonFull.png | “ONE long silver teaspoon horizontal, handle tip at LEFT, oval filled bowl at RIGHT, slightly above view. Generous orange amber glossy fruit preserve mound with pale gold pulp chunks, neutral for strawberry grapefruit yuzu. Same rounded broad handle end, sage inset and brushed silver as jar. No falling liquid, jar, cup, hand or text.” 알파 경계 크롭 후 종횡비 유지, 여백 12px 이상으로 배치. | 640×160 |
+| SpoonPour.png | SpoonFull 생성 원화를 편집 대상으로: “EXACT same silver spoon, rounded handle with sage inset and orange amber chunky preserve. Tilt clockwise about 25 degrees, handle upper LEFT, bowl lower RIGHT; glossy short tongue of preserve over LOWER RIGHT lip, pointing down. Leave long falling thread for separate game effect. Entire utensil visible, no cup, jar, hand or backdrop.” 비례 축소, 640×320 공통 캔버스에 중앙 정렬. 낙하 끝에 기존 SyrupDrip을 연결한다. | 640×320 |
+| TeaBag.png | “ONE loose tea bag ONLY: beige translucent fine mesh rectangular pouch filled with dark brown tea leaves, crimped sealed top; thin warm cream string curves upward-right to small blank cream/sage paper tag. Pouch lower left, tag upper right. Match reference TeaBagInCup string and blank tag design. No tea box, envelope, text, print, cup, hands or ground shadow.” 비례 축소, 256×320에 정렬, 투명 바깥 RGB 정리. | 256×320 |
+| TeaSteepCeramic0~7.png | 아래 HOT 공통 위치 프롬프트 + 프레임별 위상. 원화의 액체 세부를 정렬·추출하고, 수면 마스크 안에서 파문과 Mixing색 확산을 합성했다. 주머니는 TeaBag의 동일 망 원화를 48×60으로 잘라 하강·투명도 변화로 통일했다. | 각 512×640, 8장 |
+| TeaSteepPlastic0~7.png | 아래 ICE 공통 위치 프롬프트 + 같은 위상. 컵 아래로 보이는 찻물 확산도 포함한다. 플라스틱 외벽·테두리를 새로 그리지 않고 기존 Mixing의 액체색을 내부 영역에만 제한했다. | 각 512×640, 8장 |
+
+HOT 공통 위치 프롬프트: “Production Unity soft painted cafe animation OVERLAY ONLY, 512×640 transparent canvas. Frame {i}/7 in one-shot tea steep animation. {phase}. Reference Water for registration ONLY; do NOT draw ceramic cup, handle, saucer or steam. Water surface ellipse center (245,354), radii (126,45), exactly inside reference cup. Effects confined to surface ellipse. Pouch center around (240,321 at contact, then descending), width48 height65. Copy existing cream string and blank tag positions: submerged end (240,365), arch (307,281), right drape (394,340), tag bbox (370,400,417,445). Mixing reference for final subdued tan golden amber color, not saturated orange. True alpha, no cup, text or backdrop.”
+
+ICE 공통 위치 프롬프트: “Production Unity premium soft painted cafe animation OVERLAY ONLY, 512×640 transparent canvas. Frame {i}/7 one-shot tea dipping. {phase}. Reference Water for registration ONLY; OMIT entire cup, rim, plastic walls and bottom. Isolated effects within water surface ellipse center (253,280), radii (145,30). Pouch48×65 near (240,245 at contact, then descending). Amber cloud inside liquid; subdued tan amber from Mixing. Exact string/tag placement: submerged end (237,305), rear arch (315,188), right drape (406,268), sage cream tag (390,326) to (421,365). True alpha, transparent outside liquid and string/tag; no background or text.”
+
+HOT 8장·ICE 8장 각각을 별도 생성 호출로 만들었다.
+
+| 프레임 (두 종류 공통) | 개별 phase 프롬프트 / 최종 위상 |
+|---|---|
+| 0 | “Tea pouch just touching water, tiny contact ring, no amber yet.” 접촉, 망 주머니 선명, 맑은 물 |
+| 1 | “Pouch dips halfway, two tiny upward water droplets, tight ripple, faint amber starts.” 하강 시작·좁은 파문·옅은 확산 |
+| 2 | “Pouch sinks, small expanding elliptical ripple, small amber curl.” 주머니가 흐려지고 파문 확대 |
+| 3 | “Submerged pouch visible under water, larger gentle concentric ripples, amber cloud spreads halfway.” 수면 중앙에 호박색 확산 |
+| 4 | “Submerged pouch faint, broad fading ripples, amber diffuses to three quarters.” 확산 범위 확대, 망은 희미해짐 |
+| 5 | “Pouch barely visible, very faint ring, amber almost evenly spread.” 찻물 대부분 채움, 파문 감쇠 |
+| 6 | “Pouch nearly invisible, no splash, last faint ring, settled amber surface.” 종료 직전, 약한 잔물결 |
+| 7 | “Settled clear amber tea, no pouch visible, no ripples, match Mixing liquid exactly.” 기존 Mixing 액체색, 기존 줄·꼬리표와 정확히 동일 |
+
+후처리 상세: 생성 원화의 컵·수면 크기 편차 때문에 원화를 그대로 축소하지 않았다. 가장 넓은 액체 행의 알파 경계로 원화의 수면을 찾아 각 컵의 내부 수면에 정렬하고, 국소 명도 차에서 액체 세부를 추출했다. 생성된 주머니·줄의 잔상이 남지 않도록 중앙·꼬리표 영역 및 확장하는 타원 파문 띠 밖을 마스킹했다. 같은 망 주머니가 0~6에서 아래로 이동하며 사라지고, 찻물은 접점에서 방사형으로 넓어져 7에서 Mixing 원본색으로 끝난다. 0~2의 컵 안쪽 줄 끝만 주머니에 연결되도록 조정하고 **컵 테두리에 걸린 부분·꼬리표는 모든 프레임에서 기존 픽셀을 보존**했다. 3~7은 기존 TeaBagInCup 전체를 그대로 합성했다. 외부 투명 픽셀은 RGBA=(0,0,0,0), 부드러운 알파 경계 보존. 컵·손잡이·받침·김은 최종 덧그림에 없다.
+
+### 2차 미리보기·검수·Unity 적용
+
+- Assets 밖 작업·미리보기: `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/fec95591-d3a3-47b1-89d7-0c4e1896d871/scratchpad/drinktools-phase2/`.
+- 1100×700 합성 12장: `SpoonDraggingHot.png`, `SpoonDraggingIce.png`, `SpoonPouringHot.png`, `SpoonPouringIce.png`, `TeaDraggingHot.png`, `TeaDraggingIce.png`, `TeaSteepHot0.png`, `TeaSteepHot3.png`, `TeaSteepHot7.png`, `TeaSteepIce0.png`, `TeaSteepIce3.png`, `TeaSteepIce7.png`. `PreviewAll.png`는 12장 모음이다.
+- `TeaSteepHotContact.png`, `TeaSteepIceContact.png`: 각 8프레임 접촉표. `TeaSteepHotOnce.gif`, `TeaSteepIceOnce.gif`: 루프 없이 1회 재생한 뒤 기존 Mixing+TeaBagInCup 종료 상태를 표시한다. 미리보기 배경·컵은 검수 합성에만 존재한다.
+- `OriginalHashes.json`, `Validation.json`에 기존 PNG 해시 보존·새 파일 크기/RGBA·투명 경계·줄/꼬리표 정렬 검증을 남겼다. 토스트는 `ToastWaterFirst2x.png`에서 물 / 을 / 공백 / 먼 / 저 / 공백 / 받 / 아 / 공백 / 주 / 세 / 요 / . 를 눈으로 확인했다.
+- Unity **6000.6.4f1**에서 임포트하여 .meta가 자동 생성되게 한다. DrinkTools 추가 PNG: Sprite(2D and UI), Single, **Bilinear**, Mip Maps 끔, Alpha Is Transparency 켬, Max Size2048, Mesh Full Rect 권장. 공통 512×640 덧그림은 투명 여백을 잘라 배치하지 않는다.
+- 연결 후 HOT/ICE 각각 숟가락 잡기→병 전환→컵 안/밖 놓기→돌아오기, 물 있는 컵의 티백 0~7→Mixing+기존 덧그림 전환, 빈 컵의 “물을 먼저 받아 주세요.” 토스트를 Play에서 확인한다. 창 전체 1.3배와 마우스 잡는 점도 함께 확인한다. 이 작업에서는 Unity 실행·코드 연결은 하지 않았다.
+
+### 2차 생성 원본 대응
+
+원본 폴더: `C:/Users/k9425/.codex/generated_images/01a1ceb5-1e0c-7031-92cd-2a8d521c4cfc/`. 원화는 보존하고 최종 마스킹·정렬 결과만 Assets에 저장했다. 마지막 프레임은 생성 원화보다 기존 Mixing과의 정확한 연결을 우선해 Mixing의 액체 픽셀과 기존 덧그림을 사용했다.
+
+| 파일 | 생성 원본 |
+|---|---|
+| CheongJarOpen 편집 시안 (미채택) | exec-db0097be-9817-406f-bc32-11c9f50e9996.png |
+| SpoonFull | exec-11a39081-7ff1-41fa-a6ca-67b5e48f625f.png |
+| SpoonPour | exec-e59a0e8e-559b-425e-ae85-4fd11c005b06.png |
+| TeaBag | exec-eb03079b-fc85-4c2c-af47-dd1450b0b00a.png |
+| TeaSteepCeramic0 | exec-f0fa874e-26e6-4f92-9c09-0cb649750d66.png |
+| TeaSteepCeramic1 | exec-16766043-c4b8-40db-8e21-f894f72855bf.png |
+| TeaSteepCeramic2 | exec-8d80e0c6-5f0d-47d7-af87-89844992091a.png |
+| TeaSteepCeramic3 | exec-fc453b2e-9ab3-4841-a4fd-92f378bb5565.png |
+| TeaSteepCeramic4 | exec-31aeb0cb-48bb-4398-b8ad-27d68da67915.png |
+| TeaSteepCeramic5 | exec-889b7b15-2253-4470-a9eb-5fefd3d79339.png |
+| TeaSteepCeramic6 | exec-08d66a1d-d389-4d3a-9211-da678e17a67c.png |
+| TeaSteepCeramic7 | exec-8596070c-e697-4ff7-95bc-e81d9a6d38fa.png |
+| TeaSteepPlastic0 | exec-c945f2da-4dda-49cd-8182-bc33370dece2.png |
+| TeaSteepPlastic1 | exec-fda85e62-a4c9-458f-9eb3-ad41db57c3a1.png |
+| TeaSteepPlastic2 | exec-24ae2f7c-3029-4b10-a647-2e2938bf771a.png |
+| TeaSteepPlastic3 | exec-defa171d-4e81-44f6-b2ba-0678a762aed6.png |
+| TeaSteepPlastic4 | exec-f449c1d5-f624-4f1a-a062-1e4e7bd79b5d.png |
+| TeaSteepPlastic5 | exec-23b8e8a2-971d-45c3-96a9-68a8901c57c9.png |
+| TeaSteepPlastic6 | exec-da76714b-9cea-4819-a0c9-b986e03c76db.png |
+| TeaSteepPlastic7 | exec-0774f786-e769-44d7-8b3f-b80d400ae9a5.png |
