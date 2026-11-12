@@ -10,7 +10,17 @@ namespace CafeTime.Cafe
         public Sprite up;
         public Sprite left;
         public Sprite right;
-        public Sprite sit;
+        public Sprite sit;       // 테이블 뒤 자리: 정면으로 앉음
+        public Sprite sitLeft;   // 오른쪽 의자: 왼쪽(테이블)을 보고 앉음
+        public Sprite sitRight;  // 왼쪽 의자: 오른쪽(테이블)을 보고 앉음
+
+        // 앉은 그림. facing = 앉아서 바라보는 방향 (SFR-024)
+        public Sprite Seated(Vector2 facing)
+        {
+            if (facing.x < 0 && sitLeft != null) return sitLeft;
+            if (facing.x > 0 && sitRight != null) return sitRight;
+            return sit;
+        }
 
         public Sprite Facing(Vector2 direction)
         {

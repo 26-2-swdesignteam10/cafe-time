@@ -349,8 +349,9 @@ namespace CafeTime.EditorTools
             for (int i = 0; i < 4; i++)
             {
                 var look = looks.GetArrayElementAtIndex(i);
-                foreach (var pose in new[] { "Down", "Up", "Left", "Right", "Sit" })
-                    look.FindPropertyRelative(pose.ToLower()).objectReferenceValue = LoadSprite($"{CustomerArtDir}/Customer{i + 1}{pose}.png");
+                // 필드 이름 = 포즈 이름의 첫 글자만 소문자 (SitLeft → sitLeft). SitLeft/SitRight 는 의자에 앉은 옆모습 (SFR-024)
+                foreach (var pose in new[] { "Down", "Up", "Left", "Right", "Sit", "SitLeft", "SitRight" })
+                    look.FindPropertyRelative(char.ToLower(pose[0]) + pose.Substring(1)).objectReferenceValue = LoadSprite($"{CustomerArtDir}/Customer{i + 1}{pose}.png");
             }
             Set(customers, "gaugeFrame", LoadSprite($"{HudArt}/GaugeFrame.png"));
             Set(customers, "gaugeFill", LoadSprite($"{HudArt}/GaugeFill.png"));

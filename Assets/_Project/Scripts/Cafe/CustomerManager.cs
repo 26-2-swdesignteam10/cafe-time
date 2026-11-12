@@ -201,7 +201,7 @@ namespace CafeTime.Cafe
                     new Vector3(seat.x, table.LaneY),
                     seat,
                 };
-                member.Walk(points);
+                member.WalkToSeat(points, table.SeatFacing(i));
             }
             return order;
         }

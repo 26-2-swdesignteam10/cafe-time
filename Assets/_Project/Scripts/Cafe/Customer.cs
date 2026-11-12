@@ -13,6 +13,7 @@ namespace CafeTime.Cafe
         SpriteRenderer spriteRenderer;
         CustomerLook look;
         bool sitting;
+        Vector2 seatFacing = Vector2.down; // 자리에 앉아 바라볼 방향
 
         public bool IsMoving => path.Count > 0;
 
@@ -28,7 +29,12 @@ namespace CafeTime.Cafe
             return customer;
         }
 
-        void Awake() => spriteRenderer = GetComponent<SpriteRenderer>();
+        void Awake()
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            // 발밑 기준으로 앞뒤 정렬 (맵 오브젝트·플레이어와 같은 규칙). 기본값(그림 가운데)이면 의자보다 뒤에 그려진다
+            spriteRenderer.spriteSortPoint = SpriteSortPoint.Pivot;
+        }
 
         public void Walk(IEnumerable<Vector3> points)
         {
@@ -37,10 +43,18 @@ namespace CafeTime.Cafe
             sitting = false;
         }
 
+        // 자리까지 걸어감. 도착해 Sit() 하면 facing 쪽을 보고 앉는다 (의자는 옆모습, 테이블 뒤는 정면)
+        public void WalkToSeat(IEnumerable<Vector3> points, Vector2 facing)
+        {
+            Walk(points);
+            seatFacing = facing;
+        }
+
+        // 앉기 (SFR-024). 다시 Walk 하면 일어나 걷는 그림으로 돌아간다
         public void Sit()
         {
             sitting = true;
-            spriteRenderer.sprite = look.sit;
+            spriteRenderer.sprite = look.Seated(seatFacing);
         }
 
         public void Face(Vector2 direction) => spriteRenderer.sprite = look.Facing(direction);

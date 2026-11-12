@@ -28,6 +28,9 @@ namespace CafeTime.Cafe
 
         public Vector3 Seat(int index) => seats[Mathf.Clamp(index, 0, seats.Length - 1)].position;
 
+        // 자리에 앉아 바라보는 방향: 왼쪽 의자는 오른쪽(테이블), 오른쪽 의자는 왼쪽, 뒤쪽 자리는 정면 (SFR-024)
+        public Vector2 SeatFacing(int index) => index == 0 ? Vector2.right : index == 1 ? Vector2.left : Vector2.down;
+
         void Awake() => Refresh();
 
         public void RequestCleaning(float timeLimit)
