@@ -54,7 +54,7 @@ namespace CafeTime.EditorTools
             graphic.preserveAspect = true;
             graphic.raycastTarget = false;
             var message = At(window, "Message", 100, 260, 800, 110).gameObject.AddComponent<TextMeshProUGUI>();
-            message.font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/_Project/Art/Fonts/Galmuri11 SDF.asset");
+            message.font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/_Project/Art/Fonts/Jua SDF.asset");
             message.fontSize = 38;
             message.alignment = TextAlignmentOptions.Center;
             message.color = new Color32(0x5A, 0x35, 0x20, 0xFF);

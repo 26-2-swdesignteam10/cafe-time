@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -9,25 +10,28 @@ namespace CafeTime.Cafe
         [SerializeField] TMP_Text text;
         [SerializeField] Vector2 offset = new Vector2(0, 80);
 
-        IngredientSlotView target;
+        Func<string> describe;
 
-        public void Show(IngredientSlotView slot)
+        public void Show(IngredientSlotView slot) => Show(slot.transform, slot.Describe);
+
+        // 선반 칸이 아닌 물건(쉐이크 제조실 원액 통·우유 팩)에도 띄운다
+        public void Show(Transform anchor, Func<string> describeTarget)
         {
-            target = slot;
+            describe = describeTarget;
             gameObject.SetActive(true);
-            transform.position = slot.transform.position + (Vector3)offset;
+            transform.position = anchor.position + (Vector3)offset;
             transform.SetAsLastSibling();
         }
 
         public void Hide()
         {
-            target = null;
+            describe = null;
             gameObject.SetActive(false);
         }
 
         void Update()
         {
-            if (target != null) text.text = target.Describe(); // 붓는 동안 실시간 갱신
+            if (describe != null) text.text = describe(); // 붓는 동안 실시간 갱신
         }
     }
 }

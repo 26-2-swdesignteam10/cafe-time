@@ -459,8 +459,8 @@ namespace CafeTime.EditorTools
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        // 메뉴 버튼 견본 (이름 + 가격). 화면이 메뉴 수만큼 복제한다
-        static MenuButtonView MenuTemplate(Transform parent, Sprite frame, Vector2 size, bool withIcon)
+        // 메뉴 카드 견본 (디저트 진열장: 아이콘 + 이름 + 재고). 화면이 메뉴 수만큼 복제한다
+        static MenuButtonView MenuTemplate(Transform parent, Sprite frame, Vector2 size)
         {
             var rt = NewUI("MenuButton", parent);
             rt.sizeDelta = size;
@@ -468,22 +468,37 @@ namespace CafeTime.EditorTools
             var view = rt.gameObject.AddComponent<MenuButtonView>();
             var so = new SerializedObject(view);
             Set(so, "button", button);
-            if (withIcon)
-            {
-                // 카드형 (디저트 진열장): OpenPrep/CardFrame.png 와 같은 배치
-                var icon = AddImage(TopLeft("Icon", rt, 56, 24, 88, 86), null, Color.clear);
-                icon.preserveAspect = true;
-                Set(so, "icon", icon);
-                Set(so, "nameText", AddText(TopLeft("Name", rt, 10, 118, 180, 28), "", 22, DarkCoffee));
-                Label(rt, "StockLabel", LoadSprite($"{OpenPrep}/LabelStock.png"), 96, 168, PivotRight, 0.3f);
-                Set(so, "detailText", AddText(TopLeft("Detail", rt, 102, 157, 95, 22), "", 17, TextBrown, TextAlignmentOptions.Left));
-            }
-            else
-            {
-                float w = size.x - 30;
-                Set(so, "nameText", AddText(TopLeft("Name", rt, 15, size.y * 0.14f, w, size.y * 0.42f), "", 24, DarkCoffee));
-                Set(so, "detailText", AddText(TopLeft("Price", rt, 15, size.y * 0.54f, w, size.y * 0.32f), "", 20, TextBrown));
-            }
+            // OpenPrep/CardFrame.png 와 같은 배치
+            var icon = AddImage(TopLeft("Icon", rt, 56, 24, 88, 86), null, Color.clear);
+            icon.preserveAspect = true;
+            Set(so, "icon", icon);
+            Set(so, "nameText", AddText(TopLeft("Name", rt, 10, 118, 180, 28), "", 22, DarkCoffee));
+            Label(rt, "StockLabel", LoadSprite($"{OpenPrep}/LabelStock.png"), 96, 168, PivotRight, 0.3f);
+            Set(so, "detailText", AddText(TopLeft("Detail", rt, 102, 157, 95, 22), "", 17, TextBrown, TextAlignmentOptions.Left));
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return view;
+        }
+
+        // 포스기 메뉴 카드 (ADR-0029): 왼쪽 완성품 그림 + 오른쪽 이름·가격. 좌표는 Art/UI/Pos/Generation.md 카드 안 상대 좌표
+        static MenuButtonView PosMenuCard(Transform parent)
+        {
+            var rt = NewUI("MenuButton", parent);
+            rt.sizeDelta = new Vector2(280, 150);
+            var button = AddButton(rt, LoadSprite($"{Pos}/MenuCard.png"), Cream);
+            var view = rt.gameObject.AddComponent<MenuButtonView>();
+            var so = new SerializedObject(view);
+            Set(so, "button", button);
+            var icon = AddImage(TopLeft("Icon", rt, 14, 12, 100, 125), null, Color.clear);
+            icon.preserveAspect = true;
+            icon.raycastTarget = false;
+            Set(so, "icon", icon);
+            var name = AddText(TopLeft("Name", rt, 124, 32, 146, 54), "", 22, DarkCoffee, TextAlignmentOptions.Left);
+            name.textWrappingMode = TextWrappingModes.Normal;
+            name.enableAutoSizing = true; // 긴 이름은 2줄·작게
+            name.fontSizeMin = 16;
+            name.fontSizeMax = 22;
+            Set(so, "nameText", name);
+            Set(so, "detailText", AddText(TopLeft("Price", rt, 124, 94, 146, 30), "", 22, TextBrown, TextAlignmentOptions.Left));
             so.ApplyModifiedPropertiesWithoutUndo();
             return view;
         }
@@ -526,7 +541,8 @@ namespace CafeTime.EditorTools
             var so = new SerializedObject(popup);
             Set(so, "chat", OrderChat(popup.transform, (1920 - w) / 2, Top + h + 10, w, 1080 - Top - h - 20));
 
-            var tabNormal = LoadSprite($"{OpenPrep}/TabNormal.png");
+            // 좌표는 Art/UI/Pos/Generation.md "배치 (2026-11-12)" 표 (ADR-0029)
+            var tabNormal = LoadSprite($"{Pos}/TabNormal.png");
             string[] tabLabels = { "TabCoffee", "TabDrink", "TabSmoothie", "TabDessert" };
             var tabs = new Object[tabLabels.Length];
             for (int i = 0; i < tabLabels.Length; i++)
@@ -537,12 +553,31 @@ namespace CafeTime.EditorTools
             }
             SetArray(so, "categoryTabs", tabs);
             Set(so, "tabNormal", tabNormal);
-            Set(so, "tabSelected", LoadSprite($"{OpenPrep}/TabSelected.png"));
+            Set(so, "tabSelected", LoadSprite($"{Pos}/TabSelected.png"));
             Set(so, "temperature", TemperatureButtons(window, 90, 248));
 
-            var grid = Grid(window, "Menus", 90, 318, 870, 490, new Vector2(280, 110), 3);
+            var grid = Grid(window, "Menus", 90, 318, 870, 490, new Vector2(280, 150), 3);
+            grid.GetComponent<GridLayoutGroup>().spacing = new Vector2(15, 20);
             Set(so, "menuContainer", grid);
-            Set(so, "menuTemplate", MenuTemplate(grid, LoadSprite($"{Pos}/MenuButton.png"), new Vector2(280, 110), false));
+            Set(so, "menuTemplate", PosMenuCard(grid));
+            // 메뉴 카드 그림: 음료는 판정 결과 완성품 그림 재사용 (HOT 그림이 있으면 HOT), 디저트는 Pos 폴더
+            const string Result = "Assets/_Project/Art/UI/DrinkResult";
+            var pictures = new (string id, string path)[]
+            {
+                ("americano", $"{Result}/AmericanoHot"), ("cafe_latte", $"{Result}/LatteHot"), ("vanilla_latte", $"{Result}/LatteHot"),
+                ("hazelnut_latte", $"{Result}/LatteHot"), ("condensed_latte", $"{Result}/LatteHot"), ("caramel_macchiato", $"{Result}/CaramelHot"),
+                ("cafe_mocha", $"{Result}/MochaHot"), ("strawberry_latte", $"{Result}/StrawberryLatteIce"),
+                ("grapefruit_ade", $"{Result}/AdeGrapefruit"), ("yuja_ade", $"{Result}/AdeYuja"), ("strawberry_ade", $"{Result}/AdeStrawberry"),
+                ("blue_lemon_ade", $"{Result}/AdeBlueLemon"), ("yuja_tea", $"{Result}/YujaTeaHot"), ("grapefruit_tea", $"{Result}/GrapefruitTeaHot"),
+                ("chamomile", $"{Result}/TeaHot"), ("earl_grey", $"{Result}/TeaHot"),
+                ("strawberry_smoothie", $"{Result}/SmoothieStrawberry"), ("mango_smoothie", $"{Result}/SmoothieMango"),
+                ("hallabong_smoothie", $"{Result}/SmoothieHallabong"), ("melon_smoothie", $"{Result}/SmoothieMelon"), ("cookie_shake", $"{Result}/CookieShake"),
+                ("strawberry_cake", $"{Pos}/DessertStrawberryCake"), ("croissant", $"{Pos}/DessertCroissant"), ("cookie", $"{Pos}/DessertCookie"),
+            };
+            var ids = so.FindProperty("pictureMenuIds");
+            ids.arraySize = pictures.Length;
+            for (int i = 0; i < pictures.Length; i++) ids.GetArrayElementAtIndex(i).stringValue = pictures[i].id;
+            SetArray(so, "pictures", pictures.Select(p => (Object)LoadSprite($"{p.path}.png")).ToArray());
 
             // 오른쪽 주문 목록
             var rows = TopLeft("Rows", window, 1015, 180, 520, 360);
@@ -554,13 +589,13 @@ namespace CafeTime.EditorTools
             Set(so, "rowContainer", rows);
             Set(so, "rowTemplate", RowTemplate(rows));
 
-            Set(so, "minusButton", AddButton(TopLeft("Minus", window, 1015, 556, 56, 56), LoadSprite($"{OpenPrep}/MinusButton.png"), Cream));
-            Set(so, "plusButton", AddButton(TopLeft("Plus", window, 1081, 556, 56, 56), LoadSprite($"{OpenPrep}/PlusButton.png"), Cream));
+            Set(so, "minusButton", AddButton(TopLeft("Minus", window, 1015, 556, 56, 56), LoadSprite($"{Pos}/MinusButton.png"), Cream));
+            Set(so, "plusButton", AddButton(TopLeft("Plus", window, 1081, 556, 56, 56), LoadSprite($"{Pos}/PlusButton.png"), Cream));
             Set(so, "deleteButton", AddButton(TopLeft("DeleteButton", window, 1155, 550, 180, 63), LoadSprite($"{Pos}/DeleteButton.png"), Cream));
             Set(so, "cancelButton", AddButton(TopLeft("CancelButton", window, 1345, 550, 180, 63), LoadSprite($"{Pos}/CancelButton.png"), Cream));
-            Label(window, "TotalLabel", LoadSprite($"{OpenPrep}/LabelTotal.png"), 1020, 660, PivotLeft);
+            Label(window, "TotalLabel", LoadSprite($"{Pos}/LabelTotal.png"), 1020, 660, PivotLeft);
             Set(so, "totalText", AddText(TopLeft("Total", window, 1140, 634, 390, 52), "₩0", 36, DarkCoffee, TextAlignmentOptions.Right));
-            Set(so, "payButton", AddButton(TopLeft("PayButton", window, 1075, 705, 400, 91), LoadSprite($"{Pos}/PayButton.png"), Cream));
+            Set(so, "payButton", AddButton(TopLeft("PayButton", window, 1075, 705, 400, 90), LoadSprite($"{Pos}/PayButton.png"), Cream));
             Set(so, "receipt", receipt);
             so.ApplyModifiedPropertiesWithoutUndo();
             SetClose(popup, CloseButton(window, 1452, 86));
@@ -648,7 +683,7 @@ namespace CafeTime.EditorTools
             layout.childControlWidth = layout.childControlHeight = false;
             layout.childForceExpandWidth = layout.childForceExpandHeight = false;
             Set(so, "container", row);
-            Set(so, "template", MenuTemplate(row, LoadSprite($"{OpenPrep}/CardFrame.png"), new Vector2(200, 252), true));
+            Set(so, "template", MenuTemplate(row, LoadSprite($"{OpenPrep}/CardFrame.png"), new Vector2(200, 252)));
             so.ApplyModifiedPropertiesWithoutUndo();
             SetClose(popup, CloseButton(window, 866, 66));
             return popup;

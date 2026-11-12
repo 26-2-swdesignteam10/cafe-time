@@ -35,5 +35,9 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0021](0021-seven-minute-day.md) | 하루 영업을 약 7분으로 더 줄인다 | 승인 |
 | [0022](0022-pickup-fifo-penalty.md) | 픽업대에서 선입선출을 어기면 감점한다 | 승인 |
 | [0023](0023-hide-hud-stock.md) | 영업 HUD 에 재료 재고를 표시하지 않는다 | 승인 |
-| [0024](0024-drink-ingredient-tool-windows.md) | 음료 제조실 재료는 재료별 작업 창에서 넣는다 | 승인 |
+| [0024](0024-drink-ingredient-tool-windows.md) | 음료 제조실 재료는 재료별 작업 창에서 넣는다 | 대체됨 (ADR-0028, 청·티백 조작 부분) |
 | [0025](0025-customers-and-chairs-no-collision.md) | 손님과 의자는 플레이어와 충돌하지 않는다 | 승인 |
+| [0026](0026-game-font-jua.md) | 게임 폰트를 Jua로 변경 | 승인 |
+| [0027](0027-drink-result-stamp.md) | 음료 판정 결과는 완성품 그림과 완성도 도장으로 보여 준다 | 승인 |
+| [0028](0028-cheong-spoon-and-tea-steep-drag.md) | 청은 숟가락을 끌어 넣고 티백은 물 담긴 컵에 끌어 담근다 | 승인 |
+| [0029](0029-shake-room-drag-and-hold-blend.md) | 쉐이크 제조실은 끌어 넣고 누르고 있는 동안 갈며, 포스기는 실제 단말기 화풍으로 바꾼다 | 승인 |

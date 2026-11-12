@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CafeTime.Cafe
 {
-    // 쉐이크 제조실 믹서기 (SFR-052~055). 갈기는 화면을 닫아도 계속된다
+    // 쉐이크 제조실 믹서기 (SFR-052~055). 갈기 버튼을 누르고 있는 동안만 갈린다 (ADR-0029, 떼면 멈추고 진행은 유지)
     public class Blender : MonoBehaviour, IWorkStatus
     {
         public static Blender Instance { get; private set; }
@@ -12,16 +12,15 @@ namespace CafeTime.Cafe
         public Mixture Jar { get; } = new Mixture();
         public Cup CupSpot { get; private set; }
 
-        float blendLeft;
+        float blendTime; // 지금까지 간 시간
         bool blended;
-        bool done;
         GameBalance balance;
 
         public event Action Changed;
         public event Action<Cup> Judged;
 
         public BlenderState State =>
-            blendLeft > 0 ? BlenderState.Blending : blended ? BlenderState.Blended : Jar.IsEmpty ? BlenderState.Empty : BlenderState.Filled;
+            blended ? BlenderState.Blended : blendTime > 0 ? BlenderState.Blending : Jar.IsEmpty ? BlenderState.Empty : BlenderState.Filled;
 
         public float Weight => Jar.Weight(balance);
 
@@ -70,23 +69,21 @@ namespace CafeTime.Cafe
             return true;
         }
 
-        public void Blend()
+        // 누르고 있는 동안 매 프레임 호출 (SFR-054, ADR-0029). false 면 갈 수 없음
+        public bool BlendHold(float seconds)
         {
-            if (State == BlenderState.Blending || State == BlenderState.Blended) return;
-            if (Jar.IsEmpty) { Toast.Show(ToastMessage.BlenderEmpty); return; }
-            blendLeft = balance.BlendSeconds;
-            Changed?.Invoke();
-        }
-
-        void Update()
-        {
-            if (blendLeft <= 0) return;
-            blendLeft -= GameClock.Delta;
-            if (blendLeft > 0) return;
-            blendLeft = 0;
-            blended = true;
-            done = true;
-            Changed?.Invoke();
+            if (blended) return false;
+            if (Jar.IsEmpty) { Toast.Show(ToastMessage.BlenderEmpty); return false; }
+            bool started = blendTime <= 0;
+            blendTime += seconds;
+            if (blendTime >= balance.BlendSeconds)
+            {
+                blendTime = 0;
+                blended = true;
+                Changed?.Invoke();
+            }
+            else if (started) Changed?.Invoke(); // 재료를 더 못 넣는 상태로 바뀜
+            return true;
         }
 
         // 커피잔 자리에는 빈 커피잔만 (SFR-055)
@@ -115,6 +112,7 @@ namespace CafeTime.Cafe
             cup.AddAll(Jar);
             Jar.Clear();
             blended = false;
+            blendTime = 0;
             DrinkJudge.Finish(cup, balance);
             if (HandInventory.Instance.TryAdd(cup)) CupSpot = null;
             else Toast.Show(ToastMessage.HandsFull);
@@ -122,8 +120,11 @@ namespace CafeTime.Cafe
             Changed?.Invoke();
         }
 
-        public float Progress => blendLeft > 0 ? 1f - blendLeft / balance.BlendSeconds : -1f;
-        public bool Done => done;
-        public void ClearDone() => done = false;
+        // 붓기 버튼: 잔이 있고 다 갈렸을 때만 붓는 연출을 한다 (아니면 PourOut 이 안내를 띄움)
+        public bool CanPour => CupSpot != null && State == BlenderState.Blended;
+
+        public float Progress => !blended && blendTime > 0 ? blendTime / balance.BlendSeconds : -1f;
+        public bool Done => false; // 화면을 연 채로 갈기 때문에 완료 알림이 필요 없다
+        public void ClearDone() { }
     }
 }

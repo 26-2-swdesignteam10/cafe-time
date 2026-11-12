@@ -28,5 +28,6 @@ namespace CafeTime.Cafe
         Extracting,             // 추출 중에는 뺄 수 없습니다. (SFR-033, 034)
         EmptyCupOnly,           // 빈 컵만 되돌릴 수 있습니다. (SFR-028)
         OrderSkipped,           // 먼저 들어온 주문부터 서빙해 주세요. (ADR-0022)
+        WaterFirst,             // 물을 먼저 받아 주세요. (티백, ADR-0028)
     }
 }

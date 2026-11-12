@@ -31,5 +31,13 @@ namespace CafeTime.Cafe
         }
 
         public void SetDetail(string text) => detailText.text = text;
+
+        // 포스기 메뉴 카드: 손 칸 아이콘 대신 완성품 그림 (ADR-0029)
+        public void SetIcon(Sprite sprite)
+        {
+            if (icon == null || sprite == null) return;
+            icon.sprite = sprite;
+            icon.enabled = true;
+        }
     }
 }
