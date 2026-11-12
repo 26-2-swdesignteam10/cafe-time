@@ -30,6 +30,8 @@ namespace CafeTime.Cafe
             gameObject.SetActive(true);
         }
 
+        public void SetInteractable(bool value) => button.interactable = value;
+
         public void SetDetail(string text) => detailText.text = text;
     }
 }

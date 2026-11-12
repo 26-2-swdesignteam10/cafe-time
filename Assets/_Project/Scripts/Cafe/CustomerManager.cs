@@ -22,6 +22,7 @@ namespace CafeTime.Cafe
         [SerializeField] float queueLaneY = 7.25f;   // 포스기 앞 줄
         [SerializeField] float queueStartX = 4.625f; // 줄 맨 앞 (포스기 바로 앞). 줄은 왼쪽으로 이어짐
         [SerializeField] float queueSpacing = 1.8f;  // 일행 사이 간격
+        [SerializeField] Vector2 bakeryPickupPoint = new Vector2(3.5f, 7.25f); // 진열장 손님 쪽 (SFR-056)
         [SerializeField] int maxQueue = 5;           // 줄이 입구까지 차면 더 들어오지 않음
         [SerializeField] float hallRouteX = 9.5f;    // 진열대 오른쪽 세로 통로
         [SerializeField] float hallLaneY = 3.7f;     // 화분 사이로 좌석 구역에 들어가는 가로 통로
@@ -84,7 +85,7 @@ namespace CafeTime.Cafe
         void TrySpawn()
         {
             var free = tables.Where(t => t.IsFree).ToList();
-            if (free.Count == 0 || queue.Count >= maxQueue) return; // 만석이거나 줄이 가득 차면 들어오지 않음 (감점 없음)
+            if (free.Count == 0 || queue.Count + parties.Count(p => p.Current == CustomerParty.State.ToShowcase) >= maxQueue) return; // 만석이거나 줄이 가득 차면 들어오지 않음 (감점 없음)
 
             int size = WeightedPartySize();
             var party = new GameObject("Party").AddComponent<CustomerParty>();
@@ -102,10 +103,42 @@ namespace CafeTime.Cafe
             parties.Add(party);
             Result.visitors += size;
 
+            // 베이커리를 고른 손님은 먼저 진열장에 들른다 (SFR-026, 056).
+            if (party.Wanted.Any(l => l.Menu.IsDessert))
+            {
+                party.Current = CustomerParty.State.ToShowcase;
+                for (int i = 0; i < party.Members.Count; i++)
+                    party.Members[i].Walk(new List<Vector3>
+                    {
+                        new Vector3(doorOutside.x, bottomLaneY), new Vector3(aisleX, bottomLaneY),
+                        new Vector3(aisleX, queueLaneY), (Vector3)bakeryPickupPoint + Vector3.left * (0.3f * i),
+                    });
+            }
+            else JoinQueue(party, fromDoor: true);
+        }
+
+        void JoinQueue(CustomerParty party, bool fromDoor)
+        {
             party.QueueIndex = queue.Count;
             queue.Add(party);
             party.Current = CustomerParty.State.ToQueue;
-            WalkToQueue(party, fromDoor: true);
+            WalkToQueue(party, fromDoor);
+        }
+
+        // 집는 순간 재고를 차감하므로 여러 일행이 같은 마지막 빵을 중복으로 가져가지 않는다.
+        void CollectBakery(CustomerParty party)
+        {
+            foreach (var line in party.Wanted.Where(l => l.Menu.IsDessert).ToList())
+            {
+                int quantity = Mathf.Min(line.Quantity, Mathf.Max(0, Save.GetStock(line.Menu.StockId)));
+                if (quantity > 0)
+                {
+                    Save.AddStock(line.Menu.StockId, -quantity);
+                    party.CollectedBakery.Add(new OrderLine(line.Menu, Temperature.None, quantity));
+                }
+                line.Quantity = quantity;
+            }
+            party.Wanted.RemoveAll(l => l.Quantity <= 0);
         }
 
         int WeightedPartySize()
@@ -152,6 +185,8 @@ namespace CafeTime.Cafe
                 {
                     points.Add(new Vector3(aisleX, queueLaneY)); // 통로에서 가로 줄로 올라감
                 }
+                if (!fromDoor && OnLane(member.transform.position) && !OnLane(slot))
+                    points.Add(new Vector3(aisleX, queueLaneY));
                 if (fromDoor && OnLane(slot)) points.Add(new Vector3(aisleX, queueLaneY));
                 points.Add(slot + offset);
                 member.Walk(points);
@@ -176,9 +211,13 @@ namespace CafeTime.Cafe
         // ───────── 주문·결제 (SFR-027) ─────────
 
         // 포스기 결제. 그 사이 손님이 떠났으면 null
-        public Order TakeOrder(CustomerParty party, List<OrderLine> lines, int total)
+        public Order TakeOrder(CustomerParty party, List<OrderLine> lines)
         {
             if (party == null || party.Current != CustomerParty.State.Queued) return null;
+            // 베이커리는 가져온 실물대로 계산하고 음료만 플레이어 입력을 사용한다 (SFR-027).
+            lines = lines.Where(l => !l.Menu.IsDessert).ToList();
+            lines.AddRange(party.CollectedBakery.Select(l => new OrderLine(l.Menu, Temperature.None, l.Quantity)));
+            int total = lines.Sum(l => l.Price);
             Save.money += total; // 결제 금액만큼 보유 자금 증가
             Result.revenue += total;
             var order = OrderBoard.Instance.Register(lines, total, party);
@@ -203,6 +242,7 @@ namespace CafeTime.Cafe
                 };
                 member.Walk(points);
             }
+            if (order.ItemCount == 0) Serve(order, new List<HeldItem>()); // 베이커리만 결제하면 제조 대기 없음
             return order;
         }
 
@@ -219,6 +259,7 @@ namespace CafeTime.Cafe
             Result.satisfactionSum += satisfaction;
             Result.drinksSold += items.Count(i => !(i is DessertItem));
             party.Served = items.ToList();
+            party.CollectedBakery.Clear(); // 베이커리는 셀프서비스 포장으로 제공, 설거지 접시를 만들지 않음
 
             // 만족도가 높을수록 높은 확률로 팁, 보유 자금에 바로 더함
             if (Random.value < balance.MaxTipChance * satisfaction / 100f)
@@ -249,6 +290,9 @@ namespace CafeTime.Cafe
         void Leave(CustomerParty party, bool lost)
         {
             if (lost) Result.customersLost++;
+            // 결제 전 이탈 또는 미서빙 주문 환불 시 집었던 베이커리를 진열장 재고로 되돌린다.
+            foreach (var line in party.CollectedBakery) Save.AddStock(line.Menu.StockId, line.Quantity);
+            party.CollectedBakery.Clear();
             if (party.QueueIndex >= 0) LeaveQueue(party);
             if (party.Table.Party == party) party.Table.Party = null;
             party.Gauge.Show(false);
@@ -313,6 +357,14 @@ namespace CafeTime.Cafe
         {
             switch (party.Current)
             {
+                case CustomerParty.State.ToShowcase:
+                    if (party.Arrived)
+                    {
+                        CollectBakery(party);
+                        JoinQueue(party, fromDoor: false);
+                    }
+                    break;
+
                 case CustomerParty.State.ToQueue:
                     if (party.Arrived)
                     {
@@ -359,6 +411,7 @@ namespace CafeTime.Cafe
                 case CustomerParty.State.Drinking:
                     // 테이블로 걸어가는 중에 서빙받은 손님도 도착하면 앉는다
                     foreach (var m in party.Members) if (!m.IsMoving) m.Sit();
+                    if (!party.Arrived) break;
                     party.StayLeft -= dt;
                     if (party.StayLeft <= 0) Leave(party, lost: false);
                     break;

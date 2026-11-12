@@ -20,7 +20,8 @@ namespace CafeTime.Cafe
             Party = party;
         }
 
-        // 픽업대에 모여야 하는 물건 수
-        public int ItemCount => Lines.Sum(l => l.Quantity);
+        // 베이커리는 손님이 이미 가져왔다. 영수증에는 포함하고 제조·픽업 목록에서는 제외 (SFR-056).
+        public IReadOnlyList<OrderLine> PreparationLines => Lines.Where(l => !l.Menu.IsDessert).ToList();
+        public int ItemCount => PreparationLines.Sum(l => l.Quantity);
     }
 }

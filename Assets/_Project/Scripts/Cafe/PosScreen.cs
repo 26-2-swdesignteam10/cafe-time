@@ -54,6 +54,7 @@ namespace CafeTime.Cafe
             {
                 var view = Instantiate(menuTemplate, menuContainer);
                 view.Setup(menu, Add);
+                view.SetInteractable(!menu.IsDessert);
                 menuButtons.Add(view);
             }
             for (int i = 0; i < categoryTabs.Length; i++)
@@ -64,7 +65,7 @@ namespace CafeTime.Cafe
             minusButton.onClick.AddListener(() => ChangeQuantity(-1));
             plusButton.onClick.AddListener(() => ChangeQuantity(+1));
             deleteButton.onClick.AddListener(DeleteSelected);
-            cancelButton.onClick.AddListener(() => { lines.Clear(); selected = -1; Refresh(); }); // 주문 취소: 목록 비우기
+            cancelButton.onClick.AddListener(() => { lines.RemoveAll(l => !l.Menu.IsDessert); selected = -1; Refresh(); }); // 입력한 음료만 취소, 가져온 베이커리는 유지
             payButton.onClick.AddListener(Pay);
         }
 
@@ -73,6 +74,7 @@ namespace CafeTime.Cafe
             party = customerParty;
             openedFrame = Time.frameCount;
             lines.Clear();
+            lines.AddRange(party.CollectedBakery.Select(l => new OrderLine(l.Menu, Temperature.None, l.Quantity)));
             selected = -1;
             Open();
             ShowCategory(MenuCategory.Coffee);
@@ -108,6 +110,8 @@ namespace CafeTime.Cafe
 
         void Add(MenuDefinition menu)
         {
+            if (menu.IsDessert) return; // 가져온 베이커리는 실물대로 계산
+
             var temp = temperature.For(menu);
             int index = lines.FindIndex(l => l.Matches(menu, temp));
             if (index >= 0) lines[index].Quantity++;
@@ -122,7 +126,7 @@ namespace CafeTime.Cafe
 
         void ChangeQuantity(int delta)
         {
-            if (selected < 0) return;
+            if (selected < 0 || lines[selected].Menu.IsDessert) return;
             lines[selected].Quantity += delta;
             if (lines[selected].Quantity <= 0) DeleteSelected();
             else Refresh();
@@ -143,7 +147,7 @@ namespace CafeTime.Cafe
 
         void DeleteSelected()
         {
-            if (selected < 0) return;
+            if (selected < 0 || lines[selected].Menu.IsDessert) return;
             lines.RemoveAt(selected);
             selected = Mathf.Min(selected, lines.Count - 1);
             Refresh();
@@ -161,15 +165,14 @@ namespace CafeTime.Cafe
             int total = lines.Sum(l => l.Price);
             totalText.text = $"₩{total:N0}";
             payButton.interactable = lines.Count > 0; // 주문 목록이 비어 있으면 결제 비활성화
-            bool hasSelection = selected >= 0;
+            bool hasSelection = selected >= 0 && !lines[selected].Menu.IsDessert;
             minusButton.interactable = plusButton.interactable = deleteButton.interactable = hasSelection;
         }
 
         void Pay()
         {
             if (lines.Count == 0 || party == null) return;
-            var order = CustomerManager.Instance.TakeOrder(party, lines.Select(l => new OrderLine(l.Menu, l.Temperature, l.Quantity)).ToList(),
-                lines.Sum(l => l.Price));
+            var order = CustomerManager.Instance.TakeOrder(party, lines.Select(l => new OrderLine(l.Menu, l.Temperature, l.Quantity)).ToList());
             party = null;
             Close();
             if (order != null) receipt.Open(order); // 결제 직전에 손님이 떠났으면 주문 없음

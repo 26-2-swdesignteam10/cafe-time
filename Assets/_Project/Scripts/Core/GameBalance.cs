@@ -142,6 +142,28 @@ namespace CafeTime.Core
             }
         }
 
+        void OnEnable() => EnsureBakeryCatalog();
+
+        // 기존 밸런스 에셋에도 누락된 베이커리만 추가한다. 기존 가격·아이콘·재고 설정은 보존 (SFR-010, 026).
+        public void EnsureBakeryCatalog()
+        {
+            foreach (var menu in DefaultMenus())
+            {
+                if (!menu.IsDessert || menus.Exists(m => m.Id == menu.Id)) continue;
+                menus.Add(menu);
+            }
+            foreach (var ingredient in DefaultIngredients())
+            {
+                if (ingredient.Category != IngredientCategory.Dessert || ingredients.Exists(i => i.Id == ingredient.Id)) continue;
+                ingredients.Add(ingredient);
+            }
+            foreach (var stock in DefaultStartingStock())
+            {
+                if (!stock.id.StartsWith("dessert_") || startingStock.Exists(i => i.id == stock.id)) continue;
+                startingStock.Add(stock);
+            }
+        }
+
         public int StartingMoney => startingMoney;
         public IReadOnlyList<IngredientStock> StartingStock => startingStock;
         public float InitialReputation => initialReputation;
@@ -230,7 +252,8 @@ namespace CafeTime.Core
             Add(300, "cheong_strawberry", "cheong_grapefruit", "cheong_yuja");
             Add(10, "tea_chamomile", "tea_earlgrey"); // 각 1박스
             Add(450, "smoothie_strawberry", "smoothie_mango", "smoothie_hallabong", "smoothie_melon", "smoothie_cookie"); // 각 3잔
-            Add(5, "dessert_strawberry_cake", "dessert_croissant", "dessert_cookie");
+            Add(5, "dessert_strawberry_cake", "dessert_croissant", "dessert_cookie",
+                "dessert_sandwich", "dessert_bagel", "dessert_waffle", "dessert_honey_bread", "dessert_croque_monsieur");
             return list;
         }
 
@@ -293,6 +316,11 @@ namespace CafeTime.Core
                 new("strawberry_cake", "딸기 케이크", dessert, 6500, false, false, "dessert_strawberry_cake"),
                 new("croissant", "크루아상", dessert, 4000, false, false, "dessert_croissant"),
                 new("cookie", "쿠키", dessert, 3000, false, false, "dessert_cookie"),
+                new("sandwich", "샌드위치", dessert, 6000, false, false, "dessert_sandwich"),
+                new("bagel", "베이글", dessert, 4000, false, false, "dessert_bagel"),
+                new("waffle", "와플", dessert, 5000, false, false, "dessert_waffle"),
+                new("honey_bread", "허니브레드", dessert, 6500, false, false, "dessert_honey_bread"),
+                new("croque_monsieur", "크로크무슈", dessert, 6500, false, false, "dessert_croque_monsieur"),
             };
         }
 
@@ -383,6 +411,11 @@ namespace CafeTime.Core
                 new("dessert_strawberry_cake", "딸기 케이크", dessert, "개", 1, "개", 2500),
                 new("dessert_croissant", "크루아상", dessert, "개", 1, "개", 1500),
                 new("dessert_cookie", "쿠키", dessert, "개", 1, "개", 800),
+                new("dessert_sandwich", "샌드위치", dessert, "개", 1, "개", 3000),
+                new("dessert_bagel", "베이글", dessert, "개", 1, "개", 1800),
+                new("dessert_waffle", "와플", dessert, "개", 1, "개", 2200),
+                new("dessert_honey_bread", "허니브레드", dessert, "개", 1, "개", 2800),
+                new("dessert_croque_monsieur", "크로크무슈", dessert, "개", 1, "개", 3200),
             };
         }
     }

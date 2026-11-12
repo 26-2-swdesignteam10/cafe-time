@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace CafeTime.Cafe
 {
-    // 손님 일행 (1~4명). 입장 → 줄 서기 → 주문 → 테이블에서 대기 → 음료 받고 마시기 → 퇴장 (SFR-024, 025, 057)
+    // 손님 일행 (1~4명). 입장 → 베이커리 직접 픽업 → 줄 서기 → 주문 → 테이블에서 대기 → 음료 받고 마시기 → 퇴장 (SFR-024, 025, 057)
     public class CustomerParty : MonoBehaviour
     {
-        public enum State { ToQueue, Queued, ToTable, Waiting, Drinking, Leaving }
+        public enum State { ToShowcase, ToQueue, Queued, ToTable, Waiting, Drinking, Leaving }
 
         public State Current { get; set; }
         public List<Customer> Members { get; } = new List<Customer>();
@@ -23,10 +23,20 @@ namespace CafeTime.Cafe
         public List<HeldItem> Served { get; set; }    // 받은 음료·디저트 (퇴식구 쟁반 내용, SFR-060)
         public WorldGauge Gauge { get; set; }
 
+        public List<OrderLine> CollectedBakery { get; } = new List<OrderLine>(); // 직접 집은 베이커리 (SFR-026, 056)
+
         public Customer Leader => Members[0];
         public bool Arrived => Members.All(m => !m.IsMoving);
 
-        public List<string> Sentences => OrderText.Sentences(Wanted);
+        public List<string> Sentences
+        {
+            get
+            {
+                var sentences = OrderText.Sentences(Wanted.Where(l => !l.Menu.IsDessert).ToList());
+                if (CollectedBakery.Count > 0) sentences.Add("가져온 베이커리도 같이 계산해 주세요.");
+                return sentences;
+            }
+        }
 
         // 받은 물건으로 만족도 계산 (0~100, SFR-068 계산식은 추후 결정 → 임시)
         //  - 원한 메뉴(메뉴+HOT/ICE)와 다른 물건 1개마다 크게 하락
@@ -34,7 +44,7 @@ namespace CafeTime.Cafe
         //  - 대기 시간: 인내심을 다 쓸수록 최대 -30
         public float Satisfaction(IReadOnlyList<HeldItem> received, float servePatience)
         {
-            var remaining = Wanted.SelectMany(l => Enumerable.Repeat((l.Menu, l.Temperature), l.Quantity)).ToList();
+            var remaining = Wanted.Where(l => !l.Menu.IsDessert).SelectMany(l => Enumerable.Repeat((l.Menu, l.Temperature), l.Quantity)).ToList();
             int total = Mathf.Max(1, remaining.Count);
             float score = 100f;
             int wrong = 0;
@@ -57,7 +67,7 @@ namespace CafeTime.Cafe
         public static List<OrderLine> RandomWants(int size, GameBalance balance)
         {
             var drinks = balance.Menus.Where(m => !m.IsDessert).ToList();
-            var desserts = balance.Menus.Where(m => m.IsDessert).ToList();
+            var desserts = balance.Menus.Where(m => m.IsDessert && SaveSystem.Current.GetStock(m.StockId) > 0).ToList();
             var lines = new List<OrderLine>();
 
             void Add(MenuDefinition menu, Temperature temperature)

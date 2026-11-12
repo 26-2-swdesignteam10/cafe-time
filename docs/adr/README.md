@@ -29,7 +29,7 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0015](0015-espresso-shot-integration.md) | 에스프레소 머신은 팀원의 EspressoShot 구현으로 통합한다 | 제안 |
 | [0016](0016-cafe-map-layout-and-modern-style.md) | 카페 맵을 주방 축소 배치와 모던 스타일로 바꾼다 | 제안 |
 | [0017](0017-order-list-modal-and-recipe-book.md) | 상단 주문표를 주문 내역 버튼·모달로 바꾸고 레시피북을 둔다 | 대체됨 (ADR-0018 픽업대 배정 부분, ADR-0019 레시피 카드 배치 부분) |
-| [0018](0018-pickup-trays-per-order.md) | 픽업대는 주문마다 트레이를 두고 서빙 버튼으로 내보낸다 | 승인 |
+| [0018](0018-pickup-trays-per-order.md) | 픽업대는 주문마다 트레이를 두고 서빙 버튼으로 내보낸다 | 대체됨 (ADR-0026 베이커리 부분) |
 | [0019](0019-recipe-toggle-scoop-return-station-headers.md) | 레시피북 온도 선택, 빈 스쿱 자동 반납, 기기 창 제목·안내 문구 제거 | 승인 |
 | [0020](0020-ten-minute-day-and-difficulty-table.md) | 하루 영업을 약 10분으로 줄이고 DAY별 난이도 표를 둔다 | 대체됨 (ADR-0021, 하루 시간 부분) |
 | [0021](0021-seven-minute-day.md) | 하루 영업을 약 7분으로 더 줄인다 | 승인 |
@@ -37,3 +37,4 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0023](0023-hide-hud-stock.md) | 영업 HUD 에 재료 재고를 표시하지 않는다 | 승인 |
 | [0024](0024-drink-ingredient-tool-windows.md) | 음료 제조실 재료는 재료별 작업 창에서 넣는다 | 승인 |
 | [0025](0025-customers-and-chairs-no-collision.md) | 손님과 의자는 플레이어와 충돌하지 않는다 | 승인 |
+| [0026](0026-bakery-self-service.md) | 베이커리 8종과 손님 직접 픽업·계산 방식 | 승인 |

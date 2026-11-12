@@ -59,7 +59,7 @@ docs/              기여 가이드, ADR, 게임 데이터, 아트 스타일
 `CafeTime` 메뉴 (`Assets/_Project/Editor/`)
 
 - **Setup Fonts**: TMP 기본 리소스 + 한글 폰트 에셋 생성 (처음 한 번)
-- **Create Game Balance**: `Resources/GameBalance.asset` 생성. 이미 있으면 수치는 그대로 두고 재료 아이콘 연결만 갱신
+- **Create Game Balance**: `Resources/GameBalance.asset` 생성. 이미 있으면 기존 수치를 보존하고 누락 베이커리 5종 추가·재료 아이콘 연결 갱신
 - **Build Title Scene / Build Open Prep Scene / Build Settlement Scene**: 씬과 프리팹을 코드로 생성 (처음 한 번).
 - **Build Title Popups**: 닉네임·게임 설명·랭킹 팝업 프리팹만 다시 생성 (Title 씬은 그대로).
 - **Build Cafe Scene** (`CafeSceneBuilder.cs`, `CafeUiBuilder.cs`, `StationUiBuilder.cs`): 영업 씬(맵, 플레이어, 기기, 손님, HUD, 기기 화면 전체, 일시정지 메뉴)을 코드로 생성.
