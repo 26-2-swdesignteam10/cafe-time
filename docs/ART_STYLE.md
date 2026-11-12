@@ -10,6 +10,7 @@
 - 부드러운 그라데이션보다 2~3단계 명암 블록을 쓴다
 - **카페 맵 그림은 예외**: 도트는 유지하되 깔끔하고 모던한 미니멀 스타일로 그린다 (웜 화이트 벽, 밝은 오크 바닥, 스테인리스·무광 검정 기기, 포인트 색은 세이지 그린 하나, 차콜색 얇은 외곽선). 2장 팔레트는 UI에만 적용한다. 시안 진행 중 ([ADR-0016](adr/0016-cafe-map-layout-and-modern-style.md))
 - **영업 중 기기 작업 창은 예외**: 도트 규칙을 적용하지 않은 부드러운 일러스트로 그리고 Bilinear 필터로 표시한다. 기준은 샷 내리기 창(`Art/UI/ShotRoom`)이고, 대상 폴더는 `Art/UI/` 의 `ShotRoom`, `KnockRoom`, `CupShelf`, `IceMaker`, `Water`, `DrinkRoom`, `ShakeRoom`, `TrayReturn`, `Dishwash`, `Pos`, `Stations` 이다. 글자는 Galmuri11을 유지한다. 영업 HUD, 일시정지 창, 아이템·재료 아이콘은 도트 그대로다 (2026-11-09 사용자 요청)
+- **커피잔 아이콘도 예외**: `Art/Icons/Items` 의 `CupCeramic*`, `CupPlastic*`, `DirtyCeramic`, `DirtyPlastic` 은 샷 내리기 창과 같은 깔끔한 일러스트로 그리고 Bilinear로 표시한다. 게임 안 이름은 도자기 잔 → **HOT 컵**, 플라스틱 컵 → **ICE 컵** (2026-11-09 사용자 요청)
 
 ## 2. 팔레트
 

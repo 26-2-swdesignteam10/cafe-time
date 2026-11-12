@@ -30,9 +30,10 @@ namespace CafeTime.EditorTools
 
             GameBalanceAssetBuilder.CreateOrUpdate();
             PrepareSprites(Art);
-            var card = BuildCardPrefab();
 
             var canvas = NewSceneWithCanvas(new Color32(0xE9, 0xC0, 0x8E, 0xFF));
+            // 프리팹은 새 씬을 만든 뒤에 저장한다. 먼저 저장하면 NewScene 이 참조 없는 에셋을 내려 cardPrefab 이 비어 저장된다
+            var card = BuildCardPrefab();
             AddBackground(canvas, LoadSprite(BackgroundPath), Cream, 0.35f);
             var screen = canvas.gameObject.AddComponent<OpenPrepScreen>();
             var so = new SerializedObject(screen);
@@ -75,13 +76,18 @@ namespace CafeTime.EditorTools
             var cart = TopLeft("CartPanel", canvas, 1280, 160, 600, 860);
             AddImage(cart, LoadSprite($"{Art}/CartPanel.png"), Cream);
             // 장바구니 목록은 재료 이름·수량·금액이 바뀌는 값이라 폰트로 표시
-            var cartText = AddText(TopLeft("CartList", cart, 75, 255, 450, 260), "", 26, TextBrown, TextAlignmentOptions.TopLeft);
+            var cartText = AddText(TopLeft("CartList", cart, 75, 255, 450, 190), "", 26, TextBrown, TextAlignmentOptions.TopLeft);
             cartText.lineSpacing = 20;
             Set(so, "cartText", cartText);
             Set(so, "cartEmptyLabel", Label(cart, "CartEmpty", LoadSprite($"{Art}/CartEmpty.png"), 300, 300, PivotCenter).gameObject);
-            Label(cart, "TotalLabel", LoadSprite($"{Art}/LabelTotal.png"), 75, 545, PivotLeft);
-            Set(so, "totalText", AddText(TopLeft("Total", cart, 225, 522, 300, 46), "₩0", 34, TextBrown, TextAlignmentOptions.Right));
-            Set(so, "boughtLabel", Label(cart, "Bought", LoadSprite($"{Art}/MessageBought.png"), 300, 586, PivotCenter).gameObject);
+            // 총액 / 구매 후 잔액 / 오늘 임대료 (목록 아래 ~ 구매 버튼 위)
+            Label(cart, "TotalLabel", LoadSprite($"{Art}/LabelTotal.png"), 75, 470, PivotLeft);
+            Set(so, "totalText", AddText(TopLeft("Total", cart, 225, 447, 300, 46), "₩0", 34, TextBrown, TextAlignmentOptions.Right));
+            Label(cart, "RemainingLabel", LoadSprite($"{Art}/LabelRemaining.png"), 75, 512, PivotLeft, 0.4f);
+            Set(so, "remainingText", AddText(TopLeft("Remaining", cart, 225, 492, 300, 40), "₩0", 28, TextBrown, TextAlignmentOptions.Right));
+            Label(cart, "RentLabel", LoadSprite($"{Art}/LabelRent.png"), 75, 550, PivotLeft, 0.4f);
+            Set(so, "rentText", AddText(TopLeft("Rent", cart, 225, 530, 300, 40), "₩0", 28, TextBrown, TextAlignmentOptions.Right));
+            Set(so, "boughtLabel", Label(cart, "Bought", LoadSprite($"{Art}/MessageBought.png"), 300, 588, PivotCenter).gameObject);
             Set(so, "unboughtMessage", LoadSprite($"{Art}/ConfirmUnbought.png"));
             Set(so, "buyButton", AddButton(TopLeft("BuyButton", cart, 90, 608, 420, 89), LoadSprite($"{Art}/BuyButton.png"), Amber));
             Set(so, "startButton", AddButton(TopLeft("StartButton", cart, 90, 700, 420, 89), LoadSprite($"{Art}/StartButton.png"), Cream));
@@ -119,9 +125,13 @@ namespace CafeTime.EditorTools
             Label(rt, "StockLabel", LoadSprite($"{Art}/LabelStock.png"), 96, 157, PivotRight, 0.3f); // 카드 글씨(17pt)에 맞춰 축소
             Set(so, "stockText", AddText(TopLeft("Stock", rt, 102, 146, 95, 22), "0", 17, TextBrown, TextAlignmentOptions.Left));
             Set(so, "priceText", AddText(TopLeft("Price", rt, 10, 168, 180, 22), "₩0", 17, TextBrown));
-            Set(so, "minusButton", AddButton(TopLeft("Minus", rt, 30, 198, 36, 36), LoadSprite($"{Art}/MinusButton.png"), Cream));
+            // -/+ 는 길게 누르면 반복 (RepeatButton 이 클릭을 처리하고 Button 은 그림·비활성화 표시만)
+            var minus = AddButton(TopLeft("Minus", rt, 30, 198, 36, 36), LoadSprite($"{Art}/MinusButton.png"), Cream);
+            Set(so, "minusButton", minus);
+            Set(so, "minusRepeat", minus.gameObject.AddComponent<RepeatButton>());
             Set(so, "quantityText", AddText(TopLeft("Quantity", rt, 70, 198, 60, 36), "0", 26, DarkCoffee));
-            Set(so, "plusButton", AddButton(TopLeft("Plus", rt, 134, 198, 36, 36), LoadSprite($"{Art}/PlusButton.png"), Cream));
+            var plus = AddButton(TopLeft("Plus", rt, 134, 198, 36, 36), LoadSprite($"{Art}/PlusButton.png"), Cream);
+            Set(so, "plusRepeat", plus.gameObject.AddComponent<RepeatButton>());
             so.ApplyModifiedPropertiesWithoutUndo();
 
             Directory.CreateDirectory(Path.GetDirectoryName(CardPrefabPath));

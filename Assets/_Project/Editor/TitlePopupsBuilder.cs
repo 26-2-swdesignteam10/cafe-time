@@ -81,8 +81,9 @@ namespace CafeTime.EditorTools
             Set(so, "overwriteWarning", Label(window, "OverwriteWarning", LoadSprite($"{Art}/Warning.png"), 410, 205, PivotCenter).gameObject);
             Label(window, "Info", LoadSprite($"{Art}/Info.png"), 410, 255, PivotCenter);
             Set(so, "nicknameInput", InputField(window, LoadSprite($"{Art}/InputField.png"), LoadSprite($"{Art}/Placeholder.png")));
-            Set(so, "confirmButton", AddButton(TopLeft("StartButton", window, 110, 435, 290, 62), LoadSprite($"{Art}/StartButton.png"), Cream));
-            Set(so, "cancelButton", AddButton(TopLeft("CancelButton", window, 420, 435, 290, 62), LoadSprite($"{Art}/CancelButton.png"), Cream));
+            // 버튼 580x156 그림을 절반 크기로 (입력 칸 아래 ~ 패널 안쪽 바닥 520 사이)
+            Set(so, "confirmButton", AddButton(TopLeft("StartButton", window, 110, 432, 290, 78), LoadSprite($"{Art}/StartButton.png"), Cream));
+            Set(so, "cancelButton", AddButton(TopLeft("CancelButton", window, 420, 432, 290, 78), LoadSprite($"{Art}/CancelButton.png"), Cream));
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 

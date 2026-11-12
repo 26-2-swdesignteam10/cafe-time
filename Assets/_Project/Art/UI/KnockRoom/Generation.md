@@ -19,3 +19,17 @@
 
 프로젝트 밖 2배 미리보기: %TEMP%/cafe-time-preview-20261109/KnockRoomKnockHover2x.png, KnockRoomKnockContact2x.png, KnockRoomPuckFall2x.png, KnockRoomBrush2x.png. 접촉 미리보기의 포터필터 중심은 (0,-8)이며 바스켓 테두리 최저점과 막대 윗면이 이미지 y=542에서 만난다.
 
+## 2026-11-09 Puck 원기둥 형태 수정
+
+- 도구: OpenAI image_gen.imagegen. 스타일·재질 참조: `Puck.png`, `PortafilterKnock.png`, `Residue.png`.
+- `Puck.png` (400×260): 바스켓에서 빠져나온 짙은 에스프레소 퍽을 비스듬한 옆 시점으로 표현했다. 넓은 타원형 윗면과 높이가 분명한 옆면을 가진 원기둥, 거의 검정에 가까운 커피 갈색, 약한 젖은 광택, 미세한 입자와 가는 균열을 사용했다. AI 원화는 투명 배경으로 생성했다.
+- 후처리: 원화의 저알파 배경 헤이즈를 제거하고 본체를 잘라 380×240으로 맞춘 뒤, 투명 캔버스 중앙에 10px 여백으로 배치했다.
+- 실제 표시 크기 기준 미리보기: `KnockRoomPuckFall2x.png` (200×130 표시의 2배).
+
+## 2026-11-09 커피 퍽 짙은 원기둥 재작화
+
+- 도구: OpenAI 내장 `image_gen.imagegen` 편집 1회. 크기 조정·미리보기 합성·검증에는 프로젝트 밖 Python/Pillow를 사용했다.
+- 스타일 참조: `../ShotRoom/Panel.png`, `../ShotRoom/PortafilterFrontUsed.png`. 형태·재질 참조: 이 폴더의 기존 `Puck.png`, `PortafilterKnock.png`, `Residue.png`. ART_STYLE.md 1장의 기기 작업 창 예외에 따라 도트 격자 없는 부드러운 일러스트로 제작했다.
+- `Puck.png` 프롬프트: “Redraw the single isolated spent espresso coffee puck. Premium clean hand-painted smooth 2D illustration, soft upper-left light, coherent material shading, no pixel-art grid. One solid compact cylindrical plug of wet coffee grounds fallen intact from the basket; broad elliptical flat top visible at an oblique side angle, substantial vertical side wall about 40 percent of projected height. Fine organic granular texture, delicate hairline cracks, restrained damp glints. Much darker than the original: dominant near-black espresso brown #1A0F0A to #2B1A12, side nearly black, subtle tonal modeling, no bright brown or orange highlights. Centered on a 400:260 transparent canvas, nearly full width with about 10px margins. No ground, cast shadow, halo, loose objects, text or watermark. Readable at 200×130.”
+- 후처리: 생성 원화(1555×1011)의 알파 1 이하인 배경 헤이즈만 투명 처리하고, 알파 경계 `(97,53)-(1445,949)`를 잘라 Lanczos로 380×240에 맞췄다. 400×260 RGBA 캔버스의 `(10,10)`에 중앙 배치했다. 별도 색상 보정은 하지 않았다. 최종 알파 범위 0~255, 본체 경계 `(10,10)-(390,250)`를 확인했다. `.meta`와 코드·씬·프리팹은 수정하지 않았다.
+- 실제 표시 크기 미리보기: `%TEMP%/cafe-time-illustration-preview/PuckActualSize.png` (200×130), `KnockRoomPuckActualSize.png` (1536×864 패널에 퍽을 200×130으로 합성). 축소는 Bilinear로 확인했다.

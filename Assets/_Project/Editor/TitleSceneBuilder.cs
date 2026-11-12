@@ -178,7 +178,7 @@ namespace CafeTime.EditorTools
             signImage.raycastTarget = false;
 
             var menuRoot = NewUI("MainMenu", canvas);
-            menuRoot.anchorMin = menuRoot.anchorMax = new Vector2(0.5f, 350f / 1080f);
+            menuRoot.anchorMin = menuRoot.anchorMax = new Vector2(0.5f, 375f / 1080f); // 간판과 겹치지 않는 선에서 살짝 위로
             menuRoot.sizeDelta = new Vector2(550, 620);
             var menuLayout = menuRoot.gameObject.AddComponent<VerticalLayoutGroup>();
             menuLayout.spacing = 20;

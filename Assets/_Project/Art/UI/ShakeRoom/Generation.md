@@ -42,3 +42,13 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
 - Hint.png: Text ONLY exact Korean sentence "??? ???, ?? ??? ???? ?? ????". Crucial: include visible COMMA immediately after ???, followed by one space. Maintain visible SPACES between words. Every glyph 56px high, dark coffee fill cream 3px outline, bold pixel font. Single horizontal line. No other symbols. Transparent. Crop tightly with 8px padding.
 
 ?? ???: ?? ?? ??? ??? ??, ??? ?? ??, ?? ??? ? ????, ?? ? ??? ?? ??? ?? ??. .meta? Unity?? ????.
+
+
+## 2026-11-11 패널 제목·커피콩 제거
+
+- 도구: Python 3 / Pillow. 단순 지우기·채우기 후처리이며 새 원화 생성은 없다.
+- 스타일 참조: 이 폴더의 기존 `Panel.png`, `docs/ART_STYLE.md`. ADR-0019(승인)의 기기 창 제목 제거 요청을 적용했다. 새 ADR은 없다.
+- `Panel.png` 작업 지시: “상단 중앙의 기존 제목과 양옆 커피콩만 지우고 주변 크림 바탕으로 이음매 없이 복원한다. 원래 프레임·금테·나머지 픽셀·캔버스 크기·알파를 보존한다.”
+- 후처리: 원본 px 기준 사각형 `(686, 194, 2516, 419)`(오른쪽·아래 끝 제외) 안에서만 수정했다. 주변과 같은 불투명 크림 #FAEAC2로 채웠다. 이 사각형 밖 RGBA 픽셀이 원본과 완전히 일치하는지 검사했다. 전체 알파와 파일 크기도 원본과 같다.
+- 결과: Panel.png — 3200×1800px. 지운 제목 외 새 글자는 없다.
+- `.meta`, 코드, 씬, 프리팹, 에셋 정의는 수정하지 않았다. 픽업대·퇴식구 패널은 수정하지 않았다.

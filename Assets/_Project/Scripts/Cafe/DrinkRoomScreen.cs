@@ -16,7 +16,9 @@ namespace CafeTime.Cafe
         [SerializeField] IngredientSlotView slotTemplate;
         [SerializeField] IngredientTooltip tooltip;
         [SerializeField] DropZone scale;
-        [SerializeField] Image cupIcon;
+        [SerializeField] Image cupImage;
+        [Tooltip("저울 위 큰 컵 그림: HOT 빈 잔·물·만드는 중, ICE 빈 잔·물·만드는 중")]
+        [SerializeField] Sprite[] cupSprites = new Sprite[6];
         [SerializeField] TMP_Text weightText;
         [SerializeField] Button emptyButton;
         [SerializeField] Button completeButton;
@@ -61,7 +63,7 @@ namespace CafeTime.Cafe
 
         protected override void Refresh()
         {
-            ShowIcon(cupIcon, ItemIcons.Of(Station.OnScale));
+            ShowIcon(cupImage, BigCupSprite(Station.OnScale, cupSprites));
             weightText.text = $"{Station.Weight:0}g"; // 커피잔 무게는 빼고 내용물 무게만 (영점)
         }
     }

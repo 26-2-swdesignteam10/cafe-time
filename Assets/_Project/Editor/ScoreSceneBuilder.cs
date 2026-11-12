@@ -46,14 +46,14 @@ namespace CafeTime.EditorTools
             Set(so, "satisfactionPoints", satisfactionPoints);
             AddImage(TopLeft("Divider 1", panel, 100, 320, 900, 12), S("Divider"), TextBrown);
 
-            // 감점 사항: 손님 이탈, 버린 재료·음료, 쟁반 방치, 청소 미처리
+            // 감점 사항: 손님 이탈, 버린 재료·음료, 쟁반 방치, 청소 미처리, 주문 순서 어김 (5줄이 구분선 625 위에 들어가게 간격 42)
             Label(panel, "LabelPenalty", S("LabelPenalty"), 110, 370, PivotLeft);
-            string[] penalties = { "LabelLost", "LabelDiscarded", "LabelTrayLeft", "LabelCleaning" };
+            string[] penalties = { "LabelLost", "LabelDiscarded", "LabelTrayLeft", "LabelCleaning", "LabelOrderSkipped" };
             var counts = new Object[penalties.Length];
             var points = new Object[penalties.Length];
             for (int i = 0; i < penalties.Length; i++)
             {
-                Row(panel, penalties[i], 425 + i * 52, out var count, out var point, Minus);
+                Row(panel, penalties[i], 420 + i * 42, out var count, out var point, Minus);
                 counts[i] = count;
                 points[i] = point;
             }

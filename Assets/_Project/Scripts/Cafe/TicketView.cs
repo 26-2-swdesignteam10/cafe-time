@@ -1,26 +1,31 @@
 using System.Text;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CafeTime.Cafe
 {
-    // 화면 상단 주문표 1장 (SFR-013): 주문 번호, 메뉴명, HOT/ICE, 수량. 누르면 픽업대 배정(SFR-056)
+    // 주문 내역 창의 영수증 1장 (SFR-013): 주문 번호, 메뉴명·HOT/ICE·수량, 결제 금액, 픽업대에 모인 개수.
+    // 높이는 메뉴 줄 수에 맞춰 늘어난다
     public class TicketView : MonoBehaviour
     {
-        [SerializeField] Button button;
         [SerializeField] TMP_Text numberText;
         [SerializeField] TMP_Text linesText;
+        [SerializeField] TMP_Text totalText;
+        [SerializeField] TMP_Text pickupText;
 
-        public void Setup(Order order)
+        public void Setup(Order order, int placed)
         {
             numberText.text = $"#{order.Number}";
             var sb = new StringBuilder();
-            foreach (var line in order.Lines)
-                sb.Append($"{OrderText.ItemLabel(line.Menu, line.Temperature)} x{line.Quantity}\n");
+            for (int i = 0; i < order.Lines.Count; i++)
+            {
+                var line = order.Lines[i];
+                if (i > 0) sb.Append('\n');
+                sb.Append($"{OrderText.ItemLabel(line.Menu, line.Temperature)} x{line.Quantity}");
+            }
             linesText.text = sb.ToString();
-            button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(() => OrderBoard.Instance.ClickTicket(order));
+            totalText.text = $"₩{order.Paid:N0}";
+            pickupText.text = $"{placed}/{order.ItemCount}";
             gameObject.SetActive(true);
         }
     }

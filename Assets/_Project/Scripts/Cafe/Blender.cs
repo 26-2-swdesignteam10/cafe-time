@@ -64,6 +64,7 @@ namespace CafeTime.Cafe
             if (!CanAdd || !(HandInventory.Instance[hand] is IceScoop { HasIce: true } scoop)) return false;
             scoop.HasIce = false;
             Jar.Add(RecipeKeys.Ice, 1);
+            IceMaker.Instance.ReturnFromHand(hand); // 얼음을 부은 빈 스쿱은 제빙기 스쿱 자리로 자동 반납
             HandInventory.Instance.NotifyChanged();
             Changed?.Invoke();
             return true;

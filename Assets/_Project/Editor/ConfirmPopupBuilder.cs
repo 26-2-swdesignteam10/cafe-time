@@ -45,7 +45,7 @@ namespace CafeTime.EditorTools
         {
             root.GetComponent<Image>().color = new Color(0, 0, 0, 0.3f);
             var window = At(root.transform, "Window", 0, 0, 1000, 650);
-            window.anchorMin = window.anchorMax = new Vector2(0.5f, 350f / 1080f);
+            window.anchorMin = window.anchorMax = new Vector2(0.5f, 0.5f); // 화면 가운데 (메뉴 버튼 높이에 맞추면 바닥에 붙어 보임)
             window.pivot = new Vector2(0.5f, 0.5f);
             window.anchoredPosition = Vector2.zero;
             window.gameObject.AddComponent<Image>().sprite = Load("Panel");

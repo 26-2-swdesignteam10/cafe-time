@@ -89,6 +89,7 @@ namespace CafeTime.Cafe
             {
                 ((IceScoop)item).HasIce = false;
                 OnScale.Add(RecipeKeys.Ice, 1);
+                IceMaker.Instance.ReturnFromHand(hand); // 얼음을 부은 빈 스쿱은 제빙기 스쿱 자리로 자동 반납
             }
             HandInventory.Instance.NotifyChanged();
             Changed?.Invoke();

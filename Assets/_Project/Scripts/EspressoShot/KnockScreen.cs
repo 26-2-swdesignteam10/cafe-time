@@ -39,13 +39,20 @@ namespace CafeTime.EspressoShot
         public Vector2 basketCenter = new Vector2(30, 20);
         public Vector2 basketRadius = new Vector2(150, 92);
         [Tooltip("다 털어 내려면 바스켓 안에서 브러시를 움직여야 하는 거리")]
-        public float brushDistance = 1400f;
+        public float brushDistance = 2600f;
 
         [Header("브러시")]
         public RectTransform brush;
         public Vector2 brushHome = new Vector2(560, -250);
-        [Tooltip("브러시 솔 끝 (브러시 중심 기준)")]
-        public Vector2 brushTip = new Vector2(-80, 0);
+        [Tooltip("브러시 솔 끝 (브러시 중심 기준, 눕힌 그림)")]
+        public Vector2 brushTip = new Vector2(-100, 0);
+        [Tooltip("드래그하는 동안 세우는 각도. 그림은 솔이 왼쪽으로 누워 있어 90도 돌리면 솔이 아래를 향한다")]
+        public float brushDragAngle = 90f;
+        [Tooltip("드래그할 때 커서가 잡는 손잡이 위치 (브러시 중심 기준, 눕힌 그림)")]
+        public Vector2 brushGrip = new Vector2(62, 0);
+        [Tooltip("바스켓 안에서 문지를 때 브러시가 좌우로 까딱이는 각도와, 한 번 까딱이는 데 움직이는 거리")]
+        public float flickAngle = 14f;
+        public float flickDistance = 110f;
 
         [Header("안내 글자")]
         public Image hint;
@@ -91,6 +98,7 @@ namespace CafeTime.EspressoShot
             residue.gameObject.SetActive(false);
             brush.gameObject.SetActive(false);
             brush.anchoredPosition = brushHome;
+            brush.localRotation = Quaternion.identity;
             SetHint(hintKnock);
             brushed = 0f;
         }
@@ -110,6 +118,7 @@ namespace CafeTime.EspressoShot
             draggingPortafilter = phase == Phase.Knock && Pressed(e, portafilter);
             draggingBrush = phase == Phase.Brush && Pressed(e, brush);
             speed = 0f;
+            if (draggingBrush) StandBrush(e);
         }
 
         public void OnDrag(PointerEventData e)
@@ -122,7 +131,7 @@ namespace CafeTime.EspressoShot
         public void OnEndDrag(PointerEventData e)
         {
             if (draggingPortafilter && phase == Phase.Knock) StartCoroutine(MoveTo(pfRect, knockStart, 0.15f));
-            if (draggingBrush && phase == Phase.Brush) StartCoroutine(MoveTo(brush, brushHome, 0.15f));
+            if (draggingBrush && phase == Phase.Brush) LayBrush(0.15f);
             draggingPortafilter = draggingBrush = false;
         }
 
@@ -183,14 +192,32 @@ namespace CafeTime.EspressoShot
         }
 
         // ---------- 2) 브러시 ----------
+        // 잡으면 세워서 솔이 아래를 향하게 하고, 손잡이(brushGrip)가 커서 아래에 오도록 옮긴다
+        void StandBrush(PointerEventData e)
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(brush, e.position, e.pressEventCamera, out Vector2 grab);
+            brush.localRotation = Quaternion.Euler(0, 0, brushDragAngle);
+            brush.anchoredPosition += grab - (Vector2)(brush.localRotation * brushGrip);
+        }
+
+        // 다시 눕혀 제자리로
+        void LayBrush(float seconds)
+        {
+            brush.localRotation = Quaternion.identity;
+            StartCoroutine(MoveTo(brush, brushHome, seconds));
+        }
+
         void DragBrush(Vector2 delta)
         {
             brush.anchoredPosition += delta;
-            Vector2 tip = brush.anchoredPosition + brushTip - (pfRect.anchoredPosition + basketCenter);
+            Vector2 tip = brush.anchoredPosition + (Vector2)(brush.localRotation * brushTip) - (pfRect.anchoredPosition + basketCenter);
             Vector2 n = new Vector2(tip.x / basketRadius.x, tip.y / basketRadius.y);
             if (n.sqrMagnitude > 1f) return; // 바스켓 밖
 
             brushed += delta.magnitude;
+            // 터는 모션: 문지른 거리만큼 솔이 좌우로 까딱인다
+            float flick = flickAngle * Mathf.Sin(brushed / flickDistance * 2f * Mathf.PI);
+            brush.localRotation = Quaternion.Euler(0, 0, brushDragAngle + flick);
             float left = 1f - Mathf.Clamp01(brushed / brushDistance);
             residue.color = new Color(1, 1, 1, left);
             if (left <= 0f) StartCoroutine(Finish());
@@ -201,6 +228,7 @@ namespace CafeTime.EspressoShot
             phase = Phase.Done;
             draggingBrush = false;
             residue.gameObject.SetActive(false);
+            brush.localRotation = Quaternion.identity;
             yield return MoveTo(brush, brushHome, 0.2f);
             yield return new WaitForSecondsRealtime(0.25f);
             var done = onCleaned;

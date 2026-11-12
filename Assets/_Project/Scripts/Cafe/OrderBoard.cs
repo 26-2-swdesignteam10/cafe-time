@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CafeTime.Cafe
 {
-    // 현재 주문 목록 (SFR-013 상단 주문표, SFR-027 등록, SFR-056 배정)
+    // 현재 주문 목록 (SFR-013 주문 내역 창, SFR-027 등록, SFR-056 배정)
     public class OrderBoard : MonoBehaviour
     {
         public static OrderBoard Instance { get; private set; }
@@ -16,7 +16,6 @@ namespace CafeTime.Cafe
 
         public event Action Changed;
         public event Action<Order> Removed;
-        public event Action<Order> TicketClicked; // 주문표를 누름 → 픽업대 화면이 배정에 사용
 
         void Awake() => Instance = this;
 
@@ -40,8 +39,6 @@ namespace CafeTime.Cafe
             Removed?.Invoke(order);
             Changed?.Invoke();
         }
-
-        public void ClickTicket(Order order) => TicketClicked?.Invoke(order);
 
         public void NotifyChanged() => Changed?.Invoke();
     }

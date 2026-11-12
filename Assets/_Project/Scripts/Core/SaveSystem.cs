@@ -70,6 +70,7 @@ namespace CafeTime.Core
             {
                 data.money = balance.StartingMoney;
                 data.reputation = balance.InitialReputation;
+                foreach (var stock in balance.StartingStock) data.AddStock(stock.id, stock.amount); // DAY 1 기본 재고
             }
             return data;
         }

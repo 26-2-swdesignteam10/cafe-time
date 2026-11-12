@@ -70,11 +70,13 @@ namespace CafeTime.Cafe
             foreach (var party in parties.ToArray()) Tick(party, dt);
         }
 
+        DayDifficulty Difficulty => balance.Difficulty(Save.day);
+
         float NextInterval()
         {
-            // DAY가 지날수록 입장 빈도 증가 (SFR-024)
-            float scale = Mathf.Pow(balance.ArrivalIntervalPerDay, Save.day - 1);
-            return Random.Range(balance.ArrivalInterval.x, balance.ArrivalInterval.y) * scale;
+            // DAY가 지날수록 입장 빈도 증가 (SFR-024, DAY별 난이도 표 ADR-0020)
+            var interval = Difficulty.arrivalInterval;
+            return Random.Range(interval.x, interval.y);
         }
 
         // ───────── 입장 ─────────
@@ -108,10 +110,10 @@ namespace CafeTime.Cafe
 
         int WeightedPartySize()
         {
-            var weights = balance.PartySizeWeights;
+            var weights = Difficulty.partySizeWeights;
             int total = weights.Sum();
             int roll = Random.Range(0, total);
-            for (int i = 0; i < weights.Count; i++)
+            for (int i = 0; i < weights.Length; i++)
             {
                 if (roll < weights[i]) return i + 1;
                 roll -= weights[i];
@@ -212,7 +214,7 @@ namespace CafeTime.Cafe
             OrderBoard.Instance.Remove(order);
             if (party == null || party.Current == CustomerParty.State.Leaving) return;
 
-            float satisfaction = party.Satisfaction(items, balance.ServePatience);
+            float satisfaction = party.Satisfaction(items, Difficulty.servePatience);
             Result.ordersCompleted++;
             Result.satisfactionSum += satisfaction;
             Result.drinksSold += items.Count(i => !(i is DessertItem));
@@ -316,7 +318,7 @@ namespace CafeTime.Cafe
                     {
                         party.Current = CustomerParty.State.Queued;
                         foreach (var m in party.Members) m.Face(Vector2.up);
-                        party.MaxPatience = party.Patience = balance.OrderPatience;
+                        party.MaxPatience = party.Patience = Difficulty.orderPatience;
                     }
                     break;
 
@@ -337,7 +339,7 @@ namespace CafeTime.Cafe
                     {
                         foreach (var m in party.Members) m.Sit();
                         party.Current = CustomerParty.State.Waiting;
-                        party.MaxPatience = party.Patience = balance.ServePatience;
+                        party.MaxPatience = party.Patience = Difficulty.servePatience;
                         party.Gauge.transform.position = party.Table.GaugePoint.position;
                         party.Gauge.Show(true);
                     }

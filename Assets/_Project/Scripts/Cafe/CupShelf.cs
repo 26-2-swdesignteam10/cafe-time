@@ -52,6 +52,22 @@ namespace CafeTime.Cafe
             Changed?.Invoke();
         }
 
+        // 손에 든 빈 커피잔을 선반에 되돌려 놓음 (SFR-028). 내용물이 든 잔은 안 됨 (버리기는 손 칸 메뉴로)
+        public bool ReturnCup(int hand)
+        {
+            if (!(HandInventory.Instance[hand] is Cup cup)) return false;
+            if (!cup.IsEmpty)
+            {
+                Toast.Show(ToastMessage.EmptyCupOnly);
+                return false;
+            }
+            HandInventory.Instance.Take(hand);
+            if (cup.Type == CupType.Ceramic) ceramic++;
+            else plastic++;
+            Changed?.Invoke();
+            return true;
+        }
+
         // 디저트를 담을 접시 (SFR-064). 없으면 false
         public bool TryTakePlate()
         {

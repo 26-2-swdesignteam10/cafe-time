@@ -158,3 +158,39 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
 Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구 확인과 파일별 프롬프트는 작성자에게 받아 보충한다.
 
 - 교체한 파일: BannerClosed.png, LabelRent.png, LabelReputation.png, Ticket.png, TicketSelected.png, Toast.png
+
+## 2026-11-09 인벤토리 칸 손 그림 제거
+
+- 도구: Python 3 / Pillow. 이미지 생성 도구는 사용하지 않았다.
+- 대상: HandSlotLeft.png, HandSlotRight.png. 각 손 아이콘의 행별 윤곽 안에서 색상으로 손 픽셀을 구분하고, 윤곽 내부의 빈 부분만 포함한 마스크로 제거했다. 손가락 사이의 열린 종이 영역은 유지했다.
+- 방법: 원본의 같은 높이에 있는 인접 크림색 종이 픽셀을 그대로 복사했다(왼쪽 파일은 x+44, 오른쪽 파일은 x-44). 리샘플링이나 흐림 없이 기존 종이의 색과 질감을 사용했다.
+- 보존 검증: 두 파일 모두 300×300 RGBA, 알파 채널 전체와 마스크 밖 픽셀이 원본과 동일하다. 나무 프레임·금색 선과 .meta는 수정하지 않았다.
+- 변경 픽셀: HandSlotLeft.png 661개, x=35..65 / y=233..262; HandSlotRight.png 687개, x=236..266 / y=233..262. 좌표는 왼쪽 위 (0,0) 기준이며 양 끝을 포함한다.
+- 수정 전후 비교: %TEMP%/cafe-time-illustration-preview/HandSlot.png.
+
+## 2026-11-09 게이지 캐러멜 캡슐로 교체
+
+- 도구: Python 3 / Pillow로 픽셀을 직접 찍었다. 이미지 생성 도구는 사용하지 않았다. 사용자가 시안 3개(캐러멜 캡슐·라떼 거품·커피콩 끝장식) 중 캐러멜 캡슐을 골랐다.
+- `GaugeFrame.png` (128×24, 크기 유지): 양끝 반원 캡슐. 바깥 2px 진한 호두나무 `#5D2608` 외곽선, 안쪽 진한 크림 `#F7DCA5` 트랙, 트랙 위 3줄은 오목한 그림자 `#E6C084`. 알파는 0/255인 계단식 경계.
+- `GaugeFill.png` (120×16, 크기 유지): 회색조 캡슐. 기본 `#DBDBDB`, 아래 5줄 그림자 `#B3B3B3`, 위 2줄 하이라이트 `#FFFFFF`(양끝 7px 제외). 코드가 색을 곱한다: 기기 창과 맵 작업 게이지는 캐러멜 `#FFA032`(기본 부분이 `#DB8A2B`로 보임), 손님 인내심은 기존처럼 초록 `#6FB34A` → 빨강 `#C0392B`.
+- 9-slice 테두리(좌우만): GaugeFrame 12px, GaugeFill 8px. `CafeSceneBuilder` 가 임포트 시 설정한다. 채움은 너비를 줄여 표시해 양끝 반원이 유지된다.
+
+
+## 2026-11-12 ToastEmptyCupOnly
+
+- 도구: OpenAI built-in image_gen + Python 3 / Pillow 후처리.
+- 스타일 참조: 같은 폴더의 `ToastNoCleanCup.png`, `ToastHandsFull.png`, `ToastCupFirst.png`, `ToastEmptyPortafilterOnly.png`. 기존 PNG의 채움색·알파 마스크·글자 경계를 분석했다. `ToastCupFirst.png`는 획 마스크를 사방 3px 확장한 영역이 외곽선 마스크와 정확히 일치한다.
+- 파일: `ToastEmptyCupOnly.png`, 589×72px, RGBA. 정확한 문구: "빈 컵만 되돌릴 수 있습니다."
+- 프롬프트: Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. ONE text-only transparent Korean toast sprite matching the reference PNG typography. Exact text: "빈 컵만 되돌릴 수 있습니다." Check syllables: 빈 SPACE 컵 만 SPACE 되 돌 릴 SPACE 수 SPACE 있 습 니 다 PERIOD. Bold square block Hangul, flat dark coffee #380F00 fill, cream #FCF0CA 3px outline. Ink height 50px, outline-inclusive height 56px, transparent padding 8px, canvas height 72px. One horizontal line, one final period, no decoration, panel, icon, shadow, glow or texture. Transparent exterior and counters.
+- 후처리: 생성본에서 알파 ≥128, R<130, G<80, B<60인 픽셀을 글자 획 마스크로 추출하고 경계로 잘랐다. NEAREST로 획 높이 50px에 맞춘 뒤 #380F00 단색으로 채웠다. Pillow MaxFilter(7)로 사방 3px 확장한 마스크에 #FCF0CA 외곽선을 만들었다. 외곽선 포함 높이 56px, 사방 투명 여백 8px, 알파 {0,255}, 투명 픽셀 RGBA=(0,0,0,0)으로 정리했다.
+- 검수: 최종 PNG를 NEAREST 2배 확대하여 `빈 / 공백 / 컵 / 만 / 공백 / 되 / 돌 / 릴 / 공백 / 수 / 공백 / 있 / 습 / 니 / 다 / .`를 글자별로 눈으로 확인했다. 한 줄·공백 4개·마침표 1개이며 장식이 없다. 기존 PNG와 .meta·코드·씬·프리팹·에셋은 변경하지 않았다.
+
+## 2026-11-12 ToastOrderSkipped.png
+
+- 도구: OpenAI built-in image_gen + Python 3 / Pillow 후처리.
+- 스타일 참조: 같은 폴더의 `ToastNoCleanCup.png`, `ToastEmptyCupOnly.png`를 분석하고 생성 도구에도 참조 이미지로 제공했다. 두 파일 모두 채움색 `#380F00`, 외곽선 `#FCF0CA`, 전체 높이 72px, 사방 투명 여백 8px이다. `ToastNoCleanCup.png`의 채움 높이는 48px이고 `ToastEmptyCupOnly.png`는 50px이므로, 새 파일은 최신 `ToastEmptyCupOnly.png`의 채움 높이 50px·사방 3px 외곽선 규격을 따른다.
+- 파일: `ToastOrderSkipped.png`, 758×72px, RGBA. 정확한 문구: "먼저 들어온 주문부터 서빙해 주세요.".
+- 프롬프트: Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. ONE text-only transparent Korean toast sprite matching reference typography: very bold squared geometric block Hangul, heavy straight rectangular strokes and stepped corners. Exact text "먼저 들어온 주문부터 서빙해 주세요." Check 먼 / 저 / SPACE / 들 / 어 / 온 / SPACE / 주 / 문 / 부 / 터 / SPACE / 서 / 빙 / 해 / SPACE / 주 / 세 / 요 / PERIOD. One single horizontal line, four spaces, one final period. Dark coffee #380F00 fill, cream #FCF0CA square 3px outline relative to 50px ink height, outline-inclusive height 56px, 8px transparent padding, final canvas height 72px. Proportional character widths and uniform glyph size. Transparent exterior and counters. No panel, backdrop, decorations, icons, shadow, glow, texture or extra words. NEAREST-only normalization.
+- 후처리: 생성본에서 알파 ≥128, R<130, G<80, B<60인 픽셀을 채움 마스크로 추출하고 경계로 잘랐다. 종횡비를 유지하며 NEAREST로 채움 높이 50px에 맞췄다. 채움을 `#380F00` 단색으로 정리하고 Pillow MaxFilter(7)로 사방 3px 확장하여 `#FCF0CA` 외곽선을 다시 적용했다. 외곽선 포함 높이 56px, 사방 투명 여백 8px, 알파 {0,255}, 투명 픽셀 RGBA=(0,0,0,0).
+- 검수: 최종 PNG의 NEAREST 2배 확대본에서 `먼 / 저 / 공백 / 들 / 어 / 온 / 공백 / 주 / 문 / 부 / 터 / 공백 / 서 / 빙 / 해 / 공백 / 주 / 세 / 요 / .`를 글자별로 눈으로 대조했다. 한 줄, 공백 4개, 마지막 마침표 1개, 장식 없음. 기존 PNG와 .meta·코드·씬·프리팹·에셋은 수정하지 않았다.
+
