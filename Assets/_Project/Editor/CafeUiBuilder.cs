@@ -28,7 +28,6 @@ namespace CafeTime.EditorTools
         {
             public PosScreen Pos;
             public PickupScreen Pickup;
-            public DessertShowcaseScreen Dessert;
             public CupShelfScreen CupShelf;
             public CafeTime.UI.Popup Espresso;
             public IceMakerScreen IceMaker;
@@ -64,7 +63,6 @@ namespace CafeTime.EditorTools
                 ShakeRoom = StationUiBuilder.BuildShakeRoom(main),
                 TrayReturn = StationUiBuilder.BuildTrayReturn(main, GameBalance.Instance.TrayReturnSlots),
                 Dishwash = StationUiBuilder.BuildDishwash(main),
-                Dessert = BuildDessert(main),
                 Pickup = BuildPickup(main),
             };
             var receipt = BuildReceipt(main);
@@ -633,24 +631,6 @@ namespace CafeTime.EditorTools
             Set(so, "sumText", AddText(TopLeft("Sum", window, 245, 624, 300, 52), "₩0", 34, DarkCoffee, TextAlignmentOptions.Right));
             so.ApplyModifiedPropertiesWithoutUndo();
             SetClose(popup, AddButton(TopLeft("ConfirmButton", window, 170, 710, 300, 84), LoadSprite($"{Pos}/ConfirmButton.png"), Cream));
-            return popup;
-        }
-
-        // 디저트 진열장 (SFR-056)
-        static DessertShowcaseScreen BuildDessert(Transform canvas)
-        {
-            var (popup, window) = Window<DessertShowcaseScreen>(canvas, "DessertScreen", LoadSprite($"{Stations}/DessertPanel.png"), 1000, 600);
-            var so = new SerializedObject(popup);
-            var row = TopLeft("Desserts", window, 140, 200, 720, 252);
-            var layout = row.gameObject.AddComponent<HorizontalLayoutGroup>();
-            layout.spacing = 60;
-            layout.childAlignment = TextAnchor.MiddleCenter;
-            layout.childControlWidth = layout.childControlHeight = false;
-            layout.childForceExpandWidth = layout.childForceExpandHeight = false;
-            Set(so, "container", row);
-            Set(so, "template", MenuTemplate(row, LoadSprite($"{OpenPrep}/CardFrame.png"), new Vector2(200, 252), true));
-            so.ApplyModifiedPropertiesWithoutUndo();
-            SetClose(popup, CloseButton(window, 866, 66));
             return popup;
         }
 

@@ -22,7 +22,8 @@ namespace CafeTime.Cafe
         [SerializeField] float queueLaneY = 7.25f;   // 포스기 앞 줄
         [SerializeField] float queueStartX = 4.625f; // 줄 맨 앞 (포스기 바로 앞). 줄은 왼쪽으로 이어짐
         [SerializeField] float queueSpacing = 1.8f;  // 일행 사이 간격
-        [SerializeField] Vector2 bakeryPickupPoint = new Vector2(3.5f, 7.25f); // 진열장 손님 쪽 (SFR-056)
+        public static Vector2 DefaultBakeryPickupPoint => new Vector2(6f, 4f); // 아래쪽 빵 진열대 사이 통로 (SFR-056)
+        [SerializeField] Vector2 bakeryPickupPoint = DefaultBakeryPickupPoint;
         [SerializeField] int maxQueue = 5;           // 줄이 입구까지 차면 더 들어오지 않음
         [SerializeField] float hallRouteX = 9.5f;    // 진열대 오른쪽 세로 통로
         [SerializeField] float hallLaneY = 3.7f;     // 화분 사이로 좌석 구역에 들어가는 가로 통로
@@ -110,8 +111,8 @@ namespace CafeTime.Cafe
                 for (int i = 0; i < party.Members.Count; i++)
                     party.Members[i].Walk(new List<Vector3>
                     {
-                        new Vector3(doorOutside.x, bottomLaneY), new Vector3(aisleX, bottomLaneY),
-                        new Vector3(aisleX, queueLaneY), (Vector3)bakeryPickupPoint + Vector3.left * (0.3f * i),
+                        new Vector3(doorOutside.x, bottomLaneY), new Vector3(bakeryPickupPoint.x, bottomLaneY),
+                        (Vector3)bakeryPickupPoint + Vector3.down * (0.25f * i),
                     });
             }
             else JoinQueue(party, fromDoor: true);
@@ -167,6 +168,9 @@ namespace CafeTime.Cafe
 
         bool OnLane(Vector3 p) => Mathf.Abs(p.y - queueLaneY) < 0.3f;
 
+        // 큰 진열대 둘 사이의 세로 통로. 가구를 대각선으로 가로지르지 않도록 판별 (SFR-024, 056).
+        bool InBakeryAisle(Vector3 p) => Mathf.Abs(p.x - bakeryPickupPoint.x) < 0.7f && p.y < queueLaneY - 0.3f;
+
         void WalkToQueue(CustomerParty party, bool fromDoor)
         {
             var slot = QueueSlot(party.QueueIndex);
@@ -180,6 +184,11 @@ namespace CafeTime.Cafe
                 {
                     points.Add(new Vector3(doorOutside.x, bottomLaneY));
                     points.Add(new Vector3(aisleX, bottomLaneY));
+                }
+                else if (InBakeryAisle(member.transform.position))
+                {
+                    points.Add(new Vector3(bakeryPickupPoint.x, queueLaneY));
+                    if (!OnLane(slot)) points.Add(new Vector3(aisleX, queueLaneY));
                 }
                 else if (!OnLane(member.transform.position) && OnLane(slot))
                 {
@@ -313,7 +322,11 @@ namespace CafeTime.Cafe
         List<Vector3> ExitPath(Vector3 p, float tableLaneY)
         {
             var points = new List<Vector3>();
-            if (p.x >= hallAisleX) // 좌석 구역
+            if (InBakeryAisle(p)) // 진열대 방문 중 영업 종료 시 들어온 아래쪽 길로 돌아감
+            {
+                points.Add(new Vector3(bakeryPickupPoint.x, bottomLaneY));
+            }
+            else if (p.x >= hallAisleX) // 좌석 구역
             {
                 points.Add(new Vector3(p.x, tableLaneY));
                 points.Add(new Vector3(hallAisleX, tableLaneY));
