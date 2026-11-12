@@ -35,3 +35,4 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0021](0021-seven-minute-day.md) | 하루 영업을 약 7분으로 더 줄인다 | 승인 |
 | [0022](0022-pickup-fifo-penalty.md) | 픽업대에서 선입선출을 어기면 감점한다 | 승인 |
 | [0023](0023-hide-hud-stock.md) | 영업 HUD 에 재료 재고를 표시하지 않는다 | 승인 |
+| [0024](0024-drink-ingredient-tool-windows.md) | 음료 제조실 재료는 재료별 작업 창에서 넣는다 | 승인 |

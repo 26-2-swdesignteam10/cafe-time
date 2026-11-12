@@ -57,7 +57,7 @@ namespace CafeTime.Cafe
 
         // 기기 위에 올린 잔은 손 칸 아이콘보다 크게, 실제 컵 그림으로 보여 준다 (음료 제조실 저울, 정수기)
         // sprites: HOT 빈 잔·물·만드는 중, ICE 빈 잔·물·만드는 중 (Art/UI/DrinkRoom/BigCup*.png). 완성 판정을 받은 잔은 만드는 중 그림
-        protected static Sprite BigCupSprite(Cup cup, Sprite[] sprites)
+        public static Sprite BigCupSprite(Cup cup, Sprite[] sprites)
         {
             if (cup == null) return null;
             int state = cup.IsEmpty ? 0 : cup.Contents.OnlyWater && !cup.IsFinished ? 1 : 2;

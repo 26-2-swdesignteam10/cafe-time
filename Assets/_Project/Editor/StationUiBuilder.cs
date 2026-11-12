@@ -22,7 +22,7 @@ namespace CafeTime.EditorTools
         static readonly Color Invisible = new Color(1, 1, 1, 0);  // 그림 위에 겹친 놓는 자리 (클릭·드롭만 받음)
 
         public static readonly string[] Folders =
-            { "CupShelf", "IceMaker", "Water", "DrinkRoom", "ShakeRoom", "TrayReturn", "Dishwash", "Pause", "ShotRoom", "KnockRoom" };
+            { "CupShelf", "IceMaker", "Water", "DrinkRoom", "ShakeRoom", "TrayReturn", "Dishwash", "Pause", "ShotRoom", "KnockRoom", "DrinkTools" };
         // EspressoMachine 폴더(팀원 그림)는 임포트 설정을 바꾸지 않는다: ShotTest 씬이 Multiple 모드의 하위 스프라이트(tamper_0 등)를 참조함
 
         static Sprite S(string folder, string name) => LoadSprite($"{Art}/{folder}/{name}.png");
@@ -501,6 +501,69 @@ namespace CafeTime.EditorTools
             Set(so, "completeButton", complete);
             Set(so, "result", Result(window));
             Set(so, "tooltip", Tooltip(window));
+            Set(so, "toolScreen", BuildIngredientTool(canvas));
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return popup;
+        }
+
+        // 재료 작업 창 (ADR-0024): 음료 제조실 위에 겹쳐 열린다. 좌표는 Art/UI/DrinkTools/Generation.md "배치 (2026-11-12)" 표
+        static IngredientToolScreen BuildIngredientTool(Transform canvas)
+        {
+            const string F = "DrinkTools";
+            var popup = Screen<IngredientToolScreen>(canvas, F, "IngredientToolScreen", 1100, 700, out var window);
+            var so = new SerializedObject(popup);
+
+            var tool = TopLeft("Tool", window, 260, 84, 500, 400);
+            var toolImage = AddImage(tool, S(F, "PumpBottle"), Color.clear, true);
+            toolImage.preserveAspect = true;
+            var button = tool.gameObject.AddComponent<Button>();
+            button.transition = Selectable.Transition.None; // 눌린 모습은 그림 교체로 보여 준다
+            Set(so, "toolButton", button);
+            Set(so, "toolImage", toolImage);
+            Set(so, "toolHold", tool.gameObject.AddComponent<HoldButton>());
+            Set(so, "nameText", AddText(TopLeft("Name", window, 260, 40, 220, 38), "", 26, DarkCoffee));
+
+            AddImage(TopLeft("WeightPlate", window, 594, 445, 300, 105), S(F, "WeightPlate"), Color.clear).raycastTarget = false;
+            Set(so, "weightText", AddText(TopLeft("Weight", window, 690, 508, 108, 22), "0g", 20, new Color32(0x3B, 0x2A, 0x20, 0xFF)));
+
+            var cup = AddImage(TopLeft("Cup", window, 616, 164, 256, 320), null, Color.clear);
+            cup.preserveAspect = true;
+            cup.raycastTarget = false;
+            Set(so, "cupImage", cup);
+            SetArray(so, "cupSprites", new Object[]
+            {
+                S("DrinkRoom", "BigCupCeramic"), S("DrinkRoom", "BigCupCeramicWater"), S("DrinkRoom", "BigCupCeramicMixing"),
+                S("DrinkRoom", "BigCupPlastic"), S("DrinkRoom", "BigCupPlasticWater"), S("DrinkRoom", "BigCupPlasticMixing"),
+            });
+            var teaBag = AddImage(TopLeft("TeaBag", window, 616, 164, 256, 320), null, Color.clear);
+            teaBag.preserveAspect = true;
+            teaBag.raycastTarget = false;
+            teaBag.enabled = false;
+            Set(so, "teaBagImage", teaBag);
+            SetArray(so, "teaBagSprites", new Object[] { S(F, "TeaBagInCupCeramic"), S(F, "TeaBagInCupPlastic") });
+
+            // 순서: Pump, Cheong, TeaBag, Milk, Soda
+            SetArray(so, "idleSprites", new Object[] { S(F, "PumpBottle"), S(F, "CheongJar"), S(F, "TeaBox"), S(F, "MilkCarton"), S(F, "SodaBottle") });
+            SetArray(so, "activeSprites", new Object[] { S(F, "PumpBottlePressed"), S(F, "CheongJarScoop"), null, S(F, "MilkCartonPour"), S(F, "SodaBottlePour") });
+            SetArray(so, "streams", new Object[]
+            {
+                Stream("PumpStream", "SyrupDrip", 710, 180, 160),
+                Stream("CheongStream", "SyrupDrip", 687, 234, 106),
+                null,
+                Stream("MilkStream", "MilkStream", 692, 254, 47),
+                Stream("SodaStream", "SodaStream", 712, 234, 67),
+            });
+
+            GameObject Stream(string name, string file, float x, float y, float h)
+            {
+                var frames = Enumerable.Range(0, 16).Select(n => S(F, $"{file}{n}")).TakeWhile(sprite => sprite != null).ToArray();
+                var rt = TopLeft(name, window, x, y, 36, h);
+                AddImage(rt, frames.Length > 0 ? frames[0] : null, Invisible).raycastTarget = false;
+                rt.gameObject.AddComponent<SpriteLoop>().frames = frames.Length > 0 ? frames : new Sprite[] { null };
+                rt.gameObject.SetActive(false);
+                return rt.gameObject;
+            }
+
             so.ApplyModifiedPropertiesWithoutUndo();
             return popup;
         }
