@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 namespace CafeTime.Cafe
 {
-    // 음료 제조실 화면 (SFR-044~051): 재료 선반, 전자저울, 비우기, 완성
+    // 음료 제조실 화면 (SFR-044~051): 재료 선반, 전자저울, 비우기, 완성.
+    // 선반 재료를 누르면 재료별 작업 창(시럽 펌프, 청, 티백, 우유·탄산수 붓기)이 열린다 (IngredientToolScreen)
     public class DrinkRoomScreen : StationScreen
     {
-        // 누르고 있는 동안 붓는 재료 (SFR-047). 나머지 선반 재료는 클릭 1회 투입
         static readonly string[] PourIds = { "milk", "soda" };
 
         [SerializeField] Transform shelf;
@@ -23,6 +23,7 @@ namespace CafeTime.Cafe
         [SerializeField] Button emptyButton;
         [SerializeField] Button completeButton;
         [SerializeField] JudgeResultView result;
+        [SerializeField] IngredientToolScreen toolScreen;
 
         static DrinkStation Station => DrinkStation.Instance;
 
@@ -38,10 +39,7 @@ namespace CafeTime.Cafe
             var items = balance.Ingredients.Where(i => i.Category == IngredientCategory.SyrupCheong || i.Category == IngredientCategory.Tea ||
                                                        i.Id == "condensed_milk" || PourIds.Contains(i.Id));
             foreach (var ingredient in items)
-            {
-                bool pour = PourIds.Contains(ingredient.Id);
-                Instantiate(slotTemplate, shelf).Setup(ingredient, Station.AddIngredient, pour ? Station.Pour : null, tooltip.Show, tooltip.Hide);
-            }
+                Instantiate(slotTemplate, shelf).Setup(ingredient, OpenTool, null, tooltip.Show, tooltip.Hide);
             tooltip.Hide();
 
             BindSpot(scale, PlaceOnScale, Station.TakeCup, () => Station.OnScale != null);
@@ -55,6 +53,21 @@ namespace CafeTime.Cafe
             if (Station == null) return;
             Station.Changed -= RefreshIfOpen;
             Station.Judged -= result.Show;
+        }
+
+        // 잔이 저울 위에 있어야 작업 창을 연다
+        void OpenTool(IngredientDefinition ingredient)
+        {
+            if (Station.OnScale == null) { Toast.Show(ToastMessage.CupFirst); return; }
+            tooltip.Hide();
+            toolScreen.Open(ingredient);
+        }
+
+        // 작업 창은 음료 제조실 위에 겹쳐 열리므로, 제조실을 닫으면 같이 닫는다
+        public override void Close()
+        {
+            if (toolScreen != null && toolScreen.gameObject.activeSelf) toolScreen.Close();
+            base.Close();
         }
 
         // 커피잔은 저울 위에, 샷 컵·얼음 스쿱은 저울 위 잔에 붓기 (SFR-045, 048)
