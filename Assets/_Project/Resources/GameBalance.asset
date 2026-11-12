@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ca38a76844a9c4893e4af48ea871d3, type: 3}
   m_Name: GameBalance
   m_EditorClassIdentifier: Assembly-CSharp::CafeTime.Core.GameBalance
+  testFullStock: 1
   startingMoney: 150000
   rentByDay: 60ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea000060ea0000i
   initialReputation: 3
@@ -200,6 +201,103 @@ MonoBehaviour:
     baseUnit: "\uAC1C"
     price: 800
     icon: {fileID: 21300000, guid: ca0a8ee8e9823064b88d0539eef21695, type: 3}
+  - id: dessert_sandwich
+    displayName: "\uC0CC\uB4DC\uC704\uCE58"
+    category: 5
+    purchaseUnit: "\uAC1C"
+    amountPerUnit: 1
+    baseUnit: "\uAC1C"
+    price: 3000
+    icon: {fileID: 21300000, guid: ac3289fd46912a7499d732142655823c, type: 3}
+  - id: dessert_bagel
+    displayName: "\uBCA0\uC774\uAE00"
+    category: 5
+    purchaseUnit: "\uAC1C"
+    amountPerUnit: 1
+    baseUnit: "\uAC1C"
+    price: 1800
+    icon: {fileID: 21300000, guid: 165d19be1947736468f74bac7ca005ec, type: 3}
+  - id: dessert_waffle
+    displayName: "\uC640\uD50C"
+    category: 5
+    purchaseUnit: "\uAC1C"
+    amountPerUnit: 1
+    baseUnit: "\uAC1C"
+    price: 2200
+    icon: {fileID: 21300000, guid: db835ce3d88bd214782075fc22063d17, type: 3}
+  - id: dessert_honey_bread
+    displayName: "\uD5C8\uB2C8\uBE0C\uB808\uB4DC"
+    category: 5
+    purchaseUnit: "\uAC1C"
+    amountPerUnit: 1
+    baseUnit: "\uAC1C"
+    price: 2800
+    icon: {fileID: 21300000, guid: b2c9b8a88aebdf241bc9fd30e4a9c100, type: 3}
+  - id: dessert_croque_monsieur
+    displayName: "\uD06C\uB85C\uD06C\uBB34\uC288"
+    category: 5
+    purchaseUnit: "\uAC1C"
+    amountPerUnit: 1
+    baseUnit: "\uAC1C"
+    price: 3200
+    icon: {fileID: 21300000, guid: 609dc8cd35b91f04ea1d4271ff2635cd, type: 3}
+  startingStock:
+  - id: bean
+    amount: 40
+  - id: milk
+    amount: 5000
+  - id: soda
+    amount: 2000
+  - id: condensed_milk
+    amount: 300
+  - id: syrup_plain
+    amount: 300
+  - id: syrup_vanilla
+    amount: 300
+  - id: syrup_caramel
+    amount: 300
+  - id: syrup_hazelnut
+    amount: 300
+  - id: syrup_chocolate
+    amount: 300
+  - id: syrup_blue
+    amount: 300
+  - id: cheong_strawberry
+    amount: 300
+  - id: cheong_grapefruit
+    amount: 300
+  - id: cheong_yuja
+    amount: 300
+  - id: tea_chamomile
+    amount: 10
+  - id: tea_earlgrey
+    amount: 10
+  - id: smoothie_strawberry
+    amount: 450
+  - id: smoothie_mango
+    amount: 450
+  - id: smoothie_hallabong
+    amount: 450
+  - id: smoothie_melon
+    amount: 450
+  - id: smoothie_cookie
+    amount: 450
+  - id: dessert_strawberry_cake
+    amount: 5
+  - id: dessert_croissant
+    amount: 5
+  - id: dessert_cookie
+    amount: 5
+  - id: dessert_sandwich
+    amount: 5
+  - id: dessert_bagel
+    amount: 5
+  - id: dessert_waffle
+    amount: 5
+  - id: dessert_honey_bread
+    amount: 5
+  - id: dessert_croque_monsieur
+    amount: 5
   menus:
   - id: americano
     displayName: "\uC544\uBA54\uB9AC\uCE74\uB178"
@@ -369,19 +467,418 @@ MonoBehaviour:
     hot: 0
     ice: 0
     stockId: dessert_cookie
+  - id: sandwich
+    displayName: "\uC0CC\uB4DC\uC704\uCE58"
+    category: 3
+    price: 6000
+    hot: 0
+    ice: 0
+    stockId: dessert_sandwich
+  - id: bagel
+    displayName: "\uBCA0\uC774\uAE00"
+    category: 3
+    price: 4000
+    hot: 0
+    ice: 0
+    stockId: dessert_bagel
+  - id: waffle
+    displayName: "\uC640\uD50C"
+    category: 3
+    price: 5000
+    hot: 0
+    ice: 0
+    stockId: dessert_waffle
+  - id: honey_bread
+    displayName: "\uD5C8\uB2C8\uBE0C\uB808\uB4DC"
+    category: 3
+    price: 6500
+    hot: 0
+    ice: 0
+    stockId: dessert_honey_bread
+  - id: croque_monsieur
+    displayName: "\uD06C\uB85C\uD06C\uBB34\uC288"
+    category: 3
+    price: 6500
+    hot: 0
+    ice: 0
+    stockId: dessert_croque_monsieur
   secondsPerGameHour: 120
   openHour: 9
   entryCloseHour: 20
   closeHour: 21
-  arrivalInterval: {x: 35, y: 70}
-  arrivalIntervalPerDay: 0.95
-  partySizeWeights: 04000000030000000200000001000000i
+  difficultyByDay:
+  - arrivalInterval: {x: 45, y: 75}
+    partySizeWeights: 07000000030000000000000000000000i
+    orderPatience: 30
+    servePatience: 360
+  - arrivalInterval: {x: 42, y: 72}
+    partySizeWeights: 06000000040000000000000000000000i
+    orderPatience: 30
+    servePatience: 350
+  - arrivalInterval: {x: 40, y: 68}
+    partySizeWeights: 05000000040000000100000000000000i
+    orderPatience: 28
+    servePatience: 340
+  - arrivalInterval: {x: 38, y: 64}
+    partySizeWeights: 05000000040000000100000000000000i
+    orderPatience: 28
+    servePatience: 330
+  - arrivalInterval: {x: 36, y: 60}
+    partySizeWeights: 04000000040000000200000000000000i
+    orderPatience: 26
+    servePatience: 320
+  - arrivalInterval: {x: 34, y: 57}
+    partySizeWeights: 04000000040000000200000000000000i
+    orderPatience: 26
+    servePatience: 300
+  - arrivalInterval: {x: 32, y: 54}
+    partySizeWeights: 04000000030000000200000001000000i
+    orderPatience: 25
+    servePatience: 290
+  - arrivalInterval: {x: 30, y: 51}
+    partySizeWeights: 04000000030000000200000001000000i
+    orderPatience: 24
+    servePatience: 280
+  - arrivalInterval: {x: 28, y: 48}
+    partySizeWeights: 03000000030000000200000001000000i
+    orderPatience: 23
+    servePatience: 270
+  - arrivalInterval: {x: 27, y: 45}
+    partySizeWeights: 03000000030000000200000001000000i
+    orderPatience: 22
+    servePatience: 260
+  - arrivalInterval: {x: 25, y: 42}
+    partySizeWeights: 03000000030000000200000002000000i
+    orderPatience: 21
+    servePatience: 250
+  - arrivalInterval: {x: 24, y: 40}
+    partySizeWeights: 03000000030000000200000002000000i
+    orderPatience: 20
+    servePatience: 240
+  - arrivalInterval: {x: 22, y: 37}
+    partySizeWeights: 02000000030000000300000002000000i
+    orderPatience: 19
+    servePatience: 230
+  - arrivalInterval: {x: 21, y: 35}
+    partySizeWeights: 02000000030000000300000002000000i
+    orderPatience: 18
+    servePatience: 220
+  - arrivalInterval: {x: 20, y: 32}
+    partySizeWeights: 02000000030000000300000002000000i
+    orderPatience: 18
+    servePatience: 210
   dessertChance: 0.35
-  orderPatience: 60
-  servePatience: 180
   stayDuration: 20
   maxTipChance: 0.6
   tipPerPerson: 500
   neutralSatisfaction: 60
   maxReputationChange: 0.5
-  lowStockWarning: 5
+  recipes:
+  - menuId: americano
+    temperature: 1
+    amounts:
+    - key: shot
+      amount: 1
+    - key: water_hot
+      amount: 200
+  - menuId: americano
+    temperature: 2
+    amounts:
+    - key: shot
+      amount: 1
+    - key: water_cold
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: cafe_latte
+    temperature: 1
+    amounts:
+    - key: shot
+      amount: 1
+    - key: milk
+      amount: 200
+  - menuId: cafe_latte
+    temperature: 2
+    amounts:
+    - key: shot
+      amount: 1
+    - key: milk
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: vanilla_latte
+    temperature: 1
+    amounts:
+    - key: shot
+      amount: 1
+    - key: syrup_vanilla
+      amount: 20
+    - key: milk
+      amount: 200
+  - menuId: vanilla_latte
+    temperature: 2
+    amounts:
+    - key: shot
+      amount: 1
+    - key: syrup_vanilla
+      amount: 20
+    - key: milk
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: caramel_macchiato
+    temperature: 1
+    amounts:
+    - key: shot
+      amount: 1
+    - key: syrup_caramel
+      amount: 20
+    - key: milk
+      amount: 200
+  - menuId: caramel_macchiato
+    temperature: 2
+    amounts:
+    - key: shot
+      amount: 1
+    - key: syrup_caramel
+      amount: 20
+    - key: milk
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: hazelnut_latte
+    temperature: 1
+    amounts:
+    - key: shot
+      amount: 1
+    - key: syrup_hazelnut
+      amount: 20
+    - key: milk
+      amount: 200
+  - menuId: hazelnut_latte
+    temperature: 2
+    amounts:
+    - key: shot
+      amount: 1
+    - key: syrup_hazelnut
+      amount: 20
+    - key: milk
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: cafe_mocha
+    temperature: 1
+    amounts:
+    - key: shot
+      amount: 1
+    - key: syrup_chocolate
+      amount: 30
+    - key: milk
+      amount: 200
+  - menuId: cafe_mocha
+    temperature: 2
+    amounts:
+    - key: shot
+      amount: 1
+    - key: syrup_chocolate
+      amount: 30
+    - key: milk
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: condensed_latte
+    temperature: 1
+    amounts:
+    - key: shot
+      amount: 1
+    - key: condensed_milk
+      amount: 30
+    - key: milk
+      amount: 200
+  - menuId: condensed_latte
+    temperature: 2
+    amounts:
+    - key: shot
+      amount: 1
+    - key: condensed_milk
+      amount: 30
+    - key: milk
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: strawberry_latte
+    temperature: 2
+    amounts:
+    - key: cheong_strawberry
+      amount: 40
+    - key: milk
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: grapefruit_ade
+    temperature: 2
+    amounts:
+    - key: cheong_grapefruit
+      amount: 40
+    - key: soda
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: yuja_ade
+    temperature: 2
+    amounts:
+    - key: cheong_yuja
+      amount: 40
+    - key: soda
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: strawberry_ade
+    temperature: 2
+    amounts:
+    - key: cheong_strawberry
+      amount: 40
+    - key: soda
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: blue_lemon_ade
+    temperature: 2
+    amounts:
+    - key: syrup_blue
+      amount: 30
+    - key: syrup_plain
+      amount: 10
+    - key: soda
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: yuja_tea
+    temperature: 1
+    amounts:
+    - key: cheong_yuja
+      amount: 40
+    - key: water_hot
+      amount: 200
+  - menuId: grapefruit_tea
+    temperature: 1
+    amounts:
+    - key: cheong_grapefruit
+      amount: 40
+    - key: water_hot
+      amount: 200
+  - menuId: chamomile
+    temperature: 1
+    amounts:
+    - key: tea_chamomile
+      amount: 1
+    - key: water_hot
+      amount: 200
+  - menuId: chamomile
+    temperature: 2
+    amounts:
+    - key: tea_chamomile
+      amount: 1
+    - key: water_cold
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: earl_grey
+    temperature: 1
+    amounts:
+    - key: tea_earlgrey
+      amount: 1
+    - key: water_hot
+      amount: 200
+  - menuId: earl_grey
+    temperature: 2
+    amounts:
+    - key: tea_earlgrey
+      amount: 1
+    - key: water_cold
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: strawberry_smoothie
+    temperature: 2
+    amounts:
+    - key: smoothie_strawberry
+      amount: 150
+    - key: milk
+      amount: 100
+    - key: ice
+      amount: 1
+  - menuId: mango_smoothie
+    temperature: 2
+    amounts:
+    - key: smoothie_mango
+      amount: 150
+    - key: milk
+      amount: 100
+    - key: ice
+      amount: 1
+  - menuId: hallabong_smoothie
+    temperature: 2
+    amounts:
+    - key: smoothie_hallabong
+      amount: 150
+    - key: milk
+      amount: 100
+    - key: ice
+      amount: 1
+  - menuId: melon_smoothie
+    temperature: 2
+    amounts:
+    - key: smoothie_melon
+      amount: 150
+    - key: milk
+      amount: 100
+    - key: ice
+      amount: 1
+  - menuId: cookie_shake
+    temperature: 2
+    amounts:
+    - key: smoothie_cookie
+      amount: 150
+    - key: milk
+      amount: 150
+    - key: ice
+      amount: 1
+  perfectTolerance: 0.1
+  goodTolerance: 0.25
+  ceramicCups: 8
+  plasticCups: 10
+  plates: 6
+  grindSeconds: 7
+  tampSeconds: 1
+  extractSeconds: 7
+  iceMax: 24
+  iceSecondsPerCube: 3
+  icePerScoop: 4
+  waterSeconds: 3
+  waterAmount: 200
+  syrupPerClick: 10
+  smoothiePerClick: 50
+  pourPerSecond: 50
+  shotWeight: 30
+  iceScoopWeight: 100
+  teabagWeight: 2
+  blendSeconds: 5
+  trayReturnSlots: 4
+  napkinChance: 0.5
+  scrubDistance: 1200
+  dryingSeconds: 15
+  cleaningTimeLimit: 90
+  cleaningInterval: 300
+  cleaningIntervalPerDay: 0.92
+  pointsPerOrder: 100
+  pointsPerSatisfaction: 1
+  penaltyLost: 100
+  penaltyDiscarded: 20
+  penaltyTrayLeft: 50
+  penaltyCleaning: 50
+  penaltyOrderSkipped: 30
+  ending03Profit: 150000
+  ending03Reputation: 3
+  ending04Profit: 600000
+  ending04Reputation: 4
