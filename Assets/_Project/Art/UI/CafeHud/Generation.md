@@ -194,3 +194,15 @@ Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구
 - 후처리: 생성본에서 알파 ≥128, R<130, G<80, B<60인 픽셀을 채움 마스크로 추출하고 경계로 잘랐다. 종횡비를 유지하며 NEAREST로 채움 높이 50px에 맞췄다. 채움을 `#380F00` 단색으로 정리하고 Pillow MaxFilter(7)로 사방 3px 확장하여 `#FCF0CA` 외곽선을 다시 적용했다. 외곽선 포함 높이 56px, 사방 투명 여백 8px, 알파 {0,255}, 투명 픽셀 RGBA=(0,0,0,0).
 - 검수: 최종 PNG의 NEAREST 2배 확대본에서 `먼 / 저 / 공백 / 들 / 어 / 온 / 공백 / 주 / 문 / 부 / 터 / 공백 / 서 / 빙 / 해 / 공백 / 주 / 세 / 요 / .`를 글자별로 눈으로 대조했다. 한 줄, 공백 4개, 마지막 마침표 1개, 장식 없음. 기존 PNG와 .meta·코드·씬·프리팹·에셋은 수정하지 않았다.
 
+
+
+## 2026-11-12 ToastWaterFirst.png
+
+- 도구: OpenAI 내장 `image_gen.imagegen` + Python 3 / Pillow 후처리.
+- 참조: `ToastNoCleanCup.png`, `ToastOrderSkipped.png`를 직접 확인하고 생성 도구에도 제공했다. 최신 ToastOrderSkipped와 동일하게 채움 높이50px, 크림 외곽선3px, 사방 투명 여백8px, 전체 높이72px로 맞췄다.
+- 파일: **ToastWaterFirst.png, 514×72, RGBA**, 정확한 문구 **"물을 먼저 받아 주세요."**. 한 줄, 공백3개, 마지막 마침표1개.
+- 프롬프트: “Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. ONE text-only transparent Korean toast matching reference bold square block typography and proportions. Exact text "물을 먼저 받아 주세요." Check syllables 물 / 을 / SPACE / 먼 / 저 / SPACE / 받 / 아 / SPACE / 주 / 세 / 요 / PERIOD. One single horizontal line, three spaces, one final period. Dark coffee #380F00 fill, cream #FCF0CA square3px outline relative to50px ink height, total height72 with8px transparent padding around56px outline-inclusive ink. Heavy straight rectangular strokes and stepped corners. Transparent exterior and counters. No panel, backdrop, decorations, icons, shadow, glow, texture or extra words.”
+- 후처리: 생성본에서 알파≥128·R<130·G<80·B<60의 어두운 획만 추출하고 크롭, 종횡비를 유지하며 NEAREST로 높이50px에 맞췄다. #380F00 채움, MaxFilter(7)로 #FCF0CA 사방3px 외곽선을 다시 만들었다. 외곽선 포함56px, 투명 여백8px, 알파{0,255}, 투명 RGB0. 기존 토스트와 같은 정규화 방식이다.
+- 검수: 최종 PNG의 NEAREST2배 확대본에서 **물 / 을 / 공백 / 먼 / 저 / 공백 / 받 / 아 / 공백 / 주 / 세 / 요 / .** 를 글자별로 눈으로 확인했다. DrinkTools의 부드러운 그림 예외와 달리 이 토스트는 HUD 도트 글자이며 Unity에서 **Point(no filter)**, Single, Mip Maps끔, Alpha Is Transparency켬으로 임포트한다. 기본 표시는257×36(원본 절반), 기존 토스트 표시 영역에 가운데 정렬한다.
+- 생성 원본: `C:/Users/k9425/.codex/generated_images/01a1ceb5-1e0c-7031-92cd-2a8d521c4cfc/exec-7c1f565b-3046-43f5-bb7e-c1ebd2f26bd0.png`.
+- 미리보기: Assets 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/fec95591-d3a3-47b1-89d7-0c4e1896d871/scratchpad/drinktools-phase2/ToastWaterFirst2x.png`. 기존 PNG·.meta·코드·씬·프리팹·에셋은 수정하지 않았다.

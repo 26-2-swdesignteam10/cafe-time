@@ -19,8 +19,8 @@ namespace CafeTime.EditorTools
     // 생성 후에는 씬/프리팹을 에디터에서 직접 수정한다. (다시 실행하면 수정 내용을 덮어씀)
     public static class TitleSceneBuilder
     {
-        const string FontPath = "Assets/_Project/Art/Fonts/Galmuri11.ttf";
-        const string FontAssetPath = "Assets/_Project/Art/Fonts/Galmuri11 SDF.asset";
+        const string FontPath = "Assets/_Project/Art/Fonts/Jua-Regular.ttf";
+        const string FontAssetPath = "Assets/_Project/Art/Fonts/Jua SDF.asset";
         const string TmpSettingsPath = "Assets/TextMesh Pro/Resources/TMP Settings.asset";
         const string TmpEssentialsPackage = "Packages/com.unity.ugui/Package Resources/TMP Essential Resources.unitypackage";
         const string ScenePath = "Assets/_Project/Scenes/Title.unity";
@@ -49,10 +49,10 @@ namespace CafeTime.EditorTools
                 var source = AssetDatabase.LoadAssetAtPath<Font>(FontPath);
                 var asset = TMP_FontAsset.CreateFontAsset(source, 48, 5, GlyphRenderMode.SDFAA, 2048, 2048,
                     AtlasPopulationMode.Dynamic, true);
-                asset.name = "Galmuri11 SDF";
+                asset.name = "Jua SDF";
                 AssetDatabase.CreateAsset(asset, FontAssetPath);
-                asset.atlasTextures[0].name = "Galmuri11 SDF Atlas";
-                asset.material.name = "Galmuri11 SDF Material";
+                asset.atlasTextures[0].name = "Jua SDF Atlas";
+                asset.material.name = "Jua SDF Material";
                 AssetDatabase.AddObjectToAsset(asset.atlasTextures[0], asset);
                 AssetDatabase.AddObjectToAsset(asset.material, asset);
             }
@@ -69,6 +69,52 @@ namespace CafeTime.EditorTools
                 so.ApplyModifiedPropertiesWithoutUndo();
                 AssetDatabase.SaveAssets();
             }
+        }
+
+        // 이미 만들어진 프리팹·씬의 TMP 글자를 모두 게임 폰트로 바꾼다 (ADR-0026). 다른 수정 내용은 유지된다
+        [MenuItem("CafeTime/Apply Game Font To All")]
+        public static void ApplyGameFontToAll()
+        {
+            var gameFont = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(FontAssetPath);
+            if (gameFont == null)
+            {
+                Debug.LogError("폰트 에셋이 없습니다. 먼저 CafeTime > Setup Fonts 를 실행하세요.");
+                return;
+            }
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+            int changed = 0;
+            foreach (var guid in AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/_Project/Prefabs" }))
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                var root = PrefabUtility.LoadPrefabContents(path);
+                int n = ReplaceFonts(root.GetComponentsInChildren<TMP_Text>(true), gameFont);
+                if (n > 0) PrefabUtility.SaveAsPrefabAsset(root, path);
+                PrefabUtility.UnloadPrefabContents(root);
+                changed += n;
+            }
+            foreach (var guid in AssetDatabase.FindAssets("t:Scene", new[] { "Assets/_Project/Scenes" }))
+            {
+                var scene = EditorSceneManager.OpenScene(AssetDatabase.GUIDToAssetPath(guid), OpenSceneMode.Single);
+                int n = scene.GetRootGameObjects()
+                    .Sum(go => ReplaceFonts(go.GetComponentsInChildren<TMP_Text>(true), gameFont));
+                if (n > 0) EditorSceneManager.SaveScene(scene);
+                changed += n;
+            }
+            Debug.Log($"게임 폰트 적용 완료: TMP 텍스트 {changed}개");
+        }
+
+        static int ReplaceFonts(TMP_Text[] texts, TMP_FontAsset gameFont)
+        {
+            int n = 0;
+            foreach (var t in texts)
+            {
+                if (t.font == gameFont) continue;
+                t.font = gameFont;
+                t.fontSharedMaterial = gameFont.material;
+                n++;
+            }
+            return n;
         }
 
         [MenuItem("CafeTime/Build Title Scene")]
