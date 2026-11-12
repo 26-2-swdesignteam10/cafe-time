@@ -40,3 +40,4 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0026](0026-bakery-self-service.md) | 베이커리 8종과 손님 직접 픽업·계산 방식 | 대체됨 (ADR-0027 포스기 입력 부분, ADR-0028 진열장 위치·팝업 부분) |
 | [0027](0027-bakery-manual-pos.md) | 베이커리는 손님 대사를 보고 포스기에 직접 입력한다 | 승인 |
 | [0028](0028-lower-bakery-showcase.md) | 손님은 아래쪽 큰 베이커리 진열대에서 직접 픽업한다 | 승인 |
+| [0029](0029-compact-front-counter.md) | 행주 걸이를 오른쪽으로 옮기고 기존 받침대 한 칸을 제거한다 | 승인 |

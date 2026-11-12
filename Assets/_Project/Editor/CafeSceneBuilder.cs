@@ -35,6 +35,8 @@ namespace CafeTime.EditorTools
         const int MapWidth = 26;
         const int MapHeight = 15;
         const int FrontCounterY = 8;
+        const int FrontCounterStartX = 3; // x2 받침대를 없애 주방 입구를 한 칸 넓힌다
+        const float TowelX = 3.5f;
         const int KitchenRightX = 10; // 주방과 홀 사이 칸막이 벽의 x
         const float BackWallY = 12;
         const float CounterTopY = 8.55f; // 카운터 위에 놓는 기기의 아래쪽 y (상판 위)
@@ -54,8 +56,8 @@ namespace CafeTime.EditorTools
             ("음료 제조실", "StationDrinkBar", 6.375f, BackWallY, Screen.DrinkRoom),
             ("정수기", "StationWater", 7.5f, BackWallY, Screen.Water),
             ("에스프레소 머신", "StationEspresso", 9, BackWallY, Screen.Espresso),
-            // 앞쪽 카운터 위 (왼쪽부터). 맨 왼쪽 x1 칸은 주방 출입구
-            ("행주 걸이", "StationTowel", 2.5f, CounterTopY, Screen.Towel),
+            // 앞쪽 카운터 위 (왼쪽부터). x1~2는 주방 출입구
+            ("행주 걸이", "StationTowel", TowelX, CounterTopY, Screen.Towel),
             ("포스기", "StationPos", 4.625f, CounterTopY, Screen.Pos),
             ("픽업대", "StationPickup", 7.625f, CounterTopY, Screen.Pickup),
             // 홀 왼쪽 벽 (받침대 위)
@@ -66,7 +68,7 @@ namespace CafeTime.EditorTools
         static readonly float[] TableXs = { 13f, 16.4f, 19.8f };
         static readonly (float y, float laneY)[] TableRows = { (8.5f, 10.1f), (5.2f, 6.8f), (1.9f, 3.7f) };
 
-        // 기존 씬 전체를 재생성하지 않고 진열장 제거·손님 픽업 위치만 갱신한다 (SFR-012, 056).
+        // 기존 씬을 재생성하지 않고 진열장·손님 동선·행주 걸이·카운터 한 칸만 갱신 (SFR-012, 056).
         [MenuItem("CafeTime/Update Bakery Showcase")]
         public static void UpdateBakeryShowcase()
         {
@@ -83,18 +85,34 @@ namespace CafeTime.EditorTools
                 Debug.LogWarning("Cafe 씬에 CustomerManager가 없습니다. 변경하지 않았습니다.");
                 return;
             }
+            var stations = roots.FirstOrDefault(root => root.name == "Stations");
+            var towel = stations != null ? stations.transform.Find("행주 걸이") : null;
+            var wallMap = roots.SelectMany(root => root.GetComponentsInChildren<Tilemap>(true))
+                .FirstOrDefault(map => map.name == "Walls");
+            if (towel == null || wallMap == null)
+            {
+                Debug.LogWarning("행주 걸이 또는 Walls 타일맵이 없습니다. 변경하지 않았습니다.");
+                return;
+            }
             Undo.IncrementCurrentGroup();
             int group = Undo.GetCurrentGroup();
             Undo.SetCurrentGroupName("베이커리 진열장 동선 변경");
-            var stations = roots.FirstOrDefault(root => root.name == "Stations");
             var oldShowcase = stations != null ? stations.transform.Find("디저트 진열장") : null;
             if (oldShowcase != null) Undo.DestroyObjectImmediate(oldShowcase.gameObject);
             foreach (var popup in roots.SelectMany(root => root.GetComponentsInChildren<DessertShowcaseScreen>(true)).ToArray())
                 Undo.DestroyObjectImmediate(popup.gameObject);
             SetBakeryPickupPoint(customers);
+            // 절대 좌표로 적용해 메뉴를 여러 번 눌러도 한 칸씩 계속 이동하지 않는다 (ADR-0029).
+            Undo.RecordObject(towel, "행주 걸이 오른쪽으로 한 칸 이동");
+            towel.position = new Vector3(TowelX, towel.position.y, towel.position.z);
+            Undo.RegisterCompleteObjectUndo(wallMap, "기존 행주 걸이 아래 받침대 제거");
+            wallMap.SetTiles(new[] { new Vector3Int(FrontCounterStartX - 1, FrontCounterY, 0) }, new TileBase[] { null });
+            wallMap.RefreshAllTiles();
+            var collider = wallMap.GetComponent<TilemapCollider2D>();
+            if (collider != null) collider.ProcessTilemapChanges();
             Undo.CollapseUndoOperations(group);
             EditorSceneManager.MarkSceneDirty(scene);
-            Debug.Log("포스기 왼쪽 진열장·팝업을 제거하고 아래쪽 빵 진열대 동선을 적용했습니다. 씬을 저장하세요.");
+            Debug.Log("베이커리 동선 갱신, 행주 걸이 오른쪽 한 칸 이동, 기존 받침대 한 칸 제거를 적용했습니다. 씬을 저장하세요.");
         }
 
         static void SetBakeryPickupPoint(CustomerManager customers)
@@ -188,8 +206,8 @@ namespace CafeTime.EditorTools
             {
                 var cell = new Vector3Int(x, y, 0);
                 bool border = x == 0 || x == MapWidth - 1 || y == 0 || y >= MapHeight - 2;
-                // 앞쪽 카운터: x2~9. x1 은 주방 출입구
-                bool frontCounter = !border && y == FrontCounterY && x >= 2 && x < KitchenRightX;
+                // 앞쪽 카운터: x3~9. x1~2는 주방 출입구 (ADR-0029)
+                bool frontCounter = !border && y == FrontCounterY && x >= FrontCounterStartX && x < KitchenRightX;
                 bool partition = !border && x == KitchenRightX && y >= FrontCounterY;
                 if (border || frontCounter || partition)
                 {
