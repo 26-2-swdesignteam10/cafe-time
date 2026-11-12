@@ -552,7 +552,7 @@ namespace CafeTime.EditorTools
         static IngredientToolScreen BuildIngredientTool(Transform canvas)
         {
             const string F = "DrinkTools";
-            // 그림 좌표(1100x700)는 그대로 두고 창 전체를 1.3배로 키운다 (ADR-0025)
+            // 그림 좌표(1100x700)는 그대로 두고 창 전체를 1.3배로 키운다 (ADR-0028)
             var (popup, window) = Window<IngredientToolScreen>(canvas, "IngredientToolScreen", S(F, "Panel"), 1100, 700, scale: 1.3f);
             SetClose(popup, CloseButton(window, 1000, 36));
             var so = new SerializedObject(popup);
