@@ -58,6 +58,13 @@ namespace CafeTime.Cafe
             if (this != null) image.color = Color.white;
         }
 
+        // 놓은 곳에서 원본이 먼저 삭제되면(쓰레기통에 넣어 쟁반 화면이 새로고침될 때 등) OnEndDrag 가 오지 않는다.
+        // 삭제될 때 고스트도 같이 지우지 않으면 화면에 남아 떠다닌다
+        void OnDestroy()
+        {
+            if (ghost != null) Destroy(ghost.gameObject);
+        }
+
         // 놓은 곳에서 받아 줄 때 쓰는 값. 끌기가 시작되지 않았으면(CanDrag 거부) null
         public object DroppedPayload => ghost != null ? Payload : null;
     }

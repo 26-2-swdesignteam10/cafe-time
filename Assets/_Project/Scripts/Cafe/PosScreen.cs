@@ -4,6 +4,8 @@ using CafeTime.Core;
 using CafeTime.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace CafeTime.Cafe
@@ -41,6 +43,7 @@ namespace CafeTime.Cafe
         readonly List<OrderLine> lines = new List<OrderLine>();
         CustomerParty party;
         int selected = -1;
+        int openedFrame = -1;
 
         protected override void Awake()
         {
@@ -68,6 +71,7 @@ namespace CafeTime.Cafe
         public void Open(CustomerParty customerParty)
         {
             party = customerParty;
+            openedFrame = Time.frameCount;
             lines.Clear();
             selected = -1;
             Open();
@@ -122,6 +126,19 @@ namespace CafeTime.Cafe
             lines[selected].Quantity += delta;
             if (lines[selected].Quantity <= 0) DeleteSelected();
             else Refresh();
+        }
+
+        // Enter 로 결제 (SFR-027). 포스기를 연 바로 그 프레임의 Enter(대화 넘기기 등)는 무시
+        void Update()
+        {
+            // 마우스로 누른 버튼이 선택 상태로 남으면 Enter 가 그 버튼을 다시 눌러 버리므로 선택을 풀어 둔다
+            var events = EventSystem.current;
+            if (events != null && events.currentSelectedGameObject != null) events.SetSelectedGameObject(null);
+
+            if (Time.frameCount == openedFrame) return;
+            var keyboard = Keyboard.current;
+            if (keyboard != null && (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame))
+                Pay();
         }
 
         void DeleteSelected()
