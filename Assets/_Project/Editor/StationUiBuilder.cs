@@ -331,18 +331,16 @@ namespace CafeTime.EditorTools
         public static IceMakerScreen BuildIceMaker(Transform canvas)
         {
             const string F = "IceMaker";
+            // 좌표는 Art/UI/IceMaker/Generation.md "배치 (2026-11-12)" 표 (창 1100x700 왼쪽 위 기준)
+            // 제빙기와 스쿱 트레이는 작업대 윗면(창 y 448~494)에 선다. 얼음 수·제빙 속도·스쿱 글자는 표시하지 않는다 (2026-11-12 사용자 요청)
             var popup = Screen<IceMakerScreen>(canvas, F, "IceMakerScreen", 1100, 700, out var window);
             var so = new SerializedObject(popup);
-            Set(so, "bin", Zone(window, "IceBin", 90, 190, 520, 340, S(F, "IceBin"), Cream));
-            Label(window, "LabelIce", S(F, "LabelIce"), 110, 550, PivotLeft);
-            Set(so, "iceText", AddText(TopLeft("Ice", window, 220, 526, 260, 48), "0 / 0", 26, DarkCoffee, TextAlignmentOptions.Left));
-            Label(window, "LabelSpeed", S(F, "LabelSpeed"), 380, 550, PivotLeft);
-            Set(so, "speedText", AddText(TopLeft("Speed", window, 550, 528, 300, 48), "", 26, TextBrown, TextAlignmentOptions.Left));
+            Set(so, "bin", Zone(window, "IceBin", 90, 46, 500, 443, S(F, "IceBin"), Cream));
 
-            var spot = Zone(window, "ScoopSpot", 760, 260, 200, 170, S(F, "ScoopSpot"), Cream);
-            Label(window, "LabelScoop", S(F, "LabelScoop"), 860, 455, PivotCenter);
+            // 스쿱 자리: 아래쪽에 트레이가 그려진 3:2 그림. 스쿱은 가운데에 놓여 트레이 안에 담긴 것처럼 보인다
+            var spot = Zone(window, "ScoopSpot", 660, 264, 340, 227, S(F, "ScoopSpot"), Cream);
             Set(so, "scoopSpot", spot);
-            Set(so, "scoop", Draggable(spot.transform, "Scoop", S(F, "ScoopEmpty"), 170, 110));
+            Set(so, "scoop", Draggable(spot.transform, "Scoop", S(F, "ScoopEmpty"), 240, 156));
             Set(so, "scoopEmpty", S(F, "ScoopEmpty"));
             Set(so, "scoopIce", S(F, "ScoopIce"));
             so.ApplyModifiedPropertiesWithoutUndo();
@@ -620,39 +618,72 @@ namespace CafeTime.EditorTools
         public static TrayReturnScreen BuildTrayReturn(Transform canvas, int slots)
         {
             const string F = "TrayReturn";
+            // 좌표는 Art/UI/TrayReturn/Generation.md "배치 (2026-11-12)" 표 (창 1600x900 왼쪽 위 기준)
+            // 정면에서 본 수납장: 오크 상판(윗면 y 474~516) 위에 쟁반, 아래 왼쪽 칸 쓰레기통, 오른쪽 칸 설거지통
             var popup = Screen<TrayReturnScreen>(canvas, F, "TrayReturnScreen", 1600, 900, out var window);
             var so = new SerializedObject(popup);
+            Label(window, "LabelTitle", S(F, "LabelTitle"), 800, 62, PivotCenter); // 퇴식구 제목은 남긴다 (ADR-0019)
+            Label(window, "Hint", S(F, "Hint"), 800, 112, PivotCenter);
+
+            // 쟁반 칸: 상판 위에 가로로 나란히 (4칸 기준 x = 75, 445, 815, 1185). 쟁반 아래에 늘 보이는 자리 매트
+            const float trayW = 340, trayH = 44, trayBottom = 512;
+            float step = slots > 1 ? (1525 - 75 - trayW) / (slots - 1) : 0;
             var trays = new Object[slots];
             var containers = new Object[slots];
             DragItem template = null;
             for (int i = 0; i < slots; i++)
             {
-                var slot = TopLeft($"TraySlot {i + 1}", window, 80 + (i % 2) * 360, 160 + (i / 2) * 270, 330, 240);
-                AddImage(slot, S(F, "TraySlot"), Spot);
-                var tray = Centered("Tray", slot, 0, 0, 300, 210);
+                float x = slots > 1 ? 75 + i * step : 630;
+                var mat = TopLeft($"TraySlot {i + 1}", window, x - 10, trayBottom - 14, trayW + 20, 22);
+                AddImage(mat, S(F, "TraySlot"), Spot);
+                var tray = TopLeft($"Tray {i + 1}", window, x, trayBottom - trayH, trayW, trayH);
                 AddImage(tray, S(F, "Tray"), new Color32(0x8B, 0x5A, 0x3C, 0xFF));
-                var items = Centered("Items", tray, 0, 0, 270, 180);
-                var grid = items.gameObject.AddComponent<GridLayoutGroup>();
-                grid.cellSize = new Vector2(80, 80);
-                grid.spacing = new Vector2(8, 8);
-                grid.childAlignment = TextAnchor.MiddleCenter;
-                grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                grid.constraintCount = 3;
+                // 물건 컨테이너: 아래 가장자리가 쟁반 윗면(쟁반 위끝 + 14). 물건은 화면이 줄 단위로 배치한다
+                var items = TopLeft("Items", tray, 0, 14 - 300, trayW, 300);
                 trays[i] = tray.gameObject;
                 containers[i] = items;
-                if (template == null) template = Draggable(items, "Item", null, 80, 80);
+                if (template == null) template = Draggable(items, "Item", null, 96, 96);
             }
             SetArray(so, "trays", trays);
             SetArray(so, "itemContainers", containers);
             Set(so, "itemTemplate", template);
 
-            Set(so, "trashBin", Zone(window, "TrashBin", 880, 300, 260, 300, S(F, "TrashBin"), Cream));
-            Label(window, "LabelTrash", S(F, "LabelTrash"), 1010, 630, PivotCenter);
-            Set(so, "dishBin", Zone(window, "DishBin", 1200, 340, 320, 260, S(F, "DishBin"), Cream));
-            Label(window, "LabelDishBin", S(F, "LabelDishBin"), 1360, 630, PivotCenter);
-            Label(window, "Hint", S(F, "Hint"), 800, 840, PivotCenter);
+            // 쓰레기통 칸 (왼쪽 아래 열린 칸 전체가 놓는 자리)
+            var trash = Zone(window, "TrashBin", 62, 556, 426, 296, null, Invisible);
+            AddImage(TopLeft("Bin", trash.transform, 155 - 62, 600 - 556, 240, 250), S(F, "TrashBin"), Cream);
+            Label(trash.transform, "LabelTrash", S(F, "LabelTrash"), 275 - 62, 590 - 556, PivotCenter);
+            Set(so, "trashBin", trash);
+
+            // 설거지통 칸: 낮은 대야 뒤판 → 쌓인 잔(4줄 × 4개)·접시 더미 → 반투명 앞벽
+            var dish = Zone(window, "DishBin", 1132, 556, 406, 296, null, Invisible);
+            var dt = dish.transform;
+            const float ox = 1132, oy = 556, cupSize = 100, cupStep = 26, plateSize = 90, plateStep = 9, stackBottom = 846;
+            AddImage(TopLeft("Tub", dt, 1145 - ox, 794 - oy, 380, 58), S(F, "DishBin"), Cream).raycastTarget = false;
+            float[] stackX = { 1190, 1262, 1334, 1406 };
+            var cups = new Object[stackX.Length * 4];
+            for (int s = 0; s < stackX.Length; s++)
+                for (int lvl = 0; lvl < 4; lvl++)
+                    cups[s * 4 + lvl] = StackIcon(dt, $"Cup {s + 1}-{lvl + 1}", stackX[s] - ox, stackBottom - cupSize - lvl * cupStep - oy, cupSize);
+            var plates = new Object[8];
+            for (int lvl = 0; lvl < plates.Length; lvl++)
+                plates[lvl] = StackIcon(dt, $"Plate {lvl + 1}", 1478 - ox, stackBottom - plateSize + 12 - lvl * plateStep - oy, plateSize);
+            Overlay(dt, "TubFront", S(F, "DishBinFront"), 1145 - ox, 794 - oy, 380, 58);
+            Label(dt, "LabelDishBin", S(F, "LabelDishBin"), 1335 - ox, 590 - oy, PivotCenter);
+            Set(so, "dishBin", dish);
+            SetArray(so, "cupStack", cups);
+            SetArray(so, "platePile", plates);
             so.ApplyModifiedPropertiesWithoutUndo();
             return popup;
+        }
+
+        // 설거지통에 쌓이는 잔·접시 한 자리 (cx: 가운데 x, top: 위끝 y, 부모 왼쪽 위 기준). 클릭·드롭은 칸이 받는다
+        static Image StackIcon(Transform parent, string name, float cx, float top, float size)
+        {
+            var image = AddImage(TopLeft(name, parent, cx - size / 2, top, size, size), null, Color.clear);
+            image.preserveAspect = true;
+            image.raycastTarget = false;
+            image.enabled = false;
+            return image;
         }
 
         // ───────── 설거지실 (SFR-063~065) ─────────
@@ -660,33 +691,98 @@ namespace CafeTime.EditorTools
         public static DishwashScreen BuildDishwash(Transform canvas)
         {
             const string F = "Dishwash";
+            // 좌표는 Art/UI/Dishwash/Generation.md "배치 (2026-11-12)" 표 (창 1600x900 왼쪽 위 기준)
             var popup = Screen<DishwashScreen>(canvas, F, "DishwashScreen", 1600, 900, out var window);
             var so = new SerializedObject(popup);
 
-            AddImage(TopLeft("WaitingCrate", window, 100, 200, 300, 240), S(F, "WaitingCrate"), Cream);
-            Label(window, "LabelWaiting", S(F, "LabelWaiting"), 250, 470, PivotCenter);
-            Set(so, "waitingText", AddText(TopLeft("Waiting", window, 150, 495, 200, 48), "0개", 32, DarkCoffee));
+            // 설거지 대기 바구니: 뒤판 → 대기 잔 3개(조금씩 기울여 담음) → 앞판
+            var crate = TopLeft("WaitingCrate", window, 60, 385, 340, 230);
+            AddImage(crate, S(F, "WaitingCrate"), Cream);
+            var crateItems = new Object[3];
+            float[] tilt = { 8, -6, 10 };
+            for (int i = 0; i < crateItems.Length; i++) crateItems[i] = CenterIcon(crate, $"Waiting {i + 1}", 85 + i * 85, 85, 130, tilt[i]);
+            SetArray(so, "crateItems", crateItems);
+            Overlay(crate, "Front", S(F, "WaitingCrateFront"), 0, 0, 340, 230);
+            Label(window, "LabelWaiting", S(F, "LabelWaiting"), 230, 690, PivotCenter);
+            Set(so, "waitingText", AddText(TopLeft("Waiting", window, 130, 712, 200, 48), "0개", 32, DarkCoffee));
 
-            // 싱크대: 가운데에 잔 1개, 그 위에 얼룩. 수세미는 좌우로만 조금 따라 움직임
-            var sink = TopLeft("Sink", window, 420, 250, 640, 380);
+            // 싱크대: 뒤판(수전·개수대) → 잔(깨끗한 그림 + 더러운 그림 + 거품) → 헹굼 물줄기 → 앞 테두리 → 방울 층 → 수세미
+            var sink = TopLeft("Sink", window, 450, 300, 680, 560);
             AddImage(sink, S(F, "Sink"), new Color32(0xB8, 0xC0, 0xC4, 0xFF));
-            var item = Icon(sink, "Item", 240, 120, 160);
+            var item = CenterIcon(sink, "Item", 340, 312, 220, 0); // 잔 바닥이 앞 테두리(y 398) 뒤에 살짝 잠긴다
             Set(so, "sinkItem", item);
-            var stain = AddImage(Centered("Stain", item.transform, 0, 0, 160, 160), S(F, "Stain"), new Color32(0x6B, 0x45, 0x2A, 0xB0));
+            var stain = AddImage(Centered("Stain", item.transform, 0, 0, 220, 220), null, Color.clear);
+            stain.preserveAspect = true;
             stain.enabled = false;
             Set(so, "stain", stain);
-            Set(so, "sponge", Tool(sink, "Sponge", S(F, "Sponge"), 245, 250, 150, 100, new Vector2(160, 20)));
+            var suds = AddImage(Centered("Suds", item.transform, 0, -42, 190, 123), S(F, "Suds"), Color.clear);
+            suds.enabled = false;
+            Set(so, "suds", suds);
 
-            // 건조대: 칸 중심 x = 60, 148, ... 500, 잔 바닥 y = 230 (건조대 그림 기준)
-            var rack = TopLeft("DryingRack", window, 1000, 220, 560, 300);
+            var frames = Enumerable.Range(0, 16).Select(n => S("Water", $"WaterStream{n}")).TakeWhile(sprite => sprite != null).ToArray();
+            var rinse = TopLeft("Rinse", sink, 322, 116, 36, 190); // 수전 끝(340, 116)에서 잔 안까지
+            AddImage(rinse, frames.Length > 0 ? frames[0] : null, Invisible);
+            rinse.gameObject.AddComponent<SpriteLoop>().frames = frames.Length > 0 ? frames : new Sprite[] { null };
+            rinse.gameObject.SetActive(false);
+            Set(so, "rinse", rinse.gameObject);
+            Overlay(sink, "SinkFront", S(F, "SinkFront"), 0, 0, 680, 560);
+
+            var fx = NewUI("Fx", sink);
+            Stretch(fx);
+            Set(so, "fxLayer", fx);
+            var bubble = AddImage(Centered("Bubble", fx, 0, 0, 32, 32), S(F, "Bubble"), Color.clear);
+            bubble.gameObject.SetActive(false);
+            Set(so, "bubbleTemplate", bubble);
+            var sparkles = new Object[3];
+            for (int i = 0; i < sparkles.Length; i++)
+            {
+                var sparkle = AddImage(Centered($"Sparkle {i + 1}", fx, 0, 0, 52, 52), S(F, "Sparkle"), Color.clear);
+                sparkle.gameObject.SetActive(false);
+                sparkles[i] = sparkle;
+            }
+            SetArray(so, "sparkles", sparkles);
+
+            // 수세미: 잔 아래쪽에 놓고 좌우로 끈다. 문지를 때 가운데를 기준으로 기울고 눌린다
+            var sponge = Tool(sink, "Sponge", S(F, "Sponge"), 325, 340, 150, 97, new Vector2(170, 24));
+            var spongeRt = (RectTransform)sponge.transform;
+            spongeRt.pivot = PivotCenter;
+            spongeRt.anchoredPosition += new Vector2(75, -48.5f);
+            Set(so, "sponge", sponge);
+
+            // 건조대 2단 3칸: 칸 가운데 x = 70, 190, 310, 잔은 거꾸로 엎어 레일(y 176, 356)에 걸친다
+            var rack = TopLeft("DryingRack", window, 1160, 215, 380, 400);
             AddImage(rack, S(F, "DryingRack"), Cream);
             var cups = new Object[6];
-            for (int i = 0; i < cups.Length; i++) cups[i] = Icon(rack, $"Slot {i + 1}", 60 + i * 88 - 40, 150, 80);
+            for (int i = 0; i < cups.Length; i++)
+                cups[i] = CenterIcon(rack, $"Slot {i + 1}", 70 + (i % 3) * 120, (i < 3 ? 176 : 356) - 21, 110, 180);
             SetArray(so, "rack", cups);
-            Set(so, "dryingLabel", Label(window, "LabelDrying", S(F, "LabelDrying"), 1280, 545, PivotCenter).gameObject);
+            Set(so, "dryingLabel", Label(window, "LabelDrying", S(F, "LabelDrying"), 1350, 690, PivotCenter).gameObject);
+
+            // 다 닦은 잔이 건조대로 날아가는 그림 (창 맨 위에 그림)
+            var flyer = CenterIcon(window, "Flyer", 0, 0, 220, 0);
+            var flyerSuds = AddImage(Centered("Suds", flyer.transform, 0, -42, 190, 123), S(F, "Suds"), Color.clear);
+            flyer.gameObject.SetActive(false);
+            Set(so, "flyer", flyer);
+            Set(so, "flyerSuds", flyerSuds);
             so.ApplyModifiedPropertiesWithoutUndo();
             return popup;
         }
+
+        // 가운데 기준 아이콘 (cx, cy 는 부모 왼쪽 위 기준). 기울이거나 뒤집어도 가운데를 축으로 돈다
+        static Image CenterIcon(Transform parent, string name, float cx, float cy, float size, float angle)
+        {
+            var rt = TopLeft(name, parent, cx, cy, size, size);
+            rt.pivot = PivotCenter;
+            rt.localRotation = Quaternion.Euler(0, 0, angle);
+            var image = AddImage(rt, null, Color.clear);
+            image.preserveAspect = true;
+            image.enabled = false; // 물건이 없으면 숨김 (화면이 Refresh 에서 켬)
+            return image;
+        }
+
+        // 물건 앞에 겹치는 덮개 그림 (클릭·드롭을 가리지 않음)
+        static void Overlay(Transform parent, string name, Sprite sprite, float x, float y, float w, float h) =>
+            AddImage(TopLeft(name, parent, x, y, w, h), sprite, Color.clear).raycastTarget = false;
 
         // ───────── 일시정지 (SFR-023) ─────────
 
