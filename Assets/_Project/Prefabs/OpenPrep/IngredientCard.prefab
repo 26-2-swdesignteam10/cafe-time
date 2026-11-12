@@ -423,6 +423,7 @@ GameObject:
   - component: {fileID: 4258340837471720959}
   - component: {fileID: 8570910720869403955}
   - component: {fileID: 2969990260170185683}
+  - component: {fileID: 7723906512796153431}
   m_Layer: 0
   m_Name: Plus
   m_TagString: Untagged
@@ -531,6 +532,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7723906512796153431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3900721216415383397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 793f9ac4bd3672e43a434d5fdd616a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CafeTime.OpenPrep.RepeatButton
+  repeatDelay: 0.4
+  repeatInterval: 0.08
 --- !u!1 &4418041737579184408
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,7 +723,10 @@ MonoBehaviour:
   priceText: {fileID: 7250752266217722066}
   quantityText: {fileID: 8755197048514342514}
   minusButton: {fileID: 699440830338374502}
-  plusButton: {fileID: 2969990260170185683}
+  minusRepeat: {fileID: 5931651615312985827}
+  plusRepeat: {fileID: 7723906512796153431}
+  stockColor: {r: 0.3529412, g: 0.20784314, b: 0.1254902, a: 1}
+  lowStockColor: {r: 0.7529412, g: 0.22352941, b: 0.16862746, a: 1}
 --- !u!1 &4846405237035198510
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,6 +739,7 @@ GameObject:
   - component: {fileID: 6322559534477373092}
   - component: {fileID: 5767995368270706482}
   - component: {fileID: 699440830338374502}
+  - component: {fileID: 5931651615312985827}
   m_Layer: 0
   m_Name: Minus
   m_TagString: Untagged
@@ -829,6 +848,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5931651615312985827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4846405237035198510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 793f9ac4bd3672e43a434d5fdd616a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CafeTime.OpenPrep.RepeatButton
+  repeatDelay: 0.4
+  repeatInterval: 0.08
 --- !u!1 &4871871964396146557
 GameObject:
   m_ObjectHideFlags: 0

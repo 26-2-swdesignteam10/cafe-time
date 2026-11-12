@@ -124,7 +124,7 @@ CI가 자동 검사하는 항목에는 ✅ 표시를 했다. ([ADR-0003](adr/000
 
 ### AI 에이전트에게 작업을 시킬 때
 
-- Codex는 저장소 루트의 [`AGENTS.md`](../AGENTS.md)를, Claude Code는 `CLAUDE.md`(→ `AGENTS.md` 참조)를 자동으로 읽는다. 에이전트용 규칙은 `AGENTS.md` 한 곳에서 관리한다.
+- Codex는 저장소 루트의 [`AGENTS.md`](../AGENTS.md)를, Claude Code는 v2.1.277부터 같은 `AGENTS.md`를 자동으로 읽는다 (`CLAUDE.md`를 만들면 `AGENTS.md` 대신 그것만 읽으니 만들지 않는다). 에이전트용 규칙은 `AGENTS.md` 한 곳에서 관리한다.
 - `AGENTS.md` 에 따라 에이전트는 작업 중 생긴 결정을 바로 ADR(`제안`)이나 GAME_DATA/ART_STYLE에 반영하고, 작업이 끝나면 추가·변경한 ADR 번호를 알려 준다.
 - 에이전트가 만든 `제안` ADR은 직접 읽어 보고, 동의하면 `승인` 으로 바꾸거나 에이전트에게 바꾸라고 한다.
 - PR 템플릿의 "추가·변경한 ADR" 칸에 번호를 적는다.

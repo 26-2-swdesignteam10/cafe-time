@@ -23,30 +23,24 @@ namespace CafeTime.Core
 
         [Header("재료 (SFR-010)")]
         [SerializeField] List<IngredientDefinition> ingredients = DefaultIngredients();
+        [Tooltip("새 게임 DAY 1 시작 재고, 기본 단위 (docs/GAME_DATA.md 3장)")]
+        [SerializeField] List<IngredientStock> startingStock = DefaultStartingStock();
 
         [Header("메뉴 (SFR-026, 판매가 임시)")]
         [SerializeField] List<MenuDefinition> menus = DefaultMenus();
 
         [Header("영업 시간 (SFR-014)")]
-        [Tooltip("게임 시간 1시간이 실제 몇 초인지 (명세: 2분)")]
-        [SerializeField] float secondsPerGameHour = 120f;
+        [Tooltip("게임 시간 1시간이 실제 몇 초인지 (명세 2분 → ADR-0021 35초, 하루 약 7분)")]
+        [SerializeField] float secondsPerGameHour = 35f;
         [SerializeField] int openHour = 9;
         [SerializeField] int entryCloseHour = 20;
         [SerializeField] int closeHour = 21;
 
         [Header("손님 (SFR-024, 025, 057, 058) — 임시값, 시간은 실제 초")]
-        [Tooltip("DAY 1 손님 일행 입장 간격 (최소~최대)")]
-        [SerializeField] Vector2 arrivalInterval = new Vector2(35f, 70f);
-        [Tooltip("DAY가 하루 지날 때마다 입장 간격에 곱하는 값 (작을수록 빨리 붐빔)")]
-        [SerializeField] float arrivalIntervalPerDay = 0.95f;
-        [Tooltip("일행 1·2·3·4명이 될 가중치")]
-        [SerializeField] int[] partySizeWeights = { 4, 3, 2, 1 };
+        [Tooltip("DAY 1 ~ 15 손님 난이도: 입장 간격, 일행 인원 가중치, 인내심 (ADR-0020)")]
+        [SerializeField] List<DayDifficulty> difficultyByDay = DefaultDifficulty();
         [Tooltip("일행이 디저트를 같이 주문할 확률")]
         [Range(0f, 1f)] [SerializeField] float dessertChance = 0.35f;
-        [Tooltip("줄 맨 앞에서 주문을 기다리는 인내심")]
-        [SerializeField] float orderPatience = 60f;
-        [Tooltip("주문 후 음료를 기다리는 인내심")]
-        [SerializeField] float servePatience = 180f;
         [Tooltip("음료를 받은 뒤 테이블에 머무는 시간")]
         [SerializeField] float stayDuration = 20f;
         [Tooltip("만족도 100일 때 팁을 줄 확률 (만족도에 비례)")]
@@ -57,8 +51,6 @@ namespace CafeTime.Core
         [SerializeField] float neutralSatisfaction = 60f;
         [Tooltip("하루 평판 변동 최대치 (+/-)")]
         [SerializeField] float maxReputationChange = 0.5f;
-        [Tooltip("이 양보다 적으면 HUD 재고를 경고색으로 (기본 단위, SFR-013)")]
-        [SerializeField] int lowStockWarning = 5;
 
         [Header("레시피 (SFR-051) — 정량 임시값")]
         [SerializeField] List<RecipeDefinition> recipes = DefaultRecipes();
@@ -72,9 +64,11 @@ namespace CafeTime.Core
         [SerializeField] int plasticCups = 10;
         [SerializeField] int plates = 6;
 
-        [Header("에스프레소 머신 (SFR-031, 035)")]
-        [SerializeField] float grindSeconds = 5f;
-        [SerializeField] float extractSeconds = 5f;
+        [Header("에스프레소 머신 (SFR-031, 032, 035)")]
+        [SerializeField] float grindSeconds = 7f;
+        [Tooltip("탬퍼를 가루에 대고 누르고 있어야 하는 시간 (SFR-032)")]
+        [SerializeField] float tampSeconds = 1f;
+        [SerializeField] float extractSeconds = 7f;
 
         [Header("제빙기 (SFR-038, 039) — 임시값")]
         [SerializeField] int iceMax = 24;
@@ -123,6 +117,8 @@ namespace CafeTime.Core
         [SerializeField] int penaltyDiscarded = 20;
         [SerializeField] int penaltyTrayLeft = 50;
         [SerializeField] int penaltyCleaning = 50;
+        [Tooltip("선입선출을 어기고 나중 주문을 먼저 서빙했을 때 1회 감점 (ADR-0022)")]
+        [SerializeField] int penaltyOrderSkipped = 30;
 
         [Header("엔딩 (SFR-073) — 임시값. 최종 수익 = 최종 보유금 - 시작 자금")]
         [SerializeField] int ending03Profit = 150000;
@@ -147,6 +143,7 @@ namespace CafeTime.Core
         }
 
         public int StartingMoney => startingMoney;
+        public IReadOnlyList<IngredientStock> StartingStock => startingStock;
         public float InitialReputation => initialReputation;
         public bool TestFullStock => testFullStock;
         public IReadOnlyList<IngredientDefinition> Ingredients => ingredients;
@@ -156,18 +153,13 @@ namespace CafeTime.Core
         public int OpenHour => openHour;
         public int EntryCloseHour => entryCloseHour;
         public int CloseHour => closeHour;
-        public Vector2 ArrivalInterval => arrivalInterval;
-        public float ArrivalIntervalPerDay => arrivalIntervalPerDay;
-        public IReadOnlyList<int> PartySizeWeights => partySizeWeights;
+        public DayDifficulty Difficulty(int day) => difficultyByDay[Mathf.Clamp(day - 1, 0, difficultyByDay.Count - 1)];
         public float DessertChance => dessertChance;
-        public float OrderPatience => orderPatience;
-        public float ServePatience => servePatience;
         public float StayDuration => stayDuration;
         public float MaxTipChance => maxTipChance;
         public int TipPerPerson => tipPerPerson;
         public float NeutralSatisfaction => neutralSatisfaction;
         public float MaxReputationChange => maxReputationChange;
-        public int LowStockWarning => lowStockWarning;
 
         public IReadOnlyList<RecipeDefinition> Recipes => recipes;
         public float PerfectTolerance => perfectTolerance;
@@ -176,6 +168,7 @@ namespace CafeTime.Core
         public int PlasticCups => plasticCups;
         public int Plates => plates;
         public float GrindSeconds => grindSeconds;
+        public float TampSeconds => tampSeconds;
         public float ExtractSeconds => extractSeconds;
         public int IceMax => iceMax;
         public float IceSecondsPerCube => iceSecondsPerCube;
@@ -202,6 +195,7 @@ namespace CafeTime.Core
         public int PenaltyDiscarded => penaltyDiscarded;
         public int PenaltyTrayLeft => penaltyTrayLeft;
         public int PenaltyCleaning => penaltyCleaning;
+        public int PenaltyOrderSkipped => penaltyOrderSkipped;
         public int Ending03Profit => ending03Profit;
         public float Ending03Reputation => ending03Reputation;
         public int Ending04Profit => ending04Profit;
@@ -219,6 +213,46 @@ namespace CafeTime.Core
         public MenuDefinition FindMenu(string id) => menus.Find(m => m.Id == id);
 
         // ───────── 에셋을 처음 만들 때의 기본값 (docs/GAME_DATA.md 의 임시 값) ─────────
+
+        // 첫날 재료를 사지 않아도 모든 메뉴를 여러 번 만들어 볼 수 있는 양 (2026-11-12 사용자 요청, 약 ₩120,000어치)
+        static List<IngredientStock> DefaultStartingStock()
+        {
+            var list = new List<IngredientStock>();
+            void Add(int amount, params string[] ids)
+            {
+                foreach (var id in ids) list.Add(new IngredientStock { id = id, amount = amount });
+            }
+            Add(40, "bean");                 // 2봉
+            Add(5000, "milk");               // 5팩
+            Add(2000, "soda");               // 2병
+            Add(300, "condensed_milk");
+            Add(300, "syrup_plain", "syrup_vanilla", "syrup_caramel", "syrup_hazelnut", "syrup_chocolate", "syrup_blue");
+            Add(300, "cheong_strawberry", "cheong_grapefruit", "cheong_yuja");
+            Add(10, "tea_chamomile", "tea_earlgrey"); // 각 1박스
+            Add(450, "smoothie_strawberry", "smoothie_mango", "smoothie_hallabong", "smoothie_melon", "smoothie_cookie"); // 각 3잔
+            Add(5, "dessert_strawberry_cake", "dessert_croissant", "dessert_cookie");
+            return list;
+        }
+
+        // 초반은 1~2명 일행이 드문드문, 후반은 큰 일행이 자주 오고 덜 기다린다 (2026-11-12 사용자 요청, docs/GAME_DATA.md 7장)
+        static List<DayDifficulty> DefaultDifficulty() => new List<DayDifficulty>
+        {
+            new DayDifficulty(45, 75, new[] { 7, 3, 0, 0 }, 30, 360), // DAY 1
+            new DayDifficulty(42, 72, new[] { 6, 4, 0, 0 }, 30, 350),
+            new DayDifficulty(40, 68, new[] { 5, 4, 1, 0 }, 28, 340),
+            new DayDifficulty(38, 64, new[] { 5, 4, 1, 0 }, 28, 330),
+            new DayDifficulty(36, 60, new[] { 4, 4, 2, 0 }, 26, 320), // DAY 5
+            new DayDifficulty(34, 57, new[] { 4, 4, 2, 0 }, 26, 300),
+            new DayDifficulty(32, 54, new[] { 4, 3, 2, 1 }, 25, 290),
+            new DayDifficulty(30, 51, new[] { 4, 3, 2, 1 }, 24, 280),
+            new DayDifficulty(28, 48, new[] { 3, 3, 2, 1 }, 23, 270),
+            new DayDifficulty(27, 45, new[] { 3, 3, 2, 1 }, 22, 260), // DAY 10
+            new DayDifficulty(25, 42, new[] { 3, 3, 2, 2 }, 21, 250),
+            new DayDifficulty(24, 40, new[] { 3, 3, 2, 2 }, 20, 240),
+            new DayDifficulty(22, 37, new[] { 2, 3, 3, 2 }, 19, 230),
+            new DayDifficulty(21, 35, new[] { 2, 3, 3, 2 }, 18, 220),
+            new DayDifficulty(20, 32, new[] { 2, 3, 3, 2 }, 18, 210), // DAY 15
+        };
 
         static int[] DefaultRent()
         {
@@ -262,7 +296,7 @@ namespace CafeTime.Core
             };
         }
 
-        // 메뉴별 레시피 (SFR-051, 정량 임시). HOT = 도자기 잔, ICE = 플라스틱 컵 + 얼음 1스쿱
+        // 메뉴별 레시피 (SFR-051, 정량 임시). HOT = HOT 컵, ICE = ICE 컵 + 얼음 1스쿱
         static List<RecipeDefinition> DefaultRecipes()
         {
             const Temperature hot = Temperature.Hot;

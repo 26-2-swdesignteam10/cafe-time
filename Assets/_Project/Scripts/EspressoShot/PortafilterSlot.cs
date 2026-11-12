@@ -20,6 +20,12 @@ namespace CafeTime.EspressoShot
         public Portafilter startingPortafilter;
         [Tooltip("GroupHead 만: 아래 컵 자리 (SFR-034). 비워 두면 컵 없이 추출")]
         public ShotCupSlot cup;
+        [Tooltip("놓인 포터필터의 세로 위치 보정 (캔버스 단위). 그림 크기가 슬롯과 다를 때 사용")]
+        public float portafilterOffsetY;
+        [Tooltip("GroupHead 만: 추출 중에 켜는 커피 줄기")]
+        public GameObject extractStream;
+        [Tooltip("Knockbox 만: 찌꺼기 털기 창. 비워 두면 대는 즉시 빈 필터가 됨")]
+        public KnockScreen knockScreen;
 
         public Portafilter Current { get; private set; }
         public bool Locked { get; set; }   // 추출/분쇄 중에는 분리 불가
@@ -48,9 +54,10 @@ namespace CafeTime.EspressoShot
         internal void Place(Portafilter pf)
         {
             Current = pf;
-            // SFR-036: 넉박스에 사용 완료(찌꺼기) 포터필터를 두드리면 빈 필터로
-            if (type == SlotType.Knockbox && pf.State == PortafilterState.Used)
-                pf.SetState(PortafilterState.Empty);
+            // SFR-036: 넉박스에 사용 완료(찌꺼기) 포터필터를 대면 털기 창이 열리고, 다 털면 빈 필터로
+            if (type != SlotType.Knockbox || pf.State != PortafilterState.Used) return;
+            if (knockScreen == null) pf.SetState(PortafilterState.Empty);
+            else knockScreen.Open(() => { if (Current == pf) pf.SetState(PortafilterState.Empty); });
         }
 
         internal void Release(Portafilter pf)

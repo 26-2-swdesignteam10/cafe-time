@@ -93,3 +93,22 @@ Unity 확인 순서:
 Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구 확인과 파일별 프롬프트는 작성자에게 받아 보충한다.
 
 - 교체한 파일: LabelMoney.png
+
+## 2026-11-11 장바구니 잔액·임대료 라벨
+
+도구: 내장 ImageGen으로 파일별 글자를 생성하고 Python/Pillow로 글자 마스크 분석·후처리했다. 스타일 참조: `Assets/_Project/Art/UI/OpenPrep/LabelTotal.png`. 표시 검토용 참조: 같은 폴더의 `CartPanel.png`. SFR-010.
+
+기준 PNG 분석: `LabelTotal.png`는 RGBA 156×94px이며, 채움색은 `#380F00`, 외곽선색은 `#FCF0CA`이다. 채움 마스크 경계는 (11, 11)–(145, 83), 본체 높이는 72px이다. 불투명 영역 경계는 (8, 8)–(148, 86)으로 사방 투명 여백이 8px이다. 채움 마스크를 7×7 정사각형 커널로 확장한 결과가 원본 알파 마스크와 픽셀 단위로 완전히 일치하므로 외곽선은 사방 3px 확장으로 재현했다. 좌표의 오른쪽·아래쪽 끝은 미포함이다.
+
+공통 생성 프롬프트:
+
+> Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: stylized-concept. Generate one text-only Korean UI label matching reference LabelTotal.png EXACTLY: same chunky heavy squared Hangul stroke shapes, glyph proportions, stepped pixel contours, dark coffee #380F00 flat fill and cream #FCF0CA thin outline. Reference is 156x94 pixels with ink glyph height 72 pixels, outline 3 pixels and 8 pixel transparent margins all four sides. The reference is a style reference, not text to reproduce. NEW label text below in ONE horizontal line. Space between words. Very bold thick strokes just like reference, no fine font. True transparent outside AND counters. No icons, no decorations, no shadow, no extra text, no panel. Tightly crop to text with 8px transparent margin. Target glyph height 72px and total canvas height 94px. Must look from same asset family at 0.4x display scale.
+
+- `LabelRemaining.png`: 파일별 프롬프트: `Exact text: "구매 후 잔액". Check syllable by syllable: 구 / 매, space, 후, space, 잔 / 액.` 후처리: 생성 글자 본체 마스크를 비율 유지 NEAREST로 336×72px로 맞추고, 기준 팔레트·3px 외곽선·8px 투명 여백을 적용했다. 최종 **358×94px**.
+- `LabelRent.png`: 파일별 프롬프트: `Exact text: "오늘 임대료". Check syllable by syllable: 오 / 늘, space, 임 / 대 / 료.` 후처리: 생성 글자 본체 마스크를 비율 유지 NEAREST로 352×72px로 맞추고, 기준 팔레트·3px 외곽선·8px 투명 여백을 적용했다. 최종 **374×94px**.
+
+공통 후처리: 생성 이미지에서 알파 128 이상이고 RGB가 각각 130·85·65 미만인 어두운 글자 본체를 추출했다. 생성 원본의 4방향 연결 성분 중 400px 미만인 잡티를 제거하고, 본체 경계로 크롭한 뒤 NEAREST로 높이 72px를 맞췄다. 원본 기준과 같은 7×7 MaxFilter로 외곽선을 만들고 두 가지 불투명 단색으로 채웠다. 외곽선 바깥 사방 8px는 완전 투명이다. 폰트로 새 글리프를 그리지 않았다.
+
+검수: 확대본에서 `구·매 / 후 / 잔·액`, `오·늘 / 임·대·료`와 띄어쓰기를 글자별로 눈으로 대조했다. `LabelTotal.png`와 나란히 비교하고, `CartPanel.png` 위에 NEAREST로 약 0.4배(각각 143×38px, 150×38px) 표시한 임시 합성본에서도 가독성을 확인했다. 합성본은 검토용이며 기존 PNG에는 저장하지 않았다. 최종 PNG는 RGBA, 알파 0/255, 본체 높이 72px, 외곽선 3px, 사방 투명 여백 8px이다.
+
+Unity 확인 순서: Unity **6000.6.4f1**에서 새 PNG 2개를 임포트해 `.meta`를 자동 생성하고, Sprite (2D and UI) / Single / Point (no filter) / Generate Mip Maps 끔 / Alpha Is Transparency 켬 / Max Size 2048로 설정한다. 장바구니 판 안에서 원본의 약 0.4배로 표시해 확인한다. 이번 작업에서는 `.meta`, 코드, 씬, 프리팹, `.asset`, 기존 PNG를 생성·수정하지 않았다. ADR 추가·변경은 없다.

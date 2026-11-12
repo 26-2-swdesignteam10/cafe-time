@@ -1,3 +1,4 @@
+using System.Linq;
 using CafeTime.Cafe;
 using CafeTime.EspressoShot;
 using CafeTime.UI;
@@ -21,14 +22,16 @@ namespace CafeTime.EditorTools
         static readonly Color Invisible = new Color(1, 1, 1, 0);  // 그림 위에 겹친 놓는 자리 (클릭·드롭만 받음)
 
         public static readonly string[] Folders =
-            { "CupShelf", "IceMaker", "Water", "DrinkRoom", "ShakeRoom", "TrayReturn", "Dishwash", "Pause", "ShotRoom" };
+            { "CupShelf", "IceMaker", "Water", "DrinkRoom", "ShakeRoom", "TrayReturn", "Dishwash", "Pause", "ShotRoom", "KnockRoom" };
         // EspressoMachine 폴더(팀원 그림)는 임포트 설정을 바꾸지 않는다: ShotTest 씬이 Multiple 모드의 하위 스프라이트(tamper_0 등)를 참조함
 
         static Sprite S(string folder, string name) => LoadSprite($"{Art}/{folder}/{name}.png");
 
         public static void PrepareAll()
         {
-            foreach (var folder in Folders) PrepareSprites($"{Art}/{folder}");
+            // 기기 작업 창은 도트가 아닌 일러스트라 부드럽게 표시한다. 일시정지 창만 도트 (docs/ART_STYLE.md 1장)
+            foreach (var folder in Folders)
+                PrepareSprites($"{Art}/{folder}", folder == "Pause" ? FilterMode.Point : FilterMode.Bilinear);
         }
 
         // ───────── 공통 ─────────
@@ -48,20 +51,35 @@ namespace CafeTime.EditorTools
             return image;
         }
 
-        // 진행 게이지 (GaugeFrame 안에 Filled GaugeFill)
+        // 회색조 GaugeFill 에 곱하는 캐러멜색 (맵의 작업 게이지 WorldGauge.Work 와 같음)
+        static readonly Color GaugeColor = new Color32(0xFF, 0xA0, 0x32, 0xFF);
+
+        // 진행 게이지: 틀(GaugeFrame) > FillArea > 채움(GaugeFill). 둘 다 9-slice 캡슐이고 채움 너비는 GaugeBar.Show 가 정한다
         static Image Progress(Transform parent, string name, float x, float y, float w)
         {
-            var frame = TopLeft(name, parent, x, y, w, 18);
-            AddImage(frame, LoadSprite("Assets/_Project/Art/UI/CafeHud/GaugeFrame.png"), new Color32(0x3E, 0x27, 0x1A, 0xFF));
-            var fill = NewUI("Fill", frame);
-            Stretch(fill);
-            fill.offsetMin = new Vector2(3, 3);
-            fill.offsetMax = new Vector2(-3, -3);
-            var image = AddImage(fill, LoadSprite("Assets/_Project/Art/UI/CafeHud/GaugeFill.png"), new Color32(0x7C, 0xC4, 0x5A, 0xFF));
-            image.type = Image.Type.Filled;
-            image.fillMethod = Image.FillMethod.Horizontal;
-            image.fillAmount = 0;
+            var frame = TopLeft(name, parent, x, y - 3, w, 24); // 그림 높이 24 (예전 18 막대와 가운데를 맞춤)
+            GaugeImage(frame, "GaugeFrame", new Color32(0x5D, 0x26, 0x08, 0xFF));
+            var area = NewUI("FillArea", frame);
+            Stretch(area);
+            area.offsetMin = new Vector2(4, 4); // 틀 128x24 안쪽에 채움 120x16
+            area.offsetMax = new Vector2(-4, -4);
+            var fill = NewUI("Fill", area);
+            fill.anchorMin = Vector2.zero;
+            fill.anchorMax = new Vector2(0, 1);
+            fill.offsetMin = fill.offsetMax = Vector2.zero;
+            var image = GaugeImage(fill, "GaugeFill", GaugeColor);
+            image.color = GaugeColor;
             frame.gameObject.SetActive(false);
+            return image;
+        }
+
+        static Image GaugeImage(RectTransform rt, string file, Color fallback)
+        {
+            var sprite = LoadSprite($"Assets/_Project/Art/UI/CafeHud/{file}.png");
+            var image = AddImage(rt, sprite, fallback);
+            image.type = Image.Type.Sliced;
+            // 맵용 PPU(128)로 임포트된 그림이라, 캔버스에서 테두리가 원래 픽셀 크기로 보이게 맞춘다
+            if (sprite != null) image.pixelsPerUnitMultiplier = 100f / sprite.pixelsPerUnit;
             return image;
         }
 
@@ -103,14 +121,48 @@ namespace CafeTime.EditorTools
 
         public static CupShelfScreen BuildCupShelf(Transform canvas)
         {
-            var popup = Screen<CupShelfScreen>(canvas, "CupShelf", "CupShelfScreen", 900, 560, out var window);
+            const string F = "CupShelf";
+            // 좌표는 Art/UI/CupShelf/Generation.md "배치 (2026-11-12)" 표 (창 1000x640 왼쪽 위 기준)
+            var popup = Screen<CupShelfScreen>(canvas, F, "CupShelfScreen", 1000, 640, out var window);
             var so = new SerializedObject(popup);
-            var ceramic = Btn(window, "Ceramic", S("CupShelf", "CeramicButton"), 130, 170, 300, 300);
-            var plastic = Btn(window, "Plastic", S("CupShelf", "PlasticButton"), 470, 170, 300, 300);
-            Set(so, "ceramicButton", ceramic);
-            Set(so, "plasticButton", plastic);
-            Set(so, "ceramicCount", AddText(TopLeft("Count", ceramic.transform, 0, 250, 300, 46), "0개", 26, DarkCoffee));
-            Set(so, "plasticCount", AddText(TopLeft("Count", plastic.transform, 0, 250, 300, 46), "0개", 26, DarkCoffee));
+
+            // HOT: 선반 2단에 뒤집어 놓은 잔 8개 (윗단 왼쪽부터). 잔은 HotArea 의 자식이라 잔 위에 놓아도 HotArea 가 드롭을 받는다
+            var hotArea = TopLeft("HotArea", window, 60, 120, 540, 245);
+            AddImage(hotArea, null, Invisible, true);
+            var hotCups = new Object[8];
+            var cupSprite = S(F, "HotCupUpside");
+            for (int i = 0; i < 8; i++)
+            {
+                var cup = Btn(hotArea, $"HotCup{i + 1}", cupSprite, 16 + (i % 4) * 132, 4 + (i / 4) * 130, 110, 100);
+                cup.image.preserveAspect = true;
+                hotCups[i] = cup;
+            }
+            SetArray(so, "hotCups", hotCups);
+            Set(so, "hotCount", AddText(TopLeft("HotCount", window, 270, 540, 120, 36), "0개", 26, DarkCoffee));
+
+            // ICE: 맨 아래 컵 위로 겹친 컵 테두리를 step 18 씩 쌓는다 (최대 10개). 더미 영역 전체가 클릭·드롭 자리
+            var iceArea = TopLeft("IceArea", window, 700, 90, 190, 365);
+            AddImage(iceArea, null, Invisible, true);
+            var iceStack = iceArea.gameObject.AddComponent<Button>();
+            iceStack.transition = Selectable.Transition.None;
+            var layers = new Object[10];
+            layers[0] = Layer("IceBottom", "IceCupStackBottom", 259, 186);
+            for (int i = 1; i < 10; i++) // 위 컵 띠를 아래 컵보다 나중에 그려 옆면이 아래 입구와 이어지게 (Generation.md)
+                layers[i] = Layer($"IceRim{i + 1}", "IceCupStackRim", 259 - i * 18, 72);
+            Set(so, "iceStack", iceStack);
+            SetArray(so, "iceLayers", layers);
+            Set(so, "iceCount", AddText(TopLeft("IceCount", window, 735, 540, 120, 36), "0개", 26, DarkCoffee));
+
+            GameObject Layer(string name, string file, float y, float h)
+            {
+                var image = AddImage(TopLeft(name, iceArea, 725 - 700, y - 90, 140, h), S(F, file), Color.clear);
+                image.raycastTarget = false;
+                image.preserveAspect = true;
+                return image.gameObject;
+            }
+
+            // 손 칸의 빈 커피잔을 HOT/ICE 영역에 끌어다 놓아 되돌리기 (클릭은 잔·더미 Button 이 꺼내기로 처리)
+            SetArray(so, "returnZones", new Object[] { hotArea.gameObject.AddComponent<DropZone>(), iceArea.gameObject.AddComponent<DropZone>() });
             so.ApplyModifiedPropertiesWithoutUndo();
             return popup;
         }
@@ -128,31 +180,38 @@ namespace CafeTime.EditorTools
             var (popup, window) = Window<Popup>(canvas, "EspressoScreen", S(F, "Panel"), W, H);
             SetClose(popup, CloseButton(window, W - 100, 36));
 
-            PortafilterSlot Slot(string name, SlotType type, float x, float y)
+            PortafilterSlot Slot(string name, SlotType type, float x, float y, float portafilterOffsetY = 0)
             {
                 var rt = Centered(name, window, x, y, 184, 72);
                 AddImage(rt, null, Invisible, true); // 드롭 인식용
                 var slot = rt.gameObject.AddComponent<PortafilterSlot>();
                 slot.type = type;
+                slot.portafilterOffsetY = portafilterOffsetY;
                 return slot;
             }
 
-            void StepLabel(string name, float x, float y) => Label(window, name, S(F, name), W / 2 + x, H / 2 - y, PivotCenter);
+            // 줄여 표시하면 Point 필터에서 픽셀이 빠지므로 표시 크기로 만든 라벨을 1:1 로 쓴다
+            void StepLabel(string name, float x, float y) => Label(window, name, S(F, name), W / 2 + x, H / 2 - y, PivotCenter, 1f);
 
             StepLabel("LabelGrind", -570, -153);
-            StepLabel("LabelTamp", -280, -153);
+            StepLabel("LabelTamp", -320, -153);
             StepLabel("LabelExtract", 150, -153);
             StepLabel("LabelKnock", 600, -153);
-            StepLabel("LabelRack", 145, -360);
+            StepLabel("LabelRack", 0, -370);
 
-            var grinderSlot = Slot("Slot_Grinder", SlotType.Grinder, -570, -30);
-            var tampSlot = Slot("Slot_Tamp", SlotType.Tamp, -280, -30);
-            Slot("Slot_Knockbox", SlotType.Knockbox, 620, -40);
-            var racks = new[] { Slot("Slot_Rack1", SlotType.Rack, 0, -270), Slot("Slot_Rack2", SlotType.Rack, 290, -270) };
-            var heads = new[] { Slot("Slot_GroupL", SlotType.GroupHead, -20, 90), Slot("Slot_GroupR", SlotType.GroupHead, 320, 90) };
+            // 앞모습은 184x88 이라 위끝을 슬롯 위끝에 맞추려고 8 내린다. 장착 그림은 그룹헤드 아래에 물리게 56 내린다
+            // 탬핑 자리는 바스켓이 매트 위에 앉도록 22 더 내린다 (탬퍼도 그만큼 더 내려가야 닿음)
+            const float FrontOffset = -8, TampOffset = -30, MountedOffset = -56;
+            var grinderSlot = Slot("Slot_Grinder", SlotType.Grinder, -570, -30, FrontOffset);
+            var tampSlot = Slot("Slot_Tamp", SlotType.Tamp, -320, -30, TampOffset); // 탬핑 매트 가운데
+            var knockSlot = Slot("Slot_Knockbox", SlotType.Knockbox, 620, -40);
+            knockSlot.knockScreen = BuildKnock(canvas);
+            var racks = new[] { Slot("Slot_Rack1", SlotType.Rack, -145, -270), Slot("Slot_Rack2", SlotType.Rack, 145, -270) };
+            var heads = new[] { Slot("Slot_GroupL", SlotType.GroupHead, -20, 90, MountedOffset), Slot("Slot_GroupR", SlotType.GroupHead, 320, 90, MountedOffset) };
 
             // 포터필터 2개 (받침대에서 시작)
             var states = new[] { S(F, "PortafilterEmpty"), S(F, "PortafilterGround"), S(F, "PortafilterTamped"), S(F, "PortafilterUsed") };
+            var frontStates = new[] { S(F, "PortafilterFrontEmpty"), S(F, "PortafilterFrontGround"), S(F, "PortafilterFrontTamped"), S(F, "PortafilterFrontUsed") };
             for (int i = 0; i < 2; i++)
             {
                 var rt = Centered($"Portafilter{i + 1}", racks[i].transform, 0, 0, 184, 72);
@@ -160,13 +219,18 @@ namespace CafeTime.EditorTools
                 rt.gameObject.AddComponent<CanvasGroup>();
                 var pf = rt.gameObject.AddComponent<Portafilter>();
                 pf.stateSprites = states;
+                pf.frontStateSprites = frontStates;
+                pf.mountedSprite = S(F, "PortafilterMounted");
                 racks[i].startingPortafilter = pf;
             }
 
             // 탬퍼: 아래로 끌어 누름 (SFR-032)
-            var tamperRt = Centered("Tamper", window, -280, 130, 92, 138);
+            var tamperRt = Centered("Tamper", window, -320, 130, 92, 138);
             AddImage(tamperRt, S(F, "Tamper"), Cream, true).preserveAspect = true;
-            tamperRt.gameObject.AddComponent<TamperHandle>().tampSlot = tampSlot;
+            var tamper = tamperRt.gameObject.AddComponent<TamperHandle>();
+            tamper.tampSlot = tampSlot;
+            tamper.travel = 88; // 내린 포터필터의 가루 윗면까지
+            tamper.progress = Progress(window, "TamperProgress", W / 2 - 320 - 80, H / 2 - 225, 160); // 탬퍼 위끝(199)보다 조금 위 (SFR-032)
 
             // 그라인더 (SFR-031)
             var grinder = NewUI("Grinder", window).gameObject.AddComponent<Grinder>();
@@ -177,6 +241,8 @@ namespace CafeTime.EditorTools
             var gd = grinderLcd.gameObject.AddComponent<GrinderDisplay>();
             gd.grinder = grinder;
             gd.label = grinderLcd;
+            // 분쇄 중 가루 줄기 (위치는 Art/UI/ShotRoom/Generation.md)
+            grinder.stream = Stream(window, "GrindStream", GrindStreamPos).gameObject;
 
             // 그룹헤드별 추출 버튼·LCD (SFR-035) + 아래 샷 컵 자리 (SFR-034)
             for (int g = 0; g < 2; g++)
@@ -197,10 +263,66 @@ namespace CafeTime.EditorTools
                 cup.head = heads[g];
                 cup.glassIcon = icon;
                 heads[g].cup = cup;
+                heads[g].extractStream = Stream(window, g == 0 ? "ExtractStream_L" : "ExtractStream_R",
+                    new Vector2(x, ExtractStreamPos.y)).gameObject;
+                heads[g].transform.SetAsLastSibling(); // 장착한 포터필터 손잡이가 컵 앞에 보이게
             }
 
             machine.screenPanel = popup.gameObject;
             EditorUtility.SetDirty(machine);
+            return popup;
+
+            // 꺼진 채로 두었다가 작업 중에만 켜는 반복 그림 (GrindStream0~, ExtractStream0~ 있는 만큼)
+            SpriteLoop Stream(RectTransform parent, string name, Vector2 pos)
+            {
+                string prefix = $"{Art}/{F}/{name.Split('_')[0]}";
+                var frames = Enumerable.Range(0, 16).Select(i => AssetDatabase.LoadAssetAtPath<Sprite>($"{prefix}{i}.png"))
+                    .TakeWhile(sprite => sprite != null).ToArray();
+                if (frames.Length == 0) frames = new Sprite[] { null };
+                var size = frames[0] != null ? frames[0].rect.size : new Vector2(40, 80);
+                var rt = Centered(name, parent, pos.x, pos.y, size.x, size.y);
+                AddImage(rt, frames[0], Invisible);
+                var loop = rt.gameObject.AddComponent<SpriteLoop>();
+                loop.frames = frames;
+                rt.gameObject.SetActive(false);
+                return loop;
+            }
+        }
+
+        // 분쇄·추출 줄기 위치 (창 가운데 기준). 추출은 x 를 그룹헤드마다 바꿔 쓴다
+        static readonly Vector2 GrindStreamPos = new Vector2(-570, 8);
+        static readonly Vector2 ExtractStreamPos = new Vector2(-20, 12);
+
+        // 찌꺼기 털기 창 (SFR-036). 넉박스에 사용한 포터필터를 대면 샷 창 위에 열린다
+        static KnockScreen BuildKnock(Transform canvas)
+        {
+            const string F = "KnockRoom";
+            const float W = 1536, H = 864;
+            var (popup, window) = Window<KnockScreen>(canvas, "KnockScreen", S(F, "Panel"), W, H);
+            SetClose(popup, CloseButton(window, W - 100, 36));
+
+            RectTransform Part(string name, Sprite sprite, Vector2 pos, Vector2 size, bool raycast)
+            {
+                var rt = Centered(name, window, pos.x, pos.y, size.x, size.y);
+                AddImage(rt, sprite, Cream, raycast).preserveAspect = true;
+                return rt;
+            }
+
+            popup.knockSprite = S(F, "PortafilterKnock");
+            popup.knockEmptySprite = S(F, "PortafilterKnockEmpty");
+            popup.brushSprite = S(F, "PortafilterBrush");
+            popup.portafilter = Part("Portafilter", popup.knockSprite, popup.knockStart, popup.knockSize, true).GetComponent<Image>();
+            popup.residue = Part("Residue", S(F, "Residue"), popup.brushPosition, popup.brushViewSize, false).GetComponent<Image>();
+            popup.residue.transform.SetParent(popup.portafilter.transform, false); // 포터필터 가운데에 겹쳐 같이 움직임
+            popup.residue.rectTransform.anchoredPosition = Vector2.zero;
+            popup.puck = Part("Puck", S(F, "Puck"), Vector2.zero, new Vector2(200, 130), false); // 원기둥 모양 덩어리 (Puck.png 400x260)
+            popup.brush = Part("Brush", S(F, "Brush"), popup.brushHome, new Vector2(300, 150), true); // brushTip·brushGrip 은 이 크기 기준
+            popup.hintKnock = S(F, "HintKnock");
+            popup.hintHarder = S(F, "HintHarder");
+            popup.hintBrush = S(F, "HintBrush");
+            popup.hint = Part("Hint", popup.hintKnock, new Vector2(0, 340),
+                popup.hintKnock != null ? popup.hintKnock.rect.size : new Vector2(600, 48), false).GetComponent<Image>();
+            EditorUtility.SetDirty(popup);
             return popup;
         }
 
@@ -211,7 +333,6 @@ namespace CafeTime.EditorTools
             const string F = "IceMaker";
             var popup = Screen<IceMakerScreen>(canvas, F, "IceMakerScreen", 1100, 700, out var window);
             var so = new SerializedObject(popup);
-            Label(window, "Hint", S(F, "Hint"), 550, 620, PivotCenter, 2f / 3f);
             Set(so, "bin", Zone(window, "IceBin", 90, 190, 520, 340, S(F, "IceBin"), Cream));
             Label(window, "LabelIce", S(F, "LabelIce"), 110, 550, PivotLeft);
             Set(so, "iceText", AddText(TopLeft("Ice", window, 220, 526, 260, 48), "0 / 0", 26, DarkCoffee, TextAlignmentOptions.Left));
@@ -233,25 +354,44 @@ namespace CafeTime.EditorTools
         public static WaterScreen BuildWater(Transform canvas)
         {
             const string F = "Water";
+            // 좌표는 Art/UI/Water/Generation.md "배치 (2026-11-12)" 표 (창 1100x700 왼쪽 위 기준)
             var popup = Screen<WaterScreen>(canvas, F, "WaterScreen", 1100, 700, out var window);
             var so = new SerializedObject(popup);
-            Label(window, "Hint", S(F, "Hint"), 550, 130, PivotCenter);
             var zones = new Object[2];
-            var icons = new Object[2];
+            var cups = new Object[2];
+            var streams = new Object[2];
             var buttons = new Object[2];
             var bars = new Object[2];
+            var frames = Enumerable.Range(0, 16).Select(n => S(F, $"WaterStream{n}")).TakeWhile(sprite => sprite != null).ToArray();
             for (int i = 0; i < 2; i++)
             {
-                float x = i == 0 ? 130 : 590;
-                var zone = Zone(window, i == 0 ? "HotZone" : "ColdZone", x, 160, 380, 380, S(F, i == 0 ? "HotZone" : "ColdZone"), Cream);
-                icons[i] = Icon(zone.transform, "Cup", 126, 202, 128); // 받침 위 (y 330)
+                bool hot = i == 0;
+                float x = hot ? 135 : 585;
+                var zone = Zone(window, hot ? "HotZone" : "ColdZone", x, 155, 380, 380, S(F, hot ? "HotZone" : "ColdZone"), Cream);
                 zones[i] = zone;
-                Label(window, i == 0 ? "LabelHot" : "LabelCold", S(F, i == 0 ? "LabelHot" : "LabelCold"), x + 190, 562, PivotCenter);
-                buttons[i] = Btn(window, i == 0 ? "HotButton" : "ColdButton", S(F, "WaterButton"), x + 80, 590, 220, 72);
-                bars[i] = Progress(window, i == 0 ? "HotProgress" : "ColdProgress", x + 80, 670, 220);
+                // 큰 컵 192x240: 바닥이 정수기 받침 윗면(창 y 475)에 닿게
+                var cup = AddImage(TopLeft("Cup", zone.transform, hot ? 100 : 94, 83, 192, 240), null, Color.clear);
+                cup.preserveAspect = true;
+                cup.enabled = false;
+                cups[i] = cup;
+                // 물 줄기: 꼭지 출수구에서 컵 안까지. 물을 받는 동안만 켠다 (컵보다 앞에 그림)
+                var stream = TopLeft("Stream", zone.transform, 172, 137, 36, hot ? 84 : 60);
+                AddImage(stream, frames.Length > 0 ? frames[0] : null, Invisible);
+                stream.gameObject.AddComponent<SpriteLoop>().frames = frames.Length > 0 ? frames : new Sprite[] { null };
+                stream.gameObject.SetActive(false);
+                streams[i] = stream.gameObject;
+                Label(window, hot ? "LabelHot" : "LabelCold", S(F, hot ? "LabelHot" : "LabelCold"), hot ? 325 : 775, 100, PivotCenter);
+                buttons[i] = Btn(window, hot ? "HotButton" : "ColdButton", S(F, "WaterButton"), hot ? 215 : 665, 555, 220, 72);
+                bars[i] = Progress(window, hot ? "HotProgress" : "ColdProgress", hot ? 215 : 665, 644, 220); // 틀 위끝 641 (Progress 가 3 올림)
             }
             SetArray(so, "zones", zones);
-            SetArray(so, "cupIcons", icons);
+            SetArray(so, "cupImages", cups);
+            SetArray(so, "cupSprites", new Object[]
+            {
+                S("DrinkRoom", "BigCupCeramic"), S("DrinkRoom", "BigCupCeramicWater"), S("DrinkRoom", "BigCupCeramicMixing"),
+                S("DrinkRoom", "BigCupPlastic"), S("DrinkRoom", "BigCupPlasticWater"), S("DrinkRoom", "BigCupPlasticMixing"),
+            });
+            SetArray(so, "streams", streams);
             SetArray(so, "fillButtons", buttons);
             SetArray(so, "progress", bars);
             so.ApplyModifiedPropertiesWithoutUndo();
@@ -260,10 +400,13 @@ namespace CafeTime.EditorTools
 
         // ───────── 음료 제조실 (SFR-044~051) ─────────
 
+        // 재료 칸 크기. 음료 제조실 선반 그림의 줄 간격(160) 안에 들어가는 최대 크기에 가깝게
+        const float SlotSize = 136, SlotIconSize = 128;
+
         static IngredientSlotView SlotTemplate(Transform parent, string folder)
         {
             var rt = NewUI("Ingredient", parent);
-            rt.sizeDelta = new Vector2(120, 120);
+            rt.sizeDelta = new Vector2(SlotSize, SlotSize);
             var button = AddButton(rt, S(folder, "ShelfSlot"), Cream);
             var hover = S(folder, "ShelfSlotHover");
             if (hover != null)
@@ -273,7 +416,7 @@ namespace CafeTime.EditorTools
                 swap.highlightedSprite = swap.pressedSprite = hover;
                 button.spriteState = swap;
             }
-            var icon = AddImage(Centered("Icon", rt, 0, 0, 96, 96), null, Color.clear);
+            var icon = AddImage(Centered("Icon", rt, 0, 0, SlotIconSize, SlotIconSize), null, Color.clear);
             icon.preserveAspect = true;
             var hold = rt.gameObject.AddComponent<HoldButton>();
             var view = rt.gameObject.AddComponent<IngredientSlotView>();
@@ -320,29 +463,42 @@ namespace CafeTime.EditorTools
             var popup = Screen<DrinkRoomScreen>(canvas, F, "DrinkRoomScreen", 1600, 900, out var window);
             var so = new SerializedObject(popup);
 
-            // 재료 선반: 선반 판 윗면 y = 150, 310, 470, 630 → 칸 120 + 줄 간격 40
+            // 재료 선반: 선반 판 윗면 y = 150, 310, 470, 630 → 칸 136 + 줄 간격 24, 한 줄 5칸 (재료 14개 = 3줄)
             var shelf = TopLeft("Shelf", window, 100, 200, 920, 660);
             AddImage(shelf, S(F, "Shelf"), new Color32(0x6B, 0x45, 0x2A, 0xFF));
             var grid = shelf.gameObject.AddComponent<GridLayoutGroup>();
-            grid.cellSize = new Vector2(120, 120);
-            grid.spacing = new Vector2(20, 40);
-            grid.padding = new RectOffset(50, 50, 30, 0);
+            grid.cellSize = new Vector2(SlotSize, SlotSize);
+            grid.spacing = new Vector2(28, 160 - SlotSize);
+            grid.padding = new RectOffset(64, 64, 150 - (int)SlotSize, 0); // 가로: (920 - 5칸 - 간격 4개) / 2
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            grid.constraintCount = 6;
+            grid.constraintCount = 5;
             Set(so, "shelf", shelf);
             Set(so, "slotTemplate", SlotTemplate(shelf, F));
-            Label(window, "PourHint", S(F, "PourHint"), 780, 850, PivotCenter);
 
-            // 전자저울: 판 윗면 y = 40 (저울 그림 기준), LCD x 90~270, y 120~180
-            var scale = Zone(window, "Scale", 1100, 300, 360, 340, null, Invisible);
-            AddImage(TopLeft("ScaleImage", scale.transform, -20, 130, 360, 210), S(F, "Scale"), Cream);
+            // 전자저울 + 큰 컵 (배치는 Art/UI/DrinkRoom/Generation.md 2026-11-11 표). 놓는 자리는 컵과 저울을 함께 덮는다
+            // 저울 그림 창 기준 x1110 y460 (판 윗면 y500), 큰 컵 x1162 y184 256x320 (바닥이 판 윗면에 닿음), LCD 글자 x1200 y580
+            var scale = Zone(window, "Scale", 1110, 184, 360, 486, null, Invisible);
+            AddImage(TopLeft("ScaleImage", scale.transform, 0, 276, 360, 210), S(F, "Scale"), Cream);
             Set(so, "scale", scale);
-            Set(so, "cupIcon", Icon(scale.transform, "Cup", 96, 42, 128));
-            Set(so, "weightText", AddText(TopLeft("Weight", scale.transform, 70, 250, 180, 60), "0g", 34,
+            var cup = AddImage(TopLeft("Cup", scale.transform, 52, 0, 256, 320), null, Color.clear);
+            cup.preserveAspect = true;
+            cup.enabled = false; // 잔이 없으면 숨김
+            Set(so, "cupImage", cup);
+            SetArray(so, "cupSprites", new Object[]
+            {
+                S(F, "BigCupCeramic"), S(F, "BigCupCeramicWater"), S(F, "BigCupCeramicMixing"),
+                S(F, "BigCupPlastic"), S(F, "BigCupPlasticWater"), S(F, "BigCupPlasticMixing"),
+            });
+            Set(so, "weightText", AddText(TopLeft("Weight", scale.transform, 90, 396, 180, 60), "0g", 34,
                 new Color32(0xB8, 0xF5, 0x9A, 0xFF)));
 
-            Set(so, "emptyButton", Btn(window, "EmptyButton", S(F, "EmptyButton"), 1040, 700, 220, 80));
-            Set(so, "completeButton", Btn(window, "CompleteButton", S(F, "CompleteButton"), 1270, 700, 220, 80));
+            // 빈 버튼 그림 위에 글자 그림을 가운데 정렬
+            var empty = Btn(window, "EmptyButton", S(F, "EmptyButton"), 1050, 712, 220, 80);
+            CenterLabel(empty.transform, "Label", S(F, "LabelEmpty"));
+            Set(so, "emptyButton", empty);
+            var complete = Btn(window, "CompleteButton", S(F, "CompleteButton"), 1290, 707, 260, 90);
+            CenterLabel(complete.transform, "Label", S(F, "LabelComplete"));
+            Set(so, "completeButton", complete);
             Set(so, "result", Result(window));
             Set(so, "tooltip", Tooltip(window));
             so.ApplyModifiedPropertiesWithoutUndo();
@@ -356,12 +512,12 @@ namespace CafeTime.EditorTools
             const string F = "ShakeRoom";
             var popup = Screen<ShakeRoomScreen>(canvas, F, "ShakeRoomScreen", 1600, 900, out var window);
             var so = new SerializedObject(popup);
-            Label(window, "Hint", S(F, "Hint"), 800, 780, PivotCenter, 1f);
 
             Label(window, "LabelBase", S(F, "LabelBase"), 110, 210, PivotLeft);
-            var shelf = TopLeft("Bases", window, 100, 240, 640, 130);
+            // 원액 5칸이 믹서기 영역(x 800~)에 겹치지 않게: 90 + 136×5 + 6×4 = 794
+            var shelf = TopLeft("Bases", window, 90, 240, 704, SlotSize);
             var row = shelf.gameObject.AddComponent<HorizontalLayoutGroup>();
-            row.spacing = 16;
+            row.spacing = 6;
             row.childControlWidth = row.childControlHeight = false;
             row.childForceExpandWidth = row.childForceExpandHeight = false;
             Set(so, "shelf", shelf);
@@ -370,7 +526,7 @@ namespace CafeTime.EditorTools
             var milk = SlotTemplate(window, "DrinkRoom");
             var milkRt = (RectTransform)milk.transform;
             milkRt.anchorMin = milkRt.anchorMax = milkRt.pivot = new Vector2(0, 1);
-            milkRt.anchoredPosition = new Vector2(100, -450);
+            milkRt.anchoredPosition = new Vector2(90, -450);
             Set(so, "milkSlot", milk);
 
             // 믹서기 (가운데)
@@ -443,7 +599,6 @@ namespace CafeTime.EditorTools
             const string F = "Dishwash";
             var popup = Screen<DishwashScreen>(canvas, F, "DishwashScreen", 1600, 900, out var window);
             var so = new SerializedObject(popup);
-            Label(window, "Hint", S(F, "Hint"), 760, 750, PivotCenter, 1f);
 
             AddImage(TopLeft("WaitingCrate", window, 100, 200, 300, 240), S(F, "WaitingCrate"), Cream);
             Label(window, "LabelWaiting", S(F, "LabelWaiting"), 250, 470, PivotCenter);

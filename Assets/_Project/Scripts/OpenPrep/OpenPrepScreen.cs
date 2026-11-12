@@ -29,6 +29,8 @@ namespace CafeTime.OpenPrep
         [SerializeField] TMP_Text cartText;
         [SerializeField] GameObject cartEmptyLabel;   // "담은 재료가 없습니다."
         [SerializeField] TMP_Text totalText;          // "₩31,500"
+        [SerializeField] TMP_Text remainingText;      // 구매 후 잔액 = 보유금 - 총액
+        [SerializeField] TMP_Text rentText;           // 오늘 임대료 (하루 정산 때 낸다, SFR-071)
         [SerializeField] GameObject boughtLabel;      // "구매 완료!"
         [SerializeField] Button buyButton;
         [SerializeField] Button startButton;
@@ -122,6 +124,10 @@ namespace CafeTime.OpenPrep
             bool affordable = total <= Save.money;
             totalText.text = $"₩{total:N0}";
             totalText.color = affordable ? normalTextColor : warningColor;
+            int remaining = Save.money - total;
+            remainingText.text = remaining < 0 ? $"-₩{-remaining:N0}" : $"₩{remaining:N0}";
+            remainingText.color = affordable ? normalTextColor : warningColor;
+            rentText.text = $"₩{GameBalance.Instance.GetRent(Save.day):N0}";
             buyButton.interactable = total > 0 && affordable; // 총액이 보유금보다 많으면 비활성화
         }
 

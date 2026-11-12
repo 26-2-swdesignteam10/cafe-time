@@ -16,7 +16,7 @@ namespace CafeTime.EditorTools
 {
     // 영업 씬(카페 맵) 생성 도구 (ADR-0006). CafeTime > Build Cafe Scene
     //   - 타일맵 맵 + 테이블 + 기기 배치 (SFR-012), 플레이어 (SFR-015~021), 카메라 (SFR-019)
-    //   - 영업 루프: 시계, 손님, 주문표, 포스기, 픽업대, 디저트 진열장 (ADR-0013)
+    //   - 영업 루프: 시계, 손님, 주문 내역, 포스기, 픽업대, 디저트 진열장 (ADR-0013)
     //   - 기기: 커피잔 선반, 에스프레소, 제빙기, 정수기, 음료·쉐이크 제조실, 퇴식구, 설거지실, 행주 걸이, 테이블 청소 (ADR-0014)
     //   - UI 는 CafeUiBuilder
     // 맵 그림은 1칸 = 128px (docs/ART_STYLE.md 5장). 다시 실행하면 씬을 덮어씀
@@ -79,7 +79,10 @@ namespace CafeTime.EditorTools
             PrepareWorldSprites(CustomerArtDir, null);
             var worldHud = new[] { "PromptKey", "GaugeFrame", "GaugeFill" }; // 맵 위에 그리는 HUD 그림
             PrepareWorldSprites(HudArt, worldHud, worldHud);
+            SetSideBorder($"{HudArt}/GaugeFrame.png", 12); // 9-slice: 캡슐 양끝 반원 (높이 24)
+            SetSideBorder($"{HudArt}/GaugeFill.png", 8);   // 높이 16
             PrepareSprites(ItemIconDir);
+            PrepareCupIcons();
 
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             new GameObject("Global Light 2D").AddComponent<Light2D>().lightType = Light2D.LightType.Global;
@@ -395,7 +398,6 @@ namespace CafeTime.EditorTools
                 case Screen.Pos:
                     var pos = station.AddComponent<PosStation>();
                     var so = new SerializedObject(pos);
-                    Set(so, "speech", ui.Speech);
                     Set(so, "pos", ui.Pos);
                     so.ApplyModifiedPropertiesWithoutUndo();
                     UnityEventTools.AddVoidPersistentListener(onInteract, pos.Interact);
@@ -520,12 +522,6 @@ namespace CafeTime.EditorTools
             }
             anim.ApplyModifiedPropertiesWithoutUndo();
 
-            // 손에 든 물건 (SFR-021)
-            var hands = new SerializedObject(go.AddComponent<HandDisplay>());
-            Set(hands, "leftHand", HandRenderer(go.transform, "LeftHandItem", -0.32f));
-            Set(hands, "rightHand", HandRenderer(go.transform, "RightHandItem", 0.32f));
-            hands.ApplyModifiedPropertiesWithoutUndo();
-
             // 상호작용 키 안내 (오브젝트 위에 표시, 하나를 옮겨 가며 사용)
             var prompt = new GameObject("InteractPrompt").AddComponent<SpriteRenderer>();
             prompt.sortingOrder = 300;
@@ -538,14 +534,17 @@ namespace CafeTime.EditorTools
             return go.transform;
         }
 
-        static SpriteRenderer HandRenderer(Transform player, string name, float x)
+        // 커피잔 아이콘은 도트가 아닌 일러스트라 Bilinear (docs/ART_STYLE.md 1장)
+        static void PrepareCupIcons()
         {
-            var sr = new GameObject(name).AddComponent<SpriteRenderer>();
-            sr.transform.SetParent(player, false);
-            sr.transform.localPosition = new Vector3(x, 0.55f, 0);
-            sr.transform.localScale = Vector3.one * 0.15f; // 256px 아이콘 → 약 0.4칸
-            sr.sortingOrder = 5;
-            return sr;
+            foreach (var path in Directory.GetFiles(ItemIconDir, "*.png").Select(p => p.Replace('\\', '/')))
+            {
+                string name = Path.GetFileNameWithoutExtension(path);
+                if (!name.StartsWith("Cup") && name != "DirtyCeramic" && name != "DirtyPlastic") continue;
+                if (!(AssetImporter.GetAtPath(path) is TextureImporter importer)) continue;
+                importer.filterMode = FilterMode.Bilinear;
+                importer.SaveAndReimport();
+            }
         }
 
         // ───────── 맵 그림 임포트 (1칸 = 128px) ─────────
@@ -561,6 +560,14 @@ namespace CafeTime.EditorTools
                 bool center = centered != null && centered.Contains(name);
                 ConfigureWorldSprite(path, center ? new Vector2(0.5f, 0.5f) : new Vector2(0.5f, 0f));
             }
+        }
+
+        // 왼쪽·오른쪽만 늘어나지 않는 9-slice 테두리 (가로로 늘려 쓰는 게이지)
+        static void SetSideBorder(string path, float side)
+        {
+            if (!(AssetImporter.GetAtPath(path) is TextureImporter importer)) return;
+            importer.spriteBorder = new Vector4(side, 0, side, 0);
+            importer.SaveAndReimport();
         }
 
         static void ConfigureWorldSprite(string path, Vector2 pivot)

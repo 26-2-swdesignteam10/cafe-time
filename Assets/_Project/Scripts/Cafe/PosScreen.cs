@@ -33,6 +33,11 @@ namespace CafeTime.Cafe
         [SerializeField] TMP_Text totalText;
         [SerializeField] ReceiptPopup receipt;
 
+        [Header("손님 주문 채팅")]
+        [SerializeField] OrderChatView chat;
+        [Tooltip("포스기 화면이 열려 있는 동안 숨길 HUD (주문 채팅 자리와 겹치는 양손 칸)")]
+        [SerializeField] GameObject[] hideWhileOpen;
+
         readonly List<MenuButtonView> menuButtons = new List<MenuButtonView>();
         readonly List<OrderRowView> rows = new List<OrderRowView>();
         readonly List<OrderLine> lines = new List<OrderLine>();
@@ -72,6 +77,26 @@ namespace CafeTime.Cafe
             Open();
             ShowCategory(MenuCategory.Coffee);
             Refresh();
+            if (chat != null) chat.Show(party.Sentences); // 주문 대사를 보면서 입력하도록 함께 표시
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            SetHudHidden(true);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            SetHudHidden(false);
+        }
+
+        void SetHudHidden(bool hidden)
+        {
+            if (hideWhileOpen == null) return;
+            foreach (var go in hideWhileOpen)
+                if (go != null) go.SetActive(!hidden);
         }
 
         void ShowCategory(MenuCategory category)

@@ -18,6 +18,7 @@ namespace CafeTime.Core
         public int itemsDiscarded;     // 버린 재료·음료·디저트 횟수 (감점)
         public int traysLeft;          // 퇴식구가 가득 차 테이블에 두고 간 쟁반 수 (감점, SFR-062)
         public int cleaningMissed;     // 제한 시간 안에 처리하지 못한 청소 요청 수 (감점, SFR-066)
+        public int ordersSkipped;      // 더 오래된 대기 주문을 두고 나중 주문을 먼저 서빙한 횟수 (감점, ADR-0022)
         public int score;              // 득점 결과 화면에서 계산한 오늘의 총점 (SFR-067)
 
         // 오늘 영업 결과. 오픈 준비에서 영업을 시작할 때 새로 만든다

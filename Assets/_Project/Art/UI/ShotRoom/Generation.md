@@ -1,172 +1,75 @@
-Generated with OpenAI 내장 image_gen (image_gen.imagegen). Style reference: Assets/_Project/Art/UI/CupShelf/Panel.png (프레임), Assets/_Project/Art/Sprites/Cafe/StationEspresso.png (재질).
+# ShotRoom 일러스트 생성 기록 — 2026-11-08
 
-Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding.
+도구: OpenAI 내장 `image_gen.imagegen`으로 원화를 생성·수정하고, 프로젝트 밖 임시 스크립트에서 System.Drawing으로 투명 영역을 잘라 고품질 축소·합성했다. 스타일 참조: 기존 `ShotRoom/Panel.png`의 기기 배치와 `Art/UI/CupShelf/Panel.png`의 목재 프레임. 이 창에는 도트 격자 규칙을 적용하지 않는다.
 
-이번 창은 사용자 지정 모던 팔레트를 적용했다. 밝은 웜 그레이지 벽, 밝은 오크, 스테인리스·무광 검정, 세이지 그린 하나만 포인트. 2~3단 명암 블록, 계단식 외곽선.
+## 공통 스타일
 
-기존 EspressoMachine/cafetime_shot_bg.png는 문제 확인용으로만 보았다. 생성 참조로 전달하거나 픽셀을 재사용하지 않았다. 프레임도 새로 생성했으며 CupShelf 원본 픽셀을 복사하지 않았다.
+> Premium hand-painted 2D illustration for a cozy Korean cafe game. Clean charcoal contours, tactile neutral brushed stainless steel, matte black handles, light oak, warm greige wall, restrained sage accents. Soft upper-left light, crisp highlights and coherent material rendering. No photographic finish, no vector-like flat shapes, no text inside AI art.
 
-## 파일별 프롬프트 및 수정
+## 파일별 생성·수정
 
-- Panel.png: 빈 프레임·작업대, 그라인더, 머신 몸체, 그룹헤드, 트레이, 매트, 넉박스, 받침대를 각각 생성한 뒤 좌표 합성. 밝은 웜 그레이지 벽과 오크, 호두나무 프레임·금색 안쪽 선. 스테인리스·무광 검정 기기, 세이지 하나만 강조색. 배경은 글자 없음. LCD 3개는 정확한 크기의 어두운 빈 화면으로 후처리.
-- PortafilterEmpty.png: 왼쪽 무광 검정 손잡이, 오른쪽 은색 바스켓인 옆모습. 빈 은색 내부. 이 생성 원본 몸체를 네 상태 공통으로 사용.
-- PortafilterGround.png: 같은 몸체에 수북한 중간 갈색 가루. 생성한 Ground 상태의 마운드·알갱이 참고 후 내용 영역만 픽셀 합성.
-- PortafilterTamped.png: 같은 몸체에 납작하고 매끈한 중간 갈색 압축 가루.
-- PortafilterUsed.png: 같은 몸체에 짙은 찌꺼기와 균열.
-- Tamper.png: 위에 검정 손잡이, 아래에 납작한 금속판. 함께 생성된 참조 기기 부분은 버리고 탬퍼만 사용.
-- GrindButton.png: 세이지 베벨 버튼, 정확한 문구 “분쇄”. 주변 배경 제거·이진 알파.
-- ExtractButton.png: 세이지 베벨 버튼, 정확한 문구 “추출”. 주변 작업대 조각 제거·이진 알파.
-- LabelGrind.png: 정확한 문구 “1 분쇄”.
-- LabelTamp.png: 정확한 문구 “2 탬핑”.
-- LabelExtract.png: 정확한 문구 “3 장착 후 추출”.
-- LabelKnock.png: 정확한 문구 “4 찌꺼기 털기”.
-- LabelRack.png: 정확한 문구 “포터필터 받침대”.
-- CheckLayout.png: 그룹헤드 포터필터(-20,90), 받침대 포터필터(290,-270), 탬퍼(-280,130), 분쇄·추출 버튼, 별도 라벨을 Panel 위에 합성. 표 영역은 반투명 파랑 사각형, 중심은 빨간 십자, 예약 영역은 주황. 반투명 표시를 불투명 바탕에 합성하여 최종 알파 255.
+- `Panel.png` (1536×864): 기존 Panel을 편집 대상으로 삼아 좌표와 빈 LCD·버튼·라벨 자리를 유지했다. “Physically coherent two-group espresso machine, body-to-counter side columns, groupheads attached to underside, one full-width grated drip tray, subtle cup marks, recessed rubber tamping mat, open stainless knock box with black crossbar, two sturdy sage racks with feet touching lower shelf, continuous cabinet and frame.” 이어서 장비만 “clean neutral brushed stainless, silver gray with crisp reflected highlights, no pink, copper, gold, or water stains”로 다시 편집했다. 원화: `exec-bfa09cf1-7229-47d3-8003-2a909a4d8e0d.png`.
+- `PortafilterEmpty.png`, `PortafilterGround.png`, `PortafilterTamped.png`, `PortafilterUsed.png` (각 184×72): “Single horizontal side-profile portafilter; ergonomic curved matte black handle left, shallow brushed stainless basket right, thick rim, crisp locking lugs, double spout, empty well; transparent, no shadow.” 원화 `exec-8a9ade35-9e8e-4a47-998c-3b3e4aeb4ba7.png`를 공통 몸체로 사용했다.
+- `PortafilterFrontEmpty.png`, `PortafilterFrontGround.png`, `PortafilterFrontTamped.png`, `PortafilterFrontUsed.png` (각 184×88): “Front view with slight top-down elevation; visible oval opening, locking lugs, twin spouts and centered handle toward viewer; neutral stainless, transparent, no shadow.” 원화 `exec-67b7f5d0-4d73-41aa-82f1-c6402ffc4427.png`를 공통 몸체로 사용했다. 그림은 row 4~83 안에 배치했다.
+- 상태별 내용물: 빈 내부는 공통 몸체 그대로 사용했다. 분쇄 가루는 “fine irregular microgranules, softly convex mound, no regular dots or lumps” (`exec-837e5632-c7a6-4877-b5d3-db1c1c127d72.png`), 다진 면은 “dense level dark coffee puck with tiny natural grain” (`exec-8cf5d1bf-4341-4b36-aae6-b8e14015a0c4.png`), 찌꺼기는 “moisture sheen, irregular organic hairline cracks, no decorative zigzag” (`exec-f51cde21-3c13-497b-b089-2869737532cb.png`) 프롬프트로 크게 생성해 각 방향의 동일한 몸체 안에 축소 합성했다.
+- `PortafilterMounted.png` (140×64): “Front-facing locked portafilter, crisp left/right steel locking lugs, shallow basket, two extraction spouts, centered short black handle, transparent, no shadow.” 원화 `exec-dd70fb1e-2f36-45b5-9052-4f810907d351.png`를 축소했다.
+- `Tamper.png` (92×138): “Substantial rounded charcoal handle with sage accent, steel neck, broad thick flat brushed stainless base, upper-left light, transparent, no shadow.” 원화 `exec-fbb91262-931d-4055-9bb8-539abf3a16a6.png`를 아래끝 row 136 부근으로 축소했다.
+- `GrindButton.png` (170×60), `ExtractButton.png` (140×56): “Blank hand-painted muted sage enamel button, dark beveled sides, upper-left cream highlight, transparent, no text.” 원화 `exec-6d90652d-3df9-430b-9442-d98bc28b0c6c.png`를 각각 축소한 뒤 Galmuri11로 `분쇄`, `추출`을 넣었다. 크림 채움과 어두운 세이지 2px 외곽선이다.
+- `LabelGrind.png` (118×48), `LabelTamp.png` (126×48), `LabelExtract.png` (130×48), `LabelKnock.png` (260×48), `LabelRack.png` (296×48): Galmuri11 글리프를 채움 높이 약 36px로 렌더링하고 1px 바깥으로 굵게 한 뒤 2px 크림 외곽선을 둘렀다. 채움 `#380F00`, 외곽선 `#FCF0CA`. 글자는 순서대로 `1 분쇄`, `2 탬핑`, `3 추출`, `4 찌꺼기 털기`, `포터필터 받침대`. 마지막 두 라벨은 잘림 없이 글자 크기를 유지하려고 원래 폭에서 각각 2px 늘렸다.
 
-- 라벨 공통: 생성 글자 채움 마스크를 추출해 #380F00 채움, #FCF0CA 3px 외곽선. 채움 높이 72px, 외곽선 바깥 사방 8px 여백. 화면에서 절반 크기로 표시.
-- Preview.png: 검사 사각형 없는 미리보기. ContactSheet.png: 철자·상태 비교.
-- Sources/: 내장 도구 원본 20개. Components/: 합성에 사용한 분리 부품. compose.py: Pillow 합성·정규화 재현 스크립트. validate.py 및 Validation.json: 실측 검사.
+Panel의 빈 장비 자리에는 동적 스프라이트나 글자를 굽지 않았다. 합성 좌표는 `(768+x, 432-y)`를 사용했다. 프로젝트 밖 미리보기 `ShotRoomPreview/ShotRoomPreview.png`에는 각 자리의 포터필터, 장착형, `Art/Icons/Items/ShotGlass.png` 컵을 합성했고, `ShotRoomPreview/TamperLoweredPreview.png`에는 탬퍼를 60px 내려 접촉 위치를 확인했다. 생성 원화와 작업 스크립트는 프로젝트 폴더에 두지 않았다.
 
-## 좌표
+## 2026-11-08 앞모습·장착 그림 크기와 내용물 깊이 보정
 
-원점은 창 중앙. 이미지 좌표=(768+x,432-y). **표에 지정된 모든 좌표를 유지했다.** 작업대 윗면 y=-80~-115, 앞면 y=-115~-190. 그라인더 x=-570, y=-90~330, 폭 240. 머신 x=150, y=130~370, 폭 700.
+도구: OpenAI 내장 `image_gen.imagegen`으로 기존 PNG를 편집하고, 프로젝트 밖 임시 스크립트의 System.Drawing으로 투명 영역을 축소·합성했다. 스타일 참조: 이 폴더의 `PortafilterFrontEmpty.png`, `PortafilterEmpty.png`, `PortafilterGround.png`, `PortafilterTamped.png`, `PortafilterUsed.png`, `PortafilterMounted.png`. 공통 프롬프트: 기존의 중성 브러시드 스테인리스, 부드러운 좌상단 광원, 무광 검정 손잡이, 투명 배경을 유지한다.
 
-별도 지정이 없던 라벨의 미리보기 중심: Grind=(-570,-153), Tamp=(-280,-153), Extract=(150,-153), Knock=(600,-153), Rack=(145,-360). 넉박스 라벨만 최초 미리보기 x=620에서 x=600으로 옮겨 프레임 겹침을 피했다. **넉박스 슬롯 (620,-40)은 그대로다.**
+- `PortafilterFrontEmpty.png` (184×88): 앞모습을 재생성해 가로 중앙의 실제 폭 96px, 세로 row 8~82로 배치했다. 타원 입구의 뒤쪽 내벽과 앞쪽 금속 테두리를 분리했다. 생성 원본: `exec-bf72c265-6303-47ca-a950-51ac84e2888c.png`.
+- `PortafilterFrontGround.png` (184×88): 위 빈 몸체에만 커피 영역을 합성했다. 고운 불규칙 입자가 보이는 볼록한 산, 최고 row 4. 앞쪽 금속 테두리가 가루의 아래 가장자리를 가린다. 내용물 원본: `exec-a6e4d272-85d0-480c-aeff-b35b9d2a5582.png`.
+- `PortafilterFrontTamped.png` (184×88): 같은 몸체의 바스켓 안에 입구 원근과 맞춘 낮은 타원 다진 면을 넣었다. 내용물 원본: `exec-30f55e84-a4b0-44c4-9262-38d6f6bfb045.png`.
+- `PortafilterFrontUsed.png` (184×88): 같은 몸체의 바스켓 안에 젖은 질감과 불규칙한 미세 균열이 있는 타원 찌꺼기 면을 넣었다. 내용물 원본: `exec-ada8f58f-82ca-43d5-86e9-14257747ef03.png`.
+- `PortafilterMounted.png` (140×64): 실제 폭 120px, row 0~63. 잠금 귀와 테두리, 바스켓 옆면, 좌우 추출구, 앞으로 나온 손잡이 순으로 배치하고 내용물은 보이지 않게 했다. 생성 원본: `exec-e77f8ba0-e293-4c41-a310-bcdad229ee40.png`.
 
-탬퍼는 (-280,130)에 표시. 아래로 60 이동 시 이미지 아래끝 y=1이 탬핑 슬롯 윗면 y=6에 닿는다.
+앞모습 네 장은 내용물 영역 바깥에 동일한 빈 몸체 픽셀을 사용한다. 검증은 프로젝트 밖 `shotroom-preview/FrontStates4x.png`에서 4배 확대하고 `shotroom-preview/PanelComposite.png`에서 Panel, Tamper, ShotGlass와 합성해 수행했다. 기존 옆모습 `PortafilterGround.png`는 이번 최종 결과에서 변경하지 않았다.
+## 2026-11-09 분쇄·추출 애니메이션
 
-| 자리 | x | y | w | h |
-|---|---:|---:|---:|---:|
-| GrinderLCD | -570 | 150 | 190 | 60 |
-| GrindButton | -570 | 70 | 170 | 60 |
-| GrinderSlot | -570 | -30 | 184 | 72 |
-| Grinder | -570 | 120 | 240 | 420 |
-| Tamper | -280 | 130 | 92 | 138 |
-| TampSlot | -280 | -30 | 184 | 72 |
-| Machine | 150 | 250 | 700 | 240 |
-| LCD1 | -20 | 300 | 130 | 56 |
-| LCD2 | 320 | 300 | 130 | 56 |
-| Extract1 | -20 | 225 | 140 | 56 |
-| Extract2 | 320 | 225 | 140 | 56 |
-| Head1 | -20 | 90 | 184 | 72 |
-| Head2 | 320 | 90 | 184 | 72 |
-| Cup1 | -20 | -40 | 130 | 130 |
-| Cup2 | 320 | -40 | 130 | 130 |
-| Knock | 620 | -40 | 184 | 72 |
-| Rack1 | 0 | -270 | 184 | 72 |
-| Rack2 | 290 | -270 | 184 | 72 |
+도구: 프로젝트 밖 임시 PowerShell 스크립트의 System.Drawing으로 투명 프레임을 제작하고 2배 합성 미리보기에서 접점을 확인했다. 스타일 참조: 이 폴더의 Panel.png, PortafilterFrontEmpty.png, PortafilterMounted.png와 Art/Icons/Items/ShotGlass.png. 공통 스타일은 위의 ShotRoom 공통 프롬프트를 따른다. 프레임은 같은 형태를 유지하면서 입자와 크레마 하이라이트의 세로 위치만 순환한다.
 
-## 실제 검사
+- GrindStream0.png~GrindStream3.png (각 48×30): “Fine irregular roasted-brown microgranules falling from the grinder chute into the front-facing portafilter basket; coherent soft edges, transparent background.” 배출구 아래끝 이미지 y≈407, 바스켓 입구 y≈437에 맞춰 중심 창 좌표 (-570, 9)로 합성했다.
+- ExtractStream0.png~ExtractStream3.png (각 100×52): “Two slender dark espresso threads from the mounted portafilter's twin spouts to just inside the shot glass, with restrained crema-colored highlights; transparent background.” 두 그룹헤드에 같은 프레임을 각각 중심 (-20, 13), (320, 13)으로 합성했다.
 
-- Panel 내부 알파 255. 투명은 바깥 프레임의 계단식 모서리에만 존재.
-- 최종 투명 에셋 알파는 0/255. CheckLayout은 전체 255.
-- LCD 3개 중심 픽셀 확인. 포터필터 네 상태의 바스켓 내용 영역 밖 픽셀 일치 확인.
-- 라벨 5종: 채움 높이 72px, 외곽선 3px, 사방 여백 8px 실측 통과.
-- 버튼 “분쇄”, “추출”과 라벨 5종을 ContactSheet 및 Preview에서 눈으로 대조해 철자 확인.
+미리보기: 프로젝트 밖 %TEMP%/cafe-time-preview-20261109/ShotRoom2x.png. 기존 PNG는 수정하지 않았다.
 
-| 파일 | 크기 | 알파 |
-|---|---|---|
-| Panel.png | 1536×864 | [0, 255] |
-| Tamper.png | 92×138 | [0, 255] |
-| GrindButton.png | 170×60 | [0, 255] |
-| ExtractButton.png | 140×56 | [0, 255] |
-| CheckLayout.png | 1536×864 | [255] |
-| PortafilterEmpty.png | 184×72 | [0, 255] |
-| PortafilterGround.png | 184×72 | [0, 255] |
-| PortafilterTamped.png | 184×72 | [0, 255] |
-| PortafilterUsed.png | 184×72 | [0, 255] |
-| LabelGrind.png | 276×94 | [0, 255] |
-| LabelTamp.png | 268×94 | [0, 255] |
-| LabelExtract.png | 475×94 | [0, 255] |
-| LabelKnock.png | 508×94 | [0, 255] |
-| LabelRack.png | 511×94 | [0, 255] |
 
-## 생성 프롬프트 기록
+## 2026-11-09 사용자 피드백 보정: 호퍼·분쇄·추출 줄기
 
-아래는 도구 프롬프트 기록이다. 포터필터·버튼 항목은 결과 보존 시 요약되었으므로 위 파일별 설명에 상태·모양·문구를 별도 기록했다.
+도구: 내장 image_gen 편집을 시도했으나 사용 한도(HTTP 429)에 도달하여, 프로젝트 밖 임시 PowerShell/C# 스크립트와 System.Drawing으로 원본 픽셀을 참조해 국소 보정했다. 스타일 참조: 이 폴더의 기존 Panel.png, PortafilterFrontEmpty.png, PortafilterMounted.png 및 Art/Icons/Items/ShotGlass.png. 모든 프레임은 투명 RGBA이며 동일한 크기의 짝수 캔버스를 사용한다.
 
-### Base
+- `Panel.png` (1536×864): 그라인더의 투명 원두통 윗부분만 위로 약 33px 늘렸다. 기존 투명부 y≈129~210을 y≈96~210으로 확장하여 높이를 약 41% 늘리고 뚜껑을 34px 올렸다. 원두와 하단 연결부, 그라인더 몸체는 원래 픽셀을 유지했다. 수정 영역은 이미지 좌표 x≈76~318, y≈63~144다.
+- `GrindStream0.png`~`GrindStream7.png` (각 56×44): 배출구 y≈407에서 앞모습 바스켓 입구 y≈437 안쪽까지 이어지는 고운 갈색 분쇄 줄기. 아래로 조금 퍼지는 중심부, 가장자리 미세 입자, 바스켓 근처의 가벼운 튐을 그렸다. 입자 및 밝은 무늬는 프레임마다 아래로 이동한다. 창 중심 좌표는 (-570, 8)이다.
+- `ExtractStream0.png`~`ExtractStream7.png` (각 112×64): 장착 포터필터의 두 추출구에서 샷 잔 안쪽으로 모이는 두 갈래 갈색 줄기. 금갈색 크레마 하이라이트와 잔 안쪽의 작은 거품을 추가하고 명암 무늬를 프레임마다 아래로 이동시켰다. 두 그룹헤드에 같은 그림을 각각 창 중심 좌표 (-20, 12), (320, 12)로 배치한다.
 
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. A blank workstation background ONLY, landscape 1536x864. Input references: CupShelf Panel for walnut frame ONLY, StationEspresso for material ONLY. Newly designed thin walnut rectangular frame 28px with stepped outer corners and fine honey-gold inner line. Inside completely opaque bright warm greige wall. NO TITLE NO TEXT NO MACHINES NO OBJECTS. Light oak counter extends entire interior width; counter top horizontal at pixel y512 through547, front fascia y547 through622; below light greige cabinet recess and a thin oak lower shelf at y746. Leave large blank wall above. No bricks, no decorative items, no panels on wall. Composition must follow those pixel heights exactly.
+2배 미리보기: `%TEMP%/cafe-time-shotroom-20261109/Panel2x.png`, `GrindFrames2x.png`, `ExtractFrames2x.png`. 움직임 확인: 같은 폴더의 `Grind.gif`, `Extract.gif` (각 8프레임).
 
-### Grinder
+## 2026-11-09 그라인더 호퍼 보정
 
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. One standalone professional espresso grinder component, transparent background. Tall narrow width:height ratio 240:420. Fully visible black-lidded transparent bean hopper containing brown beans at top. Lower rectangular body is brushed stainless with matte charcoal sides, sage trim. Large blank metal front face reserved for LCD and button: DO NOT DRAW LCD or buttons. Central short grind chute near bottom, and an open fork below. No portafilter, no coffee cup. Orthographic straight front view, simplified 2-3 block shading, bright metal. No text. Material reference StationEspresso.
+도구: OpenAI 내장 image_gen 편집을 시도했으나 HTTP 429 사용 한도로 완료되지 않아, 프로젝트 밖 임시 C#/System.Drawing 스크립트로 원본 픽셀을 국소 보정했다. 스타일 참조: 기존 ShotRoom/Panel.png의 따뜻한 벽 조명, 투명 호퍼 반사, 금속 뚜껑.
 
-### Machine
+- Panel.png: 호퍼 뒤 벽의 직사각형 패치를 주변 그라데이션과 대각 빛결로 복원했다. 늘린 유리 구간의 가로 반복 무늬를 세로 반사광과 약한 굴절로 교체하고, 양쪽 유리 외곽선을 뚜껑부터 원두 구간까지 연속된 사다리꼴로 이었다. 뚜껑 윗선의 톱니를 부드럽게 다듬었다. 호퍼 높이와 그라인더 몸체·LCD·배출구 이하, 다른 Panel 영역의 픽셀은 유지했다.
 
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Standalone two-group espresso machine UPPER BODY ONLY, transparent background, wide aspect 700:240. Entire silhouette wide and rectangular, brushed stainless front, matte charcoal endcaps, thin sage accent. NO LCD NO BUTTONS NO LETTERS NO DIAL NO GROUPHEADS NO CUPS NO PORTAFILTERS. A broad blank stainless flat front reserved for separately composed controls. Short vents across very top and subtle stepped bevels; symmetrical flat front. Modern minimal pixel art. Material reference StationEspresso.
+검수 미리보기: 프로젝트 밖 scratchpad의 Hopper_final4x.png(x 20~360, y 20~200, 4배)와 Panel_final_full.png.
 
-### Grouphead
+## 2026-11-09 포터필터 받침대 단순화
 
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. One standalone espresso machine grouphead socket, no portafilter. Low wide rectangular stainless coupling housing, front view visible dark underside socket. Aspect184:72. Transparent. NO handle, no text.
+- 도구: OpenAI image_gen.imagegen으로 두 받침대가 놓인 패널 장면을 편집했다. 스타일 참조: 이 폴더의 `Panel.png`, `PortafilterEmpty.png`.
+- `Panel.png` (1536×864): 기존 세이지색 U자형 거치대 두 개를 낮고 단순한 스테인리스 직사각형 판과 어두운 고무 윗면으로 교체했다. 다리·기둥·장식은 두지 않았다.
+- 후처리: 생성 이미지에서 받침대 주변만 잘라 기존 패널에 합성했다. 수정 범위는 왼쪽 `(520,647)-(730,757)`, 오른쪽 `(800,647)-(1020,757)`이며, 그 밖의 원본 픽셀과 알파는 유지했다.
+- 포터필터 2개를 슬롯 위치에 실제 크기로 합성한 2배 미리보기: `ShotRoomRackPreview2x.png`.
 
-### Tray
 
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. One standalone espresso machine wide drip tray with very short back support legs at both ends, stainless rim black grate. Aspect700:110, straight frontal slight top view. Two bright subtle sage square cup placement recesses spaced across top. No cups no text. Transparent.
+## 2026-11-09 포터필터 직사각형 판 배치 재검증
 
-### Rack
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. One standalone portafilter holder saddle, wide low aspect184:72. Bright sage outlined pale stainless shallow rectangular cradle on small charcoal feet, obvious pale placement center. No portafilter no text. Transparent.
-
-### Mat
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. One standalone bright sage outlined charcoal rubber tamping mat, wide low aspect184:72, slight top view, simple flat inset highlight oval makes place to put portafilter obvious. No tools no text. Transparent.
-
-### Tamper
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. One standalone coffee tamper, exact upright symmetrical silhouette with chunky matte black ergonomic handle ABOVE and wide flat stainless disc BELOW. Aspect92:138. No stand no coffee no text. Transparent.
-
-### Knock
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. One standalone espresso knockbox, wide shallow aspect184:100 front view with visible top. Brushed stainless outer wall matte black interior, horizontal rubber knockbar and bright sage lip defining placement. No grounds no tools no text. Transparent.
-
-### LabelTamp
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Typography asset ONLY. Exactly one single horizontal line Korean label VERBATIM "2 탬핑". Bold crisp square Korean pixel lettering like Galmuri11. Dark coffee #380F00 fill with thin cream #FCF0CA outline. Transparent background. No plate no button no ornament no extra text. All glyphs equal height. Clearly spell every syllable. Wide canvas fitted to text, consistent letter spacing. Final glyph height72px with 8px external padding (resized later).
-
-### LabelExtract
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Typography asset ONLY. Exactly one single horizontal line Korean label VERBATIM "3 장착 후 추출". Bold crisp square Korean pixel lettering like Galmuri11. Dark coffee #380F00 fill with thin cream #FCF0CA outline. Transparent background. No plate no button no ornament no extra text. All glyphs equal height. Clearly spell every syllable. Wide canvas fitted to text, consistent letter spacing. Final glyph height72px with 8px external padding (resized later).
-
-### LabelGrind
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Typography asset ONLY. Exactly one single horizontal line Korean label VERBATIM "1 분쇄". Bold crisp square Korean pixel lettering like Galmuri11. Dark coffee #380F00 fill with thin cream #FCF0CA outline. Transparent background. No plate no button no ornament no extra text. All glyphs equal height. Clearly spell every syllable. Wide canvas fitted to text, consistent letter spacing. Final glyph height72px with 8px external padding (resized later).
-
-### LabelKnock
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Typography asset ONLY. Exactly one single horizontal line Korean label VERBATIM "4 찌꺼기 털기". Bold crisp square Korean pixel lettering like Galmuri11. Dark coffee #380F00 fill with thin cream #FCF0CA outline. Transparent background. No plate no button no ornament no extra text. All glyphs equal height. Clearly spell every syllable. Wide canvas fitted to text, consistent letter spacing. Final glyph height72px with 8px external padding (resized later).
-
-### LabelRack
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Typography asset ONLY. Exactly one single horizontal line Korean label VERBATIM "포터필터 받침대". Bold crisp square Korean pixel lettering like Galmuri11. Dark coffee #380F00 fill with thin cream #FCF0CA outline. Transparent background. No plate no button no ornament no extra text. All glyphs equal height. Clearly spell every syllable. Wide canvas fitted to text, consistent letter spacing. Final glyph height72px with 8px external padding (resized later).
-
-### PortafilterEmpty
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Exactly ONE side-view espresso portafilter sprite. Long matte black horizontal handle points LEFT, low stainless basket on RIGHT. Whole silhouette aspect184:72. Basket top shows EMPTY pale silver concave interior. No accessories no text. Transparent background.
-
-### PortafilterGround
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Exactly ONE side-view espresso portafilter sprite. Long matte black horizontal handle points LEFT, low stainless basket on RIGHT. Whole silhouette aspect184:72. Basket contains a visibly HIGH MOUND of warm medium brown ground coffee, rough granular top above rim. No accessories no text. Transparent.
-
-### PortafilterTamped
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Exactly ONE side-view espresso portafilter sprite. Long matte black horizontal handle points LEFT, low stainless basket on RIGHT. Whole silhouette aspect184:72. Basket contains a perfectly FLAT compressed medium-brown coffee disc just below rim, clearly smooth. No accessories no text. Transparent.
-
-### PortafilterUsed
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Exactly ONE side-view espresso portafilter sprite. Long matte black horizontal handle points LEFT, low stainless basket on RIGHT. Whole silhouette aspect184:72. Basket contains very DARK nearly black used coffee puck, cracked rough wet top. No accessories no text. Transparent.
-
-### GrindButton
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Exactly one sage-green beveled rectangular pixel-art button, aspect170:60. Large highly legible cream Korean pixel text VERBATIM "분쇄". No other letters, icon, border ornament. Transparent outside stepped corners.
-
-### ExtractButton
-
-Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. For this modern espresso workstation use warm greige, light oak, stainless steel and matte black, ONLY sage green accent. 2-3 flat shade blocks, precise chunky pixel steps, no gradients, no antialiasing, no blurry painted noise. Front-facing slight top surface view. Exactly one sage-green beveled rectangular pixel-art button, aspect140:56. Large highly legible cream Korean pixel text VERBATIM "추출". No other letters, icon, border ornament. Transparent outside stepped corners.
-
-## 작업 범위
-
-- 요청한 scratchpad/shot_ui에만 저장. 저장소 파일·Unity YAML·.meta·ADR은 변경하지 않았다.
-- 내장 image_gen 사용. CLI/API 대체 생성 없음. Python/Pillow는 요청된 부품 합성·크기·알파·라벨 정규화·검사에 사용.
-- Unity 임포트는 수행하지 않았다. 추후 적용 시 Sprite, Point, Mip Map 끔, Alpha Is Transparency 켬. 라벨 게임 표시 크기는 PNG의 절반.
+- 도구: Python Pillow로 실제 표시 크기 합성 및 PNG 속성을 검사했다. 작업 시작 시 `Panel.png`에는 위의 받침대 단순화 결과가 이미 반영되어 있어 추가 이미지 생성이나 원본 덮어쓰기는 하지 않았다.
+- 스타일 참조: `docs/ART_STYLE.md` 1장의 부드러운 기기 작업 창 일러스트 예외와 이 폴더의 `Panel.png`, `PortafilterEmpty.png`, `PortafilterFrontEmpty.png`.
+- `Panel.png`: 추가 생성 프롬프트 없음. 낮은 스테인리스 직사각형 판과 무광 검정 윗면 두 개를 유지했다. 1536×864 RGBA, 알파 범위 220~255. 판 윗면은 이미지 y≈727~734이며 슬롯에 놓인 포터필터의 아래끝 y=726과 맞닿아 보이는 것을 확인했다. 원본 픽셀과 알파를 전부 유지했다.
+- 미리보기 후처리: `PortafilterEmpty.png`를 184×72 그대로 왼쪽 위 (531, 666), (821, 666)에 합성했다. 슬롯 중심은 각각 (623, 702), (913, 702)이다. `LabelRack.png`도 중심 (768, 802)에 합성하여 판이 라벨을 가리지 않음을 확인했다. 미리보기에서만 합성했으며 Panel에는 포터필터와 글자를 넣지 않았다.
+- 실제 크기 전체 미리보기: `%TEMP%/cafe-time-illustration-preview/ShotRoomRackPreview.png` (1536×864). 받침대 영역 2배 확대: 같은 폴더의 `ShotRoomRackDetail2x.png`.

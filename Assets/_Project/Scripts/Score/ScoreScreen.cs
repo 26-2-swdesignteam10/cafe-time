@@ -15,7 +15,7 @@ namespace CafeTime.Score
         [SerializeField] TMP_Text ordersCount;
         [SerializeField] TMP_Text ordersPoints;
         [SerializeField] TMP_Text satisfactionPoints;
-        [Header("감점 사항 (횟수, 감점): 손님 이탈, 버린 재료·음료, 쟁반 방치, 청소 미처리")]
+        [Header("감점 사항 (횟수, 감점): 손님 이탈, 버린 재료·음료, 쟁반 방치, 청소 미처리, 주문 순서 어김")]
         [SerializeField] TMP_Text[] penaltyCounts;
         [SerializeField] TMP_Text[] penaltyPoints;
         [Header("총점")]
@@ -37,8 +37,8 @@ namespace CafeTime.Score
             ordersPoints.text = $"+{score.OrderPoints:N0}";
             satisfactionPoints.text = $"+{score.SatisfactionPoints:N0}";
 
-            int[] counts = { result.customersLost, result.itemsDiscarded, result.traysLeft, result.cleaningMissed };
-            int[] points = { score.LostPenalty, score.DiscardPenalty, score.TrayLeftPenalty, score.CleaningPenalty };
+            int[] counts = { result.customersLost, result.itemsDiscarded, result.traysLeft, result.cleaningMissed, result.ordersSkipped };
+            int[] points = { score.LostPenalty, score.DiscardPenalty, score.TrayLeftPenalty, score.CleaningPenalty, score.SkippedPenalty };
             for (int i = 0; i < counts.Length && i < penaltyCounts.Length; i++)
             {
                 penaltyCounts[i].text = $"{counts[i]}회";

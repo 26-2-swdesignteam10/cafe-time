@@ -11,8 +11,9 @@ namespace CafeTime.Core
         public int DiscardPenalty { get; }
         public int TrayLeftPenalty { get; }
         public int CleaningPenalty { get; }
+        public int SkippedPenalty { get; }
 
-        public int Penalty => LostPenalty + DiscardPenalty + TrayLeftPenalty + CleaningPenalty;
+        public int Penalty => LostPenalty + DiscardPenalty + TrayLeftPenalty + CleaningPenalty + SkippedPenalty;
         public int Total => Mathf.Max(0, OrderPoints + SatisfactionPoints - Penalty);
 
         public DayScore(DayResult r, GameBalance b)
@@ -24,6 +25,7 @@ namespace CafeTime.Core
             DiscardPenalty = r.itemsDiscarded * b.PenaltyDiscarded;
             TrayLeftPenalty = r.traysLeft * b.PenaltyTrayLeft;
             CleaningPenalty = r.cleaningMissed * b.PenaltyCleaning;
+            SkippedPenalty = r.ordersSkipped * b.PenaltyOrderSkipped;
         }
     }
 }

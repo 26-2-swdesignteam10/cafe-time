@@ -17,7 +17,7 @@ namespace CafeTime.Cafe
         void Start()
         {
             status = source as IWorkStatus;
-            gauge = WorldGauge.Create(transform, gaugeFrame, gaugeFill);
+            gauge = WorldGauge.Create(transform, gaugeFrame, gaugeFill, warnColors: false);
         }
 
         void Update()

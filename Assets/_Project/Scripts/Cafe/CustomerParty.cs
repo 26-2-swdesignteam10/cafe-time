@@ -26,7 +26,7 @@ namespace CafeTime.Cafe
         public Customer Leader => Members[0];
         public bool Arrived => Members.All(m => !m.IsMoving);
 
-        public string Sentence => OrderText.Sentence(Wanted);
+        public List<string> Sentences => OrderText.Sentences(Wanted);
 
         // 받은 물건으로 만족도 계산 (0~100, SFR-068 계산식은 추후 결정 → 임시)
         //  - 원한 메뉴(메뉴+HOT/ICE)와 다른 물건 1개마다 크게 하락
@@ -37,15 +37,18 @@ namespace CafeTime.Cafe
             var remaining = Wanted.SelectMany(l => Enumerable.Repeat((l.Menu, l.Temperature), l.Quantity)).ToList();
             int total = Mathf.Max(1, remaining.Count);
             float score = 100f;
+            int wrong = 0;
             foreach (var item in received)
             {
                 int index = remaining.FindIndex(w => w.Menu == item.Menu && w.Temperature == item.Temperature);
                 if (index >= 0) remaining.RemoveAt(index);
-                else score -= 100f / total; // 주문과 다른 음료
+                else wrong++; // 주문과 다른 음료
                 if (item.Grade == DrinkGrade.Good) score -= 10f / total;
                 else if (item.Grade == DrinkGrade.Bad) score -= 30f / total;
                 else if (item.Grade == DrinkGrade.Failed) score -= 60f / total;
             }
+            // 다른 음료·못 받은 음료 1개당 −100/주문 개수. 다른 음료가 못 받은 자리를 대신하면 한 번만 깎는다 (ADR-0018 덜 채운 서빙)
+            score -= 100f / total * Mathf.Max(wrong, remaining.Count);
             score -= 30f * Mathf.Clamp01(WaitedSeconds / servePatience);
             return Mathf.Clamp(score, 0f, 100f);
         }

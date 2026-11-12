@@ -14,25 +14,27 @@ namespace CafeTime.Cafe
         public static string ItemLabel(MenuDefinition menu, Temperature temperature) =>
             temperature == Temperature.None ? menu.DisplayName : $"{(temperature == Temperature.Hot ? "HOT" : "ICE")} {menu.DisplayName}";
 
-        // 손님 주문 대사 (SFR-026): "아이스 바닐라라떼 한 잔이랑 딸기 케이크 하나 주세요."
-        public static string Sentence(IReadOnlyList<OrderLine> lines)
+        // 손님 주문 대사 (SFR-026). 메뉴 한 줄당 말풍선 하나: "아이스 바닐라라떼 한 잔이랑" / "딸기 케이크 하나 주세요."
+        public static List<string> Sentences(IReadOnlyList<OrderLine> lines)
         {
-            var sb = new StringBuilder();
+            var result = new List<string>();
             for (int i = 0; i < lines.Count; i++)
             {
                 var line = lines[i];
                 bool last = i == lines.Count - 1;
+                var sb = new StringBuilder();
                 if (line.Temperature != Temperature.None && line.Menu.OnlyTemperature == Temperature.None)
                     sb.Append(line.Temperature == Temperature.Hot ? "따뜻한 " : "아이스 ");
                 sb.Append(line.Menu.DisplayName).Append(' ');
                 int n = UnityEngine.Mathf.Clamp(line.Quantity, 1, CupCounts.Length - 1);
                 if (line.Menu.IsDessert)
-                    sb.Append(PieceCounts[n]).Append(last ? "" : "랑 "); // 하나랑 / 두 개랑
+                    sb.Append(PieceCounts[n]).Append(last ? "" : "랑"); // 하나랑 / 두 개랑
                 else
-                    sb.Append(CupCounts[n]).Append(" 잔").Append(last ? "" : "이랑 ");
+                    sb.Append(CupCounts[n]).Append(" 잔").Append(last ? "" : "이랑");
+                if (last) sb.Append(" 주세요.");
+                result.Add(sb.ToString());
             }
-            sb.Append(" 주세요.");
-            return sb.ToString();
+            return result;
         }
     }
 }

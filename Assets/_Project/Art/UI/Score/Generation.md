@@ -54,3 +54,13 @@ Generated with OpenAI built-in image_gen + Python 3 / Pillow. Style reference: �
 | Panel.png | 2200×1840 | — | 예 | 예 |
 
 Unity 6000.6.4f1 임포트: Sprite (2D and UI), Single, Point, Mip Maps 끔, Alpha Is Transparency 켬. 2048을 초과하는 패널·텍스트 상자는 Max Size 4096으로 설정해 원본 크기를 보존한다. .meta는 생성하거나 편집하지 않았다.
+
+## 2026-11-12 LabelOrderSkipped.png
+
+- 도구: OpenAI built-in image_gen + Python 3 / Pillow 후처리.
+- 스타일 참조: 같은 폴더의 `LabelLost.png`("손님 이탈"), `LabelTrayLeft.png`, `LabelCleaning.png`. 세 파일의 채움 마스크 높이는 56px이고, 채움 마스크를 사방 3px 확장한 결과가 외곽선 포함 알파 마스크와 정확히 일치한다. 채움색은 `#380F00`, 외곽선은 `#FCF0CA`, 사방 투명 여백은 8px이다. 생성 도구에는 `LabelLost.png`, `LabelCleaning.png`를 참조 이미지로 제공했다.
+- 파일: `LabelOrderSkipped.png`, 356×78px, RGBA. 정확한 문구: "주문 순서 어김".
+- 프롬프트: Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. ONE isolated transparent Korean text-only sprite. Exact text "주문 순서 어김". Check 주 / 문 / SPACE / 순 / 서 / SPACE / 어 / 김. Match reference bold squared geometric block Hangul, heavy solid straight strokes, stepped corners, angular counters, proportions and spacing. Dark coffee #380F00 fill, cream #FCF0CA square 3px outline relative to 56px fill height. Single horizontal line, two spaces, no period. Tight crop with 8px transparent padding, final canvas height 78px. No ornaments, shadow, backdrop, panel, texture or extra text. Transparent exterior and counters.
+- 후처리: 생성본에서 알파 ≥128, R<130, G<80, B<60인 픽셀을 채움 마스크로 추출하고 경계로 잘랐다. 종횡비를 유지하며 NEAREST로 채움 높이 56px에 맞췄다. 채움을 `#380F00` 단색으로 정리하고 Pillow MaxFilter(7)로 사방 3px 확장하여 `#FCF0CA` 외곽선을 다시 적용했다. 외곽선 포함 높이 62px, 사방 투명 여백 8px, 알파 {0,255}, 투명 픽셀 RGBA=(0,0,0,0).
+- 검수: 최종 PNG의 NEAREST 2배 확대본에서 `주 / 문 / 공백 / 순 / 서 / 공백 / 어 / 김`을 글자별로 눈으로 대조했다. 한 줄, 공백 2개, 마침표·장식 없음. 기존 PNG와 .meta·코드·씬·프리팹·에셋은 수정하지 않았다.
+

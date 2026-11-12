@@ -14,6 +14,7 @@ namespace CafeTime.EspressoShot
         public PortafilterSlot slot;        // 그라인더 슬롯 (type = Grinder)
         public int beansPerGrind = 1;
         public Image progressFill;          // 선택: Image Type = Filled 로 설정
+        public GameObject stream;           // 선택: 분쇄 중에 켜는 가루 줄기
 
         bool grinding;
         public bool Grinding => grinding;
@@ -44,14 +45,18 @@ namespace CafeTime.EspressoShot
             slot.Locked = true;
             float seconds = GameBalance.Instance.GrindSeconds;
             if (progressFill != null) progressFill.fillAmount = 0f;
+            if (stream != null) stream.SetActive(true);
 
             // 화면을 닫아도 계속 진행되도록 항상 켜진 EspressoMachine 에서 진행
             EspressoMachine.Instance.RunTimed(seconds, left =>
             {
                 TimeLeft = left;
                 if (progressFill != null) progressFill.fillAmount = 1f - left / seconds;
+                pf.ShowFill(PortafilterState.Ground, 1f - left / seconds); // 바스켓에 가루가 차오름
             }, () =>
             {
+                if (stream != null) stream.SetActive(false);
+                pf.HideFill();
                 pf.SetState(PortafilterState.Ground);   // → '원두가루 담김'
                 if (progressFill != null) progressFill.fillAmount = 0f;
                 slot.Locked = false;

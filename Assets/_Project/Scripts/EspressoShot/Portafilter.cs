@@ -22,6 +22,12 @@ namespace CafeTime.EspressoShot
         [Header("상태별 스프라이트 (선택) 순서: 빈, 원두가루, 탬핑완료, 사용완료")]
         public Sprite[] stateSprites;
 
+        [Header("앞모습 스프라이트 (선택) 그라인더·탬핑·그룹헤드에서 사용. 순서는 위와 같음")]
+        public Sprite[] frontStateSprites;
+
+        [Header("그룹헤드에 장착했을 때 스프라이트 (선택). 끼우면 내용물이 보이지 않아 상태와 관계없이 같음")]
+        public Sprite mountedSprite;
+
         [Header("상태 글자 (선택)")]
         public TMP_Text stateLabel;
 
@@ -33,12 +39,18 @@ namespace CafeTime.EspressoShot
         RectTransform rect;
         Canvas rootCanvas;
         bool dragging;
+        Vector2 sideSize;
+        Image fillOverlay; // 분쇄 중 아래부터 차오르는 다음 상태 그림
+
+        // 놓은 곳이 슬롯 밖이어도 이 거리(캔버스 단위) 안의 빈 슬롯에 끼운다
+        const float SnapRadius = 130f;
 
         void Awake()
         {
             image = GetComponent<Image>();
             group = GetComponent<CanvasGroup>();
             rect = (RectTransform)transform;
+            sideSize = rect.sizeDelta;
             rootCanvas = GetComponentInParent<Canvas>().rootCanvas;
             Refresh();
         }
@@ -49,12 +61,23 @@ namespace CafeTime.EspressoShot
             Refresh();
         }
 
+        // 그라인더·탬핑·그룹헤드에서는 손잡이가 앞을 향한다
+        bool FacesFront => Slot != null &&
+            (Slot.type == SlotType.Grinder || Slot.type == SlotType.Tamp || Slot.type == SlotType.GroupHead);
+
         void Refresh()
         {
             if (image == null) return;
             int i = (int)State;
-            bool hasSprite = stateSprites != null && i < stateSprites.Length && stateSprites[i] != null;
-            if (hasSprite) { image.sprite = stateSprites[i]; image.color = Color.white; }
+            bool front = FacesFront && frontStateSprites != null && frontStateSprites.Length > 0;
+            Sprite[] sprites = front ? frontStateSprites : stateSprites;
+            Sprite sprite = sprites != null && i < sprites.Length ? sprites[i] : null;
+            if (!dragging && mountedSprite != null && Slot != null && Slot.type == SlotType.GroupHead)
+                sprite = mountedSprite;
+            bool hasSprite = sprite != null;
+            // 앞모습·장착 그림은 옆모습과 크기가 달라 그림 크기를 그대로 쓴다
+            rect.sizeDelta = front && hasSprite ? sprite.rect.size : sideSize;
+            if (hasSprite) { image.sprite = sprite; image.color = Color.white; }
             else
             {
                 image.color = State switch
@@ -77,6 +100,35 @@ namespace CafeTime.EspressoShot
             }
         }
 
+        // 분쇄처럼 서서히 바뀌는 동안, 다음 상태의 앞모습을 아래부터 amount(0~1)만큼 겹쳐 보인다
+        public void ShowFill(PortafilterState next, float amount)
+        {
+            int i = (int)next;
+            if (frontStateSprites == null || i >= frontStateSprites.Length || frontStateSprites[i] == null) return;
+            if (fillOverlay == null)
+            {
+                var rt = new GameObject("Fill", typeof(RectTransform)).GetComponent<RectTransform>();
+                rt.SetParent(transform, false);
+                rt.anchorMin = Vector2.zero;
+                rt.anchorMax = Vector2.one;
+                rt.offsetMin = rt.offsetMax = Vector2.zero;
+                fillOverlay = rt.gameObject.AddComponent<Image>();
+                fillOverlay.raycastTarget = false;
+                fillOverlay.type = Image.Type.Filled;
+                fillOverlay.fillMethod = Image.FillMethod.Vertical;
+                fillOverlay.fillOrigin = (int)Image.OriginVertical.Bottom;
+            }
+            fillOverlay.sprite = frontStateSprites[i];
+            fillOverlay.preserveAspect = image.preserveAspect;
+            fillOverlay.fillAmount = amount;
+            fillOverlay.gameObject.SetActive(true);
+        }
+
+        public void HideFill()
+        {
+            if (fillOverlay != null) fillOverlay.gameObject.SetActive(false);
+        }
+
         // 슬롯에 붙이기 (슬롯 쪽에서 호출)
         public void AttachTo(PortafilterSlot slot)
         {
@@ -84,13 +136,14 @@ namespace CafeTime.EspressoShot
             Slot = slot;
             slot.Place(this);
             SnapToSlot();
+            Refresh();
         }
 
         void SnapToSlot()
         {
             transform.SetParent(Slot.transform, false);
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = Vector2.zero;
+            rect.anchoredPosition = new Vector2(0f, Slot.portafilterOffsetY);
         }
 
         // ---------- 드래그 ----------
@@ -103,6 +156,7 @@ namespace CafeTime.EspressoShot
                 return;
             }
             dragging = true;
+            Refresh();                         // 그룹헤드에서 빼면 장착 그림 대신 내용물이 보이게
             group.blocksRaycasts = false;      // 드롭 위치의 슬롯을 레이캐스트로 찾기 위해
             transform.SetParent(rootCanvas.transform, true);
             transform.SetAsLastSibling();
@@ -130,10 +184,36 @@ namespace CafeTime.EspressoShot
                 target = h.gameObject.GetComponentInParent<PortafilterSlot>();
                 if (target != null) break;
             }
+            if (target == null) target = NearestSlot(e);
 
-            // 놓을 수 없는 곳 / 거절된 곳 → 원래 위치로 (SFR-030)
-            if (target == null || target == Slot || !target.TryAccept(this))
+            if (target == Slot)
+            {
                 SnapToSlot();
+                Slot.Place(this); // 넉박스에서 털다 만 포터필터를 다시 대면 털기 창이 다시 열림
+            }
+            // 놓을 수 없는 곳 / 거절된 곳 → 원래 위치로 (SFR-030)
+            else if (target == null || !target.TryAccept(this))
+                SnapToSlot();
+            Refresh();
+        }
+
+        // 슬롯 위가 아닌 곳에 놓았을 때, 이 거리 안에서 가장 가까운 빈 슬롯 (없으면 null)
+        PortafilterSlot NearestSlot(PointerEventData e)
+        {
+            PortafilterSlot best = null;
+            float bestDistance = SnapRadius * rootCanvas.scaleFactor;
+            foreach (var slot in rootCanvas.GetComponentsInChildren<PortafilterSlot>())
+            {
+                if (slot.Current != null && slot.Current != this) continue;
+                Vector2 p = RectTransformUtility.WorldToScreenPoint(e.pressEventCamera, slot.transform.position);
+                float d = Vector2.Distance(p, e.position);
+                if (d < bestDistance)
+                {
+                    bestDistance = d;
+                    best = slot;
+                }
+            }
+            return best;
         }
     }
 }

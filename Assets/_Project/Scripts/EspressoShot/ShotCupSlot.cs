@@ -20,6 +20,8 @@ namespace CafeTime.EspressoShot
 
         public ShotGlass Glass { get; private set; }
 
+        Image fillIcon; // 추출 중 아래부터 차오르는 '샷이 든 컵' 그림
+
         void Awake()
         {
             if (startWithGlass) Glass = new ShotGlass();
@@ -43,6 +45,34 @@ namespace CafeTime.EspressoShot
             if (Glass == null) return;
             Glass.HasShot = true;
             Refresh();
+        }
+
+        // 추출 진행 (0~1). 빈 컵 위에 샷이 든 컵 그림을 아래부터 드러낸다
+        public void ShowFilling(float amount)
+        {
+            if (glassIcon == null || Glass == null) return;
+            if (fillIcon == null)
+            {
+                var rt = new GameObject("Filling", typeof(RectTransform)).GetComponent<RectTransform>();
+                rt.SetParent(glassIcon.transform, false);
+                rt.anchorMin = Vector2.zero;
+                rt.anchorMax = Vector2.one;
+                rt.offsetMin = rt.offsetMax = Vector2.zero;
+                fillIcon = rt.gameObject.AddComponent<Image>();
+                fillIcon.raycastTarget = false;
+                fillIcon.preserveAspect = glassIcon.preserveAspect;
+                fillIcon.type = Image.Type.Filled;
+                fillIcon.fillMethod = Image.FillMethod.Vertical;
+                fillIcon.fillOrigin = (int)Image.OriginVertical.Bottom;
+                fillIcon.sprite = ItemIcons.Of(new ShotGlass { HasShot = true });
+            }
+            fillIcon.fillAmount = amount;
+            fillIcon.gameObject.SetActive(fillIcon.sprite != null);
+        }
+
+        public void HideFilling()
+        {
+            if (fillIcon != null) fillIcon.gameObject.SetActive(false);
         }
 
         public void OnDrop(PointerEventData eventData)
