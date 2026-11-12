@@ -44,3 +44,4 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0030](0030-bakery-manual-pos.md) | 베이커리는 손님 대사를 보고 포스기에 직접 입력한다 | 승인 |
 | [0031](0031-lower-bakery-showcase.md) | 손님은 아래쪽 큰 베이커리 진열대에서 직접 픽업한다 | 승인 |
 | [0032](0032-compact-front-counter.md) | 행주 걸이를 오른쪽으로 옮기고 기존 받침대 한 칸을 제거한다 | 승인 |
+| [0033](0033-bakery-collider-bounds.md) | 빵 진열대 충돌 영역을 현재 그림 크기에 맞춘다 | 제안 |
