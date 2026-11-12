@@ -33,7 +33,9 @@ namespace CafeTime.Cafe
             get
             {
                 var sentences = OrderText.Sentences(Wanted.Where(l => !l.Menu.IsDessert).ToList());
-                if (CollectedBakery.Count > 0) sentences.Add("가져온 베이커리도 같이 계산해 주세요.");
+                // 가져온 품목·수량을 대사로 알려 주고 플레이어가 직접 포스기에 입력한다 (SFR-026).
+                foreach (var sentence in OrderText.Sentences(CollectedBakery))
+                    sentences.Add("가져온 " + sentence.Replace(" 주세요.", " 결제해 주세요."));
                 return sentences;
             }
         }

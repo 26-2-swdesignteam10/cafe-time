@@ -37,4 +37,5 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0023](0023-hide-hud-stock.md) | 영업 HUD 에 재료 재고를 표시하지 않는다 | 승인 |
 | [0024](0024-drink-ingredient-tool-windows.md) | 음료 제조실 재료는 재료별 작업 창에서 넣는다 | 승인 |
 | [0025](0025-customers-and-chairs-no-collision.md) | 손님과 의자는 플레이어와 충돌하지 않는다 | 승인 |
-| [0026](0026-bakery-self-service.md) | 베이커리 8종과 손님 직접 픽업·계산 방식 | 승인 |
+| [0026](0026-bakery-self-service.md) | 베이커리 8종과 손님 직접 픽업·계산 방식 | 대체됨 (ADR-0027 포스기 입력 부분) |
+| [0027](0027-bakery-manual-pos.md) | 베이커리는 손님 대사를 보고 포스기에 직접 입력한다 | 승인 |

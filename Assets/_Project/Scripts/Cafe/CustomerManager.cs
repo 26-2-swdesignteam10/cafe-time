@@ -214,9 +214,8 @@ namespace CafeTime.Cafe
         public Order TakeOrder(CustomerParty party, List<OrderLine> lines)
         {
             if (party == null || party.Current != CustomerParty.State.Queued) return null;
-            // 베이커리는 가져온 실물대로 계산하고 음료만 플레이어 입력을 사용한다 (SFR-027).
-            lines = lines.Where(l => !l.Menu.IsDessert).ToList();
-            lines.AddRange(party.CollectedBakery.Select(l => new OrderLine(l.Menu, Temperature.None, l.Quantity)));
+            // 음료·베이커리 모두 포스기에 직접 입력한 품목·수량대로 결제한다 (SFR-026, 027).
+            // 실물 베이커리 재고는 진열장에서 집을 때 이미 차감했으므로 여기서 다시 차감하지 않는다.
             int total = lines.Sum(l => l.Price);
             Save.money += total; // 결제 금액만큼 보유 자금 증가
             Result.revenue += total;
