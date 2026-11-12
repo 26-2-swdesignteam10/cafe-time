@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 namespace CafeTime.Player
 {
     // 캐릭터 이동 (SFR-015), 달리기 (SFR-016), 충돌 (SFR-017)
-    // - Rigidbody2D(Dynamic, 중력 0)에 속도를 주어 이동 → 벽·기기·손님의 Collider2D에 막힘
-    // - 손님 NPC는 Kinematic Rigidbody2D로 만들어야 플레이어에게 밀리지 않음
+    // - Rigidbody2D(Dynamic, 중력 0)에 속도를 주어 이동 → 벽·기기·가구의 Collider2D에 막힘
+    // - 손님과 의자는 충돌 영역이 없어 통과한다 (ADR-0025)
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : MonoBehaviour
     {

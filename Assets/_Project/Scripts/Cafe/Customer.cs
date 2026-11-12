@@ -24,13 +24,7 @@ namespace CafeTime.Cafe
             var customer = go.AddComponent<Customer>();
             customer.look = look;
             customer.spriteRenderer.sprite = look.up;
-
-            // 플레이어가 손님을 밀고 지나가지 못하도록 발밑 충돌 영역 (Kinematic, SFR-017)
-            var body = go.AddComponent<Rigidbody2D>();
-            body.bodyType = RigidbodyType2D.Kinematic;
-            var feet = go.AddComponent<BoxCollider2D>();
-            feet.size = new Vector2(0.5f, 0.25f);
-            feet.offset = new Vector2(0, 0.12f);
+            // 충돌 영역 없음 (ADR-0025): 걷는 손님이 플레이어를 밀어내거나 줄 선 손님이 통로를 막지 않도록 서로 통과한다 (SFR-017)
             return customer;
         }
 

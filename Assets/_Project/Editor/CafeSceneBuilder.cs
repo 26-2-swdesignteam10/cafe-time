@@ -211,8 +211,9 @@ namespace CafeTime.EditorTools
             foreach (float x in TableXs)
             {
                 var table = WorldObject($"Table {tables.Count + 1}", root, tableSprite, x, y, new Vector2(1.8f, 0.7f));
-                WorldObject("ChairLeft", table.transform, chairLeft, x - 1.3f, y, new Vector2(0.5f, 0.3f));
-                WorldObject("ChairRight", table.transform, chairRight, x + 1.3f, y, new Vector2(0.5f, 0.3f));
+                // 의자는 충돌 없음 (ADR-0025): 충돌이 있으면 옆 테이블 의자와의 틈이 0.3칸뿐이라 세로로 지나갈 수 없다
+                WorldObject("ChairLeft", table.transform, chairLeft, x - 1.3f, y, Vector2.zero);
+                WorldObject("ChairRight", table.transform, chairRight, x + 1.3f, y, Vector2.zero);
 
                 var seats = new[]
                 {
@@ -286,7 +287,7 @@ namespace CafeTime.EditorTools
             return t;
         }
 
-        // 아래쪽 가운데가 기준점인 그림 + 발밑 충돌 영역
+        // 아래쪽 가운데가 기준점인 그림 + 발밑 충돌 영역 (collider 가 0이면 충돌 없음)
         static GameObject WorldObject(string name, Transform parent, Sprite sprite, float x, float y, Vector2 collider)
         {
             var go = new GameObject(name);
@@ -295,6 +296,7 @@ namespace CafeTime.EditorTools
             var sr = go.AddComponent<SpriteRenderer>();
             sr.sprite = sprite;
             sr.spriteSortPoint = SpriteSortPoint.Pivot; // 발밑 기준으로 앞뒤 정렬 (Renderer2D Y축 정렬)
+            if (collider == Vector2.zero) return go;
             var box = go.AddComponent<BoxCollider2D>();
             box.size = collider;
             box.offset = new Vector2(0, collider.y / 2);
@@ -499,8 +501,10 @@ namespace CafeTime.EditorTools
             var body = go.AddComponent<Rigidbody2D>();
             body.interpolation = RigidbodyInterpolation2D.Interpolate;
             // 발밑만 충돌 영역 → 기기 앞까지 자연스럽게 다가감
+            // 모서리를 둥글게(edgeRadius) 해서 이어 붙은 벽 타일·화분 사이 이음새에 걸리지 않게 함. 바깥 크기는 0.6x0.3 그대로
             var feet = go.AddComponent<BoxCollider2D>();
-            feet.size = new Vector2(0.6f, 0.3f);
+            feet.size = new Vector2(0.5f, 0.2f);
+            feet.edgeRadius = 0.05f;
             feet.offset = new Vector2(0, 0.15f);
             var sr = go.AddComponent<SpriteRenderer>();
             sr.spriteSortPoint = SpriteSortPoint.Pivot;
