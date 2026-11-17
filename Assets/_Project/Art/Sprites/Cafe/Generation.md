@@ -361,3 +361,59 @@ Unity 임포트와 게임 내 배치는 이번 작업 범위에 포함하지 않
 Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구 확인과 파일별 프롬프트는 작성자에게 받아 보충한다.
 
 - 교체한 파일: Booth.png, BreadShelf.png, ChairLeft.png, ChairRight.png, Counter.png, Floor.png, PlanterSegment.png, StationCupShelf.png, StationDessertCase.png, StationDishwash.png, StationDrinkBar.png, StationEspresso.png, StationIceMaker.png, StationPickup.png, StationPos.png, StationShakeBar.png, StationTowel.png, StationTrayReturn.png, StationWater.png, Stool.png, Table.png, WindowHall.png
+
+
+## 빵 진열대 재제작 (2026-11-17)
+
+- 도구: OpenAI 내장 `image_gen` (진열대 최초 생성 + 선반 깊이 수정), Pillow (RGBA·알파 정리, 최근접 크기 조정, 칸 정렬, 팔레트 정리, 실제 픽셀 측정).
+- 스타일 참조: 교체 전 `Assets/_Project/Art/Sprites/Cafe/BreadShelf.png` (목재·크림 색과 외곽선), `Assets/_Project/Art/Sprites/Cafe/Booth.png` (맵 가구 시점), `Assets/_Project/Art/Title/CafeInterior.png` (색·분위기). 최초 생성에 세 파일을 직접 전달했고, 수정에는 최초 생성본을 전달했다.
+- 이번 요청의 월넛·크림·허니 색을 우선했다. 스케일 1 tile = 128px, 정면 3/4 탑다운, 왼쪽 위 조명. 2열 × 4행, 모든 칸은 비어 있으며 음식·장식·글자가 없다.
+- 최종 파일: `BreadShelf.png`, **336×640px RGBA**. 불투명 바운딩 박스는 왼쪽 위 기준 `(4, 4, 332, 636)` (오른쪽·아래 끝 제외). 사방 정확히 4px 투명 여백, 하단 중앙 정렬. 기존 `BreadShelf.png.meta`는 보존했다.
+
+### BreadShelf.png 실제 프롬프트
+
+최초 생성:
+
+```text
+Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: style-transfer. Orthographic front-facing 3/4 top-down RPG map view, horizontal front edges horizontal, verticals vertical, NOT isometric. Light upper-left. Crisp pixel art with simple 2-3 flat shade blocks, no gradient, blur, antialiasing, grain, dither, text, logos, plate, ground, shadow or scenery. Image 1 is the existing BreadShelf to remake: preserve its warm wood colors and stepped rendering, REMOVE ALL FOOD. Image 2 Booth is camera/pixel reference; image 3 CafeInterior palette/mood only. ONE very tall narrow walnut bakery display shelf, cream and honey interior. Target canvas 336 x 640 RGBA, 4px transparent margin each side, base reaches bottom margin. EXACTLY TWO COLUMNS and FOUR ROWS = EIGHT EMPTY identical rectangular compartments aligned on a regular grid. Every compartment has clearly visible cream back and deep honey horizontal floor board seen from above, large enough for 3 small pastries across and 2 deep. Compartments are equal width and equal height, horizontal rectangular floor placement surfaces. No food, no trays, no decorations, no glass, no labels. Keep outer shelf proportions 328 wide x632 high. Minimal top rim, sturdy slim walnut frame and central divider. Clearly front-facing 3/4 view consistent with map furniture, no tilted axes.
+```
+
+최초 프롬프트 뒤에 다음 지시를 추가하여 최초 생성본의 선반 판 깊이를 수정했다:
+
+```text
+CORRECTION to supplied generated shelf: Keep the exact two columns and four rows and warm palette, but each compartment must be a SHALLOW OPEN BAKERY BIN seen from above, not a tall empty bookcase cubby. The visible horizontal honey floor surface must occupy the LOWER TWO THIRDS of EVERY opening, with only upper one third cream back wall. This is essential: large broad floor planes to place 3 pastries across and 2 rows deep. No tall back walls. Eight openings exactly equal size with regular pitch. Keep camera horizontal edges horizontal. Floor planes should have straight horizontal front and rear edges and minimal angled side trim. No food or decoration. Output tall portrait aspect 336:640, not square.
+```
+
+### 최종 규격 처리
+
+- 생성본의 알파 128 이상 영역을 불투명으로 정리하고 내용 경계를 잘라 328×632px로 최근접 조정한 뒤, 336×640px 캔버스의 (4,4)에 배치했다.
+- 생성된 첫 번째 칸을 기준으로 칸의 크기와 간격을 정규화했다. 왼쪽 위 기준 140×142px 칸 단위를 x=24/172, y=36/178/320/462에 반복 배치했다. 칸 안쪽 뒤판 높이를 줄이고 생성된 선반 판을 세로로 늘려 깊이를 확보했다. 새 소품은 그리지 않았다.
+- 미세한 생성 노이즈는 3×3 중앙값 필터와 생성본에서 추출한 12색 고정 팔레트(디더링 없음)로 정리했다. 투명 픽셀 RGB는 0, 알파는 0/255다.
+- 칸 안쪽 전체 개구부와 빵 배치 영역은 다르다. 아래 표는 **크림 뒤판, 경사진 뒤쪽 모서리, 짙은 전면 두께와 프레임을 제외한 선반 윗면 안쪽의 직사각형**이다.
+
+### 실제 측정한 칸 좌표
+
+최종 저장 PNG를 다시 읽어 색 경계를 측정했다. 이미지 **왼쪽 아래 (0,0)** 기준, 단위 px. 사각형 범위는 `[x, x+너비) × [y, y+높이)`다. 왼쪽 위 기준 측정 영역은 x=30/178, y=88/230/372/514, 각 128×64px이며, `y = 640 - (위쪽 y + 높이)`로 변환했다. 여덟 영역의 픽셀 내용도 일치한다.
+
+| 칸 | x | y | 너비 | 높이 |
+|---|---|---|---|---|
+| 1 (행1 왼쪽) | 30 | 488 | 128 | 64 |
+| 2 (행1 오른쪽) | 178 | 488 | 128 | 64 |
+| 3 (행2 왼쪽) | 30 | 346 | 128 | 64 |
+| 4 (행2 오른쪽) | 178 | 346 | 128 | 64 |
+| 5 (행3 왼쪽) | 30 | 204 | 128 | 64 |
+| 6 (행3 오른쪽) | 178 | 204 | 128 | 64 |
+| 7 (행4 왼쪽) | 30 | 62 | 128 | 64 |
+| 8 (행4 오른쪽) | 178 | 62 | 128 | 64 |
+
+### 이번 재제작 검증
+
+- 최종 PNG 9개를 다시 읽어 지정 크기, RGBA, 알파 0/255, 여백, 하단 중앙 정렬을 검사했다. 진열대의 여덟 배치 영역은 완전 불투명이며 픽셀 내용이 서로 같다.
+- 기존 BreadShelf.png.meta의 SHA-256은 작업 전후 동일하다. 에이전트는 .meta, 씬, 프리팹, .asset, 코드를 생성하거나 수정하지 않았다. 커밋하지 않았다.
+- `bash .github/scripts/check-repo.sh`: 통과 (추적 파일 1921개). 이 검사는 추적 파일을 대상으로 하므로 새 파일의 Unity 임포트 확인을 대신하지 않는다.
+
+### Unity 확인
+
+1. Unity 6000.6.4f1로 돌아가 변경 PNG와 새 `Bakery/` 폴더를 임포트한다. 새 파일과 폴더의 `.meta`는 Unity가 생성하게 한다.
+2. Sprite (2D and UI), Single, PPU 128, Point (no filter), Mip Maps 끔, Alpha Is Transparency 켬, Pivot Bottom Center를 확인한다.
+3. Cafe 씬에서 진열대 크기와 빵 겹침·배치 간격을 확인한다. 48×40px 빵 캔버스를 3×2로 놓을 때는 투명 여백을 겹치고 앞뒤 빵을 일부 겹치는 밀집 배치가 필요하다. 실제 Unity 배치·Play 테스트는 수행하지 않았다.

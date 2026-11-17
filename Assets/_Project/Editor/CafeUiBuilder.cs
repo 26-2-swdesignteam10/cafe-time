@@ -375,15 +375,16 @@ namespace CafeTime.EditorTools
             var root = NewUI("Hands", overlay);
             root.anchorMin = root.anchorMax = root.pivot = new Vector2(0.5f, 0f); // 화면 비율이 달라도 아래 가운데
             root.anchoredPosition = new Vector2(0, 15);
-            root.sizeDelta = new Vector2(315, 150); // 150 칸 2개 + 간격 15
+            const float slotSize = 110, gap = 12, iconSize = 76; // 화면을 덜 가리도록 작게 (기존 150·15·104)
+            root.sizeDelta = new Vector2(slotSize * 2 + gap, slotSize);
             var view = root.gameObject.AddComponent<HandInventoryView>();
             var so = new SerializedObject(view);
             var slots = new Object[2];
             for (int i = 0; i < 2; i++)
             {
-                var slot = TopLeft(i == 0 ? "LeftHand" : "RightHand", root, i * 165, 0, 150, 150);
+                var slot = TopLeft(i == 0 ? "LeftHand" : "RightHand", root, i * (slotSize + gap), 0, slotSize, slotSize);
                 var frame = AddImage(slot, LoadSprite($"{Hud}/{(i == 0 ? "HandSlotLeft" : "HandSlotRight")}.png"), Cream, true);
-                var icon = AddImage(Centered("Icon", slot, 0, 0, 104, 104), null, Color.clear);
+                var icon = AddImage(Centered("Icon", slot, 0, 0, iconSize, iconSize), null, Color.clear);
                 icon.preserveAspect = true;
                 var slotView = slot.gameObject.AddComponent<HandSlotView>();
                 var sso = new SerializedObject(slotView);

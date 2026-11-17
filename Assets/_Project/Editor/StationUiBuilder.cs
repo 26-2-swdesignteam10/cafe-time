@@ -560,9 +560,6 @@ namespace CafeTime.EditorTools
             var tool = TopLeft("Tool", window, 260, 84, 500, 400);
             var toolImage = AddImage(tool, S(F, "PumpBottle"), Color.clear, true);
             toolImage.preserveAspect = true;
-            var button = tool.gameObject.AddComponent<Button>();
-            button.transition = Selectable.Transition.None; // 눌린 모습은 그림 교체로 보여 준다
-            Set(so, "toolButton", button);
             Set(so, "toolImage", toolImage);
             Set(so, "toolHold", tool.gameObject.AddComponent<HoldButton>());
             Set(so, "nameText", AddText(TopLeft("Name", window, 260, 40, 220, 38), "", 26, DarkCoffee));
@@ -617,7 +614,8 @@ namespace CafeTime.EditorTools
             rects.GetArrayElementAtIndex(0).rectValue = new Rect(714, 231, 36, 109);
             rects.GetArrayElementAtIndex(1).rectValue = new Rect(714, 231, 36, 70);
 
-            // 끌기 잡는 자리 (도구 그림 위): 청 병의 숟가락 손잡이, 티백 상자
+            // 끌기 잡는 자리 (도구 그림 위): 펌프 머리(원본 x130~325 y12~85 → 창 x325~422 y90~127, 여유 포함), 청 병의 숟가락 손잡이, 티백 상자
+            Set(so, "pumpGrab", Grab("PumpGrab", 315, 80, 120, 70));
             Set(so, "cheongGrab", Grab("CheongGrab", 446, 104, 56, 86));
             Set(so, "teaGrab", Grab("TeaGrab", 378, 188, 98, 72));
             PointerDragRelay Grab(string name, float x, float y, float w, float h)
@@ -666,7 +664,8 @@ namespace CafeTime.EditorTools
             var so = new SerializedObject(popup);
             Label(window, "Hint", S(F, "Hint"), 800, 74.5f, PivotCenter);
             Label(window, "LabelBase", S(F, "LabelBase"), 330, 204.5f, PivotCenter);
-            Label(window, "LabelMilk", S(F, "LabelMilk"), 280, 772.25f, PivotCenter);
+            Label(window, "LabelMilk", S(F, "LabelMilk"), 298.63f, 709.25f, PivotCenter);
+            Label(window, "LabelLid", S(F, "LabelLid"), 613.5f, 709.5f, PivotCenter);
             Label(window, "LabelCupSpot", S(F, "LabelCupSpot"), 1318, 729.5f, PivotCenter);
 
             // 컵 자리
@@ -703,17 +702,19 @@ namespace CafeTime.EditorTools
             so.FindProperty("scoopSize").vector2Value = new Vector2(280, 120);
             so.FindProperty("scoopPivot").vector2Value = new Vector2(30f / 560, 1 - 100f / 240);
 
-            // 우유 팩 (DrinkTools 그림 재사용, 1000x800 → 400x320). 잡는 영역은 팩 몸통만
-            var milk = TopLeft("Milk", window, 125, 430, 400, 320);
+            // 우유 팩 (DrinkTools 그림 재사용, 1000x800 → 220x176). 잡는 영역은 팩 몸통만
+            // 원액 통과 어울리는 크기로 카운터 상판 위에 둔다 (Art/UI/ShakeRoom/Generation.md "우유 팩 배치 수정 (2026-11-17)")
+            var milk = TopLeft("Milk", window, 240, 506, 220, 176);
             Set(so, "milkImage", AddImage(milk, S("DrinkTools", "MilkCarton"), Cream));
-            var milkGrab = TopLeft("Grab", milk, 25, 25, 165, 290);
-            AddImage(milkGrab, null, Color.clear, true);
+            var milkGrab = TopLeft("Grab", milk, 15.4f, 52.8f, 86.46f, 121.44f);
+            AddImage(milkGrab, null, Color.clear, true).color = Color.clear; // 투명한 잡기 영역 (AddImage 는 sprite 없는 clear 를 아이콘 자리로 보고 흰색으로 칠함)
             Set(so, "milkCarton", milkGrab.gameObject.AddComponent<PointerDragRelay>());
             Set(so, "milkIdle", S("DrinkTools", "MilkCarton"));
             Set(so, "milkPour", S("DrinkTools", "MilkCartonPour"));
-            so.FindProperty("milkSize").vector2Value = new Vector2(400, 320);
+            so.FindProperty("milkSize").vector2Value = new Vector2(220, 176);
             so.FindProperty("milkPivot").vector2Value = new Vector2(107f / 400, 1 - 170f / 320);
-            so.FindProperty("milkPourRect").rectValue = new Rect(480, 85, 400, 320);
+            // 붓는 팩도 같은 배율. 출구(원본 900,340 → 0.22배 198,74.8)를 기존 (840,221)에 고정해 우유 줄기 위치는 그대로
+            so.FindProperty("milkPourRect").rectValue = new Rect(642, 146.2f, 220, 176);
 
             // 붓는 줄기: 컵보다 앞, 용기보다 뒤. 회색 그림을 맛 색으로 물들인다
             Set(so, "pourStream", Loop(window, "PourStream", "SmoothieStream", 1312, 337, 48, 180));
@@ -725,9 +726,11 @@ namespace CafeTime.EditorTools
             Set(so, "shaker", shaker);
             AddImage(TopLeft("BlenderBase", shaker, 15, 355, 320, 180), S(F, "BlenderBase"), Cream);
             Set(so, "weightText", AddText(TopLeft("Weight", shaker, 97, 421, 164, 39), "0g", 28, DarkCoffee));
-            var jarRt = TopLeft("Jar", shaker, 0, 0, 360, 390);
+            // 용기는 본체 소켓에 끼워지도록 창 (780,229) — 기존 (750,205)에서 오른쪽 30, 아래 24 (Generation.md "장착 위치·뚜껑 단계")
+            const float jarX = 30, jarY = 24;
+            var jarRt = TopLeft("Jar", shaker, jarX, jarY, 360, 390);
             jarRt.pivot = new Vector2(0.45f, 0.12f); // 붓기 회전 기준점
-            jarRt.anchoredPosition = new Vector2(0.45f * 360, -(1 - 0.12f) * 390);
+            jarRt.anchoredPosition = new Vector2(jarX + 0.45f * 360, -(jarY + (1 - 0.12f) * 390));
             Set(so, "jar", jarRt);
             AddImage(jarRt, S(F, "BlenderJar"), Cream);
             Set(so, "chunkyImage", Contents("Chunky"));
@@ -756,10 +759,23 @@ namespace CafeTime.EditorTools
 
             // 우유 줄기 (출구 고정, 길이는 화면이 수면에 맞춤)
             Set(so, "milkStream", Loop(window, "MilkStream", "MilkStream", 822, 221, 36, 200, "DrinkTools").rectTransform);
+            so.FindProperty("milkStreamFit").vector3Value = new Vector3(221, 337, 237); // 출구, 내용물 위끝(용기를 24 내림), 내용물 높이
 
             // 국자·우유 판정 영역 (용기 + 그 위), 손의 얼음 스쿱을 놓는 곳 (용기)
-            Set(so, "blenderArea", TopLeft("BlenderArea", window, 740, 60, 380, 535));
-            Set(so, "blenderZone", Zone(window, "BlenderZone", 750, 205, 360, 390, null, Invisible));
+            Set(so, "blenderArea", TopLeft("BlenderArea", window, 770, 60, 380, 559));
+            Set(so, "blenderZone", Zone(window, "BlenderZone", 780, 229, 360, 390, null, Invisible));
+
+            // 뚜껑 (ADR-0036): 카운터의 뚜껑 자리 ↔ 용기 위. 덮인 뚜껑 잡는 영역은 얼음 놓는 곳보다 위
+            var lidRest = TopLeft("LidRest", window, 470, 610, 287, 72);
+            Set(so, "lidRestImage", AddImage(lidRest, S(F, "LidLoose"), Cream, true));
+            Set(so, "lidRestGrab", lidRest.gameObject.AddComponent<PointerDragRelay>());
+            var lidOnJar = TopLeft("LidGrabOnJar", window, 786, 229, 279, 64);
+            AddImage(lidOnJar, null, Invisible, true);
+            Set(so, "lidJarGrab", lidOnJar.gameObject.AddComponent<PointerDragRelay>());
+            Set(so, "lidDropArea", TopLeft("LidDrop", window, 760, 205, 335, 130));
+            Set(so, "lidLoose", S(F, "LidLoose"));
+            so.FindProperty("lidSize").vector2Value = new Vector2(287, 72);
+            so.FindProperty("lidPivot").vector2Value = new Vector2(0.480836f, 0.694444f);
 
             var blend = Btn(window, "BlendButton", S(F, "BlendButton"), 695, 758, 220, 80);
             blend.transition = Selectable.Transition.SpriteSwap;

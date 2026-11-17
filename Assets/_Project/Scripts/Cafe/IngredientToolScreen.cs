@@ -8,13 +8,12 @@ using UnityEngine.UI;
 namespace CafeTime.Cafe
 {
     // 음료 제조실 재료 작업 창 (SFR-046, 047, ADR-0024·0028): 선반 재료를 누르면 열린다. 재료 종류에 따라 도구 그림이 바뀐다.
-    // 시럽·연유 = 펌프 누르기, 청 = 숟가락을 컵까지 끌기, 티백 = 상자에서 끌어 물 담긴 컵에 담그기 (1회 투입),
+    // 시럽·연유 = 펌프 머리를 아래로 끌어 누르기 (ADR-0035), 청 = 숟가락을 컵까지 끌기, 티백 = 상자에서 끌어 물 담긴 컵에 담그기 (1회 투입),
     // 우유·탄산수 = 누르고 있는 동안 붓기. 오른쪽에는 저울 위 잔과 무게를 크게 보여 준다
     public class IngredientToolScreen : Popup
     {
         enum Tool { Pump, Cheong, TeaBag, Milk, Soda }
 
-        [SerializeField] Button toolButton;
         [SerializeField] HoldButton toolHold;
         [SerializeField] Image toolImage;
         [SerializeField] TMP_Text nameText;
@@ -34,8 +33,13 @@ namespace CafeTime.Cafe
         [SerializeField] float[] ceramicStreamHeights = { 160, 106, 0, 86, 106 };
         [SerializeField] float[] plasticStreamHeights = { 121, 67, 0, 47, 67 };
 
-        [Tooltip("펌프가 눌린 그림과 방울을 보여 주는 시간(초)")]
+        [Tooltip("펌프 방울을 보여 주는 시간(초)")]
         [SerializeField] float pressShowSeconds = 0.35f;
+
+        [Header("펌프: 머리를 아래로 끌어 누르기 (ADR-0035)")]
+        [SerializeField] PointerDragRelay pumpGrab;   // 펌프 머리 잡는 영역
+        [Tooltip("끝까지 눌렀다고 보는 아래 방향 끌기 거리 (창 좌표 px). 그림의 머리 이동 거리 25px")]
+        [SerializeField] float pumpPressDistance = 25f;
 
         [Header("끌기: 청 숟가락, 티백")]
         [SerializeField] PointerDragRelay cheongGrab;
@@ -67,6 +71,10 @@ namespace CafeTime.Cafe
         bool dragging;
         bool steeping;
         float steepTime;
+        bool pumpHeld;       // 펌프 머리를 잡고 있음
+        float pumpStartY;    // 잡은 지점 (창 좌표)
+        float pumpProgress;  // 0 = 올라옴, 1 = 끝까지 눌림
+        bool pumped;         // 이번 누르기에서 이미 1펌프 넣음 (놓고 다시 눌러야 다음 펌프)
 
         static DrinkStation Station => DrinkStation.Instance;
         bool IsPour => tool == Tool.Milk || tool == Tool.Soda;
@@ -75,8 +83,10 @@ namespace CafeTime.Cafe
         protected override void Awake()
         {
             base.Awake();
-            toolButton.onClick.AddListener(Use);
             toolHold.Holding = Pour;
+            pumpGrab.Began += BeginPump;
+            pumpGrab.Dragging += DragPump;
+            pumpGrab.Ended += EndPump;
             foreach (var grab in new[] { cheongGrab, teaGrab })
             {
                 grab.Began += BeginDrag;
@@ -96,6 +106,7 @@ namespace CafeTime.Cafe
             base.OnDisable();
             dragging = false;
             steeping = false;
+            pumpHeld = false;
             dragImage.enabled = false;
             steepImage.enabled = false;
         }
@@ -109,6 +120,7 @@ namespace CafeTime.Cafe
             pouring = false;
             Open(); // 처음 열 때 Awake 가 돌아야 하므로 먼저 켠다
             toolHold.enabled = IsPour;
+            pumpGrab.gameObject.SetActive(tool == Tool.Pump);
             cheongGrab.gameObject.SetActive(tool == Tool.Cheong);
             teaGrab.gameObject.SetActive(tool == Tool.TeaBag);
             ShowTool();
@@ -124,11 +136,35 @@ namespace CafeTime.Cafe
             return Tool.Pump; // 시럽, 연유
         }
 
-        // 펌프 클릭 1회 투입 (SFR-046)
-        void Use()
+        // ── 펌프: 머리를 아래로 끝까지 끌면 1펌프 투입 (SFR-046, ADR-0035) ──
+
+        void BeginPump(PointerEventData e)
         {
-            if (IsPour || IsDrag) return;
-            if (TryAdd()) activeTimer = pressShowSeconds;
+            if (!PumpLocalY(e, out pumpStartY)) return;
+            pumpHeld = true;
+            pumped = false;
+            pumpProgress = 0;
+        }
+
+        void DragPump(PointerEventData e)
+        {
+            if (!pumpHeld || !PumpLocalY(e, out float y)) return;
+            pumpProgress = Mathf.Clamp01((pumpStartY - y) / pumpPressDistance); // 창 좌표는 위가 +, 아래로 끌수록 커짐
+            if (pumpProgress >= 1f && !pumped)
+            {
+                pumped = true;
+                if (TryAdd()) activeTimer = pressShowSeconds;
+            }
+        }
+
+        void EndPump(PointerEventData e) => pumpHeld = false; // 놓으면 머리가 올라온다
+
+        bool PumpLocalY(PointerEventData e, out float y)
+        {
+            bool ok = RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                (RectTransform)toolImage.rectTransform.parent, e.position, e.pressEventCamera, out var local);
+            y = local.y;
+            return ok;
         }
 
         bool TryAdd()
@@ -223,7 +259,7 @@ namespace CafeTime.Cafe
             // 도구 그림: 펌프 눌림, 숟가락이 빠진 청 병(끄는 중·붓는 중), 기울인 우유·탄산수
             bool active = tool switch
             {
-                Tool.Pump => timed,
+                Tool.Pump => pumpHeld && pumpProgress >= 0.5f, // 절반 넘게 끌면 눌린 그림
                 Tool.Cheong => dragging || timed,
                 Tool.Milk or Tool.Soda => pouring,
                 _ => false,

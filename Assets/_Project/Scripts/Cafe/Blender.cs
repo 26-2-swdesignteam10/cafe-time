@@ -11,6 +11,7 @@ namespace CafeTime.Cafe
 
         public Mixture Jar { get; } = new Mixture();
         public Cup CupSpot { get; private set; }
+        public bool LidOn { get; private set; } // 뚜껑 (ADR-0036): 덮어야 갈 수 있고, 열어야 재료를 넣거나 부을 수 있다
 
         float blendTime; // 지금까지 간 시간
         bool blended;
@@ -38,9 +39,24 @@ namespace CafeTime.Cafe
         // 갈기 중이거나 갈린 스무디 상태에서는 재료를 넣을 수 없다 (SFR-053)
         bool CanAdd => State == BlenderState.Empty || State == BlenderState.Filled;
 
+        // 재료를 넣을 수 있는 상태인데 뚜껑이 덮여 있으면 안내 (ADR-0036)
+        bool LidBlocksAdding()
+        {
+            if (!LidOn) return false;
+            Toast.Show(ToastMessage.OpenLid);
+            return true;
+        }
+
+        public void SetLid(bool on)
+        {
+            if (LidOn == on) return;
+            LidOn = on;
+            Changed?.Invoke();
+        }
+
         public void AddBase(IngredientDefinition ingredient)
         {
-            if (!CanAdd) return;
+            if (!CanAdd || LidBlocksAdding()) return;
             float amount = balance.AmountPerClick(ingredient);
             if (!Pantry.TryUse(ingredient.Id, amount)) { Toast.Show(ToastMessage.NoIngredient); return; }
             Jar.Add(ingredient.Id, amount);
@@ -49,7 +65,7 @@ namespace CafeTime.Cafe
 
         public bool Pour(IngredientDefinition ingredient, float seconds)
         {
-            if (!CanAdd) return false;
+            if (!CanAdd || LidBlocksAdding()) return false;
             float amount = balance.PourPerSecond * seconds;
             if (!Pantry.TryUse(ingredient.Id, amount)) { Toast.Show(ToastMessage.NoIngredient); return false; }
             Jar.Add(ingredient.Id, amount);
@@ -60,7 +76,7 @@ namespace CafeTime.Cafe
         // 얼음이 담긴 스쿱을 용기로 끌어 놓음
         public bool AddIceFromHand(int hand)
         {
-            if (!CanAdd || !(HandInventory.Instance[hand] is IceScoop { HasIce: true } scoop)) return false;
+            if (!CanAdd || !(HandInventory.Instance[hand] is IceScoop { HasIce: true } scoop) || LidBlocksAdding()) return false;
             scoop.HasIce = false;
             Jar.Add(RecipeKeys.Ice, 1);
             IceMaker.Instance.ReturnFromHand(hand); // 얼음을 부은 빈 스쿱은 제빙기 스쿱 자리로 자동 반납
@@ -74,6 +90,7 @@ namespace CafeTime.Cafe
         {
             if (blended) return false;
             if (Jar.IsEmpty) { Toast.Show(ToastMessage.BlenderEmpty); return false; }
+            if (!LidOn) { Toast.Show(ToastMessage.CloseLid); return false; } // ADR-0036
             bool started = blendTime <= 0;
             blendTime += seconds;
             if (blendTime >= balance.BlendSeconds)
@@ -108,6 +125,7 @@ namespace CafeTime.Cafe
         {
             if (CupSpot == null) { Toast.Show(ToastMessage.PlaceCup); return; }
             if (State != BlenderState.Blended) { Toast.Show(ToastMessage.BlendFirst); return; }
+            if (LidOn) { Toast.Show(ToastMessage.OpenLid); return; } // ADR-0036
             var cup = CupSpot;
             cup.AddAll(Jar);
             Jar.Clear();
@@ -121,7 +139,7 @@ namespace CafeTime.Cafe
         }
 
         // 붓기 버튼: 잔이 있고 다 갈렸을 때만 붓는 연출을 한다 (아니면 PourOut 이 안내를 띄움)
-        public bool CanPour => CupSpot != null && State == BlenderState.Blended;
+        public bool CanPour => CupSpot != null && State == BlenderState.Blended && !LidOn;
 
         public float Progress => !blended && blendTime > 0 ? blendTime / balance.BlendSeconds : -1f;
         public bool Done => false; // 화면을 연 채로 갈기 때문에 완료 알림이 필요 없다

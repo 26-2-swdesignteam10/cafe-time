@@ -7,7 +7,8 @@ using UnityEngine.UI;
 namespace CafeTime.Cafe
 {
     // 쉐이크 제조실 화면 (SFR-052~055, ADR-0029). 원액은 통의 국자를, 우유는 팩을 믹서기로 끌어 넣고, 얼음은 손의 스쿱을 끌어 놓는다.
-    // 갈기 버튼을 누르고 있는 동안 믹서기가 흔들리며 갈리고, 붓기 버튼을 누르면 용기가 컵 위로 기울어져 부은 뒤 판정한다
+    // 뚜껑을 끌어다 덮은 뒤(ADR-0036) 갈기 버튼을 누르고 있는 동안 믹서기가 흔들리며 갈리고,
+    // 뚜껑을 다시 끌어내 연 뒤 붓기 버튼을 누르면 용기가 컵 위로 기울어져 부은 뒤 판정한다
     public class ShakeRoomScreen : StationScreen
     {
         [Header("원액 통: baseIds 순서 (딸기, 망고, 한라봉, 멜론, 쿠키)")]
@@ -49,13 +50,23 @@ namespace CafeTime.Cafe
         [SerializeField] Color[] flavorColors;     // 붓는 줄기 색
         [Tooltip("용기 최대 눈금까지 찼을 때의 무게(g)")]
         [SerializeField] float capacity = 450f;
-        [SerializeField] GameObject lid;
+        [SerializeField] GameObject lid;           // 용기에 덮인 뚜껑 그림
         [SerializeField] Image whirl;              // 내용물과 같은 영역, 같은 높이로 자름
         [SerializeField] TMP_Text weightText;
         [SerializeField] HoldButton blendHold;
         [SerializeField] Image blendProgress;
         [SerializeField] float shakePixels = 4f;
         [SerializeField] float shakeDegrees = 1.5f;
+
+        [Header("뚜껑 (ADR-0036): 뚜껑 자리 ↔ 용기 위로 끌어 덮고 열기")]
+        [SerializeField] PointerDragRelay lidRestGrab;  // 뚜껑 자리에 놓인 뚜껑
+        [SerializeField] Image lidRestImage;
+        [SerializeField] PointerDragRelay lidJarGrab;   // 용기에 덮인 뚜껑 잡는 영역
+        [Tooltip("뚜껑을 놓으면 덮이는 판정 영역 (밖에 놓으면 뚜껑 자리로 돌아감 = 열림)")]
+        [SerializeField] RectTransform lidDropArea;
+        [SerializeField] Sprite lidLoose;
+        [SerializeField] Vector2 lidSize;
+        [SerializeField] Vector2 lidPivot;
 
         [Header("붓기")]
         [SerializeField] Button pourButton;
@@ -82,6 +93,7 @@ namespace CafeTime.Cafe
         int draggingBase = -1;      // 끄는 중인 원액 통 (-1 = 없음)
         bool draggingMilk;
         bool milkBlocked;           // 이번 끌기에서 붓기 실패 (재고 없음 등) → 안내를 반복하지 않음
+        bool draggingLid;
         Vector2 pointer;            // 마지막 마우스 위치 (화면 좌표)
         Camera pointerCamera;
         int lastBlendFrame = -10;
@@ -121,6 +133,12 @@ namespace CafeTime.Cafe
             milkCarton.Dragging += Drag;
             milkCarton.Ended += EndMilk;
             tooltip.Hide();
+            foreach (var grab in new[] { lidRestGrab, lidJarGrab })
+            {
+                grab.Began += BeginLid;
+                grab.Dragging += Drag;
+                grab.Ended += EndLid;
+            }
 
             blenderZone.Dropped += e =>
             {
@@ -190,9 +208,15 @@ namespace CafeTime.Cafe
             c.a = Mixer.State == BlenderState.Blended ? 1f : progress > 0 ? progress : 0f;
             smoothImage.color = c;
 
-            // 가는 동안: 뚜껑, 소용돌이, 흔들림
+            // 뚜껑: 덮였으면 용기 위, 아니면 뚜껑 자리 (끄는 동안은 마우스에만)
+            bool lidOn = Mixer.LidOn;
+            if (lid.activeSelf != (lidOn && !draggingLid)) lid.SetActive(lidOn && !draggingLid);
+            lidRestImage.enabled = !lidOn && !draggingLid;
+            if (lidRestGrab.gameObject.activeSelf != !lidOn) lidRestGrab.gameObject.SetActive(!lidOn);
+            if (lidJarGrab.gameObject.activeSelf != lidOn) lidJarGrab.gameObject.SetActive(lidOn);
+
+            // 가는 동안: 소용돌이, 흔들림
             bool blending = Blending;
-            if (lid.activeSelf != blending) lid.SetActive(blending);
             if (whirl.gameObject.activeSelf != blending) whirl.gameObject.SetActive(blending);
             shaker.anchoredPosition = shakerRestPosition + (blending ? Random.insideUnitCircle * shakePixels : Vector2.zero);
             shaker.localEulerAngles = new Vector3(0, 0, blending ? Random.Range(-shakeDegrees, shakeDegrees) : 0);
@@ -200,7 +224,7 @@ namespace CafeTime.Cafe
 
         // ── 원액 국자 ──
 
-        bool IsDragging => draggingBase >= 0 || draggingMilk;
+        bool IsDragging => draggingBase >= 0 || draggingMilk || draggingLid;
 
         bool CanDrag => pourTime < 0 && !IsDragging;
 
@@ -270,6 +294,25 @@ namespace CafeTime.Cafe
             }
         }
 
+        // ── 뚜껑: 용기 위에 놓으면 덮이고, 다른 곳에 놓으면 뚜껑 자리로 (열림) ──
+
+        void BeginLid(PointerEventData e)
+        {
+            if (!CanDrag || Blending) return;
+            draggingLid = true;
+            tooltip.Hide();
+            ShowDragImage(lidLoose, lidSize, lidPivot);
+            Drag(e);
+        }
+
+        void EndLid(PointerEventData e)
+        {
+            if (!draggingLid) return;
+            bool over = RectTransformUtility.RectangleContainsScreenPoint(lidDropArea, e.position, e.pressEventCamera);
+            CancelDrag();
+            Mixer.SetLid(over);
+        }
+
         // ── 끌기 공용 ──
 
         void ShowDragImage(Sprite sprite, Vector2 size, Vector2 pivot)
@@ -286,7 +329,7 @@ namespace CafeTime.Cafe
             if (!IsDragging) return;
             pointer = e.position;
             pointerCamera = e.pressEventCamera;
-            if (draggingBase >= 0) FollowPointer(); // 우유 팩은 UpdateMilk 가 붓는 자세와 함께 정한다
+            if (draggingBase >= 0 || draggingLid) FollowPointer(); // 우유 팩은 UpdateMilk 가 붓는 자세와 함께 정한다
         }
 
         void FollowPointer()
@@ -304,6 +347,7 @@ namespace CafeTime.Cafe
             if (draggingBase >= 0) jarScoops[draggingBase].SetActive(true);
             draggingBase = -1;
             draggingMilk = false;
+            draggingLid = false;
             milkImage.enabled = true;
             milkStream.gameObject.SetActive(false);
             dragImage.enabled = false;
