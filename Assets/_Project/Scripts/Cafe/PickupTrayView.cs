@@ -35,16 +35,16 @@ namespace CafeTime.Cafe
             this.order = order;
             numberText.text = $"#{order.Number}";
             var sb = new StringBuilder();
-            for (int i = 0; i < order.Lines.Count; i++)
+            for (int i = 0; i < order.PreparationLines.Count; i++)
             {
-                var line = order.Lines[i];
+                var line = order.PreparationLines[i];
                 if (i > 0) sb.Append('\n');
                 sb.Append($"{OrderText.ItemLabel(line.Menu, line.Temperature)} x{line.Quantity}");
             }
             linesText.text = sb.ToString();
 
             // 자리마다 주문한 음료 1개. 놓인 물건은 맞는 메뉴 자리부터, 맞는 자리가 없으면 남은 빈 자리에
-            var wanted = order.Lines.SelectMany(l => Enumerable.Repeat(l, l.Quantity)).ToList();
+            var wanted = order.PreparationLines.SelectMany(l => Enumerable.Repeat(l, l.Quantity)).ToList();
             var filled = new HeldItem[wanted.Count];
             var rest = new List<HeldItem>();
             foreach (var item in placed)

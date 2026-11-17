@@ -29,7 +29,7 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0015](0015-espresso-shot-integration.md) | 에스프레소 머신은 팀원의 EspressoShot 구현으로 통합한다 | 제안 |
 | [0016](0016-cafe-map-layout-and-modern-style.md) | 카페 맵을 주방 축소 배치와 모던 스타일로 바꾼다 | 제안 |
 | [0017](0017-order-list-modal-and-recipe-book.md) | 상단 주문표를 주문 내역 버튼·모달로 바꾸고 레시피북을 둔다 | 대체됨 (ADR-0018 픽업대 배정 부분, ADR-0019 레시피 카드 배치 부분) |
-| [0018](0018-pickup-trays-per-order.md) | 픽업대는 주문마다 트레이를 두고 서빙 버튼으로 내보낸다 | 승인 |
+| [0018](0018-pickup-trays-per-order.md) | 픽업대는 주문마다 트레이를 두고 서빙 버튼으로 내보낸다 | 대체됨 (ADR-0030 베이커리 부분) |
 | [0019](0019-recipe-toggle-scoop-return-station-headers.md) | 레시피북 온도 선택, 빈 스쿱 자동 반납, 기기 창 제목·안내 문구 제거 | 승인 |
 | [0020](0020-ten-minute-day-and-difficulty-table.md) | 하루 영업을 약 10분으로 줄이고 DAY별 난이도 표를 둔다 | 대체됨 (ADR-0021, 하루 시간 부분) |
 | [0021](0021-seven-minute-day.md) | 하루 영업을 약 7분으로 더 줄인다 | 승인 |
@@ -41,3 +41,7 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0027](0027-drink-result-stamp.md) | 음료 판정 결과는 완성품 그림과 완성도 도장으로 보여 준다 | 승인 |
 | [0028](0028-cheong-spoon-and-tea-steep-drag.md) | 청은 숟가락을 끌어 넣고 티백은 물 담긴 컵에 끌어 담근다 | 승인 |
 | [0029](0029-shake-room-drag-and-hold-blend.md) | 쉐이크 제조실은 끌어 넣고 누르고 있는 동안 갈며, 포스기는 실제 단말기 화풍으로 바꾼다 | 승인 |
+| [0030](0030-bakery-self-service.md) | 베이커리 8종과 손님 직접 픽업·계산 방식 | 대체됨 (ADR-0031 포스기 입력 부분, ADR-0032 진열장 위치·팝업 부분) |
+| [0031](0031-bakery-manual-pos.md) | 베이커리는 손님 대사를 보고 포스기에 직접 입력한다 | 승인 |
+| [0032](0032-lower-bakery-showcase.md) | 손님은 아래쪽 큰 베이커리 진열대에서 직접 픽업한다 | 승인 |
+| [0033](0033-compact-front-counter.md) | 행주 걸이를 오른쪽으로 옮기고 기존 받침대 한 칸을 제거한다 | 승인 |
