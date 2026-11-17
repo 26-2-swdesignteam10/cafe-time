@@ -70,7 +70,7 @@ namespace CafeTime.Cafe
             minusButton.onClick.AddListener(() => ChangeQuantity(-1));
             plusButton.onClick.AddListener(() => ChangeQuantity(+1));
             deleteButton.onClick.AddListener(DeleteSelected);
-            cancelButton.onClick.AddListener(() => { lines.Clear(); selected = -1; Refresh(); }); // 주문 취소: 목록 비우기
+            cancelButton.onClick.AddListener(() => { lines.Clear(); selected = -1; Refresh(); }); // 입력한 음료·베이커리 목록을 비운다
             payButton.onClick.AddListener(Pay);
         }
 
@@ -174,8 +174,7 @@ namespace CafeTime.Cafe
         void Pay()
         {
             if (lines.Count == 0 || party == null) return;
-            var order = CustomerManager.Instance.TakeOrder(party, lines.Select(l => new OrderLine(l.Menu, l.Temperature, l.Quantity)).ToList(),
-                lines.Sum(l => l.Price));
+            var order = CustomerManager.Instance.TakeOrder(party, lines.Select(l => new OrderLine(l.Menu, l.Temperature, l.Quantity)).ToList());
             party = null;
             Close();
             if (order != null) receipt.Open(order); // 결제 직전에 손님이 떠났으면 주문 없음

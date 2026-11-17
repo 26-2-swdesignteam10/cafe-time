@@ -17,9 +17,9 @@ namespace CafeTime.Cafe
         {
             numberText.text = $"#{order.Number}";
             var sb = new StringBuilder();
-            for (int i = 0; i < order.Lines.Count; i++)
+            for (int i = 0; i < order.PreparationLines.Count; i++)
             {
-                var line = order.Lines[i];
+                var line = order.PreparationLines[i];
                 if (i > 0) sb.Append('\n');
                 sb.Append($"{OrderText.ItemLabel(line.Menu, line.Temperature)} x{line.Quantity}");
             }

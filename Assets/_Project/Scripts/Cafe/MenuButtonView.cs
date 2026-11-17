@@ -30,6 +30,8 @@ namespace CafeTime.Cafe
             gameObject.SetActive(true);
         }
 
+        public void SetInteractable(bool value) => button.interactable = value;
+
         public void SetDetail(string text) => detailText.text = text;
 
         // 포스기 메뉴 카드: 손 칸 아이콘 대신 완성품 그림 (ADR-0029)
