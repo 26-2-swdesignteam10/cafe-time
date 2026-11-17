@@ -361,3 +361,23 @@ Unity 임포트와 게임 내 배치는 이번 작업 범위에 포함하지 않
 Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구 확인과 파일별 프롬프트는 작성자에게 받아 보충한다.
 
 - 교체한 파일: Booth.png, BreadShelf.png, ChairLeft.png, ChairRight.png, Counter.png, Floor.png, PlanterSegment.png, StationCupShelf.png, StationDessertCase.png, StationDishwash.png, StationDrinkBar.png, StationEspresso.png, StationIceMaker.png, StationPickup.png, StationPos.png, StationShakeBar.png, StationTowel.png, StationTrayReturn.png, StationWater.png, Stool.png, Table.png, WindowHall.png
+
+## 2026-11-12 퇴식구를 세로 카운터 하나로 (StationTrayReturn.png, StationTrayReturn1~4.png)
+
+- 요청: 맵의 퇴식구도 픽업대처럼 다가가면 **전체**에 노란 테두리가 씌워지게, 크기·디자인 조정, 쟁반이 쌓였을 때만 접시·쓰레기가 보이게 (창을 열기 전에).
+- 예전에는 받침대(`TrayStand.png`, 장식)와 그 위 작은 퇴식구(`StationTrayReturn.png` 128×128)가 따로라 테두리가 위쪽 작은 그림에만 생겼다. 둘을 홀 왼쪽 벽을 따라 세로로 긴 오크 카운터 한 그림으로 합쳤다. `TrayStand.png` 는 더 쓰지 않는다(파일은 남겨 둠).
+- 도구: Python 3.13 + Pillow 12 + numpy 2.2 절차적 그림(생성형 이미지 도구 없음). 4배 슈퍼샘플링 후 Lanczos 축소, 맵이 Point 필터라 알파 40 미만은 지웠다. 스크립트 `draw_map_tray.py` 는 Assets 밖 scratchpad 에만 두었다.
+- 스타일 참조: `StationPickup.png`(오크 상판 #E7AC72~#BB7744, 진갈색 다리 #2D1F19, 외곽선 #1E120E, 아래 선반), `TrayOnTable.png`(검정 쟁반 위 흰 잔·플라스틱 컵), docs/ART_STYLE.md 1장 카페 맵 예외(모던 미니멀, 차콜 외곽선, 왼쪽 위 빛)와 5장 맵 규격(1칸 = 128px, 기준점 아래 가운데).
+- 지시: “위에서 비스듬히 본 세로로 긴 오크 카운터(1칸 × 3.5칸). 윗면에 쟁반 자리 4칸이 옅게 들어가 있고, 앞(아래)쪽에 상판 두께와 진갈색 다리 두 개, 오크 아래 선반. 쟁반은 TrayOnTable 과 같은 검정 쟁반에 남은 커피 자국이 있는 흰 잔, 음료가 조금 남은 플라스틱 컵, 부스러기와 포크가 있는 접시, 빨대, 구겨진 냅킨, 티백을 칸마다 다르게 섞어 담는다. 글자 없음.”
+
+| 파일 | 내용 | 크기 |
+|---|---|---|
+| StationTrayReturn.png | 빈 카운터 (쟁반 자리 매트 4칸만) | 128×448 |
+| StationTrayReturn1.png | 앞쪽 1칸에 쟁반 (잔·플라스틱 컵·빨대·냅킨) | 128×448 |
+| StationTrayReturn2.png | + 2번째 칸 (접시·잔·냅킨) | 128×448 |
+| StationTrayReturn3.png | + 3번째 칸 (플라스틱 컵 2·빨대·티백) | 128×448 |
+| StationTrayReturn4.png | + 4번째 칸 (잔·접시·빨대). 4칸 = `GameBalance.trayReturnSlots` | 128×448 |
+
+- 쟁반 가운데는 그림 위에서 y = 84, 164, 244, 324 px (앞쪽 칸이 324). 다섯 그림 모두 카운터 실루엣이 같아 노란 테두리(`Outlines/StationTrayReturnOutline.png`, 빈 카운터 그림으로 자동 생성)가 어느 상태에서도 맞는다.
+- 배치: 아래 가운데 (1.5, 3.2), 1칸 × 3.5칸. 충돌 영역은 예전 받침대와 같은 폭 0.75 × 높이 3.3 이라 퇴식구 앞 통로 폭은 그대로다(ADR-0025). 벽에 붙은 가구라 예전 받침대처럼 캐릭터보다 뒤에 그린다(sortingOrder -1).
+- 반납된 쟁반 수에 따라 `TrayReturnView` 가 그림을 바꾼다. 새 PNG 의 `.meta` 는 Unity 가 만든다.
