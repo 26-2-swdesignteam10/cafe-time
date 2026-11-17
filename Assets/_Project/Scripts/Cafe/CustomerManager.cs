@@ -248,7 +248,7 @@ namespace CafeTime.Cafe
                     new Vector3(seat.x, table.LaneY),
                     seat,
                 };
-                member.Walk(points);
+                member.WalkToSeat(points, table.SeatFacing(i));
             }
             if (order.ItemCount == 0) Serve(order, new List<HeldItem>()); // 베이커리만 결제하면 제조 대기 없음
             return order;

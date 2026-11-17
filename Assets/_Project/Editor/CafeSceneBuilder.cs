@@ -61,8 +61,8 @@ namespace CafeTime.EditorTools
             ("행주 걸이", "StationTowel", TowelX, CounterTopY, Screen.Towel),
             ("포스기", "StationPos", 4.625f, CounterTopY, Screen.Pos),
             ("픽업대", "StationPickup", 7.625f, CounterTopY, Screen.Pickup),
-            // 홀 왼쪽 벽 (받침대 위)
-            ("퇴식구", "StationTrayReturn", 1.5f, 5.2f, Screen.TrayReturn),
+            // 홀 왼쪽 벽을 따라 세로로 긴 카운터 (예전 받침대 + 퇴식구를 한 그림으로 합침, 2026-11-12)
+            ("퇴식구", "StationTrayReturn", 1.5f, 3.2f, Screen.TrayReturn),
         };
 
         // 테이블 (테이블 수는 추후 결정, SFR-024). 아래쪽 줄의 y 와 손님이 걸어오는 가로 통로 y
@@ -299,7 +299,7 @@ namespace CafeTime.EditorTools
             return tables.ToArray();
         }
 
-        // 가구 (ADR-0016, 0031): 빵 진열대는 손님 픽업 위치이며 플레이어 상호작용은 없다. 창문, 퇴식구 받침대, 화분 칸막이, 창가 바, 스툴, 부스
+        // 가구 (ADR-0016, 0031): 빵 진열대는 손님 픽업 위치이며 플레이어 상호작용은 없다. 창문, 화분 칸막이, 창가 바, 스툴, 부스 (퇴식구 받침대는 2026-11-12 퇴식구 그림에 합침)
         static void BuildDecor()
         {
             var root = new GameObject("Decor").transform;
@@ -307,7 +307,6 @@ namespace CafeTime.EditorTools
                 Decor("창문", root, "WindowHall", 12.75f + i * 2.1f, 13.4f, Vector2.one);
             BreadShelf("빵 진열대 왼쪽", root, 4.3f, 0);
             BreadShelf("빵 진열대 오른쪽", root, 7.7f, 1);
-            Decor("퇴식구 받침대", root, "TrayStand", 1.5f, 3.2f, new Vector2(0.75f, 3.6f));
             foreach (float y in new[] { 1f, 2f, 4.4f, 5f, 6f, 7f }) // 사이 y3~4.4 는 좌석으로 가는 통로
                 Decor("화분 칸막이", root, "PlanterSegment", 10.5f, y, Vector2.one);
             for (int x = 11; x < MapWidth - 1; x++)
@@ -451,8 +450,9 @@ namespace CafeTime.EditorTools
             for (int i = 0; i < 4; i++)
             {
                 var look = looks.GetArrayElementAtIndex(i);
-                foreach (var pose in new[] { "Down", "Up", "Left", "Right", "Sit" })
-                    look.FindPropertyRelative(pose.ToLower()).objectReferenceValue = LoadSprite($"{CustomerArtDir}/Customer{i + 1}{pose}.png");
+                // 필드 이름 = 포즈 이름의 첫 글자만 소문자 (SitLeft → sitLeft). SitLeft/SitRight 는 의자에 앉은 옆모습 (SFR-024)
+                foreach (var pose in new[] { "Down", "Up", "Left", "Right", "Sit", "SitLeft", "SitRight" })
+                    look.FindPropertyRelative(char.ToLower(pose[0]) + pose.Substring(1)).objectReferenceValue = LoadSprite($"{CustomerArtDir}/Customer{i + 1}{pose}.png");
             }
             Set(customers, "gaugeFrame", LoadSprite($"{HudArt}/GaugeFrame.png"));
             Set(customers, "gaugeFill", LoadSprite($"{HudArt}/GaugeFill.png"));
@@ -474,13 +474,28 @@ namespace CafeTime.EditorTools
                 var size = sprite != null ? (Vector2)sprite.bounds.size : new Vector2(1.5f, 1.5f);
                 // 카운터 위 기기는 충돌 영역을 상판 안으로 줄여 작업 공간을 막지 않게 함
                 float colliderHeight = s.y == CounterTopY ? FrontCounterY + 1 - CounterTopY : Mathf.Min(size.y, 1f);
-                var go = WorldObject(s.name, root, sprite, s.x, s.y, new Vector2(size.x - 0.1f, colliderHeight));
+                float colliderWidth = size.x - 0.1f;
+                bool wallCounter = s.screen == Screen.TrayReturn;
+                if (wallCounter)
+                {
+                    // 퇴식구는 벽을 따라 긴 카운터 전체가 막힌다. 폭은 예전 받침대(0.75)와 같게 해 앞 통로 폭을 유지 (ADR-0025)
+                    colliderWidth = 0.75f;
+                    colliderHeight = size.y - 0.2f;
+                }
+                var go = WorldObject(s.name, root, sprite, s.x, s.y, new Vector2(colliderWidth, colliderHeight));
 
                 // 다가가면 켜지는 테두리 (SFR-013): 기기 그림 모양을 따라 만든 외곽선 그림. 기기와 같은 앞뒤 정렬이라 앞에 선 플레이어를 가리지 않음
                 var highlight = new GameObject("Highlight").AddComponent<SpriteRenderer>();
                 highlight.transform.SetParent(go.transform, false);
                 highlight.sprite = OutlineSprite(spritePath);
                 highlight.spriteSortPoint = SpriteSortPoint.Pivot;
+                if (wallCounter)
+                {
+                    // 벽에 붙은 긴 가구라 예전 받침대처럼 캐릭터보다 항상 뒤에 그린다
+                    go.GetComponent<SpriteRenderer>().sortingOrder = -1;
+                    highlight.sortingOrder = -1;
+                    AddTrayReturnView(go);
+                }
 
                 var interactable = go.AddComponent<Interactable>();
                 var so = new SerializedObject(interactable);
@@ -492,6 +507,16 @@ namespace CafeTime.EditorTools
                 AddWorkStatus(s.screen, business, go, size.y);
                 highlight.gameObject.SetActive(false);
             }
+        }
+
+        // 반납된 쟁반 수(0~4)에 따라 퇴식구 그림을 바꾼다 (StationTrayReturn.png, StationTrayReturn1~4.png)
+        static void AddTrayReturnView(GameObject station)
+        {
+            var view = new SerializedObject(station.AddComponent<TrayReturnView>());
+            Set(view, "target", station.GetComponent<SpriteRenderer>());
+            SetArray(view, "byCount", Enumerable.Range(0, 5)
+                .Select(n => (Object)LoadSprite($"{MapArtDir}/StationTrayReturn{(n == 0 ? "" : n.ToString())}.png")).ToArray());
+            view.ApplyModifiedPropertiesWithoutUndo();
         }
 
         static void Connect(UnityEvent onInteract, (string name, string sprite, float x, float y, Screen screen) s,

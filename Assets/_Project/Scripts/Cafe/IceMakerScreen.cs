@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,8 +7,7 @@ namespace CafeTime.Cafe
     // 제빙기 화면 (SFR-037~040): 스쿱을 얼음통에 끌어 얼음을 담고, 손 칸으로 끌어 든다. 빈 스쿱은 스쿱 자리로 반납
     public class IceMakerScreen : StationScreen
     {
-        [SerializeField] TMP_Text iceText;    // "20 / 24"
-        [SerializeField] TMP_Text speedText;  // "3초에 1개"
+        // 얼음 수·제빙 속도 글자는 표시하지 않는다 (2026-11-12 사용자 요청). 얼음이 모자라면 FillScoop 이 토스트로 알린다
         [SerializeField] DropZone bin;
         [SerializeField] DropZone scoopSpot;
         [SerializeField] DragItem scoop;
@@ -49,8 +47,6 @@ namespace CafeTime.Cafe
 
         protected override void Refresh()
         {
-            iceText.text = $"{Maker.Ice} / {Maker.Max}";
-            speedText.text = $"{Maker.SecondsPerCube:0.#}초에 1개";
             scoop.gameObject.SetActive(Maker.ScoopAtSpot);
             scoop.GetComponent<Image>().sprite = Maker.Scoop.HasIce ? scoopIce : scoopEmpty;
         }
