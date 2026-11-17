@@ -102,7 +102,7 @@ namespace CafeTime.EditorTools
             foreach (var popup in roots.SelectMany(root => root.GetComponentsInChildren<DessertShowcaseScreen>(true)).ToArray())
                 Undo.DestroyObjectImmediate(popup.gameObject);
             SetBakeryPickupPoint(customers);
-            // 절대 좌표로 적용해 메뉴를 여러 번 눌러도 한 칸씩 계속 이동하지 않는다 (ADR-0032).
+            // 절대 좌표로 적용해 메뉴를 여러 번 눌러도 한 칸씩 계속 이동하지 않는다 (ADR-0033).
             Undo.RecordObject(towel, "행주 걸이 오른쪽으로 한 칸 이동");
             towel.position = new Vector3(TowelX, towel.position.y, towel.position.z);
             Undo.RegisterCompleteObjectUndo(wallMap, "기존 행주 걸이 아래 받침대 제거");
@@ -206,7 +206,7 @@ namespace CafeTime.EditorTools
             {
                 var cell = new Vector3Int(x, y, 0);
                 bool border = x == 0 || x == MapWidth - 1 || y == 0 || y >= MapHeight - 2;
-                // 앞쪽 카운터: x3~9. x1~2는 주방 출입구 (ADR-0032)
+                // 앞쪽 카운터: x3~9. x1~2는 주방 출입구 (ADR-0033)
                 bool frontCounter = !border && y == FrontCounterY && x >= FrontCounterStartX && x < KitchenRightX;
                 bool partition = !border && x == KitchenRightX && y >= FrontCounterY;
                 if (border || frontCounter || partition)

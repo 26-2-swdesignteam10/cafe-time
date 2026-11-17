@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CafeTime.Core;
@@ -21,6 +22,9 @@ namespace CafeTime.Cafe
         [SerializeField] Transform menuContainer;
         [SerializeField] MenuButtonView menuTemplate;
         [SerializeField] TemperatureSelector temperature;
+        [Tooltip("메뉴 카드 그림: pictureMenuIds[i] 메뉴에 pictures[i] (음료는 Art/UI/DrinkResult 완성품 그림)")]
+        [SerializeField] string[] pictureMenuIds;
+        [SerializeField] Sprite[] pictures;
 
         [Header("주문 목록")]
         [SerializeField] Transform rowContainer;
@@ -54,6 +58,8 @@ namespace CafeTime.Cafe
             {
                 var view = Instantiate(menuTemplate, menuContainer);
                 view.Setup(menu, Add);
+                int picture = Array.IndexOf(pictureMenuIds, menu.Id);
+                if (picture >= 0) view.SetIcon(pictures[picture]);
                 menuButtons.Add(view);
             }
             for (int i = 0; i < categoryTabs.Length; i++)

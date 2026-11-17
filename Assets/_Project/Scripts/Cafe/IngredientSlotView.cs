@@ -38,11 +38,13 @@ namespace CafeTime.Cafe
         public void OnPointerExit(PointerEventData eventData) => hoverExit?.Invoke();
 
         // "바닐라 시럽 80%" / "캐모마일 티백 7개"
-        public string Describe()
+        public string Describe() => Describe(Ingredient);
+
+        public static string Describe(IngredientDefinition ingredient)
         {
-            if (Ingredient.Category == IngredientCategory.Tea)
-                return $"{Ingredient.DisplayName} {Mathf.FloorToInt(Pantry.Available(Ingredient.Id))}개";
-            return $"{Ingredient.DisplayName} {Pantry.PercentLeft(Ingredient.Id)}%";
+            if (ingredient.Category == IngredientCategory.Tea)
+                return $"{ingredient.DisplayName} {Mathf.FloorToInt(Pantry.Available(ingredient.Id))}개";
+            return $"{ingredient.DisplayName} {Pantry.PercentLeft(ingredient.Id)}%";
         }
     }
 }
