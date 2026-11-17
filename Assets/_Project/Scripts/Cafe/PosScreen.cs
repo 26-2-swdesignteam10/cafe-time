@@ -177,7 +177,13 @@ namespace CafeTime.Cafe
             var order = CustomerManager.Instance.TakeOrder(party, lines.Select(l => new OrderLine(l.Menu, l.Temperature, l.Quantity)).ToList());
             party = null;
             Close();
-            if (order != null) receipt.Open(order); // 결제 직전에 손님이 떠났으면 주문 없음
+            if (order != null)
+            {
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayPayment();
+
+                receipt.Open(order);
+            } // 결제 직전에 손님이 떠났으면 주문 없음
         }
     }
 }

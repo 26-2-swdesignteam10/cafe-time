@@ -1,5 +1,6 @@
 using CafeTime.Cafe;
 using CafeTime.UI;
+using CafeTime.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -31,7 +32,12 @@ namespace CafeTime.Player
             prompt.transform.position = target.PromptPosition;
 
             if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+            {
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayInteract();
+
                 target.Interact();
+            }
         }
 
         Interactable FindNearest()

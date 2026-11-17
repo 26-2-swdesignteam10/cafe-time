@@ -104,6 +104,9 @@ namespace CafeTime.Cafe
             parties.Add(party);
             Result.visitors += size;
 
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayCustomerEnter();
+
             // 베이커리를 고른 손님은 먼저 진열장에 들른다 (SFR-026, 056).
             if (party.Wanted.Any(l => l.Menu.IsDessert))
             {
