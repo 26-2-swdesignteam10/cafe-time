@@ -284,6 +284,10 @@ namespace CafeTime.Cafe
             party.Gauge.Show(false);
             party.StayLeft = balance.StayDuration;
             party.Current = CustomerParty.State.Drinking;
+
+            // SFR-056: 서빙 완료 시 주문 호출 차임 재생
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayServe();
         }
 
         // ───────── 퇴장 ─────────

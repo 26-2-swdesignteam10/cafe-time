@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using CafeTime.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,11 @@ namespace CafeTime.Cafe
         [SerializeField] DragMotion sponge;
         [SerializeField] Image[] rack;          // 건조대 칸 (잔을 거꾸로 엎어 둔다)
         [SerializeField] GameObject dryingLabel; // "건조 중"
+
+        [Tooltip("스펀지가 멈춘 뒤 소리를 끄기까지의 시간")]
+        [SerializeField] float scrubSoundHoldSeconds = 0.1f;
+
+        float scrubSoundUntil = -1f;
 
         [Header("연출")]
         [SerializeField] RectTransform fxLayer; // 방울·반짝임을 그리는 층 (싱크 전체)
@@ -136,6 +142,12 @@ namespace CafeTime.Cafe
             var kind = Dish.InSink.Value;
             int before = Dish.Rack.Count;
             float distance = Mathf.Abs(delta.x);
+            if (distance <= 0f) return;
+
+            // SFR-063~065: 좌우로 문지르는 동안만 소리 유지
+            scrubSoundUntil =
+                Time.unscaledTime + scrubSoundHoldSeconds;
+
             Dish.Scrub(distance);
             SquishSponge(distance);
             SpawnScrubBubbles(distance);
@@ -164,6 +176,11 @@ namespace CafeTime.Cafe
 
         void ResetSponge()
         {
+            scrubSoundUntil = -1f;
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetDishScrubbing(false);
+
             sponge.transform.localRotation = Quaternion.identity;
             sponge.transform.localScale = Vector3.one;
         }
@@ -190,6 +207,27 @@ namespace CafeTime.Cafe
             }
             bubble.gameObject.SetActive(true);
             StartCoroutine(Float(bubble, at, size));
+        }
+
+        void LateUpdate()
+        {
+            bool scrubbing =
+                !finishing &&
+                Dish.InSink != null &&
+                Time.unscaledTime < scrubSoundUntil;
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetDishScrubbing(scrubbing);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            scrubSoundUntil = -1f;
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetDishScrubbing(false);
         }
 
         // 비누 방울: 커지며 흔들흔들 떠오르다가 톡 터진다
