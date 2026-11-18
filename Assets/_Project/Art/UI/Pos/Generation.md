@@ -246,3 +246,5 @@ Use case: stylized-concept. ONE premium cafe game primary UI action button, wide
 - 추가 검수: 저장소 밖 ReceiptSixRows.png에 임시 메뉴·수량·금액 6행을 위 좌표로 합성해 제목/표 머리/합계/바코드/확인 버튼과 겹치지 않음을 직접 확인했다. 이 샘플 값은 납품 PNG에는 없다.
 
 - 마무리 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일 1993개). 이 검사는 추적 파일 기준이므로 신규 ReceiptConfirmButton.png의 Unity .meta 생성 확인을 대신하지 않는다. 이번 작업에서는 PNG와 위 Generation.md만 수정했으며 코드·.meta·씬·프리팹·.asset은 수정하지 않았다.
+
+- 2026-11-18: 디저트를 픽셀 아이콘으로 바꾸면서 쓰지 않게 된 `DessertStrawberryCake.png`, `DessertCroissant.png`, `DessertCookie.png` 를 삭제했다. 위 프롬프트 기록은 참고용으로 남긴다.

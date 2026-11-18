@@ -48,8 +48,8 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0034](0034-bakery-shelf-stock-display.md) | 빵 진열대는 재고만큼 작은 빵을 칸마다 늘어놓고 홀 세로를 채운다 | 승인 |
 | [0035](0035-pump-drag-press.md) | 시럽·연유 펌프는 머리를 아래로 끌어 누른다 | 승인 |
 | [0036](0036-blender-lid-step.md) | 믹서기 뚜껑은 끌어다 덮어야 갈 수 있고, 열어야 넣고 부을 수 있다 | 승인 |
-| [0037](0037-cup-contents-layers.md) | 컵 내용물을 재료 층으로 겹쳐 그리기 | 제안 |
+| [0037](0037-cup-contents-layers.md) | 컵 내용물을 재료 층으로 겹쳐 그리기 | 승인 |
 | [0038](0038-menu-revamp-fixed-temperature-four-slots.md) | 메뉴 개편, 온도 고정 음료, 손 칸 4개, 재료별 작업 창 그림 | 대체됨 (ADR-0041 콜드브루 ICE 고정 부분) |
 | [0039](0039-hud-day-image-no-rent.md) | 영업 HUD에서 임대료를 빼고 DAY 그림·원 표기·평판 숫자를 쓴다 | 승인 |
-| [0040](0040-pickup-bell-call.md) | 픽업대 진동벨 번호 호출로 서빙 | 제안 |
+| [0040](0040-pickup-bell-call.md) | 픽업대 진동벨 번호 호출로 서빙 | 승인 |
 | [0041](0041-cold-brew-hot-temperature-pictures.md) | 콜드브루 HOT 추가, 포스기 카드 그림을 HOT/ICE 에 맞춰 바꾼다 | 승인 |
