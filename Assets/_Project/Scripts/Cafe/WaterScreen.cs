@@ -12,6 +12,8 @@ namespace CafeTime.Cafe
         [SerializeField] Image[] cupImages;
         [Tooltip("큰 컵 그림: HOT 빈 잔·물·만드는 중, ICE 빈 잔·물·만드는 중")]
         [SerializeField] Sprite[] cupSprites = new Sprite[6];
+        [Tooltip("구역별 컵 내용물 층")]
+        [SerializeField] CupContentsView[] cupContents;
         [Tooltip("구역별 물 줄기 (물을 받는 동안만 켬)")]
         [SerializeField] GameObject[] streams;
         [SerializeField] Button[] fillButtons;
@@ -41,7 +43,7 @@ namespace CafeTime.Cafe
 
         protected override void Refresh()
         {
-            for (int i = 0; i < zones.Length; i++) ShowIcon(cupImages[i], BigCupSprite(Water.Cups[i], cupSprites));
+            for (int i = 0; i < zones.Length; i++) ShowCup(cupImages[i], cupContents != null && i < cupContents.Length ? cupContents[i] : null, Water.Cups[i], cupSprites);
         }
 
         void Update()

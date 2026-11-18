@@ -46,9 +46,9 @@ namespace CafeTime.Settlement
             dayText.text = $"DAY {day}";
             visitorsText.text = $"{result.visitors:N0}명";
             drinksText.text = $"{result.drinksSold:N0}잔";
-            revenueText.text = $"₩{result.revenue:N0}";
-            tipsText.text = $"₩{result.tips:N0}";
-            rentText.text = $"-₩{rent:N0}";
+            revenueText.text = $"{result.revenue:N0}원";
+            tipsText.text = $"{result.tips:N0}원";
+            rentText.text = $"-{rent:N0}원";
 
             // 손님 만족도에 따라 평판 변동 (SFR-072)
             save.reputation = Mathf.Clamp(save.reputation + result.reputationChange, 1f, 5f);
@@ -57,7 +57,7 @@ namespace CafeTime.Settlement
             if (save.money < rent)
             {
                 // 임대료를 낼 보유금이 부족하면 엔딩 01(닫힌 카페) (SFR-071, 073). 저장하지 않는다
-                moneyText.text = $"₩{save.money:N0}";
+                moneyText.text = $"{save.money:N0}원";
                 rentWarningLabel.SetActive(true);
                 next = Next.Ending;
                 Endings.Pending = EndingType.ClosedCafe;
@@ -68,7 +68,7 @@ namespace CafeTime.Settlement
                 save.day = day + 1;
                 save.bestScore = Mathf.Max(save.bestScore, result.score); // 하루 최고 점수 (SFR-067)
                 SaveSystem.SaveCurrent(); // 하루 정산 후 자동 저장 (ADR-0005)
-                moneyText.text = $"₩{save.money:N0}";
+                moneyText.text = $"{save.money:N0}원";
                 rentWarningLabel.SetActive(false);
                 next = day >= GameBalance.TotalDays ? Next.Ending : Next.NextDay; // DAY 15 정산 후 엔딩
                 if (next == Next.Ending) Endings.Pending = Endings.Decide(save, balance);

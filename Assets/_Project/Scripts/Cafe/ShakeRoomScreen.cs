@@ -75,13 +75,14 @@ namespace CafeTime.Cafe
         [SerializeField] Image pourStream;
         [Tooltip("붓는 줄기 길이: 도자기 잔, 플라스틱 컵 (입구 높이가 다름)")]
         [SerializeField] float[] pourStreamHeights = { 228, 180 };
-        [SerializeField] float pourSeconds = 1.2f;
+        [SerializeField] float pourSeconds = 2f; // 컵이 차오르는 게 보이도록 (2026-11-18 사용자 요청)
 
         [Header("컵 자리")]
         [SerializeField] DropZone cupSpot;
         [SerializeField] Image cupImage;
         [Tooltip("큰 컵 그림: HOT 빈 잔·물·만드는 중, ICE 빈 잔·물·만드는 중")]
         [SerializeField] Sprite[] cupSprites = new Sprite[6];
+        [SerializeField] CupContentsView cupContents; // 붓는 동안 컵에 스무디가 차오름 (ADR-0037)
         [SerializeField] JudgeResultView result;
 
         static Blender Mixer => Blender.Instance;
@@ -98,6 +99,8 @@ namespace CafeTime.Cafe
         Camera pointerCamera;
         int lastBlendFrame = -10;
         float fill;                 // 보이는 내용물 높이 0~1
+        float pourStartFill;        // 붓기 시작할 때 용기 내용물 높이
+        float pourWeight;           // 붓는 양 (g)
         float pourTime = -1;        // 붓는 연출 진행 시간 (-1 = 안 함)
         Vector2 jarRestPosition;
         Vector2 shakerRestPosition;
@@ -176,7 +179,7 @@ namespace CafeTime.Cafe
             int flavor = Flavor();
             chunkyImage.sprite = chunkySprites[flavor];
             smoothImage.sprite = smoothSprites[flavor];
-            ShowIcon(cupImage, BigCupSprite(Mixer.CupSpot, cupSprites));
+            if (pourTime < 0) ShowCup(cupImage, cupContents, Mixer.CupSpot, cupSprites); // 붓는 중에는 UpdatePour 가 그림
         }
 
         // 가장 많이 넣은 원액의 그림·색 (원액이 없으면 마지막 칸)
@@ -360,6 +363,8 @@ namespace CafeTime.Cafe
             if (pourTime >= 0 || IsDragging) return;
             if (!Mixer.CanPour) { Mixer.PourOut(); return; } // 잔 없음·덜 갈림 안내
             pourFlavor = Flavor();
+            pourStartFill = Mathf.Max(fill, 0.01f);
+            pourWeight = Mixer.Weight;
             pourStream.color = flavorColors[pourFlavor];
             var size = pourStream.rectTransform.sizeDelta;
             pourStream.rectTransform.sizeDelta = new Vector2(size.x, pourStreamHeights[Mixer.CupSpot.Type == CupType.Ceramic ? 0 : 1]);
@@ -376,6 +381,10 @@ namespace CafeTime.Cafe
             bool streaming = tilt >= 1f;
             if (pourStream.gameObject.activeSelf != streaming) pourStream.gameObject.SetActive(streaming);
             if (streaming) fill = Mathf.MoveTowards(fill, 0, Time.deltaTime / (pourSeconds * 0.6f));
+            // 용기에서 줄어든 만큼 컵이 아래부터 차오른다
+            var cup = Mixer.CupSpot;
+            if (cup != null && cupContents != null)
+                cupContents.ShowPouring(cup.Type, flavorColors[pourFlavor], pourWeight * (1f - fill / pourStartFill));
             if (pourTime >= pourSeconds * 0.85f) FinishPour();
         }
 

@@ -18,6 +18,35 @@ namespace CafeTime.EditorTools
     {
         const string Hud = "Assets/_Project/Art/UI/CafeHud";
         const string Pos = "Assets/_Project/Art/UI/Pos";
+        // 메뉴 그림 (포스기 카드 = 손 칸·픽업대의 완성 음료): 음료는 판정 결과 완성품 그림 재사용.
+        // hot = HOT 그림, ice = ICE 또는 온도 없는 메뉴 그림 (한쪽만 있으면 null). 포스기에서 HOT/ICE 를 바꾸면 카드 그림도 바뀐다.
+        // 표에 없는 메뉴(신규 베이커리 등)는 ItemIcons 기본 아이콘
+        const string Result = "Assets/_Project/Art/UI/DrinkResult";
+        internal static readonly (string id, string hot, string ice)[] MenuPictures =
+        {
+            ("americano", $"{Result}/AmericanoHot", $"{Result}/AmericanoIce"),
+            ("cafe_latte", $"{Result}/LatteHot", $"{Result}/LatteIce"),
+            ("vanilla_latte", $"{Result}/VanillaLatteHot", $"{Result}/VanillaLatteIce"),
+            ("hazelnut_latte", $"{Result}/HazelnutLatteHot", $"{Result}/HazelnutLatteIce"),
+            ("caramel_macchiato", $"{Result}/CaramelHot", $"{Result}/CaramelIce"),
+            ("cafe_mocha", $"{Result}/MochaHot", $"{Result}/MochaIce"),
+            ("cappuccino", $"{Result}/CappuccinoHot", $"{Result}/CappuccinoIce"),
+            ("cold_brew", $"{Result}/ColdBrewHot", $"{Result}/ColdBrewIce"),
+            ("cold_brew_latte", $"{Result}/ColdBrewLatteHot", $"{Result}/ColdBrewLatteIce"),
+            ("strawberry_latte", null, $"{Result}/StrawberryLatteIce"), ("chocolate_latte", null, $"{Result}/ChocoLatteIce"),
+            ("matcha_latte", null, $"{Result}/MatchaLatteIce"),
+            ("grapefruit_ade", null, $"{Result}/AdeGrapefruit"), ("blue_lemon_ade", null, $"{Result}/AdeBlueLemon"),
+            ("yuja_tea", $"{Result}/YujaTeaHot", null), ("grapefruit_tea", $"{Result}/GrapefruitTeaHot", null),
+            ("chamomile", $"{Result}/TeaHot", null), ("earl_grey", $"{Result}/TeaHot", null),
+            ("strawberry_smoothie", null, $"{Result}/SmoothieStrawberry"), ("mango_smoothie", null, $"{Result}/SmoothieMango"),
+            ("hallabong_smoothie", null, $"{Result}/SmoothieHallabong"), ("melon_smoothie", null, $"{Result}/SmoothieMelon"),
+            ("cookie_shake", null, $"{Result}/CookieShake"), ("milk_shake", null, $"{Result}/MilkShake"),
+            // 베이커리는 따로 그림을 두지 않고 재료 아이콘(다른 빵과 같은 화풍, 접시 없음)을 쓴다 (2026-11-17 사용자 요청)
+        };
+
+        // 메뉴 그림 한 장 불러오기. 표에서 비운 칸(null)은 경고 없이 null
+        internal static Sprite LoadMenuPicture(string path) => path == null ? null : LoadSprite($"{path}.png");
+
         const string Stations = "Assets/_Project/Art/UI/Stations";
         const string OpenPrep = "Assets/_Project/Art/UI/OpenPrep";
         const string Settlement = "Assets/_Project/Art/UI/Settlement";
@@ -107,21 +136,31 @@ namespace CafeTime.EditorTools
             var hud = canvas.gameObject.AddComponent<CafeHud>();
             var so = new SerializedObject(hud);
 
-            // 1줄: DAY  시각  [보유금] ₩    2줄: [임대료] ₩   [평판] ★★★★★
-            var bar = TopLeft("StatusBar", canvas, 20, 20, 760, 120);
-            AddImage(bar, LoadSprite($"{Hud}/StatusBar.png"), new Color32(0x90, 0x47, 0x1B, 0xFF));
-            Set(so, "dayText", AddText(TopLeft("Day", bar, 40, 20, 140, 52), "DAY 1", 26, Cream, TextAlignmentOptions.Left));
-            Set(so, "clockText", AddText(TopLeft("Clock", bar, 176, 20, 130, 52), "09:00", 25, Cream, TextAlignmentOptions.Left));
-            Label(bar, "MoneyLabel", LoadSprite($"{OpenPrep}/LabelMoney.png"), 318, 43, PivotLeft, 0.4f);
-            Set(so, "moneyText", AddText(TopLeft("Money", bar, 440, 20, 290, 52), "₩0", 26, Cream, TextAlignmentOptions.Left));
-            Label(bar, "RentLabel", LoadSprite($"{Hud}/LabelRent.png"), 36, 80, PivotLeft, 0.4f);
-            Set(so, "rentText", AddText(TopLeft("Rent", bar, 126, 55, 190, 48), "₩0", 20, Cream, TextAlignmentOptions.Left));
-            Label(bar, "ReputationLabel", LoadSprite($"{Hud}/LabelReputation.png"), 318, 80, PivotLeft, 0.4f);
+            // SFR-013: 첫 줄은 DAY·시각·소지금, 둘째 줄은 평판. 두 줄을 프레임 안쪽으로 모은다.
+            if (AssetImporter.GetAtPath($"{Hud}/StatusBar.png") is TextureImporter statusImporter)
+            {
+                statusImporter.spriteBorder = new Vector4(80, 64, 80, 64);
+                statusImporter.SaveAndReimport();
+            }
+            var bar = TopLeft("StatusBar", canvas, 20, 20, 640, 120);
+            var frame = AddImage(bar, LoadSprite($"{Hud}/StatusBar.png"), new Color32(0x90, 0x47, 0x1B, 0xFF));
+            frame.type = Image.Type.Sliced;
+            frame.pixelsPerUnitMultiplier = 2f;
+            var dayImage = AddImage(TopLeft("Day", bar, 36, 16, 144, 52), null, Color.clear);
+            dayImage.preserveAspect = true;
+            Set(so, "dayImage", dayImage);
+            SetArray(so, "daySprites", Enumerable.Range(1, GameBalance.TotalDays).Select(d => (Object)LoadSprite($"{Hud}/Day{d}.png")).ToArray());
+            Set(so, "dayText", AddText(TopLeft("DayText", bar, 40, 16, 140, 52), "DAY 1", 26, Cream, TextAlignmentOptions.Left));
+            Set(so, "clockText", AddText(TopLeft("Clock", bar, 190, 16, 130, 52), "09:00", 25, Cream, TextAlignmentOptions.Left));
+            AddImage(TopLeft("Coin", bar, 318, 18, 48, 48), LoadSprite($"{Hud}/Coin.png"), Cream).preserveAspect = true;
+            Set(so, "moneyText", AddText(TopLeft("Money", bar, 374, 16, 230, 52), "0원", 28, Cream, TextAlignmentOptions.Left));
+            Label(bar, "ReputationLabel", LoadSprite($"{Hud}/LabelReputation.png"), 36, 78, PivotLeft, 0.4f);
             var starFull = LoadSprite($"{Settlement}/Star.png");
             var stars = new Object[5];
             for (int i = 0; i < stars.Length; i++)
-                stars[i] = AddImage(TopLeft($"Star {i + 1}", bar, 385 + i * 34, 65, 30, 30), starFull, Cream);
+                stars[i] = AddImage(TopLeft($"Star {i + 1}", bar, 110 + i * 29, 63, 30, 30), starFull, Cream); // 별 간격 34 → 29
             SetArray(so, "stars", stars);
+            Set(so, "reputationText", AddText(TopLeft("Reputation", bar, 110 + 5 * 29 + 8, 54, 80, 48), "3.0", 26, Cream, TextAlignmentOptions.Left));
             Set(so, "starFull", starFull);
             Set(so, "starEmpty", LoadSprite($"{Settlement}/StarEmpty.png"));
 
@@ -150,6 +189,13 @@ namespace CafeTime.EditorTools
         static void PrepareBook()
         {
             PrepareSprites(Book);
+            // 주문 내역·레시피 버튼과 배지는 현대적인 부드러운 일러스트라 Bilinear (2026-11-17 사용자 요청, docs/ART_STYLE.md 1장)
+            foreach (var file in new[] { "OrdersButton", "RecipeButton", "Badge" })
+            {
+                if (!(AssetImporter.GetAtPath($"{Book}/{file}.png") is TextureImporter importer) || importer.filterMode == FilterMode.Bilinear) continue;
+                importer.filterMode = FilterMode.Bilinear;
+                importer.SaveAndReimport();
+            }
             foreach (var (file, border) in BookBorders)
             {
                 if (!(AssetImporter.GetAtPath($"{Book}/{file}.png") is TextureImporter importer)) continue;
@@ -171,10 +217,10 @@ namespace CafeTime.EditorTools
         {
             var so = new SerializedObject(hud);
 
-            // HUD 버튼 (380x220 그림을 절반 크기로)
-            var ordersButton = AddButton(TopLeft("OrdersButton", overlay, 1520, 22, 190, 110), B("OrdersButton"), Cream);
-            var recipeButton = AddButton(TopLeft("RecipeButton", overlay, 1720, 22, 190, 110), B("RecipeButton"), Cream);
-            var badge = TopLeft("Badge", ordersButton.transform, 150, -8, 48, 48);
+            // 큰 아이콘 + 글자 그림 버튼 (460x248 그림을 절반 크기로, 2026-11-17 사용자 요청)
+            var ordersButton = AddButton(TopLeft("OrdersButton", overlay, 1428, 16, 230, 124), B("OrdersButton"), Cream);
+            var recipeButton = AddButton(TopLeft("RecipeButton", overlay, 1672, 16, 230, 124), B("RecipeButton"), Cream);
+            var badge = TopLeft("Badge", ordersButton.transform, 190, -8, 48, 48);
             AddImage(badge, B("Badge"), DarkCoffee);
             Set(so, "orderCountText", StretchText(badge, "Count", "0", 24, Cream));
             Set(so, "orderBadge", badge.gameObject);
@@ -195,7 +241,7 @@ namespace CafeTime.EditorTools
             Label(window, "Title", B("TitleOrders"), 700, 72, PivotCenter, 0.7f);
             var empty = Label(window, "Empty", B("EmptyOrders"), 700, 420, PivotCenter, 0.6f);
 
-            // 영수증은 가로로 나란히, 넘치면 마우스 휠로 가로 스크롤
+            // 영수증은 가로로 나란히 배치하고, 긴 주문은 두 축으로 끌어 확인한다
             var scroll = TopLeft("Receipts", window, 60, 130, 1280, 620);
             scroll.gameObject.AddComponent<Image>().color = Color.clear; // 빈 곳에서도 휠이 먹도록
             scroll.gameObject.AddComponent<RectMask2D>();
@@ -204,17 +250,20 @@ namespace CafeTime.EditorTools
             content.anchoredPosition = Vector2.zero;
             content.sizeDelta = new Vector2(0, 620);
             var row = content.gameObject.AddComponent<HorizontalLayoutGroup>();
-            row.spacing = 24;
+            row.spacing = 28;
             row.padding = new RectOffset(0, 0, 8, 0);
             row.childAlignment = TextAnchor.UpperLeft;
-            row.childControlWidth = row.childControlHeight = true;
+            row.childControlWidth = true;
+            row.childControlHeight = false; // 각 영수증의 ContentSizeFitter가 높이를 결정한다
             row.childForceExpandWidth = row.childForceExpandHeight = false;
-            content.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            var fitter = content.gameObject.AddComponent<ContentSizeFitter>();
+            fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             var scrollRect = scroll.gameObject.AddComponent<ScrollRect>();
             scrollRect.content = content;
             scrollRect.viewport = scroll;
             scrollRect.horizontal = true;
-            scrollRect.vertical = false;
+            scrollRect.vertical = true; // 긴 주문은 세로로도 끌어 모든 품목을 확인한다
             scrollRect.movementType = ScrollRect.MovementType.Clamped;
             scrollRect.inertia = false;
             scrollRect.scrollSensitivity = 40;
@@ -228,30 +277,53 @@ namespace CafeTime.EditorTools
             return popup;
         }
 
-        // 영수증 1장: 높이는 메뉴 줄 수에 맞춰 늘어난다 (Receipt.png 9-slice)
+        // 흰 감열지 영수증: 결제 품목 전체를 표시하고 높이는 메뉴 줄 수에 맞춰 늘어난다 (SFR-013)
         static TicketView ReceiptTemplate(Transform parent)
         {
+            // 위아래 톱니는 고정하고 가운데 종이만 늘린다 (SFR-013)
+            var paperPath = $"{Book}/ThermalReceipt.png";
+            if (AssetImporter.GetAtPath(paperPath) is TextureImporter importer)
+            {
+                importer.spriteBorder = new Vector4(32, 40, 32, 40);
+                importer.SaveAndReimport();
+            }
             var rt = NewUI("Ticket", parent);
-            Sliced(rt, B("Receipt"));
-            rt.gameObject.AddComponent<LayoutElement>().preferredWidth = 300;
+            rt.pivot = new Vector2(0.5f, 1);
+            rt.sizeDelta = new Vector2(360, 0);
+            var paper = AddImage(rt, B("ThermalReceipt"), Cream);
+            paper.type = Image.Type.Sliced;
+            paper.pixelsPerUnitMultiplier = paper.sprite != null ? paper.sprite.rect.width / 360f : 1;
+            rt.gameObject.AddComponent<LayoutElement>().preferredWidth = 360;
+            rt.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             var column = rt.gameObject.AddComponent<VerticalLayoutGroup>();
-            column.padding = new RectOffset(28, 28, 52, 40);
-            column.spacing = 8;
+            column.padding = new RectOffset(28, 28, 30, 30);
+            column.spacing = 12;
             column.childControlWidth = column.childControlHeight = true;
             column.childForceExpandWidth = true;
             column.childForceExpandHeight = false;
 
             var view = rt.gameObject.AddComponent<TicketView>();
             var so = new SerializedObject(view);
-            Set(so, "numberText", AddText(NewUI("Number", rt), "#1", 30, DarkCoffee, TextAlignmentOptions.Left));
+            var shop = NewUI("ShopName", rt);
+            AddImage(shop, B("ReceiptShopName"), Cream).preserveAspect = true;
+            shop.gameObject.AddComponent<LayoutElement>().preferredHeight = 38;
+            Set(so, "numberText", AddText(NewUI("Number", rt), "#1", 26, DarkCoffee));
+            var header = NewUI("Columns", rt);
+            AddImage(header, B("ReceiptColumns"), Cream).preserveAspect = true;
+            header.gameObject.AddComponent<LayoutElement>().preferredHeight = 26;
+            var topDivider = NewUI("TopDivider", rt);
+            AddImage(topDivider, B("ReceiptDivider"), TextBrown);
+            topDivider.gameObject.AddComponent<LayoutElement>().preferredHeight = 3;
             var lines = AddText(NewUI("Lines", rt), "", 20, TextBrown, TextAlignmentOptions.TopLeft);
             lines.textWrappingMode = TextWrappingModes.Normal;
+            lines.richText = true;
             Set(so, "linesText", lines);
             var divider = NewUI("Divider", rt);
             AddImage(divider, B("ReceiptDivider"), TextBrown);
-            divider.gameObject.AddComponent<LayoutElement>().preferredHeight = 6;
+            divider.gameObject.AddComponent<LayoutElement>().preferredHeight = 3;
             Set(so, "totalText", ReceiptRow(rt, "Total", B("LabelTotal")));
             Set(so, "pickupText", ReceiptRow(rt, "Pickup", B("LabelPickup")));
+            Set(so, "statusText", AddText(NewUI("Status", rt), "", 20, TextBrown));
             so.ApplyModifiedPropertiesWithoutUndo();
             rt.gameObject.SetActive(false);
             return view;
@@ -288,21 +360,24 @@ namespace CafeTime.EditorTools
             Label(window, "Title", B("TitleRecipe"), 700, 72, PivotCenter, 0.7f);
             var so = new SerializedObject(popup);
 
-            // 분류 탭 (RecipeBookScreen.Categories 순서: 커피, 음료, 스무디)
-            var labels = new[] { "LabelCoffee", "LabelBeverage", "LabelSmoothie" };
+            // 왼쪽 분류 탭: 긴 스무디·쉐이크 이름에 폭을 더 배정한다 (SFR-051)
+            var labels = new[] { "LabelCoffee", "LabelBeverage", "LabelSmoothieShake" };
+            var widths = new[] { 82f, 82f, 176f }; // 간격 8px 두 개와 합쳐 목록 폭 356px
             var tabs = new Object[labels.Length];
+            float tabX = 60;
             for (int i = 0; i < labels.Length; i++)
             {
-                var tab = AddButton(TopLeft($"Tab {labels[i]}", window, 60 + i * 190, 112, 180, 64), B("TabOff"), Cream);
+                var tab = AddButton(TopLeft($"Tab {labels[i]}", window, tabX, 140, widths[i], 52), B("TabOff"), Cream);
                 CenterLabel(tab.transform, "Label", B(labels[i]));
                 tabs[i] = tab;
+                tabX += widths[i] + 8;
             }
             SetArray(so, "tabs", tabs);
             Set(so, "tabOn", B("TabOn"));
             Set(so, "tabOff", B("TabOff"));
 
-            // 왼쪽 메뉴 목록 (한 분류 최대 9개)
-            var list = TopLeft("Menus", window, 60, 186, 340, 570);
+            // 왼쪽 메뉴 목록: 음료 분류 10개도 창 안에 모두 표시한다
+            var list = TopLeft("Menus", window, 60, 212, 356, 536);
             var column = list.gameObject.AddComponent<VerticalLayoutGroup>();
             column.spacing = 4;
             column.childControlWidth = column.childControlHeight = true;
@@ -310,7 +385,7 @@ namespace CafeTime.EditorTools
             column.childForceExpandHeight = false;
             var item = NewUI("Menu", list);
             Sliced(item, B("MenuItem"), true);
-            item.gameObject.AddComponent<LayoutElement>().preferredHeight = 58;
+            item.gameObject.AddComponent<LayoutElement>().preferredHeight = 49;
             var itemButton = item.gameObject.AddComponent<Button>();
             var itemText = NewUI("Name", item);
             Stretch(itemText);
@@ -323,15 +398,28 @@ namespace CafeTime.EditorTools
             Set(so, "menuItem", B("MenuItem"));
             Set(so, "menuItemSelected", B("MenuItemSelected"));
 
-            // 오른쪽: 메뉴 이름 + HOT/ICE 선택 버튼 (320x128 그림을 절반 크기로) + 큰 레시피 카드 1장
-            Set(so, "menuNameText", AddText(TopLeft("MenuName", window, 440, 186, 540, 64), "", 38, DarkCoffee, TextAlignmentOptions.Left));
-            Set(so, "hotToggle", AddButton(TopLeft("HotToggle", window, 1000, 186, 160, 64), B("ToggleHotOff"), Cream));
-            Set(so, "iceToggle", AddButton(TopLeft("IceToggle", window, 1170, 186, 160, 64), B("ToggleIceOff"), Cream));
+            // 오른쪽: 메뉴 이름·온도 선택, 큰 완성품 그림, 재료·정량 목록 (SFR-051)
+            Set(so, "menuNameText", AddText(TopLeft("MenuName", window, 470, 148, 570, 60), "", 36, DarkCoffee, TextAlignmentOptions.Left));
+            Set(so, "hotToggle", AddButton(TopLeft("HotToggle", window, 1070, 152, 120, 48), B("ToggleHotOff"), Cream));
+            Set(so, "iceToggle", AddButton(TopLeft("IceToggle", window, 1200, 152, 120, 48), B("ToggleIceOff"), Cream));
             Set(so, "hotOn", B("ToggleHotOn"));
             Set(so, "hotOff", B("ToggleHotOff"));
             Set(so, "iceOn", B("ToggleIceOn"));
             Set(so, "iceOff", B("ToggleIceOff"));
             Set(so, "card", RecipeCard(window));
+            var picture = AddImage(TopLeft("FinishedDrink", window, 470, 260, 350, 410), null, Color.clear);
+            picture.preserveAspect = true;
+            Set(so, "finishedPicture", picture);
+            Set(so, "detailText", AddText(TopLeft("Detail", window, 470, 684, 350, 44), "", 22, TextBrown));
+            Set(so, "noRecipe", Label(window, "NoRecipe", B("DessertHint"), 1090, 430, PivotCenter, 0.5f).gameObject);
+            // 기존 완성품 표를 재사용하되 양쪽 온도가 있는 커피는 ICE 그림을 따로 연결한다 (디저트 탭은 없음)
+            var pictures = MenuPictures;
+            var pictureIds = so.FindProperty("pictureIds");
+            pictureIds.arraySize = pictures.Length;
+            for (int i = 0; i < pictures.Length; i++) pictureIds.GetArrayElementAtIndex(i).stringValue = pictures[i].id;
+            // 한쪽 온도 그림만 있는 메뉴는 양쪽에 같은 그림
+            SetArray(so, "hotPictures", pictures.Select(p => (Object)LoadMenuPicture(p.hot ?? p.ice)).ToArray());
+            SetArray(so, "icePictures", pictures.Select(p => (Object)LoadMenuPicture(p.ice ?? p.hot)).ToArray());
 
             Set(so, "shotIcon", LoadSprite($"{ItemIconFolder}/ShotGlassFull.png"));
             Set(so, "iceIcon", LoadSprite($"{ItemIconFolder}/ScoopIce.png"));
@@ -345,20 +433,20 @@ namespace CafeTime.EditorTools
         static RecipeCardView RecipeCard(RectTransform window)
         {
             const int Rows = 5;
-            var card = TopLeft("RecipeCard", window, 440, 270, 890, 480);
-            Sliced(card, B("RecipeCard"));
+            var card = TopLeft("RecipeCard", window, 850, 258, 470, 450);
+            Label(card, "Ingredients", B("LabelIngredients"), 20, 16, PivotLeft, 0.5f);
 
             var icons = new Object[Rows];
             var names = new Object[Rows];
             var amounts = new Object[Rows];
             for (int i = 0; i < Rows; i++)
             {
-                float y = 36 + i * 86;
-                var icon = AddImage(TopLeft($"Icon {i}", card, 48, y, 76, 76), null, Color.clear);
+                float y = 62 + i * 74;
+                var icon = AddImage(TopLeft($"Icon {i}", card, 16, y, 48, 48), null, Color.clear);
                 icon.preserveAspect = true;
                 icons[i] = icon;
-                names[i] = AddText(TopLeft($"Name {i}", card, 148, y, 460, 76), "", 30, DarkCoffee, TextAlignmentOptions.Left);
-                amounts[i] = AddText(TopLeft($"Amount {i}", card, 610, y, 232, 76), "", 30, TextBrown, TextAlignmentOptions.Right);
+                names[i] = AddText(TopLeft($"Name {i}", card, 80, y, 254, 48), "", 24, DarkCoffee, TextAlignmentOptions.Left);
+                amounts[i] = AddText(TopLeft($"Amount {i}", card, 344, y, 110, 48), "", 24, TextBrown, TextAlignmentOptions.Right);
             }
             var view = card.gameObject.AddComponent<RecipeCardView>();
             var so = new SerializedObject(view);
@@ -369,21 +457,22 @@ namespace CafeTime.EditorTools
             return view;
         }
 
-        // 화면 아래 가운데 양손 칸 + 우클릭 메뉴 (SFR-021)
+        // 화면 아래 가운데 손 칸 4개 + 우클릭 메뉴 (SFR-021, ADR-0038)
         static RectTransform BuildHands(Transform overlay)
         {
             var root = NewUI("Hands", overlay);
             root.anchorMin = root.anchorMax = root.pivot = new Vector2(0.5f, 0f); // 화면 비율이 달라도 아래 가운데
             root.anchoredPosition = new Vector2(0, 15);
             const float slotSize = 110, gap = 12, iconSize = 76; // 화면을 덜 가리도록 작게 (기존 150·15·104)
-            root.sizeDelta = new Vector2(slotSize * 2 + gap, slotSize);
+            const int count = HandInventory.SlotCount;
+            root.sizeDelta = new Vector2(slotSize * count + gap * (count - 1), slotSize);
             var view = root.gameObject.AddComponent<HandInventoryView>();
             var so = new SerializedObject(view);
-            var slots = new Object[2];
-            for (int i = 0; i < 2; i++)
+            var slots = new Object[count];
+            for (int i = 0; i < count; i++)
             {
-                var slot = TopLeft(i == 0 ? "LeftHand" : "RightHand", root, i * (slotSize + gap), 0, slotSize, slotSize);
-                var frame = AddImage(slot, LoadSprite($"{Hud}/{(i == 0 ? "HandSlotLeft" : "HandSlotRight")}.png"), Cream, true);
+                var slot = TopLeft($"HandSlot{i + 1}", root, i * (slotSize + gap), 0, slotSize, slotSize);
+                var frame = AddImage(slot, LoadSprite($"{Hud}/HandSlotLeft.png"), Cream, true); // 칸 그림은 왼·오른 구분 없는 같은 액자
                 var icon = AddImage(Centered("Icon", slot, 0, 0, iconSize, iconSize), null, Color.clear);
                 icon.preserveAspect = true;
                 var slotView = slot.gameObject.AddComponent<HandSlotView>();
@@ -559,24 +648,7 @@ namespace CafeTime.EditorTools
             grid.GetComponent<GridLayoutGroup>().spacing = new Vector2(15, 20);
             Set(so, "menuContainer", grid);
             Set(so, "menuTemplate", PosMenuCard(grid));
-            // 메뉴 카드 그림: 음료는 판정 결과 완성품 그림 재사용 (HOT 그림이 있으면 HOT), 디저트는 Pos 폴더
-            const string Result = "Assets/_Project/Art/UI/DrinkResult";
-            var pictures = new (string id, string path)[]
-            {
-                ("americano", $"{Result}/AmericanoHot"), ("cafe_latte", $"{Result}/LatteHot"), ("vanilla_latte", $"{Result}/LatteHot"),
-                ("hazelnut_latte", $"{Result}/LatteHot"), ("condensed_latte", $"{Result}/LatteHot"), ("caramel_macchiato", $"{Result}/CaramelHot"),
-                ("cafe_mocha", $"{Result}/MochaHot"), ("strawberry_latte", $"{Result}/StrawberryLatteIce"),
-                ("grapefruit_ade", $"{Result}/AdeGrapefruit"), ("yuja_ade", $"{Result}/AdeYuja"), ("strawberry_ade", $"{Result}/AdeStrawberry"),
-                ("blue_lemon_ade", $"{Result}/AdeBlueLemon"), ("yuja_tea", $"{Result}/YujaTeaHot"), ("grapefruit_tea", $"{Result}/GrapefruitTeaHot"),
-                ("chamomile", $"{Result}/TeaHot"), ("earl_grey", $"{Result}/TeaHot"),
-                ("strawberry_smoothie", $"{Result}/SmoothieStrawberry"), ("mango_smoothie", $"{Result}/SmoothieMango"),
-                ("hallabong_smoothie", $"{Result}/SmoothieHallabong"), ("melon_smoothie", $"{Result}/SmoothieMelon"), ("cookie_shake", $"{Result}/CookieShake"),
-                ("strawberry_cake", $"{Pos}/DessertStrawberryCake"), ("croissant", $"{Pos}/DessertCroissant"), ("cookie", $"{Pos}/DessertCookie"),
-            };
-            var ids = so.FindProperty("pictureMenuIds");
-            ids.arraySize = pictures.Length;
-            for (int i = 0; i < pictures.Length; i++) ids.GetArrayElementAtIndex(i).stringValue = pictures[i].id;
-            SetArray(so, "pictures", pictures.Select(p => (Object)LoadSprite($"{p.path}.png")).ToArray());
+            // 메뉴 카드 그림은 MenuPictures 표를 ItemIcons 에 넣어 손 칸 아이콘과 함께 쓴다 (CafeSceneBuilder)
 
             // 오른쪽 주문 목록
             var rows = TopLeft("Rows", window, 1015, 180, 520, 360);
@@ -593,7 +665,7 @@ namespace CafeTime.EditorTools
             Set(so, "deleteButton", AddButton(TopLeft("DeleteButton", window, 1155, 550, 180, 63), LoadSprite($"{Pos}/DeleteButton.png"), Cream));
             Set(so, "cancelButton", AddButton(TopLeft("CancelButton", window, 1345, 550, 180, 63), LoadSprite($"{Pos}/CancelButton.png"), Cream));
             Label(window, "TotalLabel", LoadSprite($"{Pos}/LabelTotal.png"), 1020, 660, PivotLeft);
-            Set(so, "totalText", AddText(TopLeft("Total", window, 1140, 634, 390, 52), "₩0", 36, DarkCoffee, TextAlignmentOptions.Right));
+            Set(so, "totalText", AddText(TopLeft("Total", window, 1140, 634, 390, 52), "0원", 36, DarkCoffee, TextAlignmentOptions.Right));
             Set(so, "payButton", AddButton(TopLeft("PayButton", window, 1075, 705, 400, 90), LoadSprite($"{Pos}/PayButton.png"), Cream));
             Set(so, "receipt", receipt);
             so.ApplyModifiedPropertiesWithoutUndo();
@@ -653,26 +725,37 @@ namespace CafeTime.EditorTools
             return view;
         }
 
-        // 주문 내역 (SFR-027)
+        // 주문 내역 (SFR-027): 실제 감열지 영수증 그림 (고정 문구는 그림에 인쇄, 배치는 Art/UI/Pos/Generation.md 2026-11-17)
         static ReceiptPopup BuildReceipt(Transform canvas)
         {
-            var (popup, window) = Window<ReceiptPopup>(canvas, "ReceiptPopup", LoadSprite($"{Pos}/ReceiptPanel.png"), 640, 860);
+            var (popup, window) = Window<ReceiptPopup>(canvas, "ReceiptPopup", LoadSprite($"{Pos}/ReceiptPanel.png"), 640, 860, scale: 0.88f);
             var so = new SerializedObject(popup);
-            Label(window, "OrderNoLabel", LoadSprite($"{Pos}/LabelOrderNo.png"), 95, 230, PivotLeft);
-            Set(so, "numberText", AddText(TopLeft("Number", window, 300, 206, 245, 48), "#1", 32, DarkCoffee, TextAlignmentOptions.Right));
-            var lines = AddText(TopLeft("Lines", window, 95, 275, 450, 330), "", 24, TextBrown, TextAlignmentOptions.TopLeft);
-            lines.lineSpacing = 16;
-            Set(so, "linesText", lines);
-            Label(window, "SumLabel", LoadSprite($"{Pos}/LabelSum.png"), 95, 650, PivotLeft);
-            Set(so, "sumText", AddText(TopLeft("Sum", window, 245, 624, 300, 52), "₩0", 34, DarkCoffee, TextAlignmentOptions.Right));
+            var ink = new Color32(0x61, 0x62, 0x5D, 0xFF); // 감열 잉크색
+            Set(so, "numberText", AddText(TopLeft("Number", window, 300, 206, 245, 48), "#1", 30, ink, TextAlignmentOptions.Right));
+            // 메뉴 6줄 (행 간격 48): 이름 왼쪽 x95, 수량 가운데 x420, 금액 오른쪽 x545
+            Set(so, "linesText", Column("Lines", 95, 300, TextAlignmentOptions.TopLeft));
+            Set(so, "quantityText", Column("Quantities", 380, 80, TextAlignmentOptions.Top));
+            Set(so, "priceText", Column("Prices", 445, 100, TextAlignmentOptions.TopRight));
+            Set(so, "sumText", AddText(TopLeft("Sum", window, 245, 624, 300, 52), "0원", 32, ink, TextAlignmentOptions.Right));
             so.ApplyModifiedPropertiesWithoutUndo();
-            SetClose(popup, AddButton(TopLeft("ConfirmButton", window, 170, 710, 300, 84), LoadSprite($"{Pos}/ConfirmButton.png"), Cream));
+            var confirm = LoadSprite($"{Pos}/ReceiptConfirmButton.png") ?? LoadSprite($"{Pos}/ConfirmButton.png");
+            SetClose(popup, AddButton(TopLeft("ConfirmButton", window, 170, 710, 300, 84), confirm, Cream));
             return popup;
+
+            TextMeshProUGUI Column(string name, float x, float w, TextAlignmentOptions align)
+            {
+                var text = AddText(TopLeft(name, window, x, 315, w, 288), "", 22, ink, align);
+                text.lineSpacing = 100; // 22px 글자 + 줄 사이 → 행 간격 약 48px
+                text.overflowMode = TextOverflowModes.Ellipsis;
+                return text;
+            }
         }
 
         // 픽업대 (SFR-056, ADR-0018): 대기 주문마다 트레이 1개를 가로로 나열 (넘치면 가로 스크롤) + 안내
         const float PickupWidth = 1240, PickupHeight = 720;
         static readonly Vector4 PickupTrayBorder = new Vector4(48, 64, 48, 64); // PickupTray.png 9-slice (원본 px, 왼·아래·오른·위)
+        static readonly Vector4 PickupTicketBorder = new Vector4(32, 32, 32, 64); // PickupTicket.png 9-slice (원본 px, 왼·아래·오른·위)
+        static readonly RectOffset PickupTicketPadding = new RectOffset(16, 16, 32, 16); // 주문지 안 글자 여백 (화면 px: 왼·오른·위·아래)
 
         static PickupScreen BuildPickup(Transform canvas)
         {
@@ -681,16 +764,21 @@ namespace CafeTime.EditorTools
                 trayImporter.spriteBorder = PickupTrayBorder;
                 trayImporter.SaveAndReimport();
             }
+            if (AssetImporter.GetAtPath($"{Stations}/PickupTicket.png") is TextureImporter ticketImporter)
+            {
+                ticketImporter.spriteBorder = PickupTicketBorder;
+                ticketImporter.SaveAndReimport();
+            }
             var (popup, window) = Window<PickupScreen>(canvas, "PickupScreen", LoadSprite($"{Stations}/PickupPanel.png"), PickupWidth, PickupHeight, 50);
             var empty = Label(window, "Empty", B("EmptyOrders"), PickupWidth / 2, 370, PivotCenter, 0.6f);
 
-            var scroll = TopLeft("Trays", window, 64, 150, PickupWidth - 128, 440);
+            var scroll = TopLeft("Trays", window, 64, 160, PickupWidth - 128, 496);
             scroll.gameObject.AddComponent<Image>().color = Color.clear; // 빈 곳에서도 휠이 먹도록
             scroll.gameObject.AddComponent<RectMask2D>();
             var content = NewUI("Content", scroll);
             content.anchorMin = content.anchorMax = content.pivot = new Vector2(0, 1);
             content.anchoredPosition = Vector2.zero;
-            content.sizeDelta = new Vector2(0, 440);
+            content.sizeDelta = new Vector2(0, 496);
             var row = content.gameObject.AddComponent<HorizontalLayoutGroup>();
             row.spacing = 20;
             row.childAlignment = TextAnchor.UpperLeft;
@@ -710,22 +798,53 @@ namespace CafeTime.EditorTools
             Set(so, "trayContainer", content);
             Set(so, "trayTemplate", TrayTemplate(content, popup));
             Set(so, "emptyLabel", empty.gameObject);
+            Set(so, "bellButton", AddButton(TopLeft("BellButton", window, 64, 48, 320, 80), LoadSprite($"{Stations}/BellButton.png"), Cream));
+            Set(so, "bellScreen", BuildBellCall(canvas, popup));
             so.ApplyModifiedPropertiesWithoutUndo();
             SetClose(popup, CloseButton(window, PickupWidth - 150, 74));
             return popup;
         }
 
-        // 트레이 1개: 주문 번호, 메뉴 줄, 음료 자리 격자(3열), 서빙 버튼. 높이는 줄·자리 수에 맞춰 늘어난다 (PickupTray.png 9-slice)
+        static BellCallScreen BuildBellCall(Transform canvas, PickupScreen pickup)
+        {
+            // SFR-056, SFR-058: 입력 번호·상태는 TMP, 고정 키는 패널과 같은 원화에서 잘라 쓴다.
+            var (popup, window) = Window<BellCallScreen>(canvas, "BellCallScreen", LoadSprite($"{Stations}/BellPanel.png"), 600, 800);
+            var so = new SerializedObject(popup);
+            Set(so, "pickup", pickup);
+            Set(so, "numberText", AddText(TopLeft("Number", window, 74, 140, 452, 68), "", 54, DarkCoffee, TextAlignmentOptions.Right));
+            Set(so, "messageText", AddText(TopLeft("Message", window, 66, 234, 468, 34), "", 22, Warning));
+            var digits = new Object[10];
+            for (int digit = 1; digit <= 9; digit++)
+            {
+                int index = digit - 1;
+                digits[digit] = Key($"Key{digit}", 58 + index % 3 * 166, 286 + index / 3 * 87, 154, 78);
+            }
+            digits[0] = Key("Key0", 224, 547, 154, 78);
+            SetArray(so, "digitButtons", digits);
+            Set(so, "clearButton", Key("ClearKey", 58, 547, 154, 78));
+            Set(so, "backButton", Key("BackKey", 390, 547, 154, 78));
+            Set(so, "callButton", Key("CallButton", 54, 643, 492, 88));
+            so.ApplyModifiedPropertiesWithoutUndo();
+            SetClose(popup, CloseButton(window, 520, 30, 48));
+            return popup;
+
+            Button Key(string name, float x, float y, float width, float height)
+            {
+                return AddButton(TopLeft(name, window, x, y, width, height), LoadSprite($"{Stations}/{name}.png"), Cream);
+            }
+        }
+
+        // 트레이 1개: 주문 번호·호출됨 표시, 메뉴 줄, 음료 자리 격자(2열). 서빙 행 없이 내용 높이에 맞춘다.
         static PickupTrayView TrayTemplate(Transform parent, PickupScreen owner)
         {
             var rt = NewUI("Tray", parent);
             var tray = AddImage(rt, LoadSprite($"{Stations}/PickupTray.png"), Cream, true);
             tray.type = Image.Type.Sliced;
             tray.pixelsPerUnitMultiplier = 2f;
-            rt.gameObject.AddComponent<LayoutElement>().preferredWidth = 260;
+            rt.gameObject.AddComponent<LayoutElement>().preferredWidth = 304;
             var column = rt.gameObject.AddComponent<VerticalLayoutGroup>();
-            column.padding = new RectOffset(22, 22, 28, 26);
-            column.spacing = 10;
+            column.padding = new RectOffset(22, 22, 20, 20);
+            column.spacing = 8;
             column.childAlignment = TextAnchor.UpperCenter;
             column.childControlWidth = column.childControlHeight = true;
             column.childForceExpandWidth = true;
@@ -734,29 +853,44 @@ namespace CafeTime.EditorTools
             var view = rt.gameObject.AddComponent<PickupTrayView>();
             var so = new SerializedObject(view);
             Set(so, "owner", owner);
-            Set(so, "numberText", AddText(NewUI("Number", rt), "#1", 28, DarkCoffee, TextAlignmentOptions.Left));
-            var lines = AddText(NewUI("Lines", rt), "", 18, TextBrown, TextAlignmentOptions.TopLeft);
+            // 주문 번호·메뉴 줄은 트레이 위 주문지 종이에 쓴다 (트레이 위 글자가 어두워 안 보이던 문제, 2026-11-18 사용자 요청)
+            var ticket = NewUI("Ticket", rt);
+            var paper = AddImage(ticket, LoadSprite($"{Stations}/PickupTicket.png"), Cream);
+            paper.type = Image.Type.Sliced;
+            paper.pixelsPerUnitMultiplier = 2f;
+            paper.raycastTarget = false;
+            var ticketColumn = ticket.gameObject.AddComponent<VerticalLayoutGroup>();
+            ticketColumn.padding = PickupTicketPadding;
+            ticketColumn.spacing = 4;
+            ticketColumn.childControlWidth = ticketColumn.childControlHeight = true;
+            ticketColumn.childForceExpandWidth = true;
+            ticketColumn.childForceExpandHeight = false;
+            var header = NewUI("Header", ticket);
+            header.gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            Set(so, "numberText", AddText(TopLeft("Number", header, 0, 0, 112, 40), "#1", 28, DarkCoffee, TextAlignmentOptions.Left));
+            var called = AddImage(TopLeft("CalledMark", header, 100, 2, 120, 36), LoadSprite($"{Stations}/CalledBadge.png"), Cream);
+            called.preserveAspect = true;
+            called.raycastTarget = false;
+            Set(so, "calledMark", called.gameObject);
+            called.gameObject.SetActive(false);
+            var lines = AddText(NewUI("Lines", ticket), "", 18, TextBrown, TextAlignmentOptions.TopLeft);
             lines.textWrappingMode = TextWrappingModes.Normal;
             Set(so, "linesText", lines);
 
             var slots = NewUI("Slots", rt);
             var grid = slots.gameObject.AddComponent<GridLayoutGroup>();
-            grid.cellSize = new Vector2(64, 64);
-            grid.spacing = new Vector2(8, 8);
+            grid.cellSize = new Vector2(112, 112);
+            grid.spacing = new Vector2(12, 12);
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            grid.constraintCount = 3;
+            grid.constraintCount = 2;
             grid.childAlignment = TextAnchor.UpperCenter;
             Set(so, "slotContainer", slots);
             var slot = NewUI("Slot", slots);
             var slotButton = AddButton(slot, LoadSprite($"{Stations}/PickupTraySlot.png"), Cream);
-            var icon = AddImage(Centered("Icon", slot, 0, 0, 52, 52), null, Color.clear);
+            var icon = AddImage(Centered("Icon", slot, 0, 0, 104, 104), null, Color.clear);
             icon.preserveAspect = true;
             Set(so, "slotTemplate", slotButton);
 
-            var serveRow = NewUI("ServeRow", rt);
-            serveRow.gameObject.AddComponent<LayoutElement>().preferredHeight = 56;
-            var serve = AddButton(Centered("ServeButton", serveRow, 0, 0, 160, 56), LoadSprite($"{Stations}/ServeButton.png"), Cream);
-            Set(so, "serveButton", serve);
             so.ApplyModifiedPropertiesWithoutUndo();
             rt.gameObject.SetActive(false);
             return view;

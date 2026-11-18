@@ -9,6 +9,8 @@ namespace CafeTime.Cafe
         public CupType Type { get; }
         public Mixture Contents { get; } = new Mixture();
         public bool IsFinished { get; private set; }
+        // 믹서기로 갈아 부은 잔: 층 없이 한 색으로 섞여 보인다 (ADR-0037)
+        public bool Blended { get; private set; }
 
         MenuDefinition menu;
         Temperature temperature;
@@ -36,11 +38,18 @@ namespace CafeTime.Cafe
             IsFinished = false;
         }
 
+        public void AddBlended(Mixture mixture)
+        {
+            AddAll(mixture);
+            Blended = true;
+        }
+
         // 비우기 (SFR-050): 내용물을 모두 버리고 빈 잔으로
         public void Empty()
         {
             Contents.Clear();
             IsFinished = false;
+            Blended = false;
         }
 
         public void Finish(MenuDefinition judgedMenu, Temperature judgedTemperature, DrinkGrade judgedGrade)

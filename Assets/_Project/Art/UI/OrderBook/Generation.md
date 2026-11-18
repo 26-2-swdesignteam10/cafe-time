@@ -194,3 +194,88 @@ Unity 6000.6.4f1에서 임포트 후 Sprite (2D and UI), Single, Point (no filte
 | ToggleIceOn.png | ICE | 50px | #FCF0CA | #380F00 3px | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 320×128 |
 
 - 검수: 완성 PNG에서 한글 철자·공백·문장부호와 잘림을 눈으로 확인했다. 그림 포함 PNG는 지정 글자 영역 밖의 RGBA가 원본과 일치하고 알파·캔버스 크기가 동일한지 검사했다. 투명 라벨의 높이는 모두 유지했다. `.meta`, 코드, 씬, 프리팹, `.asset`, `docs/`는 수정하지 않았다. Unity에서 재임포트한 뒤 실제 표시 크기의 가독성과 라벨 폭 증가에 따른 배치를 확인해야 한다.
+
+
+## 2026-11-17 작업 A — HUD·영수증·픽업대 개편
+
+- 도구: OpenAI 내장 `image_gen.imagegen` 원화 생성/편집 + Python 3.14 / Pillow 후처리. API·CLI 생성은 사용하지 않았다.
+- 글자: `Assets/_Project/Art/Fonts/Jua-Regular.ttf`, 3배 조판 후 Lanczos 축소. 이미지에는 고정 문구만 넣었다. 사람 손·워터마크·체커보드는 없으며 외부는 실제 투명 RGBA다.
+- 아래는 이 요청에만 적용한 디자인이며 공통 팔레트·다른 화면 규칙은 변경하지 않았다. HUD 두 버튼의 부드러운 스타일은 이번 사용자 명시 요청을 우선했다. 새 ADR과 기존 ADR 변경은 없다.
+- 생성 원본은 아래 경로에 보존했다. 후처리 스크립트·Manifest.json·Validation.json·합성 검수 PNG는 저장소 밖 임시 폴더에만 둔다: `C:\Users\k9425\AppData\Local\Temp\claude\bd37fc10698b196c\1ac9cc50-e1f2-4923-a674-160ca3239d3d\scratchpad\codex\art-a-20261117`.
+
+스타일 참조: 교체 전 `OrdersButton.png`, `RecipeButton.png` (역할·배치 참조). 크림·에스프레소 브라운·세이지 포인트를 사용한 현대적인 카페 앱 버튼.
+
+### 파일별 프롬프트·후처리
+
+- `OrdersButton.png` **380×220**: 영수증 아이콘·크림 에나멜 버튼 원화. 알파 14 미만 제거 / 240 초과 255 정규화 후 경계 크롭, 364×204 리샘플링, 사방 **8px** 여백. Jua `주문 내역`을 원본 rect `(116,76,218,72)`에 49px로 조판, 글자색 `#47382E`.
+
+```text
+Use case: style-transfer. Production Unity HUD button for cozy Korean cafe game. Reference old OrdersButton for role ONLY, redesign completely as modern premium cafe app button. Single horizontal rounded rectangular pill aspect 380:220. Cream enamel face, espresso brown thin edging, soft subtle shadow, muted sage inset circle on LEFT with beautiful simple receipt icon. RIGHT area blank, no text anywhere (Jua Korean added later). Upper right x300..380 y0..60 of target must contain NO icon, text or decorations because a numeric badge overlaps there. Icon in x35..105 y75..145, rest ample clean blank face for title. Equal transparent margins, true alpha exterior. Smooth tasteful illustration, restrained tactile shading, no pixel steps, no hands, watermark, checkerboard or scene.
+```
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-1ee3-7cc2-80d0-185178bf2a84\exec-2733562c-fa1c-4052-9637-2238fc991dc0.png`
+
+- `RecipeButton.png` **380×220**: 주문 버튼 바탕을 그대로 재사용해 두 버튼의 실루엣·여백·그림자가 같다. 별도 생성한 레시피 책 원화의 세이지 인셋을 타원 마스크로 합성하고 Jua `레시피`를 같은 rect·크기로 조판했다. 두 PNG는 게임에서 **190×110**. 원본 우상단 `(300,0)-(380,60)`에 아이콘·글자·장식이 없어 숫자 배지와 겹치지 않는다. 배지 영역에 버튼 면·외곽선 자체는 존재한다.
+
+```text
+Use case: style-transfer. Single modern premium cafe app HUD button, horizontal rounded rectangle aspect 380:220, cream enamel face, thin espresso brown edge, muted sage circular inset at LEFT containing simple beautiful closed recipe book icon with small coffee leaf emblem. Soft shallow shadow, tasteful premium smooth illustration. Equal transparent padding. RIGHT blank for Korean title added later. All icon/detail within x35..105 y75..145 at final size; x300..380 y0..60 totally free of icons/text/decorations for overlapping badge. No letters numbers or text anywhere, no hands watermark checkerboard scene. Match old reference only for function; replace rustic pixel frame with smooth modern cream/sage design.
+```
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-1ee3-7cc2-80d0-185178bf2a84\exec-99159501-ce5d-4404-a11a-b1f0c351ae35.png`
+
+- `Badge.png` **96×96**: 별도 AI 원화 없이 위 버튼의 세이지/크림 색상으로 Pillow 조판한 원형 배지 바탕. `#56715D` 중심과 크림 테두리, 숫자 없음. 3배 렌더링 후 Lanczos 축소, 반투명 안티앨리어싱 보존. 알파 경계 bbox `(1,1,95,95)`로 사방 실제 투명 여백 1px.
+
+검수: 두 버튼의 한글 `주문 내역` / `레시피`, 아이콘 합성 경계·알파·동일 규격·균일 여백을 눈으로 확인했다. 이번 두 버튼/배지는 부드러운 그림이므로 Unity에서 Bilinear 권장. `.meta`는 수정하지 않았으므로 에디터에서 필터를 확인한다.
+
+- 마무리 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일 1993개). 이 검사는 추적 파일 기준이므로 신규 ReceiptConfirmButton.png의 Unity .meta 생성 확인을 대신하지 않는다. 이번 작업에서는 PNG와 위 Generation.md만 수정했으며 코드·.meta·씬·프리팹·.asset은 수정하지 않았다.
+
+
+## 2026-11-17 작업 D — 영업 HUD 개편
+
+- 도구: OpenAI 내장 `image_gen.imagegen` + Python 3 / Pillow. 글자는 프로젝트 `Jua-Regular.ttf`로 조판했다. 생성 API·CLI는 사용하지 않았다.
+- 사용자 지정에 따라 DAY 1~15만 개별 고정 그림으로 제작했다. 다른 금액·수량·배지 숫자는 넣지 않았다. 공통 규칙의 DAY 텍스트 원칙보다 이번 명시 요청을 우선한 에셋 작업이며 코드·씬 연결은 변경하지 않았다. 새 ADR 및 기존 ADR 변경 없음.
+- 검수 스크립트·Validation.json·미리보기는 저장소 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/art-d-20261117/`에만 저장했다. PNG는 RGBA·외부 실제 투명 배경이며 사람 손·워터마크·체커보드가 없다. `.meta`는 직접 생성/수정하지 않았다.
+
+스타일 참조: 교체 전 이 폴더 `OrdersButton.png`, `RecipeButton.png`, `Badge.png`와 `CafeHud/StatusBar.png`. 기존 380×220에서 사용자 명시 규격 **460×248**로 두 버튼을 교체했다. 표시 크기는 **230×124**. 팔레트는 크림·에스프레소 브라운·세이지이며 이번 버튼은 사용자가 지정한 부드러운 일러스트 예외다.
+
+### 파일별 프롬프트·후처리
+
+- `OrdersButton.png`: “One redesigned premium Korean cafe game HUD button, transparent exterior. Reference old button for palette only. Target aspect 460:248, broad softly rounded rectangle, not capsule. Cream face, espresso brown rim, restrained sage accents, smooth tactile illustration. Large detailed overlapping paper receipts held by brass clip, dark receipt lines and sage check marks, upper middle-left x95..300 y22..155. Bottom y170..222 blank cream for later Korean title. Top right x380..460 y0..70 free of important artwork for badge. No letters/numbers, hands, watermark, checkerboard or scene. All edges visible with even padding.” 원본 `C:/Users/k9425/.codex/generated_images/01a1e973-5906-7f21-95a4-bd0970736142/exec-a86f18e7-6ef1-4fd9-a1cb-3c6bcdce5baf.png`.
+- `RecipeButton.png`: 위 영수증 버튼을 편집 참조로 지정. “Preserve exact cream rounded rectangle, espresso rim, sage outlined blank bottom title band, lighting and proportions. Replace only receipt bundle with large tilted closed sage/espresso recipe book, cream page edges, golden page tabs and clear cream coffee cup and saucer emblem on cover; same restrained leaves. Same upper-left footprint; blank lower title band, top-right x380..460 y0..70 free for badge. Transparent exterior; no text, hands, watermark or checkerboard. Smooth premium cafe illustration, paired sprite.” 원본 `C:/Users/k9425/.codex/generated_images/01a1e973-5906-7f21-95a4-bd0970736142/exec-056a2c1e-b16a-4ac1-8b93-37d8fe8bb8d7.png`.
+- 두 원화 모두 알파24 미만 제거·알파 경계 크롭 후 Lanczos로444×232에 맞춰460×248의 `(8,8)`에 합성했다. 사방8px 투명 여백. 프로젝트 Jua 59px를3배 조판 후 Lanczos 축소, `주문 내역` / `레시피`를 가로 중앙·세로 중심y197에 넣었다. #380F00 글자, #FCF0CA 2px 외곽선, #B7A07D 그림자(+2,+3),3px 그림자 외곽선. 완성 이미지에서 **주 / 문 / 공백 / 내 / 역**, **레 / 시 / 피** 철자를 눈으로 확인했다.
+- `Badge.png`: 이번 작업에서 교체하지 않았다. 기존96×96 세이지 배지와 새 버튼이 어울리며 숫자는 런타임 표시한다.
+
+### 요청 좌표·배치 검수
+
+- 원본 우상단 `(380,0)-(460,70)`에는 중요한 그림·글자가 없다. 표시 크기 기준 `(190,0)-(230,35)`. 바탕·버튼 외곽선은 이 영역에 존재한다.
+- 저장소 밖 `Review.png`에 두 버튼을230×124로 축소하고 기존 Badge를48×48로 올려 아이콘·문구를 가리지 않는지 확인했다. 미리보기의 배지 좌상단은 각 버튼에 대해 `(190,-12)`이며 실제 빌더 좌표를 수정한 것은 아니다.
+- 동일 미리보기 상단에는 StatusBar760×120에 DAY `(36,20)`, 코인 `(300,24)`를 실제 합성했다. 상세 DAY·코인 제작은 `../CafeHud/Generation.md`의 같은 날짜 작업D 절을 참조한다.
+- Unity에서 재임포트한 후 두 버튼은 Bilinear, Sprite/Single, Mip Maps 끔, Alpha Is Transparency 켬을 확인한다. 기존 빌더가380×220을 전제하면 표시 영역230×124 연결은 별도 코드 작업이 필요하다. 이번 요청대로 PNG와 Generation.md만 수정했다.
+
+- 검증 결과: PNG 18장 RGBA/크기/외부 투명 여백 검사 통과, 합성 미리보기 눈 검수 완료. bash .github/scripts/check-repo.sh 통과 (추적 파일 1993개). 이 검사는 신규 미추적 파일의 .meta 확인을 대신하지 않는다.
+
+## 2026-11-18 레시피 상세와 주문 영수증 정리
+
+- 도구: 내장 imagegen(종이), Python Pillow + 프로젝트 `Jua-Regular.ttf`(새 고정 문구 조판과 검수용 합성).
+- 스타일 참조: 기존 `Receipt.png`, `ModalPanel.png`, `MenuItem.png`, `TabOn.png`. 기존 호두나무·크림 창과 메뉴 버튼은 재사용한다. 음료는 `../DrinkResult/`, 디저트 3종은 `../Pos/Dessert*.png`, 나머지는 `ItemIcons.ForMenu`를 재사용한다.
+- `ThermalReceipt.png`: 내장 imagegen으로 생성한 1199×1312 PNG. 프롬프트: “Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; fully visible edges with padding. A very simple blank white thermal paper receipt, front view. Entire backdrop flat solid pale cream #FCF0CA. White paper fills 98% of canvas. Both top and bottom have small regular sawtooth torn edges. Straight vertical sides. Opaque white interior #FFFEF8. No text, clip, brown frame, symbols or labels.” 투명 배경 생성본에서 종이 중앙이 뚫리는 문제가 발생해 최종본은 크림색 바깥 여백을 포함한 불투명 RGB PNG로 선택했다. 흰 종이 내부에는 어떠한 값이나 고정 문구도 없다.
+  - 최종 원본: `C:/Users/k9425/.codex/generated_images/01a1ed28-09b3-75b1-86c1-bb9a2d7da834/exec-aa0b0e6e-7d28-4398-8c91-2bfaa27e23d4.png`. 원본을 그대로 복사했다. 사용 폭 360px, 품목 수에 따라 높이가 늘어나며 위아래 톱니도 함께 늘어난다.
+- `ReceiptShopName.png`: Jua로 정확히 “카페타임”을 조판했다. 216×72 RGBA. 다크 커피 계열 글자 + 크림 외곽선, 사방 8px 이상 여백. 표시 영역 304×38 안에서 비율 유지.
+- `ReceiptColumns.png`: Jua로 “메뉴”, “수량”, “금액”을 608×52 RGBA에 조판. 화면에서는 304×26. 각 열 시작 x=0/167/219px. 품목 이름은 첫 줄, 수량·금액은 다음 줄에 TextMeshPro로 표시한다.
+- `LabelDessert.png`: Jua “디저트”, 161×72 RGBA, 어두운 탭에 맞춰 크림 글자와 커피색 외곽선.
+- `LabelIngredients.png`: Jua “재료와 정량”, 280×72 RGBA. 가운데점은 Jua에서 네모로 보여 한글 접속어로 바꿨다.
+- `DessertHint.png`: Jua “완성된 디저트를 사용해요”, 559×72 RGBA. 제조 레시피가 없는 디저트만 표시한다.
+- 레이아웃: 창 1400×800 유지. 왼쪽 탭 4개(86×52, 간격 4), 메뉴 행 356×49(간격 4), 최대 10개가 536px 안에 들어간다. 현재 코드의 커피·음료는 각각 9종이다. 오른쪽 완성품 350×410, 재료 영역 470×450, 재료 행 간격 74px. HOT/ICE가 모두 있는 메뉴만 온도 선택 표시(ADR-0038 유지).
+- 동적 값은 전부 TextMeshPro: 메뉴명, 재료명·정량, 가격, 주문 번호, 품목·수량·금액, 합계, 픽업 수량과 주문 상태. 금액은 `4,500원` 형식. 게임 데이터는 변경하지 않았다.
+- 검수용 1920×1080 합성본: 지정 scratch 폴더의 `RecipePreview.png`, `DessertPreview.png`, `FixedTemperaturePreview.png`, `OrdersPreview.png`. 실제 에셋을 실제 빌더 좌표에 배치해 제목 철자, 선택 상태, 완성품 그림, 품목 열과 금액 간격을 눈으로 확인했다. Unity 렌더가 아닌 합성 미리보기이므로 TMP 줄바꿈과 스크롤 동작은 씬 재생 후 확인한다.
+- 코드 검증: Unity 6000.6.4f1에 포함된 Roslyn C# 컴파일러와 프로젝트 참조 DLL로 런타임 전체·에디터 빌더 전체를 scratch 폴더에 컴파일해 모두 통과했다. Unity 에디터의 임포트·씬 생성·Play 실행은 하지 않았다. 새 PNG 6장의 `.meta`는 Unity 임포트 시 생성해야 한다. 새 ADR은 없으며 ADR-0038을 유지한다.
+
+## 2026-11-18 세 분류 탭과 콘텐츠 높이 영수증
+
+- 도구: Python/Pillow와 프로젝트 `Jua-Regular.ttf`로 고정 문구를 조판하고 실제 에셋을 빌더 좌표에 합성했다. 원화 생성·수정은 없으며 기존 `LabelSmoothie.png`, `LabelDessert.png`, `ThermalReceipt.png`는 보존했다. 기존 두 라벨의 C# 참조를 검색했으며 이번 레시피 탭 연결만 교체했다.
+- 스타일 참조: `LabelSmoothie.png`, `LabelCoffee.png`, `TabOn.png`, `TabOff.png`. `LabelSmoothieShake.png` 조판 지시: “Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. 기존 Jua 라벨과 같은 투명 글자 이미지로 정확히 ‘스무디·쉐이크’를 한 줄에 조판. 다크 커피 #380F00 채움 높이 50px, 크림 #FCF0CA 외곽선 3px, 사방 최소 8px 여백. 그림·그림자·가변 값 없음.” Jua에 없는 가운뎃점은 Jua 마침표를 가운데 높이에 배치했다. 4배 조판 후 축소한 최종 PNG는 **321×72 RGBA**, 표시 크기 **160.5×36**이다. 완성 이미지에서 ‘스무디·쉐이크’ 철자를 눈으로 확인했다.
+- 레시피 탭은 `Coffee`, `Beverage`, `Smoothie` 순서의 세 개다. 창 왼쪽 위 기준 x=60/150/240, y=140, 높이 52px, 폭 **82/82/176px**, 간격 8px로 목록 폭 356px를 채운다. 모든 라벨은 원본의 절반 크기다. 디저트 에셋과 다른 화면은 변경하지 않았다.
+- 영수증 폭은 360px다. 빌더가 `TextureImporter.spriteBorder=(32,40,32,40)`를 설정하고 Sliced 이미지에 원본 폭/360의 pixelsPerUnitMultiplier를 적용한다. 종이 톱니의 화면 높이는 위아래 각각 약 12px로 유지되고 가운데만 늘어난다. 종이 원본 1312px 높이가 레이아웃의 기본 높이가 되던 문제를 제거했다.
+- 각 영수증은 VerticalLayoutGroup + 세로 PreferredSize ContentSizeFitter로 헤더·품목·합계·픽업·상태·상하 30px 패딩과 간격 12px를 합산한다. 가로 목록은 높이를 강제하지 않고 상단 정렬한다. `TicketView.Setup`에서 품목을 갱신한 뒤 레이아웃을 재계산한다. 긴 이름의 줄바꿈도 높이에 포함되고 긴 주문의 양방향 스크롤은 유지한다. 금액·수량·주문 번호·상태는 계속 TMP다.
+- 검수: 지정 `scratchpad/r4`의 `RecipeTabs.png`, `RecipeTabsDetail.png`, `OrdersReceipts.png`, `Receipt1Item.png`, `Receipt3Item.png`, `Receipt5Item.png`를 확인했다. 예시 영수증 높이는 약 **377/477/577px**이며 TMP 폰트 메트릭을 근사한 합성본이다. 실제 높이는 TMP 줄바꿈과 글꼴 메트릭에 따라 결정된다. Unity 렌더·Play 검증은 별도로 필요하다.
+- 런타임 전체와 에디터 전체를 Unity 6000.6.4f1 Roslyn으로 scratch에 컴파일해 통과했다. 새 PNG의 `.meta`는 Unity 임포트로 생성한다. 새 ADR이나 게임 데이터 변경은 없다.

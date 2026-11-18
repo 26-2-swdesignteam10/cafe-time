@@ -29,7 +29,7 @@ namespace CafeTime.OpenPrep
             iconImage.sprite = definition.Icon;
             iconImage.enabled = definition.Icon != null;
             nameText.text = definition.DisplayName;
-            priceText.text = $"₩{definition.Price:N0} / 1{definition.PurchaseUnit}";
+            priceText.text = $"{definition.Price:N0}원 / 1{definition.PurchaseUnit}";
             minusRepeat.Pressed += () => onQuantityDelta(definition, -1);
             plusRepeat.Pressed += () => onQuantityDelta(definition, +1);
         }

@@ -60,8 +60,8 @@ namespace CafeTime.Core
         [SerializeField] float goodTolerance = 0.25f;
 
         [Header("커피잔·접시 (SFR-028, 064) — 임시값. 매일 영업 시작 때 모두 선반에 있다")]
-        [SerializeField] int ceramicCups = 8;
-        [SerializeField] int plasticCups = 10;
+        [SerializeField] int ceramicCups = 16; // 2026-11-18 사용자 요청 8 → 16
+        [SerializeField] int plasticCups = 20; // 2026-11-18 사용자 요청 10 → 20 (10개씩 두 더미)
         [SerializeField] int plates = 6;
 
         [Header("에스프레소 머신 (SFR-031, 032, 035)")]
@@ -78,7 +78,8 @@ namespace CafeTime.Core
         [SerializeField] int icePerScoop = 4;
 
         [Header("정수기 (SFR-043) — 임시값")]
-        [SerializeField] float waterSeconds = 3f;
+        [Tooltip("물 받는 시간 (2026-11-17 사용자 요청 3초 → 6초)")]
+        [SerializeField] float waterSeconds = 6f;
         [SerializeField] float waterAmount = 200f;
 
         [Header("음료·쉐이크 제조실 (SFR-046, 047, 053, 054) — 임시값")]
@@ -142,26 +143,32 @@ namespace CafeTime.Core
             }
         }
 
-        void OnEnable() => EnsureBakeryCatalog();
+        void OnEnable() => EnsureCatalog();
 
-        // 기존 밸런스 에셋에도 누락된 베이커리만 추가한다. 기존 가격·아이콘·재고 설정은 보존 (SFR-010, 026).
-        public void EnsureBakeryCatalog()
+        // 기존 밸런스 에셋을 코드의 메뉴 구성에 맞춘다 (ADR-0038). 기존 가격·레시피 정량·재료 아이콘·재고 설정은 보존하고,
+        // 없어진 메뉴·온도의 레시피는 지우고, 새 메뉴·레시피·재료·시작 재고만 추가한다. 메뉴 순서와 HOT/ICE 가능 여부는 코드 기준 (SFR-010, 026, 051)
+        public void EnsureCatalog()
         {
+            var merged = new List<MenuDefinition>();
             foreach (var menu in DefaultMenus())
             {
-                if (!menu.IsDessert || menus.Exists(m => m.Id == menu.Id)) continue;
-                menus.Add(menu);
+                var old = menus.Find(m => m.Id == menu.Id);
+                merged.Add(old != null ? menu.WithPrice(old.Price) : menu);
             }
+            menus = merged;
+
+            recipes.RemoveAll(r => FindMenu(r.MenuId) is not { } m || !m.Allows(r.Temperature));
+            foreach (var recipe in DefaultRecipes())
+                if (!recipes.Exists(r => r.MenuId == recipe.MenuId && r.Temperature == recipe.Temperature)) recipes.Add(recipe);
+
+            var orderedIngredients = new List<IngredientDefinition>();
             foreach (var ingredient in DefaultIngredients())
-            {
-                if (ingredient.Category != IngredientCategory.Dessert || ingredients.Exists(i => i.Id == ingredient.Id)) continue;
-                ingredients.Add(ingredient);
-            }
+                orderedIngredients.Add(ingredients.Find(i => i.Id == ingredient.Id) ?? ingredient);
+            orderedIngredients.AddRange(ingredients.FindAll(i => !orderedIngredients.Contains(i)));
+            ingredients = orderedIngredients;
+
             foreach (var stock in DefaultStartingStock())
-            {
-                if (!stock.id.StartsWith("dessert_") || startingStock.Exists(i => i.id == stock.id)) continue;
-                startingStock.Add(stock);
-            }
+                if (!startingStock.Exists(i => i.id == stock.id)) startingStock.Add(stock);
         }
 
         public int StartingMoney => startingMoney;
@@ -251,6 +258,10 @@ namespace CafeTime.Core
             Add(300, "syrup_plain", "syrup_vanilla", "syrup_caramel", "syrup_hazelnut", "syrup_chocolate", "syrup_blue");
             Add(300, "cheong_strawberry", "cheong_grapefruit", "cheong_yuja");
             Add(10, "tea_chamomile", "tea_earlgrey"); // 각 1박스
+            Add(600, "cold_brew");           // 콜드브루 6잔
+            Add(200, "matcha");              // 말차라떼 10잔
+            Add(100, "cinnamon");            // 카푸치노 10잔
+            Add(450, "vanilla_ice_cream");   // 밀크쉐이크 3잔
             Add(450, "smoothie_strawberry", "smoothie_mango", "smoothie_hallabong", "smoothie_melon", "smoothie_cookie"); // 각 3잔
             Add(5, "dessert_strawberry_cake", "dessert_croissant", "dessert_cookie",
                 "dessert_sandwich", "dessert_bagel", "dessert_waffle", "dessert_honey_bread", "dessert_croque_monsieur");
@@ -292,27 +303,32 @@ namespace CafeTime.Core
             const MenuCategory dessert = MenuCategory.Dessert;
             return new List<MenuDefinition>
             {
+                // 커피 (2026-11-17 사용자 요청 순서, ADR-0038)
                 new("americano", "아메리카노", coffee, 4000, true, true),
                 new("cafe_latte", "카페라떼", coffee, 4500, true, true),
                 new("vanilla_latte", "바닐라라떼", coffee, 5000, true, true),
-                new("caramel_macchiato", "카라멜마키아토", coffee, 5500, true, true),
                 new("hazelnut_latte", "헤이즐넛라떼", coffee, 5000, true, true),
+                new("caramel_macchiato", "카라멜마키아또", coffee, 5500, true, true),
                 new("cafe_mocha", "카페모카", coffee, 5500, true, true),
-                new("condensed_latte", "연유라떼", coffee, 5500, true, true),
+                new("cappuccino", "카푸치노", coffee, 4500, true, true),
+                new("cold_brew", "콜드브루", coffee, 4500, true, true),
+                new("cold_brew_latte", "콜드브루라떼", coffee, 5000, true, true),
+                // 음료: 온도 고정 (차 HOT, 라떼·에이드 ICE)
                 new("strawberry_latte", "딸기라떼", beverage, 5500, false, true),
+                new("chocolate_latte", "초콜릿라떼", beverage, 5000, false, true),
+                new("matcha_latte", "말차라떼", beverage, 5500, false, true),
                 new("grapefruit_ade", "자몽에이드", beverage, 5500, false, true),
-                new("yuja_ade", "유자에이드", beverage, 5500, false, true),
-                new("strawberry_ade", "딸기에이드", beverage, 5500, false, true),
                 new("blue_lemon_ade", "블루레몬에이드", beverage, 5500, false, true),
                 new("yuja_tea", "유자차", beverage, 5000, true, false),
                 new("grapefruit_tea", "자몽차", beverage, 5000, true, false),
-                new("chamomile", "캐모마일", beverage, 4500, true, true),
-                new("earl_grey", "얼그레이", beverage, 4500, true, true),
+                new("chamomile", "캐모마일", beverage, 4500, true, false),
+                new("earl_grey", "얼그레이", beverage, 4500, true, false),
                 new("strawberry_smoothie", "딸기 스무디", smoothie, 6000, false, true),
                 new("mango_smoothie", "망고 스무디", smoothie, 6000, false, true),
                 new("hallabong_smoothie", "한라봉 스무디", smoothie, 6000, false, true),
                 new("melon_smoothie", "멜론 스무디", smoothie, 6000, false, true),
                 new("cookie_shake", "쿠키앤크림 쉐이크", smoothie, 6000, false, true),
+                new("milk_shake", "밀크쉐이크", smoothie, 6000, false, true),
                 new("strawberry_cake", "딸기 케이크", dessert, 6500, false, false, "dessert_strawberry_cake"),
                 new("croissant", "크루아상", dessert, 4000, false, false, "dessert_croissant"),
                 new("cookie", "쿠키", dessert, 3000, false, false, "dessert_cookie"),
@@ -345,7 +361,7 @@ namespace CafeTime.Core
             foreach (var (id, syrup, grams) in new[]
                      {
                          ("cafe_latte", "", 0f), ("vanilla_latte", "syrup_vanilla", 20f), ("caramel_macchiato", "syrup_caramel", 20f),
-                         ("hazelnut_latte", "syrup_hazelnut", 20f), ("cafe_mocha", "syrup_chocolate", 30f), ("condensed_latte", "condensed_milk", 30f),
+                         ("hazelnut_latte", "syrup_hazelnut", 20f), ("cafe_mocha", "syrup_chocolate", 30f),
                      })
             {
                 var parts = new List<RecipeAmount> { shot };
@@ -355,17 +371,24 @@ namespace CafeTime.Core
                 parts.Add(cube);
                 list.Add(new RecipeDefinition(id, ice, parts.ToArray()));
             }
+            // 카푸치노: 우유를 덜 넣고 시나몬 (2026-11-17 사용자 선택)
+            list.Add(new("cappuccino", hot, shot, A("milk", 150), A("cinnamon", 10)));
+            list.Add(new("cappuccino", ice, shot, A("milk", 150), A("cinnamon", 10), cube));
+            // 콜드브루: HOT 은 뜨거운 물, ICE 는 차가운 물 + 얼음 (2026-11-18 사용자 요청으로 HOT 추가)
+            list.Add(new("cold_brew", hot, A("cold_brew", 100), A(RecipeKeys.HotWater, 150)));
+            list.Add(new("cold_brew", ice, A("cold_brew", 100), A(RecipeKeys.ColdWater, 150), cube));
+            list.Add(new("cold_brew_latte", hot, A("cold_brew", 100), A("milk", 150)));
+            list.Add(new("cold_brew_latte", ice, A("cold_brew", 100), A("milk", 150), cube));
             list.Add(new("strawberry_latte", ice, A("cheong_strawberry", 40), milk, cube));
+            list.Add(new("chocolate_latte", ice, A("syrup_chocolate", 30), milk, cube));
+            list.Add(new("matcha_latte", ice, A("matcha", 20), milk, cube));
             list.Add(new("grapefruit_ade", ice, A("cheong_grapefruit", 40), soda, cube));
-            list.Add(new("yuja_ade", ice, A("cheong_yuja", 40), soda, cube));
-            list.Add(new("strawberry_ade", ice, A("cheong_strawberry", 40), soda, cube));
             list.Add(new("blue_lemon_ade", ice, A("syrup_blue", 30), A("syrup_plain", 10), soda, cube));
             list.Add(new("yuja_tea", hot, A("cheong_yuja", 40), hotWater));
             list.Add(new("grapefruit_tea", hot, A("cheong_grapefruit", 40), hotWater));
             foreach (var (id, bag) in new[] { ("chamomile", "tea_chamomile"), ("earl_grey", "tea_earlgrey") })
             {
                 list.Add(new RecipeDefinition(id, hot, A(bag, 1), hotWater));
-                list.Add(new RecipeDefinition(id, ice, A(bag, 1), coldWater, cube));
             }
             // 스무디·쉐이크 (믹서기): 원액 + 우유 + 얼음 1스쿱
             foreach (var (id, fruit) in new[]
@@ -375,6 +398,7 @@ namespace CafeTime.Core
                      })
                 list.Add(new RecipeDefinition(id, ice, A(fruit, 150), A("milk", 100), cube));
             list.Add(new("cookie_shake", ice, A("smoothie_cookie", 150), A("milk", 150), cube));
+            list.Add(new("milk_shake", ice, A("vanilla_ice_cream", 150), A("milk", 150), cube));
             return list;
         }
 
@@ -389,6 +413,9 @@ namespace CafeTime.Core
             return new List<IngredientDefinition>
             {
                 new("bean", "원두", coffee, "봉", 20, "회", 12000),
+                new("cold_brew", "콜드브루 원액", coffee, "병", 1000, "g", 12000),
+                new("matcha", "말차 파우더", coffee, "봉", 500, "g", 15000),
+                new("cinnamon", "시나몬 파우더", coffee, "통", 200, "g", 6000),
                 new("milk", "우유", liquid, "팩", 1000, "g", 2500),
                 new("soda", "탄산수", liquid, "병", 1000, "g", 1500),
                 new("condensed_milk", "연유", liquid, "통", 500, "g", 4000),
@@ -408,6 +435,7 @@ namespace CafeTime.Core
                 new("smoothie_hallabong", "한라봉 스무디", smoothie, "팩", 1000, "g", 9000),
                 new("smoothie_melon", "멜론 스무디", smoothie, "팩", 1000, "g", 9000),
                 new("smoothie_cookie", "쿠키앤크림", smoothie, "팩", 1000, "g", 9000),
+                new("vanilla_ice_cream", "바닐라 아이스크림", smoothie, "통", 1000, "g", 10000),
                 new("dessert_strawberry_cake", "딸기 케이크", dessert, "개", 1, "개", 2500),
                 new("dessert_croissant", "크루아상", dessert, "개", 1, "개", 1500),
                 new("dessert_cookie", "쿠키", dessert, "개", 1, "개", 800),

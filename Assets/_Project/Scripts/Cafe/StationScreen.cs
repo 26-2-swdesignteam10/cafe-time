@@ -64,6 +64,14 @@ namespace CafeTime.Cafe
             return sprites[(cup.Type == CupType.Ceramic ? 0 : 3) + state];
         }
 
+        // 빈 컵 그림 + 내용물 층 (ADR-0037). contents 가 없으면 예전처럼 통짜 그림
+        public static void ShowCup(Image image, CupContentsView contents, Cup cup, Sprite[] sprites, bool steeping = false)
+        {
+            if (contents == null) { ShowIcon(image, BigCupSprite(cup, sprites)); return; }
+            ShowIcon(image, cup == null ? null : sprites[cup.Type == CupType.Ceramic ? 0 : 3]);
+            contents.Show(cup, steeping);
+        }
+
         protected static void ShowIcon(Image image, Sprite sprite)
         {
             image.sprite = sprite;

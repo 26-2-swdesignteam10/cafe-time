@@ -1,6 +1,7 @@
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CafeTime.Cafe
 {
@@ -12,21 +13,26 @@ namespace CafeTime.Cafe
         [SerializeField] TMP_Text linesText;
         [SerializeField] TMP_Text totalText;
         [SerializeField] TMP_Text pickupText;
+        [SerializeField] TMP_Text statusText;
 
-        public void Setup(Order order, int placed)
+        public void Setup(Order order, int placed, bool called = false)
         {
             numberText.text = $"#{order.Number}";
             var sb = new StringBuilder();
-            for (int i = 0; i < order.PreparationLines.Count; i++)
+            for (int i = 0; i < order.Lines.Count; i++)
             {
-                var line = order.PreparationLines[i];
+                var line = order.Lines[i];
                 if (i > 0) sb.Append('\n');
-                sb.Append($"{OrderText.ItemLabel(line.Menu, line.Temperature)} x{line.Quantity}");
+                sb.Append(OrderText.ItemLabel(line.Menu, line.Temperature));
+                sb.Append($"\n<size=18><pos=55%>{line.Quantity}개<pos=72%>{line.Price:N0}원</size>");
             }
             linesText.text = sb.ToString();
-            totalText.text = $"₩{order.Paid:N0}";
+            totalText.text = $"{order.Paid:N0}원";
             pickupText.text = $"{placed}/{order.ItemCount}";
+            if (statusText != null) statusText.text = called ? "손님 호출 중" : placed >= order.ItemCount ? "픽업 준비 완료" : "음료 준비 중";
             gameObject.SetActive(true);
+            // SFR-013: 줄바꿈까지 계산한 종이 높이를 가로 목록이 배치하기 전에 확정한다
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
         }
     }
 }

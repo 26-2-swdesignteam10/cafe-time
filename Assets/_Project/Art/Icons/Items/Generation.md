@@ -122,3 +122,34 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
   - 최종 크기: 256×256px, RGBA PNG.
 
 검수: 두 최종 PNG를 직접 열어 김·얼음 개수, 공통 유리병 형태, 배치와 크기를 확인했다. RGBA 256×256px, 알파 0/255, 외부 투명 픽셀 RGB 0과 최소 20px 여백 검사를 통과했다. 기존 내용은 바이트 단위로 보존하고 이 절만 추가했다. .meta는 생성·수정하지 않았다. Unity 6000.6.4f1에서 임포트 후 Point 필터, Mip Maps 끔, Alpha Is Transparency 켬을 확인한다.
+
+
+## 2026-11-17 스테인리스 샷 컵 재제작 (작업 E)
+
+- 최종 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일 1993개), 작업 문서 `git diff --check` 통과. Unity Play 검수는 사용자 확인이 필요하다.
+- 도구: OpenAI 내장 image_gen.imagegen으로 파일별 개별 생성·편집, Python 3 / Pillow 후처리·검수. CLI/API 대체 사용 없음.
+- 스타일 참조: CupCeramic.png·CupPlastic.png의 부드러운 현대적 일러스트, 약간 내려다보는 시점, 크기감. 도트 예외이며 Bilinear 대상이다.
+- 후처리·좌표: 빈 피처 원화의 동일 크롭과 최대 길이196px·Lanczos 배율을 공유했다. Full은 1254×1254 원화의 입구 안쪽 타원 (326,394,831,538), 1px 경계 블러 영역만 생성된 크레마 액면으로 교체했다. 공통 은색 몸체·주둥이·손잡이·눈금·외부 알파를 재사용했다. 중심 x128, 바닥 경계 y236(마지막 픽셀 y235), 하단 여백20px. 알파8 미만 정리, 중간 알파 유지, 투명 RGB=0.
+- 검수: 두 파일의 알파가 같고, 입구 마스크를 2px 확장한 영역 밖 RGBA가 완전히 같음을 검사했다. ShotCupsComparison.png 및 ShotCupsAt76.png에서 기존 컵 옆에 나란히 놓고 76×76 표시에서도 은색 피처와 크레마를 구별할 수 있음을 확인했다.
+- Unity 적용: 작업 시작 시 두 ShotGlass의 .meta는 Point(filterMode 0)였으며, 최종 읽기 검사에서 두 파일 모두 Bilinear(filterMode 1)·Single(spriteMode 1)로 반영된 것을 확인했다. 이 이미지 작업에서는 .meta를 직접 수정하지 않았다. Unity 6000.6.4f1 자동 재임포트 후 Bilinear / Mip Maps 끔 / Alpha Is Transparency 켬을 확인하고 손 칸과 에스프레소 머신 창에서 Play 확인한다.
+- 검수 합성·스크립트·원본 매핑은 저장소 밖 임시 폴더에만 저장: `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/task-e/`. 후처리 build.py, 프롬프트·원본 Manifest.json, 픽셀 검사 Validation.json.
+- 같은 파일 이름·같은 크기의 PNG만 교체했다. 완전한 RGBA 투명 배경이며 손·워터마크·체커보드·글자는 없다. .meta·.cs·.unity·.prefab·.asset은 직접 생성·수정하지 않았다. 기존 기록 보존, 새 ADR·게임 데이터 변경 없음.
+
+### 파일별 프롬프트·배치
+
+| 파일 | 크기 | 실체 bbox (좌,상,우,하; 우·하는 배타 경계) |
+|---|---|---|
+| ShotGlass.png | 256×256 | (30, 86, 226, 236) |
+| ShotGlassFull.png | 256×256 | (30, 86, 226, 236) |
+
+**ShotGlass.png**
+- 입력: `Icons/Items/CupCeramic.png, Icons/Items/CupPlastic.png`
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e973-6339-7b70-be7b-7bae3b8f6f20\exec-5463a3c4-769a-4a85-84a6-75689ed1db75.png`
+
+> Use case: stylized-concept. References are STYLE only, match their soft modern cafe game illustration and elevated front view. Generate ONE small EMPTY stainless steel espresso shot measuring pitcher, round brushed silver opaque metal body, gently tapered lower body, rolled oval open rim, tiny pouring spout on LEFT, round loop handle RIGHT, three subtle engraved tick marks without numbers. Interior visibly empty silver metal. Clean soft painted silver highlights, thin warm grey outlines, not pixel art, not photorealistic. Fully visible centered on square canvas, generous padding, compact readable silhouette for 76px hand slot. No saucer. Real alpha transparent background, no shadow, hands, text, watermark, checkerboard.
+
+**ShotGlassFull.png**
+- 입력: `C:\Users\k9425\.codex\generated_images\01a1e973-6339-7b70-be7b-7bae3b8f6f20\exec-5463a3c4-769a-4a85-84a6-75689ed1db75.png`
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e973-6339-7b70-be7b-7bae3b8f6f20\exec-bf84ecc5-3548-46fd-94dd-ebe238d55c16.png`
+
+> Use case: precise-object-edit. EDIT provided empty stainless espresso shot pitcher, changing ONLY the interior inside the open rim. Fill with rich dark brown espresso up near rim, visibly show horizontal espresso surface covered with warm golden tan crema with subtle mottled foam and dark coffee ring. Preserve EXACT same opaque silver metal body, spout, handle, tick engravings, lighting, size, position, silhouette, transparent background. Metal walls remain fully silver opaque, NEVER glass or transparent and NEVER show coffee through sides. Preserve all pixels outside opening. Smooth modern soft painted game illustration, no pixel art. NO steam, text, hands, watermark, checkerboard, ground shadows. Real alpha transparent background.

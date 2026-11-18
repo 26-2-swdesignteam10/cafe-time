@@ -89,3 +89,91 @@ Unity 임포트: Texture Type Sprite (2D and UI), Sprite Mode Single, Filter Mod
 | ServeButton.png | 서빙 | 50px | #FCF0CA | #5D2608 2px | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 320×112 |
 
 - 검수: 완성 PNG에서 한글 철자·공백·문장부호와 잘림을 눈으로 확인했다. 그림 포함 PNG는 지정 글자 영역 밖의 RGBA가 원본과 일치하고 알파·캔버스 크기가 동일한지 검사했다. 투명 라벨의 높이는 모두 유지했다. `.meta`, 코드, 씬, 프리팹, `.asset`, `docs/`는 수정하지 않았다. Unity에서 재임포트한 뒤 실제 표시 크기의 가독성과 라벨 폭 증가에 따른 배치를 확인해야 한다.
+
+
+## 2026-11-17 작업 A — HUD·영수증·픽업대 개편
+
+- 도구: OpenAI 내장 `image_gen.imagegen` 원화 생성/편집 + Python 3.14 / Pillow 후처리. API·CLI 생성은 사용하지 않았다.
+- 글자: `Assets/_Project/Art/Fonts/Jua-Regular.ttf`, 3배 조판 후 Lanczos 축소. 이미지에는 고정 문구만 넣었다. 사람 손·워터마크·체커보드는 없으며 외부는 실제 투명 RGBA다.
+- 아래는 이 요청에만 적용한 디자인이며 공통 팔레트·다른 화면 규칙은 변경하지 않았다. HUD 두 버튼의 부드러운 스타일은 이번 사용자 명시 요청을 우선했다. 새 ADR과 기존 ADR 변경은 없다.
+- 생성 원본은 아래 경로에 보존했다. 후처리 스크립트·Manifest.json·Validation.json·합성 검수 PNG는 저장소 밖 임시 폴더에만 둔다: `C:\Users\k9425\AppData\Local\Temp\claude\bd37fc10698b196c\1ac9cc50-e1f2-4923-a674-160ca3239d3d\scratchpad\codex\art-a-20261117`.
+
+스타일 참조: `../DrinkRoom/Panel.png`, `../Pos/Panel.png`의 부드러운 일러스트·오크 재질과 교체 전 `PickupTray.png`의 정면 탑다운 실루엣.
+
+### 파일별 프롬프트·후처리
+
+- `PickupPanel.png` **2200×1280** (표시1240×720): 밝은 대리석 상판, 얇은 오크/에스프레소 테두리, 하단 오크 띠. Jua `픽업대`를 원본 `(780,85,640,130)`, 92px, `#4B4337`로 조판했다. 제목은 상단 밴드 안에 있고 콘텐츠·닫기 예약 영역에 장식이 없다. 패널 내부는 불투명. 사방8px 투명 여백.
+
+```text
+Use case: style-transfer. Single isolated production Unity UI pickup counter modal background, wide aspect 2200:1280. Use DrinkRoom and Pos references for premium smooth painted cafe illustration materials only. Design elegant rounded rectangular counter display: thin warm espresso/oak outer frame, broad pale ivory marble countertop surface with extremely subtle fine marble veins, clean light oak fascia restricted to bottom 65px of target. Upper header band subtly warmer ivory with thin sage divider at target y245. All center x110..2090 y285..1166 must be EMPTY opaque quiet ivory marble without objects or decorations, since tray cards overlay here. Upper right x1930..2050 y125..245 blank for close button. Top center blank for Korean title to add later. No text, no built-in trays, cups, plates, people, controls, decorations or scene. Modern premium cafe pickup counter, shallow upper-left highlights, soft tasteful material depth; not flat vector, not pixel art, no stains. True transparent exterior only equal tiny padding. Interior completely opaque.
+```
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-1ee3-7cc2-80d0-185178bf2a84\exec-b7d1832e-681e-45e4-b6b7-e307429dd69f.png`
+
+- `PickupTray.png` **480×600**: 무광 브라운 바닥·오크 림의 실제 트레이. 위아래 고정 림 안에 손잡이 홈이 있다. 알파 정리 후 지정 크기로 리샘플링하고 사방8px 투명 여백. 중앙 `(48,64)-(432,536)`은 정확히 `#806047`, 알파255 단색으로 정규화했다. 좌우 림의 y64~536 구간은 생성 원화 y295~305 단면 평균을 세로 반복했다. 중앙과 위아래 림의 접합은 고정 테두리 안 y42~63 / y536~557에서만 보간했다. 내부에는 투명 구멍·얼룩·장식이 없다.
+
+```text
+Use case: stylized-concept. ONE isolated serving tray production Unity 9-slice UI sprite, top-down orthographic, upright rounded rectangle aspect 480:600. Modern matte espresso brown wood tray, slim warm oak lip, realistic shallow sculpted rim, subtle upper-left light. Small centered horizontal recessed grip slots within TOP and BOTTOM fixed rim only, not transparent holes. 9-slice requirements target original pixels: left/right border 48px, top/bottom border 64px. All detailing and handle grooves MUST stay in these fixed borders. Central x48..432 y64..536 entirely opaque perfectly uniform flat matte warm brown #806047, no grain or shading there. Left/right straight rims uniform through middle y64..536 to stretch invisibly. Elegant rounded corners within fixed borders. No cups objects text floor cast shadow or background. Transparent only outside, fully opaque tray basin, 8px equal padding. Smooth illustrated cafe game style, no pixelation, hands, watermark, checkerboard.
+```
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-1ee3-7cc2-80d0-185178bf2a84\exec-bbc068ca-edcb-4469-a2f4-ee3b3bb1a727.png`
+
+- `PickupTraySlot.png` **160×160** (표시112×112): 음료 그림 없는 아이보리 도자기 코스터, 얇은 세이지 링. 사방8px 투명 여백.
+
+```text
+Use case: stylized-concept. ONE round cafe drink coaster production Unity UI sprite square 160x160 target. Soft illustrated overhead circular warm ivory ceramic coaster, thin double muted sage rim, shallow tactile bevel and soft upper-left highlight. Empty opaque smooth ivory center, no symbol no cup no text no decoration. Modern cafe app cream espresso sage palette; match reference Pos panel material illustration quality. Small equal transparent padding, true alpha exterior, no floor shadow, no hands, watermark, checkerboard. Smooth not pixelated.
+```
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-1ee3-7cc2-80d0-185178bf2a84\exec-9fdab14a-2a8b-442b-9d81-e6e900d7668c.png`
+
+- `ServeButton.png` **320×112** (표시160×56): 세이지 그린 에나멜 버튼. Jua `서빙`을 원본 rect `(30,17,260,78)`, 49px, `#F8F5E9`로 조판했다. 사방8px 투명 여백.
+
+```text
+Use case: stylized-concept. ONE premium cafe game primary UI action button, wide low rounded rectangle aspect 320:112. Matte muted deep sage green enamel #56715D face with restrained upper-left soft highlight, fine darker sage edge and thin warm cream inset hairline, shallow realistic depth. ENTIRE FACE BLANK no lettering symbols or icons, exact Korean added later. Full silhouette with small equal transparent outer padding, smooth tactile painted cafe illustration matching Pos reference. No wood heavy frame, no hands, scene, checkerboard or watermark.
+```
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-1ee3-7cc2-80d0-185178bf2a84\exec-921a2c31-5f47-4e33-aad1-ab812048bf03.png`
+
+### 배치·9-slice·검수
+
+- 패널 화면1240×720, 왼쪽 위 원점 기준 콘텐츠 예약 영역 **x64~1176 / y160~656**, 닫기 버튼 **(1090,74,64,64)**. 제목은 대략 x440~800 / y48~121 안에 있다. 대리석 무늬는 옅은 배경 질감이며 콘텐츠 위로 올라오는 물건·장식은 없다.
+- 트레이 Sprite Editor Border: 원본 px **Left48 / Bottom64 / Right48 / Top64**, Image Type **Sliced**. UI 표시에서 고정 림 폭24·높이32가 되도록 원본의 절반 스케일을 적용한다. 폭304 고정·높이가 바뀌어도 중앙/직선 림만 늘어나고 모서리·위아래 손잡이는 고정 테두리에 남는다.
+- 저장소 밖 `PickupTray304x200.png`, `PickupTray304x400.png`, `PickupTray304x600.png`, `NineSlice.png`를 생성해 직접 열었다. 고정 테두리·홈 유지, 세로 반복 경계·중앙 이음새·투명 구멍이 없는 것을 눈으로 확인했다. 중앙은 픽셀 검사로 동일 RGBA를 확인했다.
+- `PickupHint.png`, `LabelUnassigned.png`는 그대로 유지했다. `.meta`와 코드·씬·프리팹은 수정하지 않았다. Sprite/Single/Bilinear/Mip Maps 끔/Alpha Is Transparency 켬. PickupPanel은 원본 폭2200 보존을 위해 Max Size4096, 나머지는2048. Unity에서 재임포트 후 Sliced/Border 및 실제 폭304의 높이 변화와 닫기 버튼 겹침을 확인한다.
+
+- 마무리 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일 1993개). 이 검사는 추적 파일 기준이므로 신규 ReceiptConfirmButton.png의 Unity .meta 생성 확인을 대신하지 않는다. 이번 작업에서는 PNG와 위 Generation.md만 수정했으며 코드·.meta·씬·프리팹·.asset은 수정하지 않았다.
+
+## 2026-11-18 — 진동벨 번호 키패드 (ADR-0040, SFR-056·058)
+
+- 도구: 내장 imagegen으로 패널·호출 입구 버튼·호출됨 배지 원화를 생성하고 Pillow로 크기 조정·동일 좌표 잘라내기를 했다. `.meta`는 직접 만들지 않는다.
+- 스타일 참조: `PickupPanel.png`의 크림·호두나무 프레임, `ServeButton.png`의 세이지 그린. 기기 화면의 부드러운 일러스트 예외를 따른다. 글자는 둥근 Jua 형태를 프롬프트에 지정했으며 한글 `진동벨 호출`, `지움`, `호출`, `호출됨`과 0~9·왼쪽 화살표를 눈으로 확인했다.
+- 공통 프롬프트: Production Unity sprites for a cozy Korean pixel art cafe game. Warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. 기기 화면은 기존 픽업대와 같은 부드러운 현대적 일러스트, 세이지 강조색, Jua 둥근 한글. 정면 UI, 투명 외곽, 불투명 내부.
+- `BellPanel.png` (1200×1600, 표시600×800): 계산기형 진동벨 호출 창. 프롬프트는 제목 `진동벨 호출`, 빈 세이지 번호 표시창·빈 상태 안내 칸, 1~9와 `지움 / 0 / ←`의 3×4 키, 큰 앰버 `호출` 버튼, 우상단 X 예약 영역. 입력 번호·오류 메시지는 원화에 넣지 않고 TMP로 표시한다. 원화 `exec-69041859-0bb4-4c29-afc8-2e11fe6ab7ad.png`.
+- `Key1.png`, `Key2.png`, `Key3.png`, `Key4.png`, `Key5.png`, `Key6.png`, `Key7.png`, `Key8.png`, `Key9.png` (각308×156): 위 패널의 고정 숫자 키를 동일 좌표로 잘라 클릭·누름 피드백용으로 쓴다. 별도 생성 프롬프트 없음. 화면 x=58+열×166, y=286+행×87, 크기154×78.
+- `Key0.png`, `ClearKey.png`, `BackKey.png` (각308×156): 맨 아래 `지움 / 0 / ←` 키. 위 원화에서 잘라내기. 화면 좌표 각각 (224,547), (58,547), (390,547), 크기154×78. 가변 주문 번호와 구별되는 고정 입력 키다.
+- `CallButton.png` (984×176): 같은 원화의 앰버 `호출` 버튼, 화면 (54,643,492,88)에서 잘라내기. 별도 프롬프트 없음.
+- `BellButton.png` (640×160, 표시320×80): 기존 세이지 버튼 참조. 프롬프트는 왼쪽에 울리는 진동벨 기기 아이콘, 크림 Jua 글자 `진동벨 호출`, 입체 테두리, 투명 외곽. 원화 `exec-f17545e6-d209-4b01-a8c1-e1dc4464908b.png`. 픽업대 제목 왼쪽 (64,48)에 배치해 기존 트레이 스크롤 높이496을 유지한다.
+- `CalledBadge.png` (256×80, 표시128×40): 기존 세이지 버튼 참조. 프롬프트는 작은 금색 울리는 벨과 크림 Jua 글자 `호출됨`, 간결한 세이지 배지. 원화 `exec-62099358-82a2-4aac-959c-766e940a47c7.png`. 트레이 번호 오른쪽, 헤더 안 (132,0)에 표시하며 기본 비활성이다.
+- 원화 저장 폴더: `C:/Users/k9425/.codex/generated_images/01a1ed28-09b3-7c21-ac78-6506c96a23fc/`.
+- 검수: scratchpad/r3/a의 `StatusPreview.png`, `ReceiptPreview.png`, `PickupPreview.png`, `BellPreview.png`를 실제 에셋·빌더 좌표로 합성해 확인했다. HUD 640×120, 첫 줄 아래8px·평판 위8px, 테두리 (80,64,80,64)/배율2의 9-slice, DAY15·9,999,999원 확인. 영수증은 88% (563.2×756.8), 메뉴6줄·합계·확인 버튼이 종이 안에 들어간다. 키패드 입력 글자54px, 상태22px. 동적 값·안내는 미리보기에만 예시로 합성했으며 게임 PNG에는 들어 있지 않다.
+
+
+## 2026-11-17 작업 F — 픽업대 주문지 9-slice
+
+- 최종 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일1993개), 작업 문서 `git diff --check` 통과. 새 PNG7개의 .meta 생성·임포트와 실제 Play 검수는 Unity에서 별도로 확인한다.
+
+- 도구: OpenAI 내장 `image_gen.imagegen` 개별 생성 + Python 3 / Pillow 알파 정리·크기 조정·중앙 단색화·9-slice 검수. CLI/API 대체 없음.
+- 스타일 참조: 같은 폴더 `PickupTray.png`(480×600, 화면 폭304), `docs/ART_STYLE.md`. 진한 나무 트레이에 어울리는 크림색 영수증 조각·작은 금색 집게·지그재그 절취선. 부드러운 일러스트·Bilinear.
+- 새 `PickupTicket.png`: **520×240 RGBA**, 기본 표시260×120. 실체 bbox **(8,8)–(512,232)**(우·하 배타), 실제 투명 외곽, 중앙 불투명 **#FCF4E2 / alpha255**. 글자·번호·메뉴 줄·괘선은 넣지 않았다.
+- 후처리: 생성 원화 알파16 미만 잡점 제거, 실체를504×224로 조정하여(8,8)에 배치. 세로 확장 구간y64..208의 좌우 테두리는 같은 단면을 반복했다. 중앙(x32..488,y64..208)은 정확히#FCF4E2로 정규화했으며 고정 영역 안에서 바탕을 연결했다. 완전 투명 RGB=0.
+- Sprite Editor Border **왼32 / 아래32 / 오른32 / 위64 (원본 px)**. Image Type=Sliced. 원본의 절반 크기에서 고정 테두리가 **왼16 / 아래16 / 오른16 / 위32 화면px**가 되도록 배율2를 적용한다. 집게는 위64, 절취선은 아래32 안에 있다. 가로 폭은260 고정, 높이만 가변이다.
+- 글자 영역 여백(원본): **왼32 / 위64 / 오른32 / 아래32**, 기본 rect=(32,64,456,144). 표시 여백 **왼16 / 위32 / 오른16 / 아래16**, 기본260×120에서 rect=(16,32,228,72). 높이H에서 글자 영역은 **(16,32,228,H−48)**이다. 가장 짧은260×80은 주문 번호+메뉴1줄에14px 글자를,160/240은18px 글자를 검수에 사용했다. 런타임 TMP는 진한 갈색#5A3520 권장.
+- 트레이 폭304에 가로 가운데 정렬하면 주문지 전체 왼쪽은 트레이 왼쪽+22이다. 상단 집게가 트레이 위쪽에 오도록 세로 연결 위치를 정한다. 트레이 PNG 자체는 바꾸지 않았다.
+- 저장소 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/task-f/`에 `PickupTicket260x80.png`, `PickupTicket260x160.png`, `PickupTicket260x240.png`, `TicketNineSlice.png`를 만들고 직접 열어 집게·테두리·절취선·중앙의 이음새를 확인했다. 비교본의 예시 주문123/음료 메뉴1~6은 Jua로 임시 합성한 글자이며 납품 PNG에는 없다. 한글 철자를 확인했다.
+- Unity6000.6.4f1에서 임포트하여 .meta 자동 생성 후 Sprite/Single/Bilinear/Mip Maps 끔/Alpha Is Transparency 켬/Full Rect/Max Size1024 이상 및 위 Border/Sliced를 설정한다. 3개 높이를 Play에서 확인한다. 새 ADR·코드·.meta·씬·프리팹·.asset 변경 없음.
+
+**PickupTicket.png**
+
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1ed3d-1c3d-7672-b46c-190ecf1a7ffd\exec-568a1af0-b352-45e4-a90c-0e1d97e9a27f.png`
+
+> Use case: stylized-concept. Create ONE blank cream paper cafe order ticket sprite to clip to the upper part of the wooden pickup tray in reference. Reference image is STYLE AND MATERIAL PALETTE ONLY, do not draw tray. Smooth painted cafe game UI illustration, frontal orthographic flat wide rectangular small receipt paper with very subtle warm-brown constant-thickness thin border, opaque pale cream #FCF4E2 blank interior. Target 520x240 original (display260x120). Small tasteful brass clip centered on TOP edge, paper top edge near y28, bottom near y226, lower edge a neat shallow zigzag torn receipt edge. 9-slice sprite: left/right fixed borders32px, top fixed64px, bottom fixed32px; all clip detail inside top64, all tear details inside bottom32. Middle x32..488,y64..208 MUST be perfectly uniform opaque cream with no texture or shading. Side borders straight constant width. Large blank text area, no horizontal rules, writing, numbers, menu names or icons. Transparent exterior only, no shadow beyond silhouette, no hands watermark checkerboard backdrop or extra objects. Full silhouette with8px outer padding, no perspective tilt.

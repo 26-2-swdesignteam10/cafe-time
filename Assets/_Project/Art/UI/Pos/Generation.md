@@ -192,3 +192,57 @@ PNG는 아래 표시 크기의 정확히 2배다. 텍스트 전용 라벨도 원
 | PayButton.png | `C:\Users\k9425\.codex\generated_images\01a1cf13-fb1c-7ca3-8e89-14a858a96f5a\exec-3c3005a0-d87e-4606-9b98-36970ad23651.png` |
 | ConfirmButton.png | `C:\Users\k9425\.codex\generated_images\01a1cf13-fb1c-7ca3-8e89-14a858a96f5a\exec-1020a10b-bfd5-48dc-8e91-eebe6f825d11.png` |
 | ReceiptPanel.png | `C:\Users\k9425\.codex\generated_images\01a1cf13-fb1c-7ca3-8e89-14a858a96f5a\exec-bab025c4-4185-434f-9633-d79d378c1f59.png` |
+
+
+## 2026-11-17 작업 A — HUD·영수증·픽업대 개편
+
+- 도구: OpenAI 내장 `image_gen.imagegen` 원화 생성/편집 + Python 3.14 / Pillow 후처리. API·CLI 생성은 사용하지 않았다.
+- 글자: `Assets/_Project/Art/Fonts/Jua-Regular.ttf`, 3배 조판 후 Lanczos 축소. 이미지에는 고정 문구만 넣었다. 사람 손·워터마크·체커보드는 없으며 외부는 실제 투명 RGBA다.
+- 아래는 이 요청에만 적용한 디자인이며 공통 팔레트·다른 화면 규칙은 변경하지 않았다. HUD 두 버튼의 부드러운 스타일은 이번 사용자 명시 요청을 우선했다. 새 ADR과 기존 ADR 변경은 없다.
+- 생성 원본은 아래 경로에 보존했다. 후처리 스크립트·Manifest.json·Validation.json·합성 검수 PNG는 저장소 밖 임시 폴더에만 둔다: `C:\Users\k9425\AppData\Local\Temp\claude\bd37fc10698b196c\1ac9cc50-e1f2-4923-a674-160ca3239d3d\scratchpad\codex\art-a-20261117`.
+
+스타일 참조: 교체 전 `ReceiptPanel.png`의 종이 실루엣, `Panel.png`의 부드러운 재질. 오래된 양피지가 아닌 흰~아이보리 감열지와 회색빛 인쇄 잉크로 교체했다.
+
+### 파일별 프롬프트·후처리
+
+- `ReceiptPanel.png` **1280×1720**: 빈 감열지 원화를 알파 정리/크롭 후 1264×1704로 리샘플링, 사방 8px 여백. 위·아래 작은 지그재그 찢긴 가장자리와 극히 옅은 질감·그림자 보존. Jua로 `CAFE TIME`, `카페타임`, `영수증`, `주문번호`, `메뉴`, `수량`, `금액`, `합계`, `감사합니다`를 합성했다. 표 머리는 세 열을 분리해 인쇄했으며 `/`는 열 구분 의미로 해석했다. 가는 회색 점선, 주문 데이터가 없는 장식용 바코드는 Pillow로 추가했다. 주문번호 값·메뉴 목록·수량·합계 금액은 비어 있다.
+
+```text
+Use case: stylized-concept. Single production Unity portrait thermal receipt PAPER sprite aspect 1280:1720. Beautiful genuine thin warm white thermal paper, not parchment. Fine tiny zigzag torn perforation edges at TOP AND BOTTOM, straight sides, extremely faint paper fibers, subtle soft shadow. Entire paper fully opaque near #FAFAF5. Blank paper only: NO text, numbers, barcode, lines, logos, stains, folds or decorative frame; print and barcode added precisely later. Nearly full canvas equal small transparent outer padding. Flat front elevation orthographic, no skew. Existing receipt is style/reference for silhouette only, remove old title. No hands watermark checkerboard.
+```
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-1ee3-7cc2-80d0-185178bf2a84\exec-64083270-3faa-48c3-87ee-4b3dfe0d94a2.png`
+
+- `ReceiptConfirmButton.png` **600×168** (신규): 아래 서빙 버튼의 빈 세이지 원화를 리샘플링해 영수증과 같은 세트로 구성하고 Jua `확인`을 66px, `#F8F5E9`로 조판했다. 사방 8px 실제 투명 여백. 기존 `ConfirmButton.png`는 수정하지 않았다.
+
+```text
+Use case: stylized-concept. ONE premium cafe game primary UI action button, wide low rounded rectangle aspect 320:112. Matte muted deep sage green enamel #56715D face with restrained upper-left soft highlight, fine darker sage edge and thin warm cream inset hairline, shallow realistic depth. ENTIRE FACE BLANK no lettering symbols or icons, exact Korean added later. Full silhouette with small equal transparent outer padding, smooth tactile painted cafe illustration matching Pos reference. No wood heavy frame, no hands, scene, checkerboard or watermark.
+```
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-1ee3-7cc2-80d0-185178bf2a84\exec-921a2c31-5f47-4e33-aad1-ab812048bf03.png`
+
+### 배치 전달 — 화면 640×860, 왼쪽 위 (0,0), px
+
+좌표는 `x,y,w,h`, 오른쪽·아래 끝 제외. 그림 원본 좌표는 아래의 정확히 2배다.
+
+| 요소 | 영역 / 좌표 | 권장 TMP 색·크기 / 정렬 |
+|---|---|---|
+| 주문번호 값 | `(300,206,245,48)` | `#61625D`, 28px, 오른쪽 |
+| 메뉴 목록 최대 6줄 | `(95,315,450,288)`; 행 y=315/363/411/459/507/555, 높이48 | `#61625D`, 22px |
+| 메뉴 이름 열 | x=95~379 (폭284), 각 행 높이48 | 왼쪽 정렬, 긴 이름 줄바꿈 대신 축소 권장 |
+| 수량 열 | x=391~449 (폭58), 중심 x420 | 가운데, 22px |
+| 금액 열 | x=464~545 (폭81), 오른쪽 기준 x545 | 오른쪽, 22px (긴 값은 20px까지 축소) |
+| 합계 금액 | `(245,624,300,52)` | `#565953`, 32px, 오른쪽 |
+| 확인 버튼 | `(170,710,300,84)` | 새 ReceiptConfirmButton.png 사용, 문구는 인쇄됨 |
+| 고정 표 머리 | y264~288, 메뉴 x95 / 수량 중심420 / 금액 오른쪽545 | 이미지 인쇄, 20px |
+| 점선 | x95~545, y194/255/300/612/683 | 이미지 인쇄 |
+| 바코드 | x225~415, y688~704 | 장식용, 값 인코딩 없음 |
+| 감사 문구 | `(120,806,400,23)` | 이미지 인쇄 |
+
+기존 BuildReceipt와 다른 점: 주문번호·합계 라벨을 종이 안에 직접 인쇄했으므로 **OrderNoLabel(LabelOrderNo.png)·SumLabel(LabelSum.png)은 연결 단계에서 제거해야 중복되지 않는다**. 메뉴 본문은 기존 y275에서 **y315**로 내려 표 머리를 피하고 6행 48px 간격으로 맞춘다. 금액/수량 열 정렬도 위 표에 맞춰야 한다. 확인 버튼 스프라이트를 **ReceiptConfirmButton.png**로 연결해야 새 버튼이 표시된다. 이 아트 작업에서 코드·씬·프리팹은 수정하지 않았다.
+
+검수: 모든 한글/영문 철자, 투명 외곽, 종이 내부 불투명, 지정 크기, 확인 버튼 300×84 배치를 눈으로 확인했다. 새 PNG는 Unity 6000.6.4f1에서 임포트해 `.meta`를 생성한다. Sprite/Single/Bilinear/Mip Maps 끔/Alpha Is Transparency 켬/Max Size 2048. Play에서 위 라벨 중복 제거와 목록 배치를 확인한다.
+
+- 추가 검수: 저장소 밖 ReceiptSixRows.png에 임시 메뉴·수량·금액 6행을 위 좌표로 합성해 제목/표 머리/합계/바코드/확인 버튼과 겹치지 않음을 직접 확인했다. 이 샘플 값은 납품 PNG에는 없다.
+
+- 마무리 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일 1993개). 이 검사는 추적 파일 기준이므로 신규 ReceiptConfirmButton.png의 Unity .meta 생성 확인을 대신하지 않는다. 이번 작업에서는 PNG와 위 Generation.md만 수정했으며 코드·.meta·씬·프리팹·.asset은 수정하지 않았다.

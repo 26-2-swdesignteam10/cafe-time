@@ -437,3 +437,28 @@ CORRECTION to supplied generated shelf: Keep the exact two columns and four rows
 1. Unity 6000.6.4f1로 돌아가 변경 PNG와 새 `Bakery/` 폴더를 임포트한다. 새 파일과 폴더의 `.meta`는 Unity가 생성하게 한다.
 2. Sprite (2D and UI), Single, PPU 128, Point (no filter), Mip Maps 끔, Alpha Is Transparency 켬, Pivot Bottom Center를 확인한다.
 3. Cafe 씬에서 진열대 크기와 빵 겹침·배치 간격을 확인한다. 48×40px 빵 캔버스를 3×2로 놓을 때는 투명 여백을 겹치고 앞뒤 빵을 일부 겹치는 밀집 배치가 필요하다. 실제 Unity 배치·Play 테스트는 수행하지 않았다.
+
+
+## 2026-11-17 작업 A — HUD·영수증·픽업대 개편
+
+- 도구: OpenAI 내장 `image_gen.imagegen` 원화 생성/편집 + Python 3.14 / Pillow 후처리. API·CLI 생성은 사용하지 않았다.
+- 글자: `Assets/_Project/Art/Fonts/Jua-Regular.ttf`, 3배 조판 후 Lanczos 축소. 이미지에는 고정 문구만 넣었다. 사람 손·워터마크·체커보드는 없으며 외부는 실제 투명 RGBA다.
+- 아래는 이 요청에만 적용한 디자인이며 공통 팔레트·다른 화면 규칙은 변경하지 않았다. HUD 두 버튼의 부드러운 스타일은 이번 사용자 명시 요청을 우선했다. 새 ADR과 기존 ADR 변경은 없다.
+- 생성 원본은 아래 경로에 보존했다. 후처리 스크립트·Manifest.json·Validation.json·합성 검수 PNG는 저장소 밖 임시 폴더에만 둔다: `C:\Users\k9425\AppData\Local\Temp\claude\bd37fc10698b196c\1ac9cc50-e1f2-4923-a674-160ca3239d3d\scratchpad\codex\art-a-20261117`.
+
+스타일 참조/편집 대상: 작업 전 `StationPickup.png` **608×128**. 기존 맵 도트 스타일·팔레트·벨·카운터·선반·외곽선을 유지했다.
+
+### StationPickup.png 프롬프트·후처리
+
+```text
+Use case: precise-object-edit. Edit ONLY the THREE SILVER TRAYS on the supplied 608x128 pixel cafe pickup counter sprite. Remove all three metal trays and their shadows and seamlessly restore natural empty honey oak countertop underneath. Preserve exact canvas aspect, the left call bell pixel for pixel, all existing counter geometry, outline, legs, lower shelf, warm wood palette, pixel art stepped edges, transparency, camera and everything else. No added objects, no text, no watermark, no hands. Empty counter top except original left bell. Keep original outer silhouette and alpha.
+```
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-1ee3-7cc2-80d0-185178bf2a84\exec-c31405ed-d9a4-43da-9662-50a788c2e93a.png`
+
+- 내장 이미지 생성기로 트레이를 없앤 시안을 생성해 빈 상판의 외관을 확인했다. 생성본은 벨·다리 형태까지 미세하게 바꾸므로 납품본에는 원본 PNG를 기반으로 Pillow의 **국소 복원**을 적용했다.
+- 복원 영역은 원본 왼쪽 위 기준 `(116,15)-(245,53)`, `(273,15)-(402,53)`, `(430,15)-(564,53)` (오른쪽·아래 끝 제외). 세 은색 트레이와 그림자만 제거했다. y15~32는 투명, y33~52는 같은 원본의 깨끗한 상판 x94~110 표본을 가로 반복했다. 상판 테두리까지 이어지게 y33부터 복원했다.
+- 위 세 사각형 **밖 RGBA는 원본과 정확히 같다**. 특히 왼쪽 벨 영역 x0~114는 바이트 비교했다. 새 그림자·물건·글자 없음. 기존 전체 캔버스608×128과 알파 외곽 형태를 유지했다(트레이 제거 부분 제외). 나머지 투명 픽셀 RGB도 원본 보존을 위해 정리하지 않았다.
+- 최종 PNG 크기·RGBA·실제 투명도와 빈 상판을 직접 확인했다. 맵은 기존 Point(no filter), PPU128, Mip Maps 끔을 유지한다. `.meta`는 수정하지 않았다. Unity 재임포트 후 기존 벨/상판과 맵 클릭 외곽을 확인한다. 새 ADR 없음.
+
+- 마무리 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일 1993개). 이 검사는 추적 파일 기준이므로 신규 ReceiptConfirmButton.png의 Unity .meta 생성 확인을 대신하지 않는다. 이번 작업에서는 PNG와 위 Generation.md만 수정했으며 코드·.meta·씬·프리팹·.asset은 수정하지 않았다.

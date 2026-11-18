@@ -442,6 +442,11 @@ namespace CafeTime.EditorTools
             var icons = new SerializedObject(go.AddComponent<ItemIcons>());
             SetArray(icons, "sprites", System.Enum.GetNames(typeof(ItemSprite))
                 .Select(n => (Object)LoadSprite($"{ItemIconDir}/{n}.png")).ToArray());
+            var pictureIds = icons.FindProperty("menuPictureIds");
+            pictureIds.arraySize = CafeUiBuilder.MenuPictures.Length;
+            for (int i = 0; i < CafeUiBuilder.MenuPictures.Length; i++) pictureIds.GetArrayElementAtIndex(i).stringValue = CafeUiBuilder.MenuPictures[i].id;
+            SetArray(icons, "menuPictures", CafeUiBuilder.MenuPictures.Select(p => (Object)CafeUiBuilder.LoadMenuPicture(p.ice)).ToArray());
+            SetArray(icons, "menuPicturesHot", CafeUiBuilder.MenuPictures.Select(p => (Object)CafeUiBuilder.LoadMenuPicture(p.hot)).ToArray());
             icons.ApplyModifiedPropertiesWithoutUndo();
 
             var customers = new SerializedObject(managers.Customers);
@@ -662,13 +667,13 @@ namespace CafeTime.EditorTools
             return go.transform;
         }
 
-        // 커피잔 아이콘은 도트가 아닌 일러스트라 Bilinear (docs/ART_STYLE.md 1장)
+        // 커피잔·샷 컵 아이콘은 도트가 아닌 일러스트라 Bilinear (docs/ART_STYLE.md 1장, 샷 컵은 2026-11-17 스테인리스 일러스트로 교체)
         static void PrepareCupIcons()
         {
             foreach (var path in Directory.GetFiles(ItemIconDir, "*.png").Select(p => p.Replace('\\', '/')))
             {
                 string name = Path.GetFileNameWithoutExtension(path);
-                if (!name.StartsWith("Cup") && name != "DirtyCeramic" && name != "DirtyPlastic") continue;
+                if (!name.StartsWith("Cup") && !name.StartsWith("ShotGlass") && name != "DirtyCeramic" && name != "DirtyPlastic") continue;
                 if (!(AssetImporter.GetAtPath(path) is TextureImporter importer)) continue;
                 importer.filterMode = FilterMode.Bilinear;
                 importer.SaveAndReimport();

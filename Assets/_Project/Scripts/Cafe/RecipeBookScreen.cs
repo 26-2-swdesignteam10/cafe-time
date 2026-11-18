@@ -8,10 +8,11 @@ using UnityEngine.UI;
 
 namespace CafeTime.Cafe
 {
-    // 레시피북 창 (SFR-051): HUD 의 레시피 버튼으로 연다. 위쪽 분류 탭(커피·음료·스무디), 왼쪽 메뉴 목록,
-    // 오른쪽에 고른 메뉴의 레시피 카드 1장과 HOT/ICE 선택 버튼. 레시피는 GameBalance 데이터를 그대로 보여 준다 (디저트는 레시피 없음)
+    // 레시피북 창 (SFR-051): 왼쪽 분류 탭과 메뉴 목록, 오른쪽 완성품 그림과 재료·정량.
+    // 두 온도의 레시피가 있는 메뉴만 HOT/ICE 선택을 표시한다. 디저트는 완성품과 가격만 보여 준다.
     public class RecipeBookScreen : Popup
     {
+        // 디저트는 만드는 방법이 없어 탭을 두지 않는다 (2026-11-18 사용자 요청)
         static readonly MenuCategory[] Categories = { MenuCategory.Coffee, MenuCategory.Beverage, MenuCategory.Smoothie };
 
         [Header("탭 (Categories 순서)")]
@@ -28,6 +29,12 @@ namespace CafeTime.Cafe
         [Header("레시피")]
         [SerializeField] TMP_Text menuNameText;
         [SerializeField] RecipeCardView card;
+        [SerializeField] Image finishedPicture;
+        [SerializeField] TMP_Text detailText;
+        [SerializeField] GameObject noRecipe;
+        [SerializeField] string[] pictureIds;
+        [SerializeField] Sprite[] hotPictures;
+        [SerializeField] Sprite[] icePictures;
 
         [Header("HOT/ICE 선택 (그 온도의 레시피가 없으면 누를 수 없음)")]
         [SerializeField] Button hotToggle;
@@ -113,9 +120,23 @@ namespace CafeTime.Cafe
 
             hotToggle.interactable = hot != null;
             iceToggle.interactable = ice != null;
+            // 온도가 하나로 고정된 메뉴는 HOT/ICE 버튼을 숨긴다 (2026-11-17 사용자 요청)
+            bool both = hot != null && ice != null;
+            hotToggle.gameObject.SetActive(both);
+            iceToggle.gameObject.SetActive(both);
             hotToggle.image.sprite = temperature == Temperature.Hot ? hotOn : hotOff;
             iceToggle.image.sprite = temperature == Temperature.Ice ? iceOn : iceOff;
             Fill(temperature == Temperature.Hot ? hot : ice);
+            if (finishedPicture != null)
+            {
+                int picture = menu != null ? System.Array.IndexOf(pictureIds, menu.Id) : -1;
+                var pictures = temperature == Temperature.Hot ? hotPictures : icePictures;
+                var sprite = picture >= 0 && picture < pictures.Length ? pictures[picture] : null;
+                finishedPicture.sprite = sprite != null ? sprite : menu != null ? ItemIcons.ForMenu(menu, temperature) : null;
+                finishedPicture.enabled = finishedPicture.sprite != null;
+            }
+            if (detailText != null) detailText.text = menu == null ? "" : $"{menu.Price:N0}원";
+            if (noRecipe != null) noRecipe.SetActive(menu != null && menu.IsDessert);
         }
 
         void Fill(RecipeDefinition recipe)

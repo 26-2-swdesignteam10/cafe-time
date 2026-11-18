@@ -8,7 +8,7 @@ namespace CafeTime.Cafe
     // 손님 일행 (1~4명). 입장 → 베이커리 직접 픽업 → 줄 서기 → 주문 → 테이블에서 대기 → 음료 받고 마시기 → 퇴장 (SFR-024, 025, 057)
     public class CustomerParty : MonoBehaviour
     {
-        public enum State { ToShowcase, ToQueue, Queued, ToTable, Waiting, Drinking, Leaving }
+        public enum State { ToShowcase, ToQueue, Queued, ToTable, Waiting, ToPickup, Drinking, Leaving }
 
         public State Current { get; set; }
         public List<Customer> Members { get; } = new List<Customer>();
@@ -22,6 +22,8 @@ namespace CafeTime.Cafe
         public float StayLeft { get; set; }
         public List<HeldItem> Served { get; set; }    // 받은 음료·디저트 (퇴식구 쟁반 내용, SFR-060)
         public WorldGauge Gauge { get; set; }
+        public Customer Runner { get; set; }              // 진동벨이 울려 픽업대로 받으러 간 일행 1명 (ADR-0040)
+        public List<HeldItem> CalledItems { get; set; }   // 호출할 때 트레이에 놓여 있던 물건
 
         public List<OrderLine> CollectedBakery { get; } = new List<OrderLine>(); // 직접 집은 베이커리 (SFR-026, 056)
 
@@ -33,9 +35,9 @@ namespace CafeTime.Cafe
             get
             {
                 var sentences = OrderText.Sentences(Wanted.Where(l => !l.Menu.IsDessert).ToList());
-                // 가져온 품목·수량을 대사로 알려 주고 플레이어가 직접 포스기에 입력한다 (SFR-026).
+                // 집어 온 베이커리 품목·수량을 대사로 알려 주고 플레이어가 직접 포스기에 입력한다 (SFR-026).
                 foreach (var sentence in OrderText.Sentences(CollectedBakery))
-                    sentences.Add("가져온 " + sentence.Replace(" 주세요.", " 결제해 주세요."));
+                    sentences.Add(sentence.Replace(" 주세요.", " 결제해 주세요."));
                 return sentences;
             }
         }

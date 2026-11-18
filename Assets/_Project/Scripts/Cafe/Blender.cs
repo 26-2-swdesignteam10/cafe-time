@@ -127,7 +127,7 @@ namespace CafeTime.Cafe
             if (State != BlenderState.Blended) { Toast.Show(ToastMessage.BlendFirst); return; }
             if (LidOn) { Toast.Show(ToastMessage.OpenLid); return; } // ADR-0036
             var cup = CupSpot;
-            cup.AddAll(Jar);
+            cup.AddBlended(Jar);
             Jar.Clear();
             blended = false;
             blendTime = 0;

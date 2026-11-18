@@ -14,7 +14,7 @@ namespace CafeTime.Cafe
 
         public void Setup(OrderLine line, bool selected, Action onClick)
         {
-            text.text = $"{OrderText.ItemLabel(line.Menu, line.Temperature)} x{line.Quantity}<pos=75%>₩{line.Price:N0}";
+            text.text = $"{OrderText.ItemLabel(line.Menu, line.Temperature)} x{line.Quantity}<pos=75%>{line.Price:N0}원";
             selectedHighlight.SetActive(selected);
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => onClick());

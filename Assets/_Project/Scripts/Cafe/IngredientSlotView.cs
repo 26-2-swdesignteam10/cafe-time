@@ -1,5 +1,6 @@
 using System;
 using CafeTime.Core;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ namespace CafeTime.Cafe
         [SerializeField] Button button;
         [SerializeField] HoldButton hold;
         [SerializeField] Image icon;
+        [SerializeField] TMP_Text nameText; // 칸 아래 재료 이름 (없으면 비워 둠)
 
         public IngredientDefinition Ingredient { get; private set; }
 
@@ -25,6 +27,7 @@ namespace CafeTime.Cafe
             Ingredient = ingredient;
             icon.sprite = ingredient.Icon;
             icon.enabled = icon.sprite != null;
+            if (nameText != null) nameText.text = ingredient.DisplayName;
             if (onHold != null) hold.Holding = seconds => onHold(ingredient, seconds);
             else button.onClick.AddListener(() => onClick(ingredient));
             hold.enabled = onHold != null;

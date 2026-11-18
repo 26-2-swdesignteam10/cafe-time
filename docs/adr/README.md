@@ -29,7 +29,7 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0015](0015-espresso-shot-integration.md) | 에스프레소 머신은 팀원의 EspressoShot 구현으로 통합한다 | 제안 |
 | [0016](0016-cafe-map-layout-and-modern-style.md) | 카페 맵을 주방 축소 배치와 모던 스타일로 바꾼다 | 제안 |
 | [0017](0017-order-list-modal-and-recipe-book.md) | 상단 주문표를 주문 내역 버튼·모달로 바꾸고 레시피북을 둔다 | 대체됨 (ADR-0018 픽업대 배정 부분, ADR-0019 레시피 카드 배치 부분) |
-| [0018](0018-pickup-trays-per-order.md) | 픽업대는 주문마다 트레이를 두고 서빙 버튼으로 내보낸다 | 대체됨 (ADR-0030 베이커리 부분) |
+| [0018](0018-pickup-trays-per-order.md) | 픽업대는 주문마다 트레이를 두고 서빙 버튼으로 내보낸다 | 대체됨 (ADR-0030 베이커리 부분, ADR-0040 서빙 버튼 부분) |
 | [0019](0019-recipe-toggle-scoop-return-station-headers.md) | 레시피북 온도 선택, 빈 스쿱 자동 반납, 기기 창 제목·안내 문구 제거 | 승인 |
 | [0020](0020-ten-minute-day-and-difficulty-table.md) | 하루 영업을 약 10분으로 줄이고 DAY별 난이도 표를 둔다 | 대체됨 (ADR-0021, 하루 시간 부분) |
 | [0021](0021-seven-minute-day.md) | 하루 영업을 약 7분으로 더 줄인다 | 승인 |
@@ -48,3 +48,8 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0034](0034-bakery-shelf-stock-display.md) | 빵 진열대는 재고만큼 작은 빵을 칸마다 늘어놓고 홀 세로를 채운다 | 승인 |
 | [0035](0035-pump-drag-press.md) | 시럽·연유 펌프는 머리를 아래로 끌어 누른다 | 승인 |
 | [0036](0036-blender-lid-step.md) | 믹서기 뚜껑은 끌어다 덮어야 갈 수 있고, 열어야 넣고 부을 수 있다 | 승인 |
+| [0037](0037-cup-contents-layers.md) | 컵 내용물을 재료 층으로 겹쳐 그리기 | 제안 |
+| [0038](0038-menu-revamp-fixed-temperature-four-slots.md) | 메뉴 개편, 온도 고정 음료, 손 칸 4개, 재료별 작업 창 그림 | 대체됨 (ADR-0041 콜드브루 ICE 고정 부분) |
+| [0039](0039-hud-day-image-no-rent.md) | 영업 HUD에서 임대료를 빼고 DAY 그림·원 표기·평판 숫자를 쓴다 | 승인 |
+| [0040](0040-pickup-bell-call.md) | 픽업대 진동벨 번호 호출로 서빙 | 제안 |
+| [0041](0041-cold-brew-hot-temperature-pictures.md) | 콜드브루 HOT 추가, 포스기 카드 그림을 HOT/ICE 에 맞춰 바꾼다 | 승인 |

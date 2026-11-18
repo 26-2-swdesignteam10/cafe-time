@@ -25,7 +25,7 @@ namespace CafeTime.Title
         {
             SaveData save = SaveSystem.Load();
             continueButton.interactable = save != null; // 저장 데이터가 없으면 비활성화
-            continueInfoText.text = save != null ? $"DAY {save.day} · ₩{save.money:N0}" : "저장된 데이터 없음";
+            continueInfoText.text = save != null ? $"DAY {save.day} · {save.money:N0}원" : "저장된 데이터 없음";
             base.Open();
         }
 

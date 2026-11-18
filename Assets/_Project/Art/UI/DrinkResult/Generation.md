@@ -121,3 +121,181 @@
 | StampGood.png | `C:\Users\k9425\.codex\generated_images\01a1ced0-2ca3-7862-92a5-ff4ef0c9559c\exec-17cf3a9b-4f09-4271-8295-2a7f9e54f8de.png` |
 | StampBad.png | `C:\Users\k9425\.codex\generated_images\01a1ced0-2ca3-7862-92a5-ff4ef0c9559c\exec-fdb954d5-26da-4c85-85b8-a907c799f2f1.png` |
 | StampFailed.png | `C:\Users\k9425\.codex\generated_images\01a1ced0-2ca3-7862-92a5-ff4ef0c9559c\exec-327e16e6-d52f-494e-8356-08dc33c05926.png` |
+
+
+## 2026-11-17 새 메뉴 완성품 7종 (작업 C)
+
+- 도구: OpenAI 내장 `image_gen.imagegen` 파일별 개별 생성, Python 3 / Pillow 알파 정리·크기 정렬·미리보기.
+- 컵·스타일 참조: `LatteHot.png`, `LatteIce.png`, `MochaIce.png`, `CookieShake.png`, `docs/ART_STYLE.md`. 같은 부드러운 일러스트·따뜻한 얇은 경계·왼쪽 위 조명·약간 내려다보는 구도, **Bilinear** 대상. 도트 처리하지 않았다.
+- `CappuccinoHot.png`: 두꺼운 우유 거품과 시나몬, 오른쪽 손잡이 흰 도자기 HOT 컵·받침·증기.
+- `CappuccinoIce.png`: 얼음이 보이는 커피·우유, 상단 흰 거품층과 시나몬.
+- `ColdBrewIce.png`: 우유 없는 맑고 진한 갈색 콜드브루와 얼음.
+- `ColdBrewLatteIce.png`: 진한 콜드브루 위층·아래 우유층과 경계의 소용돌이.
+- `ChocoLatteIce.png`: 초콜릿 우유·얼음. 휘핑·드리즐 제거.
+- `MatchaLatteIce.png`: 연두 말차·아래 우유층·얼음.
+- `MilkShake.png`: 바닐라 아이스크림·우유·얼음을 간 크림색 밀크쉐이크·휘핑. CookieShake의 컵·왼쪽 빨대를 따르고 쿠키·검은 가루 제거.
+- 모두 **640×800 RGBA**. 공통 후처리: 생성 알파12 미만 헤이즈·작은 분리 잡점 제거, 3px 열기 연산으로 작은 외곽 돌출 정리. 실체 bbox 크롭 후 Lanczos 비례 조정: HOT 최대 폭560, ICE 최대 폭450, 최대 높이736. 가로 중심 x320, **바닥 경계 y784**(마지막 픽셀 y783), 아래 투명 여백16px. 완전 투명 RGB=0.
+- 결과 배치 유지: 1600×900 화면 좌상단 기준 **Drink rect=(600,210,320,400)**. 화면 중심 기준 RectTransform=(-40,40,320,400), 공통 바닥은 화면 y602. Stamp·메뉴 이름은 기존 별도 이미지/TMP로 표시.
+- Unity **6000.6.4f1**에서 .meta 자동 생성. Sprite / Single / **Bilinear** / Mip Maps 끔 / Alpha Is Transparency 켬 / Full Rect / Pivot Center / Max Size1024 이상. 코드 연결 후 7종 결과·HOT/ICE 컵·도장 겹침을 Play 확인. 새 ADR·메뉴 데이터·레시피·코드·씬 변경은 없다.
+
+### 파일별 실제 생성 프롬프트와 원본
+
+**CappuccinoHot.png** — 참조 `LatteHot.png`
+
+> Use case: precise-object-edit. Production Unity cafe game finished drink sprite. Reference image is the EXACT vessel, composition and soft painted illustration style. Replace the heart latte art with a thick domed layer of dense white microfoam lightly sprinkled with cinnamon powder. Keep ceramic cup, right handle, saucer, steam and perspective identical. No whipped cream spiral. Preserve thin warm contours, soft highlights, upper-left illumination, elevated front camera. Full object, generous transparent padding, portrait intended 640x800. Smooth illustrated rendering for Bilinear, NOT pixel art or photograph. REAL alpha transparency, NO hands, text, digits, logos, watermark, checkerboard, backdrop, cast shadow or extra props.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-9ca9f9e6-613b-4d81-9ae6-38ffec6b1d21.png`
+
+**CappuccinoIce.png** — 참조 `LatteIce.png`
+
+> Use case: precise-object-edit. Production Unity cafe game finished drink sprite. Reference image is the EXACT vessel, composition and soft painted illustration style. Iced cappuccino, milk coffee beige body with visible ice and a distinct thick white milk foam layer at top lightly dusted with cinnamon. Keep exact clear plastic cup, rolled rim, pale straw and camera. Preserve thin warm contours, soft highlights, upper-left illumination, elevated front camera. Full object, generous transparent padding, portrait intended 640x800. Smooth illustrated rendering for Bilinear, NOT pixel art or photograph. REAL alpha transparency, NO hands, text, digits, logos, watermark, checkerboard, backdrop, cast shadow or extra props.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-46ffee18-1d1b-443e-bc4e-268e0f03bced.png`
+
+**ColdBrewIce.png** — 참조 `LatteIce.png`
+
+> Use case: precise-object-edit. Production Unity cafe game finished drink sprite. Reference image is the EXACT vessel, composition and soft painted illustration style. Clear deep dark brown cold brew coffee with visible translucent ice cubes, no milk, no cream, no foam. Keep exact clear plastic cup, rolled rim, pale straw and camera. Preserve thin warm contours, soft highlights, upper-left illumination, elevated front camera. Full object, generous transparent padding, portrait intended 640x800. Smooth illustrated rendering for Bilinear, NOT pixel art or photograph. REAL alpha transparency, NO hands, text, digits, logos, watermark, checkerboard, backdrop, cast shadow or extra props.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-96b0836a-b5bc-4f25-bd33-712de4bfbb57.png`
+
+**ColdBrewLatteIce.png** — 참조 `LatteIce.png`
+
+> Use case: precise-object-edit. Production Unity cafe game finished drink sprite. Reference image is the EXACT vessel, composition and soft painted illustration style. Cold brew latte: dark brown translucent coffee upper layer with ice, ivory milk lower layer and gentle swirling boundary. Darker coffee than reference. Keep exact clear plastic cup, rolled rim, pale straw and camera. Preserve thin warm contours, soft highlights, upper-left illumination, elevated front camera. Full object, generous transparent padding, portrait intended 640x800. Smooth illustrated rendering for Bilinear, NOT pixel art or photograph. REAL alpha transparency, NO hands, text, digits, logos, watermark, checkerboard, backdrop, cast shadow or extra props.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-cace473d-72f4-441e-b258-b7a00c824b04.png`
+
+**ChocoLatteIce.png** — 참조 `MochaIce.png`
+
+> Use case: precise-object-edit. Production Unity cafe sprite. Input is edit target and exact soft painted style / geometry reference. Iced chocolate milk, rich milk-chocolate brown body and visible ice cubes. Flat liquid top, REMOVE whipped cream, REMOVE chocolate drizzle, no coffee. Keep exact clear plastic cup, rolled rim, pale straw and camera. Thin warm contours, soft upper-left light, smooth illustration for Bilinear, NOT pixel art or photo. Fully visible edges, REAL transparent background. NO hands, text, digits, logos, watermark, checkerboard, ground or extra props. Intended portrait canvas 640x800, preserve vessel silhouette.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-1f9c1ad3-7da9-4813-9fb6-ca9a04283d8c.png`
+
+**MatchaLatteIce.png** — 참조 `LatteIce.png`
+
+> Use case: precise-object-edit. Production Unity cafe sprite. Input is edit target and exact soft painted style / geometry reference. Iced matcha latte, fresh light matcha green upper layer and ivory milk lower layer, soft green milk swirls and clear ice cubes. No coffee, no garnish. Keep exact clear plastic cup, rolled rim, pale straw and camera. Thin warm contours, soft upper-left light, smooth illustration for Bilinear, NOT pixel art or photo. Fully visible edges, REAL transparent background. NO hands, text, digits, logos, watermark, checkerboard, ground or extra props. Intended portrait canvas 640x800, preserve vessel silhouette.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-2fb9e1d5-a4e7-41a2-ae65-588e2d3cec66.png`
+
+**MilkShake.png** — 참조 `CookieShake.png`
+
+> Use case: precise-object-edit. Production Unity cafe sprite. Input is edit target and exact soft painted style / geometry reference. Vanilla milkshake, smooth pale ivory creamy body made of blended vanilla ice cream milk and ice, plain ivory whipped cream swirl. REMOVE ALL cookie, dark crumbs and brown speckles, no extra garnish. Keep exact clear plastic cup, rolled rim, left cream straw, whipped cream silhouette and camera. Thin warm contours, soft upper-left light, smooth illustration for Bilinear, NOT pixel art or photo. Fully visible edges, REAL transparent background. NO hands, text, digits, logos, watermark, checkerboard, ground or extra props. Intended portrait canvas 640x800, preserve vessel silhouette.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-78305b27-d931-47e3-a21b-fa0935440722.png`
+
+### 최종 검수 자료
+
+검수 PNG는 저장소 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/task-c/`에만 저장했다. `AssetsContact.png`는 전체15종, `SilhouetteOverlay.png`는 제조실 원본·신규·겹침·윤곽 비교, `LayoutChunky.png`·`LayoutSmooth.png`는 기존 제조실 배치 합성이다. 실제 크기·bbox·알파 비교는 `validation.json`, 프롬프트·원본 매핑은 `manifest.json`에 기록했다. 원화는 기본 생성 폴더에 보존했다.
+
+최종 PNG를 배경 위에서 눈으로 확인했다. 손·워터마크·체커보드·이미지 글자는 없으며 실제 RGBA 투명 배경이다. .meta·.cs·.unity·.prefab·.asset은 직접 생성·수정하지 않았다.
+
+### 최종 파일별 픽셀 배치
+
+| PNG | 크기 | 실체 bbox (왼쪽,위,오른쪽,아래) |
+|---|---|---|
+| CappuccinoHot.png | 640×800 | (40, 188, 600, 784) |
+| CappuccinoIce.png | 640×800 | (95, 80, 545, 784) |
+| ColdBrewIce.png | 640×800 | (95, 76, 545, 784) |
+| ColdBrewLatteIce.png | 640×800 | (95, 75, 545, 784) |
+| ChocoLatteIce.png | 640×800 | (101, 48, 539, 784) |
+| MatchaLatteIce.png | 640×800 | (95, 71, 545, 784) |
+| MilkShake.png | 640×800 | (102, 48, 537, 784) |
+
+최종 저장소 검사: bash .github/scripts/check-repo.sh 통과 (추적 파일 1993개). 이 검사는 추적 파일 기준이며 새 PNG 15개는 Unity 임포트 후 .meta 생성과 임포트 설정을 별도로 확인한다.
+
+
+## 2026-11-17 초코·말차·밀크쉐이크 재제작 (작업 E)
+
+- 최종 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일 1993개), 작업 문서 `git diff --check` 통과. Unity Play 검수는 사용자 확인이 필요하다.
+- 도구: OpenAI 내장 image_gen.imagegen으로 파일별 개별 생성·편집, Python 3 / Pillow 후처리·검수. CLI/API 대체 사용 없음.
+- 스타일 참조: LatteIce.png를 초코·말차의 편집 대상으로, CookieShake.png를 밀크쉐이크의 편집 대상으로 사용했다. MochaIce.png·StrawberryLatteIce.png도 세트의 컵·빨대·화풍·크기 비교에 사용했다.
+- 후처리·좌표: 생성 전체 캔버스를 640×800으로 Lanczos 조정했다. 초코·말차는 LatteIce의 정확한 외부 알파·롤드 림·오른쪽 빨대를 재사용했다. 림 마스크는 바깥 타원 (95,203,544,392)에서 안쪽 타원 (116,225,523,370)을 뺀 영역, 빨대는 (398,302),(464,79),(490,86),(423,310) 다각형이다. 외곽2px는 알파16 이상 이진 실루엣에서 계산했다. 밀크쉐이크는 CookieShake의 왼쪽 빨대·전면 림·y380 아래 몸체 알파를 보존하고 바닐라·휘핑·체리 원화를 합성했다. 공통 중심 x320, 바닥 경계 y784(마지막 픽셀 y783), 하단 여백16px. 투명 RGB=0. 기존 1600×900 결과 배치 유지: 좌상단 기준 Drink rect=(600,210,320,400), RectTransform=(-40,40,320,400).
+- 검수: DrinksComparison.png에서 LatteIce / ChocoLatteIce / MochaIce / MatchaLatteIce / CookieShake / MilkShake를 나란히 놓아 확인했다. 초코의 진한 시럽 줄무늬·초코 우유·얼음·코코아와 드리즐, 말차의 진녹색 상층·흰 우유·내려오는 무늬·얼음, 밀크쉐이크의 바닐라·휘핑·작은 바닐라 빈 점·체리를 확인했다.
+- Unity 적용: Unity 6000.6.4f1 자동 재임포트 후 Sprite / Single / Bilinear / Mip Maps 끔 / Alpha Is Transparency 켬 / Full Rect / Pivot Center / Max Size1024 이상을 확인한다. Play에서 컵 바닥 정렬과 도장 겹침을 확인한다.
+- 검수 합성·스크립트·원본 매핑은 저장소 밖 임시 폴더에만 저장: `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/task-e/`. 후처리 build.py, 프롬프트·원본 Manifest.json, 픽셀 검사 Validation.json.
+- 같은 파일 이름·같은 크기의 PNG만 교체했다. 완전한 RGBA 투명 배경이며 손·워터마크·체커보드·글자는 없다. .meta·.cs·.unity·.prefab·.asset은 직접 생성·수정하지 않았다. 기존 기록 보존, 새 ADR·게임 데이터 변경 없음.
+
+### 파일별 프롬프트·배치
+
+| 파일 | 크기 | 실체 bbox (좌,상,우,하; 우·하는 배타 경계) |
+|---|---|---|
+| ChocoLatteIce.png | 640×800 | (95, 79, 545, 784) |
+| MatchaLatteIce.png | 640×800 | (95, 79, 545, 784) |
+| MilkShake.png | 640×800 | (101, 46, 538, 784) |
+
+**ChocoLatteIce.png**
+- 입력: `UI/DrinkResult/LatteIce.png`
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e973-6339-7b70-be7b-7bae3b8f6f20\exec-b3c8e50a-d00b-4848-af0a-abe3c05b666c.png`
+
+> Use case: precise-object-edit. EDIT the provided LatteIce sprite, changing ONLY drink contents. Preserve EXACT same cup geometry, rolled transparent rim, cream straw on right, size, position, perspective, thin warm contours, lighting and smooth painted illustration style. Replace coffee and white milk with delicious rich chocolate milk, prominent thick dark chocolate syrup irregular vertical trails down INNER cup walls, clear ice cubes on top, subtle cocoa dust and thin chocolate drizzle over ice. No whipped cream. Same clear tapered plastic cup, no lid. Transparent background and same composition. Intended 640x800 with cup centered x320 bottom y784. No text, hands, watermark, checkerboard, props or floor shadow.
+
+**MatchaLatteIce.png**
+- 입력: `UI/DrinkResult/LatteIce.png`
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e973-6339-7b70-be7b-7bae3b8f6f20\exec-62a39e98-72e1-4032-92f3-30760cbb7611.png`
+
+> Use case: precise-object-edit. EDIT provided LatteIce sprite, change ONLY contents from coffee to iced matcha latte. Preserve EXACT cup shape, rolled transparent rim, cream straw right, scale, placement, perspective, lighting and soft painted rendering. Bright ivory milk lower half, deep rich natural green matcha upper half with gorgeous flowing green ribbons descending and mixing into white milk, visible clear ice on top tinted green, appetizing strong GREEN versus WHITE contrast. No coffee brown, whipped cream, garnish, lid. Same transparent tapered cup. Intended 640x800, centered x320 bottom y784. Real alpha transparency. No text, hands, watermark, checkerboard, backdrop or cast shadow.
+
+**MilkShake.png**
+- 입력: `UI/DrinkResult/CookieShake.png`
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e973-6339-7b70-be7b-7bae3b8f6f20\exec-04192fa3-148b-4acf-a03d-c440126240f6.png`
+
+> Use case: precise-object-edit. EDIT provided CookieShake, changing ONLY contents and topping. Keep EXACT same clear plastic cup geometry, rolled rim, left cream straw, position, scale, perspective, highlights and soft painted cafe game illustration. Delicious ivory VANILLA milkshake with smooth thick creamy body, sparse tiny vanilla bean pinpoints, same sculpted whipped cream swirl, remove ALL cookie crumbs and cookie, replace cookie with one small glossy red cherry with slender stem. Vanilla shake mostly clean pale ivory, no chocolate or brown crumbs. No lid. Intended same 640x800 centered x320 bottom y784. Real alpha transparent background. No text, hands, watermark, checkerboard, props, ground shadow.
+
+
+## 2026-11-17 작업 F — HOT/ICE 커피 완성품 6종
+
+- 최종 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일1993개), 작업 문서 `git diff --check` 통과. 새 PNG7개의 .meta 생성·임포트와 실제 Play 검수는 Unity에서 별도로 확인한다.
+
+- 도구: OpenAI 내장 `image_gen.imagegen`으로 각 파일 개별 편집 생성 + Python 3 / Pillow 내용물 합성·알파 보존·비교 검수. CLI/API 대체 없음.
+- 편집 대상: HOT 4종은 `LatteHot.png`, ICE 2종은 `LatteIce.png`. 비교 스타일 참조는 `AmericanoHot.png`, `ColdBrewIce.png`, `ColdBrewLatteIce.png`, `docs/ART_STYLE.md`. 부드러운 일러스트·Bilinear, 동일한 잔·크기·위치·조명.
+- 전부 **640×800 RGBA**, 가로 중심x320, **바닥 경계y784**(마지막 픽셀y783), 아래 투명 여백16px. HOT bbox=(40,189,600,784), ICE bbox=(95,79,545,784). 기준 LatteHot/LatteIce와 **알파 차이0**.
+- HOT: 생성 전체 캔버스를640×800로 Lanczos 조정하고 액면만 원본 타원(141,351)–(462,497)에 합성. ColdBrewLatteHot/HazelnutLatteHot의 생성 액면은 원본좌표(140,357,464,505), 나머지는(140,350,464,498)에서 꺼내322×147로 맞췄다. 잔·손잡이·받침·증기는 원본 RGBA를 보존했다.
+- ICE: 생성 RGB를640×800로 조정하고 원본 알파를 그대로 사용. 원본 롤드 림(바깥타원95,203,544,392−안쪽타원116,225,523,370), 오른쪽 빨대 다각형(398,302),(464,79),(490,86),(423,310), 외곽2px를 원본으로 복원했다. 완전 투명 RGB=0.
+
+| 파일 | 내용물 구분 |
+|---|---|
+| ColdBrewHot.png | 아메리카노보다 더 진하고 붉은 갈색의 맑은 블랙 표면, 크레마·폼·라떼아트 없음 |
+| ColdBrewLatteHot.png | 균일하고 부드러운 갈색 우유 커피, 밀크 폼·라떼아트 없음 |
+| VanillaLatteHot.png | 밝은 크림색 커피·바닐라 빈 점·작은 단순한 하트 |
+| VanillaLatteIce.png | 밝은 크림색 우유 커피·바닐라 빈 점·얼음 위 바닐라 시럽 줄무늬 |
+| HazelnutLatteHot.png | 진한 견과 갈색 커피·하트 옆 헤이즐넛 조각 |
+| HazelnutLatteIce.png | 진한 견과 갈색 우유 커피·얼음 위 헤이즐넛 조각·안쪽 시럽 줄무늬 |
+
+- 저장소 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/task-f/`의 `DrinksComparison.png`에 기존5종과 신규6종을 나란히 배치해 눈으로 확인했다. 잔·빨대·바닥 정렬 및 메뉴별 색과 토핑 차이를 확인했다. 손·워터마크·체커보드·문자는 없으며 진짜 RGBA 투명 배경이다. 원본 파일은 덮어쓰지 않았다.
+- 생성 프롬프트·원화 경로는 아래와 임시Manifest.json에, 후처리는build.py에, 픽셀 검사는Validation.json에 있다. 검수 합성 PNG는 저장소 밖에만 둔다.
+- Unity6000.6.4f1에서 .meta 자동 생성, Sprite/Single/Bilinear/Mip Maps 끔/Alpha Is Transparency 켬/Full Rect/Pivot Center/Max Size1024 이상. 기존 결과 Drink rect=(600,210,320,400), 바닥화면y602를 유지한다. 별도 코드 연결 후 Play에서 6종·도장 겹침 확인. 새 ADR·게임 데이터·코드·.meta·씬·프리팹·.asset 변경 없음.
+
+**ColdBrewHot.png**
+
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1ed3d-1c3d-7672-b46c-190ecf1a7ffd\exec-5f3c0000-7d41-4d0a-adf4-3e654fc38dd5.png`
+
+> Use case: precise-object-edit. EDIT target LatteHot.png for production Unity cafe game sprite ColdBrewHot. Change ONLY the coffee surface inside the cup to clear very dark reddish brown black cold brew coffee, darker than Americano, glossy subtle reflection, NO crema, NO foam, NO latte art. Preserve EXACT ceramic white cup, right handle, saucer, steam, size, position, perspective and smooth illustrated painted style, upper-left illumination. Same portrait 640x800 composition centered x320, base y784. Real transparent alpha background, no text hands watermark checkerboard props or floor shadow.
+
+**ColdBrewLatteHot.png**
+
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1ed3d-1c3d-7672-b46c-190ecf1a7ffd\exec-dc0fa194-2e91-4571-87fe-020e1f432171.png`
+
+> Use case: precise-object-edit. EDIT target LatteHot.png for production Unity cafe game sprite ColdBrewLatteHot. Change ONLY the liquid inside the cup to cold brew mixed with milk: smooth uniform warm medium milk-coffee brown surface with gentle glossy highlights. NO milk foam, NO froth, NO latte art or heart, NO crema. Preserve EXACT white ceramic cup, right handle, saucer, steam, geometry, size, position, camera, lighting and smooth painted illustration style. Same 640x800 portrait composition, center x320 bottom y784. Real transparent background, no text hands watermark checkerboard props floor shadow.
+
+**VanillaLatteHot.png**
+
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1ed3d-1c3d-7672-b46c-190ecf1a7ffd\exec-ac9c71ca-473c-41b7-9b16-19ef20df0af8.png`
+
+> Use case: precise-object-edit. EDIT supplied LatteHot.png for production Unity cafe game VanillaLatteHot. Change ONLY coffee surface to pale creamy vanilla latte noticeably lighter ivory cream than original caffe latte, tiny visible dark vanilla bean pinpoints, small simple white heart latte art. No syrup drizzle, no whipped cream. Preserve EXACT vessel geometry, white ceramic cup right handle saucer and steam if HOT, clear tapered plastic cup rolled rim and cream straw on RIGHT if ICE. Preserve original size, position, perspective, soft upper-left lighting, warm thin contours, smooth painted illustration for Bilinear. Same portrait 640x800 composition centered x320 bottom y784. Change only contents and requested topping. REAL transparent alpha exterior, no text digits logos hands watermark checkerboard props backdrop or cast shadow.
+
+**VanillaLatteIce.png**
+
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1ed3d-1c3d-7672-b46c-190ecf1a7ffd\exec-46dacbad-1b9a-421d-ba35-b0566ab773e6.png`
+
+> Use case: precise-object-edit. EDIT supplied LatteIce.png for production Unity cafe game VanillaLatteIce. Change ONLY drink contents to pale creamy vanilla milk coffee distinctly lighter than original caffe latte. Visible ice, sparse tiny dark vanilla bean specks in creamy liquid, thin warm golden vanilla syrup ribbons across TOP ice. No whipped cream or lid. Preserve EXACT vessel geometry, white ceramic cup right handle saucer and steam if HOT, clear tapered plastic cup rolled rim and cream straw on RIGHT if ICE. Preserve original size, position, perspective, soft upper-left lighting, warm thin contours, smooth painted illustration for Bilinear. Same portrait 640x800 composition centered x320 bottom y784. Change only contents and requested topping. REAL transparent alpha exterior, no text digits logos hands watermark checkerboard props backdrop or cast shadow.
+
+**HazelnutLatteHot.png**
+
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1ed3d-1c3d-7672-b46c-190ecf1a7ffd\exec-6d3128b2-bbad-4745-9a20-332d6d6678fa.png`
+
+> Use case: precise-object-edit. EDIT supplied LatteHot.png for production Unity cafe game HazelnutLatteHot. Change ONLY coffee surface to deep toasted hazelnut brown latte distinctly darker than original caffe latte, preserve white heart latte art and add a few small golden chopped hazelnut pieces on surface BESIDE the latte art. No whipped cream. Preserve EXACT vessel geometry, white ceramic cup right handle saucer and steam if HOT, clear tapered plastic cup rolled rim and cream straw on RIGHT if ICE. Preserve original size, position, perspective, soft upper-left lighting, warm thin contours, smooth painted illustration for Bilinear. Same portrait 640x800 composition centered x320 bottom y784. Change only contents and requested topping. REAL transparent alpha exterior, no text digits logos hands watermark checkerboard props backdrop or cast shadow.
+
+**HazelnutLatteIce.png**
+
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1ed3d-1c3d-7672-b46c-190ecf1a7ffd\exec-101fc17c-563d-4de4-97c6-c239b9efadad.png`
+
+> Use case: precise-object-edit. EDIT supplied LatteIce.png for production Unity cafe game HazelnutLatteIce. Change ONLY drink contents to rich toasted nut brown hazelnut latte distinctly darker than original caffe latte, less white milk, visible ice, a few small golden chopped hazelnuts resting on TOP ice and thin nut-brown syrup trails inside cup. No whipped cream or lid. Preserve EXACT vessel geometry, white ceramic cup right handle saucer and steam if HOT, clear tapered plastic cup rolled rim and cream straw on RIGHT if ICE. Preserve original size, position, perspective, soft upper-left lighting, warm thin contours, smooth painted illustration for Bilinear. Same portrait 640x800 composition centered x320 bottom y784. Change only contents and requested topping. REAL transparent alpha exterior, no text digits logos hands watermark checkerboard props backdrop or cast shadow.

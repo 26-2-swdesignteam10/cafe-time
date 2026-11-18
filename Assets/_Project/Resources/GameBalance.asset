@@ -25,6 +25,30 @@ MonoBehaviour:
     baseUnit: "\uD68C"
     price: 12000
     icon: {fileID: 21300000, guid: 5e55f6bf34a2be340b00f64eb0d5333c, type: 3}
+  - id: cold_brew
+    displayName: "\uCF5C\uB4DC\uBE0C\uB8E8 \uC6D0\uC561"
+    category: 0
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 12000
+    icon: {fileID: 21300000, guid: 445b95941e3cd3846b49aab9e8165316, type: 3}
+  - id: matcha
+    displayName: "\uB9D0\uCC28 \uD30C\uC6B0\uB354"
+    category: 0
+    purchaseUnit: "\uBD09"
+    amountPerUnit: 500
+    baseUnit: g
+    price: 15000
+    icon: {fileID: 21300000, guid: ce9adcfcea3481b47a4373709b8cb340, type: 3}
+  - id: cinnamon
+    displayName: "\uC2DC\uB098\uBAAC \uD30C\uC6B0\uB354"
+    category: 0
+    purchaseUnit: "\uD1B5"
+    amountPerUnit: 200
+    baseUnit: g
+    price: 6000
+    icon: {fileID: 21300000, guid: 0c1f6e8c52bdd7f4994db3dd9254b11f, type: 3}
   - id: milk
     displayName: "\uC6B0\uC720"
     category: 1
@@ -177,6 +201,14 @@ MonoBehaviour:
     baseUnit: g
     price: 9000
     icon: {fileID: 21300000, guid: 8f0d29fed35c2f44bbd4cd3607627111, type: 3}
+  - id: vanilla_ice_cream
+    displayName: "\uBC14\uB2D0\uB77C \uC544\uC774\uC2A4\uD06C\uB9BC"
+    category: 4
+    purchaseUnit: "\uD1B5"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 10000
+    icon: {fileID: 21300000, guid: 0bf2e23e39eb7e046a1e0cadf05b7fc1, type: 3}
   - id: dessert_strawberry_cake
     displayName: "\uB538\uAE30 \uCF00\uC774\uD06C"
     category: 5
@@ -216,7 +248,7 @@ MonoBehaviour:
     amountPerUnit: 1
     baseUnit: "\uAC1C"
     price: 1800
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 165d19be1947736468f74bac7ca005ec, type: 3}
   - id: dessert_waffle
     displayName: "\uC640\uD50C"
     category: 5
@@ -298,6 +330,14 @@ MonoBehaviour:
     amount: 5
   - id: dessert_croque_monsieur
     amount: 5
+  - id: cold_brew
+    amount: 600
+  - id: matcha
+    amount: 200
+  - id: cinnamon
+    amount: 100
+  - id: vanilla_ice_cream
+    amount: 450
   menus:
   - id: americano
     displayName: "\uC544\uBA54\uB9AC\uCE74\uB178"
@@ -320,17 +360,17 @@ MonoBehaviour:
     hot: 1
     ice: 1
     stockId: 
-  - id: caramel_macchiato
-    displayName: "\uCE74\uB77C\uBA5C\uB9C8\uD0A4\uC544\uD1A0"
-    category: 0
-    price: 5500
-    hot: 1
-    ice: 1
-    stockId: 
   - id: hazelnut_latte
     displayName: "\uD5E4\uC774\uC990\uB11B\uB77C\uB5BC"
     category: 0
     price: 5000
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: caramel_macchiato
+    displayName: "\uCE74\uB77C\uBA5C\uB9C8\uD0A4\uC544\uB610"
+    category: 0
+    price: 5500
     hot: 1
     ice: 1
     stockId: 
@@ -341,10 +381,24 @@ MonoBehaviour:
     hot: 1
     ice: 1
     stockId: 
-  - id: condensed_latte
-    displayName: "\uC5F0\uC720\uB77C\uB5BC"
+  - id: cappuccino
+    displayName: "\uCE74\uD478\uCE58\uB178"
     category: 0
-    price: 5500
+    price: 4500
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: cold_brew
+    displayName: "\uCF5C\uB4DC\uBE0C\uB8E8"
+    category: 0
+    price: 4500
+    hot: 1
+    ice: 1
+    stockId: 
+  - id: cold_brew_latte
+    displayName: "\uCF5C\uB4DC\uBE0C\uB8E8\uB77C\uB5BC"
+    category: 0
+    price: 5000
     hot: 1
     ice: 1
     stockId: 
@@ -355,22 +409,22 @@ MonoBehaviour:
     hot: 0
     ice: 1
     stockId: 
+  - id: chocolate_latte
+    displayName: "\uCD08\uCF5C\uB9BF\uB77C\uB5BC"
+    category: 1
+    price: 5000
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: matcha_latte
+    displayName: "\uB9D0\uCC28\uB77C\uB5BC"
+    category: 1
+    price: 5500
+    hot: 0
+    ice: 1
+    stockId: 
   - id: grapefruit_ade
     displayName: "\uC790\uBABD\uC5D0\uC774\uB4DC"
-    category: 1
-    price: 5500
-    hot: 0
-    ice: 1
-    stockId: 
-  - id: yuja_ade
-    displayName: "\uC720\uC790\uC5D0\uC774\uB4DC"
-    category: 1
-    price: 5500
-    hot: 0
-    ice: 1
-    stockId: 
-  - id: strawberry_ade
-    displayName: "\uB538\uAE30\uC5D0\uC774\uB4DC"
     category: 1
     price: 5500
     hot: 0
@@ -402,14 +456,14 @@ MonoBehaviour:
     category: 1
     price: 4500
     hot: 1
-    ice: 1
+    ice: 0
     stockId: 
   - id: earl_grey
     displayName: "\uC5BC\uADF8\uB808\uC774"
     category: 1
     price: 4500
     hot: 1
-    ice: 1
+    ice: 0
     stockId: 
   - id: strawberry_smoothie
     displayName: "\uB538\uAE30 \uC2A4\uBB34\uB514"
@@ -441,6 +495,13 @@ MonoBehaviour:
     stockId: 
   - id: cookie_shake
     displayName: "\uCFE0\uD0A4\uC564\uD06C\uB9BC \uC250\uC774\uD06C"
+    category: 2
+    price: 6000
+    hot: 0
+    ice: 1
+    stockId: 
+  - id: milk_shake
+    displayName: "\uBC00\uD06C\uC250\uC774\uD06C"
     category: 2
     price: 6000
     hot: 0
@@ -577,15 +638,15 @@ MonoBehaviour:
   - menuId: americano
     temperature: 1
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: water_hot
       amount: 200
   - menuId: americano
     temperature: 2
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: water_cold
       amount: 200
     - key: ice
@@ -593,117 +654,97 @@ MonoBehaviour:
   - menuId: cafe_latte
     temperature: 1
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: milk
-      amount: 200
+      amount: 100
   - menuId: cafe_latte
     temperature: 2
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: milk
-      amount: 200
+      amount: 100
     - key: ice
       amount: 1
   - menuId: vanilla_latte
     temperature: 1
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: syrup_vanilla
       amount: 20
     - key: milk
-      amount: 200
+      amount: 100
   - menuId: vanilla_latte
     temperature: 2
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: syrup_vanilla
       amount: 20
     - key: milk
-      amount: 200
+      amount: 100
     - key: ice
       amount: 1
   - menuId: caramel_macchiato
     temperature: 1
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: syrup_caramel
       amount: 20
     - key: milk
-      amount: 200
+      amount: 100
   - menuId: caramel_macchiato
     temperature: 2
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: syrup_caramel
       amount: 20
     - key: milk
-      amount: 200
+      amount: 100
     - key: ice
       amount: 1
   - menuId: hazelnut_latte
     temperature: 1
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: syrup_hazelnut
       amount: 20
     - key: milk
-      amount: 200
+      amount: 100
   - menuId: hazelnut_latte
     temperature: 2
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: syrup_hazelnut
       amount: 20
     - key: milk
-      amount: 200
+      amount: 100
     - key: ice
       amount: 1
   - menuId: cafe_mocha
     temperature: 1
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: syrup_chocolate
       amount: 30
     - key: milk
-      amount: 200
+      amount: 100
   - menuId: cafe_mocha
     temperature: 2
     amounts:
-    - key: shot
-      amount: 1
+    - key: cheong_strawberry
+      amount: 40
     - key: syrup_chocolate
       amount: 30
     - key: milk
-      amount: 200
-    - key: ice
-      amount: 1
-  - menuId: condensed_latte
-    temperature: 1
-    amounts:
-    - key: shot
-      amount: 1
-    - key: condensed_milk
-      amount: 30
-    - key: milk
-      amount: 200
-  - menuId: condensed_latte
-    temperature: 2
-    amounts:
-    - key: shot
-      amount: 1
-    - key: condensed_milk
-      amount: 30
-    - key: milk
-      amount: 200
+      amount: 100
     - key: ice
       amount: 1
   - menuId: strawberry_latte
@@ -719,24 +760,6 @@ MonoBehaviour:
     temperature: 2
     amounts:
     - key: cheong_grapefruit
-      amount: 40
-    - key: soda
-      amount: 200
-    - key: ice
-      amount: 1
-  - menuId: yuja_ade
-    temperature: 2
-    amounts:
-    - key: cheong_yuja
-      amount: 40
-    - key: soda
-      amount: 200
-    - key: ice
-      amount: 1
-  - menuId: strawberry_ade
-    temperature: 2
-    amounts:
-    - key: cheong_strawberry
       amount: 40
     - key: soda
       amount: 200
@@ -774,15 +797,6 @@ MonoBehaviour:
       amount: 1
     - key: water_hot
       amount: 200
-  - menuId: chamomile
-    temperature: 2
-    amounts:
-    - key: tea_chamomile
-      amount: 1
-    - key: water_cold
-      amount: 200
-    - key: ice
-      amount: 1
   - menuId: earl_grey
     temperature: 1
     amounts:
@@ -790,15 +804,6 @@ MonoBehaviour:
       amount: 1
     - key: water_hot
       amount: 200
-  - menuId: earl_grey
-    temperature: 2
-    amounts:
-    - key: tea_earlgrey
-      amount: 1
-    - key: water_cold
-      amount: 200
-    - key: ice
-      amount: 1
   - menuId: strawberry_smoothie
     temperature: 2
     amounts:
@@ -844,10 +849,89 @@ MonoBehaviour:
       amount: 150
     - key: ice
       amount: 1
+  - menuId: cappuccino
+    temperature: 1
+    amounts:
+    - key: shot
+      amount: 1
+    - key: milk
+      amount: 150
+    - key: cinnamon
+      amount: 10
+  - menuId: cappuccino
+    temperature: 2
+    amounts:
+    - key: shot
+      amount: 1
+    - key: milk
+      amount: 150
+    - key: cinnamon
+      amount: 10
+    - key: ice
+      amount: 1
+  - menuId: cold_brew
+    temperature: 2
+    amounts:
+    - key: cold_brew
+      amount: 100
+    - key: water_cold
+      amount: 150
+    - key: ice
+      amount: 1
+  - menuId: cold_brew_latte
+    temperature: 2
+    amounts:
+    - key: cold_brew
+      amount: 100
+    - key: milk
+      amount: 150
+    - key: ice
+      amount: 1
+  - menuId: chocolate_latte
+    temperature: 2
+    amounts:
+    - key: syrup_chocolate
+      amount: 30
+    - key: milk
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: matcha_latte
+    temperature: 2
+    amounts:
+    - key: matcha
+      amount: 20
+    - key: milk
+      amount: 200
+    - key: ice
+      amount: 1
+  - menuId: milk_shake
+    temperature: 2
+    amounts:
+    - key: vanilla_ice_cream
+      amount: 150
+    - key: milk
+      amount: 150
+    - key: ice
+      amount: 1
+  - menuId: cold_brew
+    temperature: 1
+    amounts:
+    - key: cold_brew
+      amount: 100
+    - key: water_hot
+      amount: 150
+  - menuId: cold_brew_latte
+    temperature: 1
+    amounts:
+    - key: cold_brew
+      amount: 100
+    - key: milk
+      amount: 150
   perfectTolerance: 0.1
   goodTolerance: 0.25
-  ceramicCups: 8
-  plasticCups: 10
+  ceramicCups: 16
+  plasticCups: 20
   plates: 6
   grindSeconds: 7
   tampSeconds: 1
