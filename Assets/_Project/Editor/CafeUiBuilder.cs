@@ -52,6 +52,7 @@ namespace CafeTime.EditorTools
         const string Settlement = "Assets/_Project/Art/UI/Settlement";
         const string CloseIcon = "Assets/_Project/Art/UI/Stations/Close.png"; // 기기 작업 창 공용 닫기 (일러스트)
         const string QuitPanel = "Assets/_Project/Art/UI/Quit/Panel.png";
+        const string GroupOrderArt = "Assets/_Project/Art/UI/GroupOrder"; // 단체 주문 이벤트 (ADR-0042)
 
         public class Screens
         {
@@ -66,11 +67,12 @@ namespace CafeTime.EditorTools
             public TrayReturnScreen TrayReturn;
             public DishwashScreen Dishwash;
             public PauseMenu Pause;
+            public EventDialog Dialog;
         }
 
         public static Screens Build(CafeSceneBuilder.Managers managers)
         {
-            foreach (var folder in new[] { Hud, OpenPrep, Settlement }) PrepareSprites(folder);
+            foreach (var folder in new[] { Hud, OpenPrep, Settlement, GroupOrderArt }) PrepareSprites(folder);
             // 기기 작업 창은 도트가 아닌 일러스트라 부드럽게 표시한다 (docs/ART_STYLE.md 1장)
             foreach (var folder in new[] { Pos, Stations }) PrepareSprites(folder, FilterMode.Bilinear);
             StationUiBuilder.PrepareAll();
@@ -106,6 +108,7 @@ namespace CafeTime.EditorTools
             BuildToast(overlay);
             var banner = Centered("ClosedBanner", overlay, 0, 100, 900, 220);
             AddImage(banner, LoadSprite($"{Hud}/BannerClosed.png"), Cream);
+            screens.Dialog = BuildEventDialog(overlay); // 영업 중 이벤트 대화창은 기기 화면·HUD 위 (SFR-008)
             screens.Pause = StationUiBuilder.BuildPause(overlay); // HUD 위
 
             var day = new SerializedObject(managers.Day);
@@ -308,6 +311,7 @@ namespace CafeTime.EditorTools
             AddImage(shop, B("ReceiptShopName"), Cream).preserveAspect = true;
             shop.gameObject.AddComponent<LayoutElement>().preferredHeight = 38;
             Set(so, "numberText", AddText(NewUI("Number", rt), "#1", 26, DarkCoffee));
+            GroupRow(so, rt);
             var header = NewUI("Columns", rt);
             AddImage(header, B("ReceiptColumns"), Cream).preserveAspect = true;
             header.gameObject.AddComponent<LayoutElement>().preferredHeight = 26;
@@ -327,6 +331,40 @@ namespace CafeTime.EditorTools
             so.ApplyModifiedPropertiesWithoutUndo();
             rt.gameObject.SetActive(false);
             return view;
+        }
+
+        // 단체 주문 줄 (ADR-0042): '단체 주문' 글자 이미지 + 마감 시각. 단체 주문일 때만 켜진다
+        static void GroupRow(SerializedObject so, Transform parent)
+        {
+            var deadline = ReceiptRow(parent, "GroupOrder", LoadSprite($"{GroupOrderArt}/LabelGroupOrder.png"));
+            var row = deadline.transform.parent.gameObject;
+            row.SetActive(false);
+            Set(so, "groupRow", row);
+            Set(so, "deadlineText", deadline);
+        }
+
+        // ───────── 영업 중 이벤트 대화창 (SFR-008, 009, ADR-0042) ─────────
+        // Quit/Panel.png 창: 왼쪽 손님 그림, 오른쪽 화자 이름·대사, 마지막 대사 뒤 수락/거절 버튼 (Art/UI/GroupOrder)
+
+        static EventDialog BuildEventDialog(Transform overlay)
+        {
+            const float w = 1100, h = 710; // Panel.png 1561x1008 비율
+            var (popup, window) = Window<EventDialog>(overlay, "EventDialog", LoadSprite(QuitPanel), w, h);
+            var so = new SerializedObject(popup);
+            var portrait = AddImage(TopLeft("Portrait", window, 100, 230, 200, 300), null, Color.clear);
+            portrait.preserveAspect = true;
+            Set(so, "portrait", portrait);
+            Set(so, "speakerText", AddText(TopLeft("Speaker", window, 330, 290, 660, 44), "", 32, DarkCoffee, TextAlignmentOptions.Left));
+            var dialogue = AddText(TopLeft("Dialogue", window, 330, 345, 660, 115), "", 26, TextBrown, TextAlignmentOptions.TopLeft);
+            dialogue.textWrappingMode = TextWrappingModes.Normal;
+            Set(so, "dialogueText", dialogue);
+            var choices = TopLeft("Choices", window, 330, 466, 660, 104);
+            Set(so, "choicePanel", choices.gameObject);
+            Set(so, "acceptButton", AddButton(TopLeft("AcceptButton", choices, 30, 0, 280, 104), LoadSprite($"{GroupOrderArt}/AcceptButton.png"), Cream));
+            Set(so, "declineButton", AddButton(TopLeft("DeclineButton", choices, 350, 0, 280, 104), LoadSprite($"{GroupOrderArt}/DeclineButton.png"), Cream));
+            choices.gameObject.SetActive(false);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return popup;
         }
 
         // 영수증 아래 줄: 왼쪽 글자 이미지(합계·픽업대) + 오른쪽 값
@@ -873,6 +911,7 @@ namespace CafeTime.EditorTools
             called.raycastTarget = false;
             Set(so, "calledMark", called.gameObject);
             called.gameObject.SetActive(false);
+            GroupRow(so, ticket);
             var lines = AddText(NewUI("Lines", ticket), "", 18, TextBrown, TextAlignmentOptions.TopLeft);
             lines.textWrappingMode = TextWrappingModes.Normal;
             Set(so, "linesText", lines);

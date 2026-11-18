@@ -145,7 +145,7 @@ namespace CafeTime.Cafe
             var events = EventSystem.current;
             if (events != null && events.currentSelectedGameObject != null) events.SetSelectedGameObject(null);
 
-            if (Time.frameCount == openedFrame) return;
+            if (Time.frameCount == openedFrame || EventDialog.IsShowing) return; // 이벤트 대화 중 Enter 는 대사 넘기기 (SFR-008)
             var keyboard = Keyboard.current;
             if (keyboard != null && (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame))
                 Pay();

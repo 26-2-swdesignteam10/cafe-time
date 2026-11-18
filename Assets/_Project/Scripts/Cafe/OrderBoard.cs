@@ -24,9 +24,9 @@ namespace CafeTime.Cafe
             if (Instance == this) Instance = null;
         }
 
-        public Order Register(List<OrderLine> lines, int paid, CustomerParty party)
+        public Order Register(List<OrderLine> lines, int paid, CustomerParty party, GroupOrder group = null)
         {
-            var order = new Order(nextNumber++, lines, paid, party);
+            var order = new Order(nextNumber++, lines, paid, party, group);
             orders.Add(order);
             Changed?.Invoke();
             return order;

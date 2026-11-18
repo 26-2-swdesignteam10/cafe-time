@@ -634,19 +634,35 @@ MonoBehaviour:
   tipPerPerson: 500
   neutralSatisfaction: 60
   maxReputationChange: 0.5
+  groupOrders:
+  - day: 4
+    requestHour: 11
+    deadlineHour: 16
+    bonusRate: 0.3
+    lines:
+    - menuId: americano
+      temperature: 2
+      quantity: 3
+    - menuId: cafe_latte
+      temperature: 2
+      quantity: 2
+    - menuId: vanilla_latte
+      temperature: 2
+      quantity: 1
+    choiceId: day4_group_order
   recipes:
   - menuId: americano
     temperature: 1
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: water_hot
       amount: 200
   - menuId: americano
     temperature: 2
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: water_cold
       amount: 200
     - key: ice
@@ -654,97 +670,97 @@ MonoBehaviour:
   - menuId: cafe_latte
     temperature: 1
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: milk
-      amount: 100
+      amount: 200
   - menuId: cafe_latte
     temperature: 2
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: milk
-      amount: 100
+      amount: 200
     - key: ice
       amount: 1
   - menuId: vanilla_latte
     temperature: 1
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: syrup_vanilla
       amount: 20
     - key: milk
-      amount: 100
+      amount: 200
   - menuId: vanilla_latte
     temperature: 2
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: syrup_vanilla
       amount: 20
     - key: milk
-      amount: 100
+      amount: 200
     - key: ice
       amount: 1
   - menuId: caramel_macchiato
     temperature: 1
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: syrup_caramel
       amount: 20
     - key: milk
-      amount: 100
+      amount: 200
   - menuId: caramel_macchiato
     temperature: 2
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: syrup_caramel
       amount: 20
     - key: milk
-      amount: 100
+      amount: 200
     - key: ice
       amount: 1
   - menuId: hazelnut_latte
     temperature: 1
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: syrup_hazelnut
       amount: 20
     - key: milk
-      amount: 100
+      amount: 200
   - menuId: hazelnut_latte
     temperature: 2
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: syrup_hazelnut
       amount: 20
     - key: milk
-      amount: 100
+      amount: 200
     - key: ice
       amount: 1
   - menuId: cafe_mocha
     temperature: 1
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: syrup_chocolate
       amount: 30
     - key: milk
-      amount: 100
+      amount: 200
   - menuId: cafe_mocha
     temperature: 2
     amounts:
-    - key: cheong_strawberry
-      amount: 40
+    - key: shot
+      amount: 1
     - key: syrup_chocolate
       amount: 30
     - key: milk
-      amount: 100
+      amount: 200
     - key: ice
       amount: 1
   - menuId: strawberry_latte

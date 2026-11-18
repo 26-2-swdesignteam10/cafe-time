@@ -53,3 +53,5 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0039](0039-hud-day-image-no-rent.md) | 영업 HUD에서 임대료를 빼고 DAY 그림·원 표기·평판 숫자를 쓴다 | 승인 |
 | [0040](0040-pickup-bell-call.md) | 픽업대 진동벨 번호 호출로 서빙 | 승인 |
 | [0041](0041-cold-brew-hot-temperature-pictures.md) | 콜드브루 HOT 추가, 포스기 카드 그림을 HOT/ICE 에 맞춰 바꾼다 | 승인 |
+| [0042](0042-group-order-event.md) | DAY 4 단체 주문은 영업 중 대화창으로 수락하고 픽업대 마감 주문으로 처리한다 | 제안 |
+| [0043](0043-restore-shot-recipes.md) | 샷이 빠진 커피 레시피는 에셋 동기화 때 코드 레시피로 복구한다 | 제안 |

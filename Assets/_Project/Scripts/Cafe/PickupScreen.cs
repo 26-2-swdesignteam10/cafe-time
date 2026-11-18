@@ -87,14 +87,22 @@ namespace CafeTime.Cafe
 
         // 진동벨 호출 (ADR-0040): 번호의 트레이에 놓인 물건을 손님이 받으러 온다. 없는 번호·빈 트레이는 안내만.
         // 더 먼저 들어온 대기 주문이 있는데 이 주문을 먼저 호출하면 선입선출 위반 감점 (ADR-0022)
+        // 단체 주문은 대표가 픽업대 앞에서 기다리다 바로 받아 가고, 마감 시각이 따로 있어 선입선출 판정에서 빠진다 (ADR-0042)
         public CallResult Call(int number)
         {
             var order = OrderBoard.Instance.Orders.FirstOrDefault(o => o.Number == number);
             if (order == null) return CallResult.NoSuchOrder;
             if (IsCalled(order)) return CallResult.AlreadyCalled;
             if (PlacedCount(order) == 0) return CallResult.EmptyTray;
+            if (order.IsGroup)
+            {
+                GroupOrderManager.Instance.Serve(order, trays[order]); // 주문 목록에서 빠지며 트레이도 없어진다
+                if (AudioManager.Instance != null) AudioManager.Instance.PlayServe();
+                RefreshIfOpen();
+                return CallResult.Called;
+            }
             if (!CustomerManager.Instance.Call(order, trays[order])) return CallResult.NoSuchOrder; // 아직 자리에 앉지 않음 등
-            if (OrderBoard.Instance.Orders.Any(o => o.Number < order.Number && !IsCalled(o)))
+            if (OrderBoard.Instance.Orders.Any(o => o.Number < order.Number && !IsCalled(o) && !o.IsGroup))
             {
                 DayResult.Today.ordersSkipped++;
                 Toast.Show(ToastMessage.OrderSkipped);

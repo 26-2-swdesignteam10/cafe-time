@@ -14,6 +14,9 @@ namespace CafeTime.Cafe
         [SerializeField] TMP_Text totalText;
         [SerializeField] TMP_Text pickupText;
         [SerializeField] TMP_Text statusText;
+        [Tooltip("단체 주문일 때만 보이는 줄: '단체 주문' 글자 이미지 + 마감 시각 (ADR-0042)")]
+        [SerializeField] GameObject groupRow;
+        [SerializeField] TMP_Text deadlineText;
 
         public void Setup(Order order, int placed, bool called = false)
         {
@@ -30,6 +33,7 @@ namespace CafeTime.Cafe
             totalText.text = $"{order.Paid:N0}원";
             pickupText.text = $"{placed}/{order.ItemCount}";
             if (statusText != null) statusText.text = called ? "손님 호출 중" : placed >= order.ItemCount ? "픽업 준비 완료" : "음료 준비 중";
+            GroupDeadline.Show(order, groupRow, deadlineText);
             gameObject.SetActive(true);
             // SFR-013: 줄바꿈까지 계산한 종이 높이를 가로 목록이 배치하기 전에 확정한다
             LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);

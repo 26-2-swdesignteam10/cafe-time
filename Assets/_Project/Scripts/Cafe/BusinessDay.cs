@@ -42,6 +42,7 @@ namespace CafeTime.Cafe
         IEnumerator Close()
         {
             customers.CloseAll();
+            if (GroupOrderManager.Instance != null) GroupOrderManager.Instance.Expire(); // 서빙 못 한 단체 주문 취소 (ADR-0042)
             closedBanner.SetActive(true);
             yield return new WaitForSecondsRealtime(bannerSeconds);
             DayResult.Today.reputationChange = ReputationChange(DayResult.Today, GameBalance.Instance);
