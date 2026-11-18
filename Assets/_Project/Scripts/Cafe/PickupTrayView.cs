@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace CafeTime.Cafe
 {
-    // 픽업대 트레이 1개 = 주문 1건 (SFR-056): 주문 번호, 메뉴 줄, 음료 자리(주문 개수만큼), 서빙 버튼.
+    // 픽업대 트레이 1개 = 주문 1건 (SFR-056): 주문 번호, 메뉴 줄, 음료 자리(주문 개수만큼), 호출됨 표시 (ADR-0040).
     // 빈 자리에는 놓아야 할 음료 그림을 흐리게 보여 준다. 트레이·빈 자리를 누르거나 손 칸에서 끌어다 놓으면 놓이고,
     // 놓인 음료를 누르면 손으로 되돌린다
     public class PickupTrayView : MonoBehaviour, IDropHandler, IPointerClickHandler
@@ -18,7 +18,7 @@ namespace CafeTime.Cafe
         [SerializeField] TMP_Text linesText;
         [SerializeField] Transform slotContainer;
         [SerializeField] Button slotTemplate;   // 자리 그림 + 자식 "Icon"
-        [SerializeField] Button serveButton;
+        [SerializeField] GameObject calledMark; // 진동벨로 호출해 손님이 받으러 오는 중
         [SerializeField, Range(0f, 1f)] float hintAlpha = 0.35f; // 빈 자리의 놓아야 할 음료 그림
 
         readonly List<Button> slots = new List<Button>();
@@ -27,10 +27,9 @@ namespace CafeTime.Cafe
         void Awake()
         {
             slotTemplate.gameObject.SetActive(false);
-            serveButton.onClick.AddListener(() => owner.Serve(order));
         }
 
-        public void Setup(Order order, IReadOnlyList<HeldItem> placed)
+        public void Setup(Order order, IReadOnlyList<HeldItem> placed, bool isCalled)
         {
             this.order = order;
             numberText.text = $"#{order.Number}";
@@ -77,7 +76,7 @@ namespace CafeTime.Cafe
                 else slots[i].onClick.AddListener(() => owner.Click(order));
             }
 
-            serveButton.interactable = placed.Count > 0;
+            if (calledMark != null) calledMark.SetActive(isCalled);
             gameObject.SetActive(true);
         }
 

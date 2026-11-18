@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CafeTime.Core;
@@ -22,9 +21,6 @@ namespace CafeTime.Cafe
         [SerializeField] Transform menuContainer;
         [SerializeField] MenuButtonView menuTemplate;
         [SerializeField] TemperatureSelector temperature;
-        [Tooltip("메뉴 카드 그림: pictureMenuIds[i] 메뉴에 pictures[i] (음료는 Art/UI/DrinkResult 완성품 그림)")]
-        [SerializeField] string[] pictureMenuIds;
-        [SerializeField] Sprite[] pictures;
 
         [Header("주문 목록")]
         [SerializeField] Transform rowContainer;
@@ -57,11 +53,11 @@ namespace CafeTime.Cafe
             foreach (var menu in GameBalance.Instance.Menus)
             {
                 var view = Instantiate(menuTemplate, menuContainer);
-                view.Setup(menu, Add);
-                int picture = Array.IndexOf(pictureMenuIds, menu.Id);
-                if (picture >= 0) view.SetIcon(pictures[picture]);
+                view.Setup(menu, Add); // 카드 그림 = ItemIcons.ForMenu (손 칸의 완성 음료와 같은 그림)
                 menuButtons.Add(view);
             }
+            temperature.Changed += RefreshIcons; // HOT/ICE 를 바꾸면 카드 그림도 그 온도 그림으로 (2026-11-18 사용자 요청)
+            RefreshIcons();
             for (int i = 0; i < categoryTabs.Length; i++)
             {
                 var category = (MenuCategory)i;
@@ -108,8 +104,16 @@ namespace CafeTime.Cafe
         void ShowCategory(MenuCategory category)
         {
             foreach (var view in menuButtons) view.gameObject.SetActive(view.Menu.Category == category);
+            // HOT/ICE 를 고를 수 있는 메뉴가 있는 분류(커피)에서만 온도 선택 버튼을 보인다 (2026-11-17 사용자 요청)
+            temperature.gameObject.SetActive(menuButtons.Any(v => v.Menu.Category == category && !v.Menu.IsDessert &&
+                                                                  v.Menu.OnlyTemperature == Temperature.None));
             for (int i = 0; i < categoryTabs.Length; i++)
                 categoryTabs[i].image.sprite = i == (int)category ? tabSelected : tabNormal;
+        }
+
+        void RefreshIcons()
+        {
+            foreach (var view in menuButtons) view.ShowIcon(temperature.For(view.Menu));
         }
 
         void Add(MenuDefinition menu)
@@ -165,7 +169,7 @@ namespace CafeTime.Cafe
                 rows[i].Setup(lines[i], i == selected, () => { selected = index; Refresh(); });
             }
             int total = lines.Sum(l => l.Price);
-            totalText.text = $"₩{total:N0}";
+            totalText.text = $"{total:N0}원";
             payButton.interactable = lines.Count > 0; // 주문 목록이 비어 있으면 결제 비활성화
             bool hasSelection = selected >= 0;
             minusButton.interactable = plusButton.interactable = deleteButton.interactable = hasSelection;

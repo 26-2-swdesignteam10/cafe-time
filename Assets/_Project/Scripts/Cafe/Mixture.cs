@@ -8,8 +8,11 @@ namespace CafeTime.Cafe
     public class Mixture
     {
         readonly Dictionary<string, float> amounts = new Dictionary<string, float>();
+        readonly List<string> order = new List<string>();
 
         public IReadOnlyDictionary<string, float> Amounts => amounts;
+        // 처음 넣은 순서 (잔 속 층을 아래부터 쌓을 때 씀, ADR-0037)
+        public IReadOnlyList<string> Order => order;
         public bool IsEmpty => amounts.Count == 0;
         public IEnumerable<string> Keys => amounts.Keys;
 
@@ -18,15 +21,20 @@ namespace CafeTime.Cafe
         public void Add(string key, float amount)
         {
             if (amount <= 0) return;
+            if (!amounts.ContainsKey(key)) order.Add(key);
             amounts[key] = Get(key) + amount;
         }
 
         public void AddAll(Mixture other)
         {
-            foreach (var pair in other.amounts) Add(pair.Key, pair.Value);
+            foreach (var key in other.order) Add(key, other.amounts[key]);
         }
 
-        public void Clear() => amounts.Clear();
+        public void Clear()
+        {
+            amounts.Clear();
+            order.Clear();
+        }
 
         public bool OnlyWater => amounts.Count > 0 && amounts.Keys.All(k => k == RecipeKeys.HotWater || k == RecipeKeys.ColdWater);
 

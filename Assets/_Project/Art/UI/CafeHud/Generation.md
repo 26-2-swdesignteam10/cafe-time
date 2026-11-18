@@ -255,3 +255,39 @@ Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구
 | PromptUse.png | 사용 | 36px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 192×72 |
 
 - 검수: 완성 PNG에서 한글 철자·공백·문장부호와 잘림을 눈으로 확인했다. 그림 포함 PNG는 지정 글자 영역 밖의 RGBA가 원본과 일치하고 알파·캔버스 크기가 동일한지 검사했다. 투명 라벨의 높이는 모두 유지했다. `.meta`, 코드, 씬, 프리팹, `.asset`, `docs/`는 수정하지 않았다. Unity에서 재임포트한 뒤 실제 표시 크기의 가독성과 라벨 폭 증가에 따른 배치를 확인해야 한다.
+
+
+## 뚜껑 단계 토스트 (2026-11-17)
+
+- 도구: Python 3 / Pillow + `Assets/_Project/Art/Fonts/Jua-Regular.ttf`. 새 원화 생성 없이 Jua 조판으로 제작했다. 스타일 참조: 이 폴더의 `ToastBlendFirst.png`, 「2026-11-12 Jua 재조판 (ADR-0026)」, `docs/ART_STYLE.md`.
+- 공통 제작: Jua 고해상도 조판 → 채움 높이50px로 정규화 → 4배 해상도에서 #380F00 채움·#FCF0CA 사방3px 외곽선 → Lanczos 축소. 한 줄, 외곽선 포함 높이56px, 사방8px 투명 여백, 전체 높이72px, PNG RGBA. 최근접 도트 처리나 글자 굵기 확장은 하지 않았다. 완전 투명 픽셀 RGB는0이다.
+
+| 파일 | 정확한 문구 | PNG 크기 | 기본 표시 크기 |
+|---|---|---|---|
+| ToastCloseLid.png | **뚜껑을 덮어 주세요.** | **442×72** | 221×36 |
+| ToastOpenLid.png | **뚜껑을 열어 주세요.** | **444×72** | 222×36 |
+
+- 최종 PNG에서 **뚜 / 껑 / 을 / 공백 / 덮 / 어 / 공백 / 주 / 세 / 요 / .**, **뚜 / 껑 / 을 / 공백 / 열 / 어 / 공백 / 주 / 세 / 요 / .**를 눈으로 확인했다. 각각 공백2개·마침표1개, 잘림 없이 기존 ToastBlendFirst와 같은 Jua 조판 규격이다.
+- 기존 토스트 PNG·`.meta`·코드·씬·프리팹·`.asset`은 수정하지 않았다. Unity 6000.6.4f1에서 두 신규 PNG를 임포트해 `.meta` 자동 생성 후 기존 ToastBlendFirst와 같은 설정과 표시 영역의 중앙 정렬을 확인한다. 새 ADR은 없다.
+
+
+## 2026-11-17 작업 D — 영업 HUD 개편
+
+- 도구: OpenAI 내장 `image_gen.imagegen` + Python 3 / Pillow. 글자는 프로젝트 `Jua-Regular.ttf`로 조판했다. 생성 API·CLI는 사용하지 않았다.
+- 사용자 지정에 따라 DAY 1~15만 개별 고정 그림으로 제작했다. 다른 금액·수량·배지 숫자는 넣지 않았다. 공통 규칙의 DAY 텍스트 원칙보다 이번 명시 요청을 우선한 에셋 작업이며 코드·씬 연결은 변경하지 않았다. 새 ADR 및 기존 ADR 변경 없음.
+- 검수 스크립트·Validation.json·미리보기는 저장소 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/art-d-20261117/`에만 저장했다. PNG는 RGBA·외부 실제 투명 배경이며 사람 손·워터마크·체커보드가 없다. `.meta`는 직접 생성/수정하지 않았다.
+
+스타일 참조: `CafeHud/StatusBar.png` (1520×240), `OpenPrep/LabelMoney.png`의 코인·크림 글자, `docs/ART_STYLE.md`의 팔레트.
+
+### 파일별 프롬프트·후처리
+
+- `Day1.png`, `Day2.png`, `Day3.png`, `Day4.png`, `Day5.png`, `Day6.png`, `Day7.png`, `Day8.png`, `Day9.png`, `Day10.png`, `Day11.png`, `Day12.png`, `Day13.png`, `Day14.png`, `Day15.png`: 각각 정확히 **DAY 1** … **DAY 15**. 모두 **288×104**, 표시 **144×52**. 생성 모델의 글자 변형을 피하려고 DAY는 별도 원화 없이 Pillow Jua로 조판했다. 공통 제작 지시: 나무 상태바 위 투명 라벨, 굵은 크림 #FCF0CA DAY, 허니 골드 #F1C97D 숫자, 다크 커피 #380F00 외곽선, 좁고 일정한 간격·왼쪽 정렬·동일 기준선. 144×52에서 Jua 44px, DAY (6,5), 숫자 (90,5), 알파 임계값100, 2px 외곽선 후 NEAREST 2배. 알파0/255, 외곽선 포함 글자 높이70~72px, 최소 여백12px. 숫자별 자연스러운 글자 폭을 유지했다.
+- `Coin.png`: **96×96**, 표시 **48×48**. 내장 이미지 생성 프롬프트: “Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. One isolated shiny gold coin HUD icon matching LabelMoney and wooden StatusBar; nearly front-facing thick coin, dark coffee chunky outline, honey gold face and rim shadow, cream upper-left glint, one tiny upper-right four-point glint. Blank center, no currency symbol, won, W, number, letter or logo; no hands, watermark, checkerboard or scene.” 생성 원본 `C:/Users/k9425/.codex/generated_images/01a1e973-5906-7f21-95a4-bd0970736142/exec-8ab60ef2-27c5-4554-a102-d9079b1d70a4.png`. 알파24 미만 제거·경계 크롭 후 44×44 이내 최근접 축소, 48×48 중앙 배치. 중앙 생성 얼룩을 골드로 메우고 팔레트5색으로 정리, 알파128 임계값, 하단 우측 안쪽 금색 음영 보강 후 NEAREST 2배. 통화 기호 없음.
+
+### 요청 좌표·배치 검수
+
+- 화면 **760×120** 기준 좌상단 원점: DAY `(36,20)`에 **144×52**, 코인 `(300,24)`에 **48×48**. 원본 StatusBar 기준 좌표는 각각 `(72,40)`, `(600,48)`이다.
+- 원본 StatusBar를 760×120으로 축소해 `HudDay1Preview.png`, `HudDay15Preview.png`에 실제 합성했다. DAY 표시 영역 `(36,20)-(180,72)`, 코인 영역 `(300,24)-(348,72)`은 겹치지 않고 나무 안쪽에 들어간다. `DaysContactSheet.png`에서 15개 날짜의 순서·숫자·잘림을 눈으로 확인했다. `Review.png`는 HUD와 버튼을 함께 검수하는 합성이다.
+- Unity 6000.6.4f1로 돌아가 16개 신규 PNG를 임포트하여 `.meta`를 자동 생성한다. DAY·Coin은 Sprite/Single, Point, Mip Maps 끔, Alpha Is Transparency 켬을 확인한다. 이번 작업에는 HUD 코드 연결·빌더 실행이 포함되지 않는다.
+
+- 검증 결과: PNG 18장 RGBA/크기/외부 투명 여백 검사 통과, 합성 미리보기 눈 검수 완료. bash .github/scripts/check-repo.sh 통과 (추적 파일 1993개). 이 검사는 신규 미추적 파일의 .meta 확인을 대신하지 않는다.

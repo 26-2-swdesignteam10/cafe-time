@@ -30,9 +30,41 @@ namespace CafeTime.UI
         // ESC, X 버튼 모두 이 메서드로 닫힘. 닫을 때 처리가 필요하면 override
         public virtual void Close() => gameObject.SetActive(false);
 
-        protected virtual void OnEnable() => openPopups.Add(this);
+        protected virtual void OnEnable()
+        {
+            openPopups.Add(this);
+            RefreshCloseLayers();
+        }
 
-        protected virtual void OnDisable() => openPopups.Remove(this);
+        protected virtual void OnDisable()
+        {
+            openPopups.Remove(this);
+            SetCloseOnTop(false);
+            RefreshCloseLayers();
+        }
+
+        // 가장 위에 열린 팝업의 X 버튼은 HUD(주문 내역·레시피 버튼 등 위쪽 캔버스)보다 위에 그리고 먼저 클릭되게 한다.
+        // 다른 캔버스의 HUD 버튼이 X 를 가려 안 눌리던 문제 (2026-11-17 사용자 요청)
+        const int CloseButtonSortingOrder = 50;
+
+        static void RefreshCloseLayers()
+        {
+            for (int i = 0; i < openPopups.Count; i++) openPopups[i].SetCloseOnTop(i == openPopups.Count - 1);
+        }
+
+        void SetCloseOnTop(bool top)
+        {
+            if (closeButton == null) return;
+            var canvas = closeButton.GetComponent<Canvas>();
+            if (canvas == null)
+            {
+                if (!top) return;
+                canvas = closeButton.gameObject.AddComponent<Canvas>();
+                closeButton.gameObject.AddComponent<GraphicRaycaster>();
+            }
+            canvas.overrideSorting = top;
+            canvas.sortingOrder = CloseButtonSortingOrder;
+        }
 
         // 가장 위에 열린 팝업을 닫음. 닫을 팝업이 없으면 false
         public static bool CloseTop()

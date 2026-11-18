@@ -7,7 +7,8 @@ using UnityEngine.UI;
 namespace CafeTime.Cafe
 {
     // 쉐이크 제조실 화면 (SFR-052~055, ADR-0029). 원액은 통의 국자를, 우유는 팩을 믹서기로 끌어 넣고, 얼음은 손의 스쿱을 끌어 놓는다.
-    // 갈기 버튼을 누르고 있는 동안 믹서기가 흔들리며 갈리고, 붓기 버튼을 누르면 용기가 컵 위로 기울어져 부은 뒤 판정한다
+    // 뚜껑을 끌어다 덮은 뒤(ADR-0036) 갈기 버튼을 누르고 있는 동안 믹서기가 흔들리며 갈리고,
+    // 뚜껑을 다시 끌어내 연 뒤 붓기 버튼을 누르면 용기가 컵 위로 기울어져 부은 뒤 판정한다
     public class ShakeRoomScreen : StationScreen
     {
         [Header("원액 통: baseIds 순서 (딸기, 망고, 한라봉, 멜론, 쿠키)")]
@@ -49,13 +50,23 @@ namespace CafeTime.Cafe
         [SerializeField] Color[] flavorColors;     // 붓는 줄기 색
         [Tooltip("용기 최대 눈금까지 찼을 때의 무게(g)")]
         [SerializeField] float capacity = 450f;
-        [SerializeField] GameObject lid;
+        [SerializeField] GameObject lid;           // 용기에 덮인 뚜껑 그림
         [SerializeField] Image whirl;              // 내용물과 같은 영역, 같은 높이로 자름
         [SerializeField] TMP_Text weightText;
         [SerializeField] HoldButton blendHold;
         [SerializeField] Image blendProgress;
         [SerializeField] float shakePixels = 4f;
         [SerializeField] float shakeDegrees = 1.5f;
+
+        [Header("뚜껑 (ADR-0036): 뚜껑 자리 ↔ 용기 위로 끌어 덮고 열기")]
+        [SerializeField] PointerDragRelay lidRestGrab;  // 뚜껑 자리에 놓인 뚜껑
+        [SerializeField] Image lidRestImage;
+        [SerializeField] PointerDragRelay lidJarGrab;   // 용기에 덮인 뚜껑 잡는 영역
+        [Tooltip("뚜껑을 놓으면 덮이는 판정 영역 (밖에 놓으면 뚜껑 자리로 돌아감 = 열림)")]
+        [SerializeField] RectTransform lidDropArea;
+        [SerializeField] Sprite lidLoose;
+        [SerializeField] Vector2 lidSize;
+        [SerializeField] Vector2 lidPivot;
 
         [Header("붓기")]
         [SerializeField] Button pourButton;
@@ -64,13 +75,14 @@ namespace CafeTime.Cafe
         [SerializeField] Image pourStream;
         [Tooltip("붓는 줄기 길이: 도자기 잔, 플라스틱 컵 (입구 높이가 다름)")]
         [SerializeField] float[] pourStreamHeights = { 228, 180 };
-        [SerializeField] float pourSeconds = 1.2f;
+        [SerializeField] float pourSeconds = 2f; // 컵이 차오르는 게 보이도록 (2026-11-18 사용자 요청)
 
         [Header("컵 자리")]
         [SerializeField] DropZone cupSpot;
         [SerializeField] Image cupImage;
         [Tooltip("큰 컵 그림: HOT 빈 잔·물·만드는 중, ICE 빈 잔·물·만드는 중")]
         [SerializeField] Sprite[] cupSprites = new Sprite[6];
+        [SerializeField] CupContentsView cupContents; // 붓는 동안 컵에 스무디가 차오름 (ADR-0037)
         [SerializeField] JudgeResultView result;
 
         static Blender Mixer => Blender.Instance;
@@ -82,10 +94,13 @@ namespace CafeTime.Cafe
         int draggingBase = -1;      // 끄는 중인 원액 통 (-1 = 없음)
         bool draggingMilk;
         bool milkBlocked;           // 이번 끌기에서 붓기 실패 (재고 없음 등) → 안내를 반복하지 않음
+        bool draggingLid;
         Vector2 pointer;            // 마지막 마우스 위치 (화면 좌표)
         Camera pointerCamera;
         int lastBlendFrame = -10;
         float fill;                 // 보이는 내용물 높이 0~1
+        float pourStartFill;        // 붓기 시작할 때 용기 내용물 높이
+        float pourWeight;           // 붓는 양 (g)
         float pourTime = -1;        // 붓는 연출 진행 시간 (-1 = 안 함)
         Vector2 jarRestPosition;
         Vector2 shakerRestPosition;
@@ -121,6 +136,12 @@ namespace CafeTime.Cafe
             milkCarton.Dragging += Drag;
             milkCarton.Ended += EndMilk;
             tooltip.Hide();
+            foreach (var grab in new[] { lidRestGrab, lidJarGrab })
+            {
+                grab.Began += BeginLid;
+                grab.Dragging += Drag;
+                grab.Ended += EndLid;
+            }
 
             blenderZone.Dropped += e =>
             {
@@ -160,7 +181,7 @@ namespace CafeTime.Cafe
             int flavor = Flavor();
             chunkyImage.sprite = chunkySprites[flavor];
             smoothImage.sprite = smoothSprites[flavor];
-            ShowIcon(cupImage, BigCupSprite(Mixer.CupSpot, cupSprites));
+            if (pourTime < 0) ShowCup(cupImage, cupContents, Mixer.CupSpot, cupSprites); // 붓는 중에는 UpdatePour 가 그림
         }
 
         // 가장 많이 넣은 원액의 그림·색 (원액이 없으면 마지막 칸)
@@ -192,12 +213,18 @@ namespace CafeTime.Cafe
             c.a = Mixer.State == BlenderState.Blended ? 1f : progress > 0 ? progress : 0f;
             smoothImage.color = c;
 
-            // 가는 동안: 뚜껑, 소용돌이, 흔들림
+            // 뚜껑: 덮였으면 용기 위, 아니면 뚜껑 자리 (끄는 동안은 마우스에만)
+            bool lidOn = Mixer.LidOn;
+            if (lid.activeSelf != (lidOn && !draggingLid)) lid.SetActive(lidOn && !draggingLid);
+            lidRestImage.enabled = !lidOn && !draggingLid;
+            if (lidRestGrab.gameObject.activeSelf != !lidOn) lidRestGrab.gameObject.SetActive(!lidOn);
+            if (lidJarGrab.gameObject.activeSelf != lidOn) lidJarGrab.gameObject.SetActive(lidOn);
+
+            // 가는 동안: 소용돌이, 흔들림
             bool blending = Blending;
             // SFR-054: 실제로 갈리는 동안 믹서 모터음 재생
             if (AudioManager.Instance != null)
                 AudioManager.Instance.SetBlenderRunning(blending);
-            if (lid.activeSelf != blending) lid.SetActive(blending);
             if (whirl.gameObject.activeSelf != blending) whirl.gameObject.SetActive(blending);
             shaker.anchoredPosition = shakerRestPosition + (blending ? Random.insideUnitCircle * shakePixels : Vector2.zero);
             shaker.localEulerAngles = new Vector3(0, 0, blending ? Random.Range(-shakeDegrees, shakeDegrees) : 0);
@@ -205,7 +232,7 @@ namespace CafeTime.Cafe
 
         // ── 원액 국자 ──
 
-        bool IsDragging => draggingBase >= 0 || draggingMilk;
+        bool IsDragging => draggingBase >= 0 || draggingMilk || draggingLid;
 
         bool CanDrag => pourTime < 0 && !IsDragging;
 
@@ -277,6 +304,25 @@ namespace CafeTime.Cafe
             }
         }
 
+        // ── 뚜껑: 용기 위에 놓으면 덮이고, 다른 곳에 놓으면 뚜껑 자리로 (열림) ──
+
+        void BeginLid(PointerEventData e)
+        {
+            if (!CanDrag || Blending) return;
+            draggingLid = true;
+            tooltip.Hide();
+            ShowDragImage(lidLoose, lidSize, lidPivot);
+            Drag(e);
+        }
+
+        void EndLid(PointerEventData e)
+        {
+            if (!draggingLid) return;
+            bool over = RectTransformUtility.RectangleContainsScreenPoint(lidDropArea, e.position, e.pressEventCamera);
+            CancelDrag();
+            Mixer.SetLid(over);
+        }
+
         // ── 끌기 공용 ──
 
         void ShowDragImage(Sprite sprite, Vector2 size, Vector2 pivot)
@@ -293,7 +339,7 @@ namespace CafeTime.Cafe
             if (!IsDragging) return;
             pointer = e.position;
             pointerCamera = e.pressEventCamera;
-            if (draggingBase >= 0) FollowPointer(); // 우유 팩은 UpdateMilk 가 붓는 자세와 함께 정한다
+            if (draggingBase >= 0 || draggingLid) FollowPointer(); // 우유 팩은 UpdateMilk 가 붓는 자세와 함께 정한다
         }
 
         void FollowPointer()
@@ -313,6 +359,7 @@ namespace CafeTime.Cafe
             if (draggingBase >= 0) jarScoops[draggingBase].SetActive(true);
             draggingBase = -1;
             draggingMilk = false;
+            draggingLid = false;
             milkImage.enabled = true;
             milkStream.gameObject.SetActive(false);
             dragImage.enabled = false;
@@ -325,6 +372,8 @@ namespace CafeTime.Cafe
             if (pourTime >= 0 || IsDragging) return;
             if (!Mixer.CanPour) { Mixer.PourOut(); return; } // 잔 없음·덜 갈림 안내
             pourFlavor = Flavor();
+            pourStartFill = Mathf.Max(fill, 0.01f);
+            pourWeight = Mixer.Weight;
             pourStream.color = flavorColors[pourFlavor];
             var size = pourStream.rectTransform.sizeDelta;
             pourStream.rectTransform.sizeDelta = new Vector2(size.x, pourStreamHeights[Mixer.CupSpot.Type == CupType.Ceramic ? 0 : 1]);
@@ -344,6 +393,10 @@ namespace CafeTime.Cafe
                 AudioManager.Instance.SetSmoothiePouring(streaming);
             if (pourStream.gameObject.activeSelf != streaming) pourStream.gameObject.SetActive(streaming);
             if (streaming) fill = Mathf.MoveTowards(fill, 0, Time.deltaTime / (pourSeconds * 0.6f));
+            // 용기에서 줄어든 만큼 컵이 아래부터 차오른다
+            var cup = Mixer.CupSpot;
+            if (cup != null && cupContents != null)
+                cupContents.ShowPouring(cup.Type, flavorColors[pourFlavor], pourWeight * (1f - fill / pourStartFill));
             if (pourTime >= pourSeconds * 0.85f) FinishPour();
         }
 

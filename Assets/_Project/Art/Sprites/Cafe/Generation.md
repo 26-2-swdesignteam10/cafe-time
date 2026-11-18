@@ -381,3 +381,84 @@ Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구
 - 쟁반 가운데는 그림 위에서 y = 84, 164, 244, 324 px (앞쪽 칸이 324). 다섯 그림 모두 카운터 실루엣이 같아 노란 테두리(`Outlines/StationTrayReturnOutline.png`, 빈 카운터 그림으로 자동 생성)가 어느 상태에서도 맞는다.
 - 배치: 아래 가운데 (1.5, 3.2), 1칸 × 3.5칸. 충돌 영역은 예전 받침대와 같은 폭 0.75 × 높이 3.3 이라 퇴식구 앞 통로 폭은 그대로다(ADR-0025). 벽에 붙은 가구라 예전 받침대처럼 캐릭터보다 뒤에 그린다(sortingOrder -1).
 - 반납된 쟁반 수에 따라 `TrayReturnView` 가 그림을 바꾼다. 새 PNG 의 `.meta` 는 Unity 가 만든다.
+
+
+## 빵 진열대 재제작 (2026-11-17)
+
+- 도구: OpenAI 내장 `image_gen` (진열대 최초 생성 + 선반 깊이 수정), Pillow (RGBA·알파 정리, 최근접 크기 조정, 칸 정렬, 팔레트 정리, 실제 픽셀 측정).
+- 스타일 참조: 교체 전 `Assets/_Project/Art/Sprites/Cafe/BreadShelf.png` (목재·크림 색과 외곽선), `Assets/_Project/Art/Sprites/Cafe/Booth.png` (맵 가구 시점), `Assets/_Project/Art/Title/CafeInterior.png` (색·분위기). 최초 생성에 세 파일을 직접 전달했고, 수정에는 최초 생성본을 전달했다.
+- 이번 요청의 월넛·크림·허니 색을 우선했다. 스케일 1 tile = 128px, 정면 3/4 탑다운, 왼쪽 위 조명. 2열 × 4행, 모든 칸은 비어 있으며 음식·장식·글자가 없다.
+- 최종 파일: `BreadShelf.png`, **336×640px RGBA**. 불투명 바운딩 박스는 왼쪽 위 기준 `(4, 4, 332, 636)` (오른쪽·아래 끝 제외). 사방 정확히 4px 투명 여백, 하단 중앙 정렬. 기존 `BreadShelf.png.meta`는 보존했다.
+
+### BreadShelf.png 실제 프롬프트
+
+최초 생성:
+
+```text
+Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: style-transfer. Orthographic front-facing 3/4 top-down RPG map view, horizontal front edges horizontal, verticals vertical, NOT isometric. Light upper-left. Crisp pixel art with simple 2-3 flat shade blocks, no gradient, blur, antialiasing, grain, dither, text, logos, plate, ground, shadow or scenery. Image 1 is the existing BreadShelf to remake: preserve its warm wood colors and stepped rendering, REMOVE ALL FOOD. Image 2 Booth is camera/pixel reference; image 3 CafeInterior palette/mood only. ONE very tall narrow walnut bakery display shelf, cream and honey interior. Target canvas 336 x 640 RGBA, 4px transparent margin each side, base reaches bottom margin. EXACTLY TWO COLUMNS and FOUR ROWS = EIGHT EMPTY identical rectangular compartments aligned on a regular grid. Every compartment has clearly visible cream back and deep honey horizontal floor board seen from above, large enough for 3 small pastries across and 2 deep. Compartments are equal width and equal height, horizontal rectangular floor placement surfaces. No food, no trays, no decorations, no glass, no labels. Keep outer shelf proportions 328 wide x632 high. Minimal top rim, sturdy slim walnut frame and central divider. Clearly front-facing 3/4 view consistent with map furniture, no tilted axes.
+```
+
+최초 프롬프트 뒤에 다음 지시를 추가하여 최초 생성본의 선반 판 깊이를 수정했다:
+
+```text
+CORRECTION to supplied generated shelf: Keep the exact two columns and four rows and warm palette, but each compartment must be a SHALLOW OPEN BAKERY BIN seen from above, not a tall empty bookcase cubby. The visible horizontal honey floor surface must occupy the LOWER TWO THIRDS of EVERY opening, with only upper one third cream back wall. This is essential: large broad floor planes to place 3 pastries across and 2 rows deep. No tall back walls. Eight openings exactly equal size with regular pitch. Keep camera horizontal edges horizontal. Floor planes should have straight horizontal front and rear edges and minimal angled side trim. No food or decoration. Output tall portrait aspect 336:640, not square.
+```
+
+### 최종 규격 처리
+
+- 생성본의 알파 128 이상 영역을 불투명으로 정리하고 내용 경계를 잘라 328×632px로 최근접 조정한 뒤, 336×640px 캔버스의 (4,4)에 배치했다.
+- 생성된 첫 번째 칸을 기준으로 칸의 크기와 간격을 정규화했다. 왼쪽 위 기준 140×142px 칸 단위를 x=24/172, y=36/178/320/462에 반복 배치했다. 칸 안쪽 뒤판 높이를 줄이고 생성된 선반 판을 세로로 늘려 깊이를 확보했다. 새 소품은 그리지 않았다.
+- 미세한 생성 노이즈는 3×3 중앙값 필터와 생성본에서 추출한 12색 고정 팔레트(디더링 없음)로 정리했다. 투명 픽셀 RGB는 0, 알파는 0/255다.
+- 칸 안쪽 전체 개구부와 빵 배치 영역은 다르다. 아래 표는 **크림 뒤판, 경사진 뒤쪽 모서리, 짙은 전면 두께와 프레임을 제외한 선반 윗면 안쪽의 직사각형**이다.
+
+### 실제 측정한 칸 좌표
+
+최종 저장 PNG를 다시 읽어 색 경계를 측정했다. 이미지 **왼쪽 아래 (0,0)** 기준, 단위 px. 사각형 범위는 `[x, x+너비) × [y, y+높이)`다. 왼쪽 위 기준 측정 영역은 x=30/178, y=88/230/372/514, 각 128×64px이며, `y = 640 - (위쪽 y + 높이)`로 변환했다. 여덟 영역의 픽셀 내용도 일치한다.
+
+| 칸 | x | y | 너비 | 높이 |
+|---|---|---|---|---|
+| 1 (행1 왼쪽) | 30 | 488 | 128 | 64 |
+| 2 (행1 오른쪽) | 178 | 488 | 128 | 64 |
+| 3 (행2 왼쪽) | 30 | 346 | 128 | 64 |
+| 4 (행2 오른쪽) | 178 | 346 | 128 | 64 |
+| 5 (행3 왼쪽) | 30 | 204 | 128 | 64 |
+| 6 (행3 오른쪽) | 178 | 204 | 128 | 64 |
+| 7 (행4 왼쪽) | 30 | 62 | 128 | 64 |
+| 8 (행4 오른쪽) | 178 | 62 | 128 | 64 |
+
+### 이번 재제작 검증
+
+- 최종 PNG 9개를 다시 읽어 지정 크기, RGBA, 알파 0/255, 여백, 하단 중앙 정렬을 검사했다. 진열대의 여덟 배치 영역은 완전 불투명이며 픽셀 내용이 서로 같다.
+- 기존 BreadShelf.png.meta의 SHA-256은 작업 전후 동일하다. 에이전트는 .meta, 씬, 프리팹, .asset, 코드를 생성하거나 수정하지 않았다. 커밋하지 않았다.
+- `bash .github/scripts/check-repo.sh`: 통과 (추적 파일 1921개). 이 검사는 추적 파일을 대상으로 하므로 새 파일의 Unity 임포트 확인을 대신하지 않는다.
+
+### Unity 확인
+
+1. Unity 6000.6.4f1로 돌아가 변경 PNG와 새 `Bakery/` 폴더를 임포트한다. 새 파일과 폴더의 `.meta`는 Unity가 생성하게 한다.
+2. Sprite (2D and UI), Single, PPU 128, Point (no filter), Mip Maps 끔, Alpha Is Transparency 켬, Pivot Bottom Center를 확인한다.
+3. Cafe 씬에서 진열대 크기와 빵 겹침·배치 간격을 확인한다. 48×40px 빵 캔버스를 3×2로 놓을 때는 투명 여백을 겹치고 앞뒤 빵을 일부 겹치는 밀집 배치가 필요하다. 실제 Unity 배치·Play 테스트는 수행하지 않았다.
+
+
+## 2026-11-17 작업 A — HUD·영수증·픽업대 개편
+
+- 도구: OpenAI 내장 `image_gen.imagegen` 원화 생성/편집 + Python 3.14 / Pillow 후처리. API·CLI 생성은 사용하지 않았다.
+- 글자: `Assets/_Project/Art/Fonts/Jua-Regular.ttf`, 3배 조판 후 Lanczos 축소. 이미지에는 고정 문구만 넣었다. 사람 손·워터마크·체커보드는 없으며 외부는 실제 투명 RGBA다.
+- 아래는 이 요청에만 적용한 디자인이며 공통 팔레트·다른 화면 규칙은 변경하지 않았다. HUD 두 버튼의 부드러운 스타일은 이번 사용자 명시 요청을 우선했다. 새 ADR과 기존 ADR 변경은 없다.
+- 생성 원본은 아래 경로에 보존했다. 후처리 스크립트·Manifest.json·Validation.json·합성 검수 PNG는 저장소 밖 임시 폴더에만 둔다: `C:\Users\k9425\AppData\Local\Temp\claude\bd37fc10698b196c\1ac9cc50-e1f2-4923-a674-160ca3239d3d\scratchpad\codex\art-a-20261117`.
+
+스타일 참조/편집 대상: 작업 전 `StationPickup.png` **608×128**. 기존 맵 도트 스타일·팔레트·벨·카운터·선반·외곽선을 유지했다.
+
+### StationPickup.png 프롬프트·후처리
+
+```text
+Use case: precise-object-edit. Edit ONLY the THREE SILVER TRAYS on the supplied 608x128 pixel cafe pickup counter sprite. Remove all three metal trays and their shadows and seamlessly restore natural empty honey oak countertop underneath. Preserve exact canvas aspect, the left call bell pixel for pixel, all existing counter geometry, outline, legs, lower shelf, warm wood palette, pixel art stepped edges, transparency, camera and everything else. No added objects, no text, no watermark, no hands. Empty counter top except original left bell. Keep original outer silhouette and alpha.
+```
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-1ee3-7cc2-80d0-185178bf2a84\exec-c31405ed-d9a4-43da-9662-50a788c2e93a.png`
+
+- 내장 이미지 생성기로 트레이를 없앤 시안을 생성해 빈 상판의 외관을 확인했다. 생성본은 벨·다리 형태까지 미세하게 바꾸므로 납품본에는 원본 PNG를 기반으로 Pillow의 **국소 복원**을 적용했다.
+- 복원 영역은 원본 왼쪽 위 기준 `(116,15)-(245,53)`, `(273,15)-(402,53)`, `(430,15)-(564,53)` (오른쪽·아래 끝 제외). 세 은색 트레이와 그림자만 제거했다. y15~32는 투명, y33~52는 같은 원본의 깨끗한 상판 x94~110 표본을 가로 반복했다. 상판 테두리까지 이어지게 y33부터 복원했다.
+- 위 세 사각형 **밖 RGBA는 원본과 정확히 같다**. 특히 왼쪽 벨 영역 x0~114는 바이트 비교했다. 새 그림자·물건·글자 없음. 기존 전체 캔버스608×128과 알파 외곽 형태를 유지했다(트레이 제거 부분 제외). 나머지 투명 픽셀 RGB도 원본 보존을 위해 정리하지 않았다.
+- 최종 PNG 크기·RGBA·실제 투명도와 빈 상판을 직접 확인했다. 맵은 기존 Point(no filter), PPU128, Mip Maps 끔을 유지한다. `.meta`는 수정하지 않았다. Unity 재임포트 후 기존 벨/상판과 맵 클릭 외곽을 확인한다. 새 ADR 없음.
+
+- 마무리 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일 1993개). 이 검사는 추적 파일 기준이므로 신규 ReceiptConfirmButton.png의 Unity .meta 생성 확인을 대신하지 않는다. 이번 작업에서는 PNG와 위 Generation.md만 수정했으며 코드·.meta·씬·프리팹·.asset은 수정하지 않았다.

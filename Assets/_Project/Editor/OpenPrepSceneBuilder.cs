@@ -38,13 +38,13 @@ namespace CafeTime.EditorTools
             var screen = canvas.gameObject.AddComponent<OpenPrepScreen>();
             var so = new SerializedObject(screen);
 
-            // 상단 바: "DAY n" + [오픈 준비]    [보유금] + "₩n"   ([ ] = 글자 이미지)
+            // 상단 바: "DAY n" + [오픈 준비]    [보유금] + "n원"   ([ ] = 글자 이미지)
             var top = TopLeft("TopBar", canvas, 40, 20, 1840, 120);
             AddImage(top, LoadSprite($"{Art}/TopBar.png"), new Color32(0x90, 0x47, 0x1B, 0xFF));
             Set(so, "dayText", AddText(TopLeft("DayText", top, 110, 0, 170, 120), "DAY 1", 44, Cream, TextAlignmentOptions.Left));
             Label(top, "OpenPrepLabel", LoadSprite($"{Art}/LabelOpenPrep.png"), 290, 60, PivotLeft);
             Label(top, "MoneyLabel", LoadSprite($"{Art}/LabelMoney.png"), 1420, 60, PivotRight);
-            Set(so, "moneyText", AddText(TopLeft("MoneyText", top, 1435, 0, 300, 120), "₩0", 44, Cream, TextAlignmentOptions.Left));
+            Set(so, "moneyText", AddText(TopLeft("MoneyText", top, 1435, 0, 300, 120), "0원", 44, Cream, TextAlignmentOptions.Left));
 
             // 왼쪽: 분류 탭 + 재료 카드
             var catalog = TopLeft("CatalogPanel", canvas, 40, 160, 1200, 860);
@@ -82,11 +82,11 @@ namespace CafeTime.EditorTools
             Set(so, "cartEmptyLabel", Label(cart, "CartEmpty", LoadSprite($"{Art}/CartEmpty.png"), 300, 300, PivotCenter).gameObject);
             // 총액 / 구매 후 잔액 / 오늘 임대료 (목록 아래 ~ 구매 버튼 위)
             Label(cart, "TotalLabel", LoadSprite($"{Art}/LabelTotal.png"), 75, 470, PivotLeft);
-            Set(so, "totalText", AddText(TopLeft("Total", cart, 225, 447, 300, 46), "₩0", 34, TextBrown, TextAlignmentOptions.Right));
+            Set(so, "totalText", AddText(TopLeft("Total", cart, 225, 447, 300, 46), "0원", 34, TextBrown, TextAlignmentOptions.Right));
             Label(cart, "RemainingLabel", LoadSprite($"{Art}/LabelRemaining.png"), 75, 512, PivotLeft, 0.4f);
-            Set(so, "remainingText", AddText(TopLeft("Remaining", cart, 225, 492, 300, 40), "₩0", 28, TextBrown, TextAlignmentOptions.Right));
+            Set(so, "remainingText", AddText(TopLeft("Remaining", cart, 225, 492, 300, 40), "0원", 28, TextBrown, TextAlignmentOptions.Right));
             Label(cart, "RentLabel", LoadSprite($"{Art}/LabelRent.png"), 75, 550, PivotLeft, 0.4f);
-            Set(so, "rentText", AddText(TopLeft("Rent", cart, 225, 530, 300, 40), "₩0", 28, TextBrown, TextAlignmentOptions.Right));
+            Set(so, "rentText", AddText(TopLeft("Rent", cart, 225, 530, 300, 40), "0원", 28, TextBrown, TextAlignmentOptions.Right));
             Set(so, "boughtLabel", Label(cart, "Bought", LoadSprite($"{Art}/MessageBought.png"), 300, 588, PivotCenter).gameObject);
             Set(so, "unboughtMessage", LoadSprite($"{Art}/ConfirmUnbought.png"));
             Set(so, "buyButton", AddButton(TopLeft("BuyButton", cart, 90, 608, 420, 89), LoadSprite($"{Art}/BuyButton.png"), Amber));
@@ -124,7 +124,7 @@ namespace CafeTime.EditorTools
             Set(so, "nameText", AddText(TopLeft("Name", rt, 10, 118, 180, 28), "재료", 22, DarkCoffee));
             Label(rt, "StockLabel", LoadSprite($"{Art}/LabelStock.png"), 96, 157, PivotRight, 0.3f); // 카드 글씨(17pt)에 맞춰 축소
             Set(so, "stockText", AddText(TopLeft("Stock", rt, 102, 146, 95, 22), "0", 17, TextBrown, TextAlignmentOptions.Left));
-            Set(so, "priceText", AddText(TopLeft("Price", rt, 10, 168, 180, 22), "₩0", 17, TextBrown));
+            Set(so, "priceText", AddText(TopLeft("Price", rt, 10, 168, 180, 22), "0원", 17, TextBrown));
             // -/+ 는 길게 누르면 반복 (RepeatButton 이 클릭을 처리하고 Button 은 그림·비활성화 표시만)
             var minus = AddButton(TopLeft("Minus", rt, 30, 198, 36, 36), LoadSprite($"{Art}/MinusButton.png"), Cream);
             Set(so, "minusButton", minus);

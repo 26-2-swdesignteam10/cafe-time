@@ -63,16 +63,12 @@ namespace CafeTime.Cafe
             for (int zone = 0; zone < 2; zone++)
             {
                 if (!Filling(zone)) continue;
-                left[zone] -= GameClock.Delta;
-                if (left[zone] > 0) continue;
-
-                left[zone] = 0;
-                Cups[zone]?.Add(
-                    zone == Hot ? RecipeKeys.HotWater : RecipeKeys.ColdWater,
-                    balance.WaterAmount
-                );
-
-                done = true;
+                // 받는 동안 조금씩 부어 컵 속 물이 실시간으로 차오르게 한다 (2026-11-17 사용자 요청). 마지막 프레임에 남은 양을 채워 합계는 정확히 WaterAmount
+                float before = left[zone];
+                left[zone] = Mathf.Max(0, left[zone] - GameClock.Delta);
+                float amount = balance.WaterAmount * (before - left[zone]) / balance.WaterSeconds;
+                Cups[zone]?.Add(zone == Hot ? RecipeKeys.HotWater : RecipeKeys.ColdWater, amount);
+                if (left[zone] <= 0) done = true;
                 Changed?.Invoke();
             }
 

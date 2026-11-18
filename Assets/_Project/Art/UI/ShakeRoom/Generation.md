@@ -225,3 +225,165 @@ Assets 밖 스크래치 폴더:
 | BlendWhirlSheet | `exec-67928887-87cc-42be-9a74-9cc074d5d600.png` |
 | SmoothieStreamSheet | `exec-db4270e8-e6b7-4a50-879e-ad5bf48c0ed5.png` |
 | BlendButton / BlendButtonPressed / PourButton | 앞서 지정한 기존 폴더 `exec-d4023f99-f7ff-41e1-9aee-5490c8a315b7.png` 재사용 |
+
+### 우유 팩 배치 수정 (2026-11-17)
+
+정지 우유 팩이 원액 통보다 지나치게 크고 벽 선반을 뚫으며 카운터 앞 모서리에 걸쳐 보이는 문제를 줄이기 위한 배치안이다. 위 「배치 (2026-11-12)」 중 Milk와 LabelMilk는 아래 값을 우선한다. 좌표계는 창 1600×900, 왼쪽 위 (0,0), y 아래쪽+, 단위는 표시 px이며 전체 PNG 캔버스의 투명 여백을 유지한다. Grab만 Milk rect 왼쪽 위 기준 상대 좌표이고, milkPivot은 Unity 정규화 좌표(아래쪽 y=0)다. 디자인 문서와 Pillow 합성만 갱신했으며 코드·씬에는 아직 적용하지 않았다.
+
+| 항목 | 새 값 | 이유 |
+|---|---|---|
+| Milk rect (x,y,w,h) | **(240,506,220,176)** | 원본 1000×800을 가로·세로 모두 0.22배로 표시한다. 기존 표시 크기의 55%이며, 실제 팩은 약 86.46×162.8로 원액 통 실체 108×104와 어울리는 크기다. 실제 경계는 창 (255.4,517.44)–(341.86,680.24)다. 팩 상단은 선반 앞면 아래에 있고 양쪽 받침과도 떨어지며, 통·믹서기와 겹치지 않는다. 바닥 y680.24는 상판 안쪽으로, 앞 모서리 약 y730보다 약50px 뒤에 놓인다. |
+| Grab rect (상대 x,y,w,h) | **(15.4,52.8,86.46,121.44)** | 원본 몸통 영역 (70,240)–(463,792)를 0.22배로 환산했다. 팩 몸통을 덮고 오른쪽의 넓은 투명 여백을 제외한다. 창 좌표는 (255.4,558.8,86.46,121.44)다. |
+| milkPivot (정규화 x,y) | **(107/400, 1−170/320) = (0.2675,0.46875)**, 유지 | 기존 400×320 표시에서의 잡는 점 (107,170)은 원본 (267.5,425)에 해당한다. 균일 축소 후에도 같은 몸통 지점을 가리키므로 정규화 값은 유지한다. 새 표시 rect 안에서는 왼쪽 위 기준 (58.85,93.5)이며 Grab 안에 있다. |
+| LabelMilk rect (x,y,w,h) | **(267.63,690,62,38.5)** | 실제 팩 경계의 가로 중심 x298.63에 라벨 중심을 맞춘다. 팩 바닥과 약9.76px 간격을 두고 바로 아래에 놓으며 라벨 하단 y728.5까지 상판 영역에 둔다. 크기는 유지한다. |
+
+- 붓기 자세 **MilkPour (480,85,400,320)**와 출구 **(840,221)**, MilkStream의 기존 접점은 유지한다. 정지 팩 크기의 변경을 붓기 자세에 적용하지 않는다.
+- 미리보기는 Python 3 / Pillow로 기존 PNG를 Bilinear 표본화해 합성했다. Panel (0,0,1600,900), BlenderBase (765,560,320,180), 원액 통 5개와 각 ScoopInJar (32+120×i,285,120,160; i=0..4), 새 Milk, BlenderJar와 BlenderJarFront (750,205,360,390), LabelBase (296.75,185,66.5,39), 새 LabelMilk 순서다. 두 라벨은 각각 「원액」·「우유」이며, 소수 좌표·크기도 유지했다.
+- 합성 화면에서 선반·통·믹서기와의 비겹침, 상판 안쪽의 팩 바닥, 실제 팩 중심 아래의 라벨, 한글 철자를 눈으로 확인했다. Grab과 pivot은 위 수치로 검산했으며 드래그 동작은 Unity에서 별도 적용·검증해야 한다.
+- 미리보기(1600×900 RGBA, 저장소 밖): `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/3c877158-9d17-4156-bff5-e3db1a17f799/scratchpad/shake-milk-preview.png`
+
+
+## 장착 위치·뚜껑 단계 (2026-11-17)
+
+도구: Python 3 / Pillow. 새 원화 생성 없이 기존 픽셀 크롭·Jua 조판·Bilinear 합성만 수행했다. 스타일 참조는 같은 폴더의 `BlenderLid.png`, `LabelMilk.png`, `Hint.png`, `Assets/_Project/Art/Fonts/Jua-Regular.ttf`와 `docs/ART_STYLE.md`다. 아래 값은 「배치 (2026-11-12)」의 해당 항목보다 우선하며, Milk·LabelMilk는 「우유 팩 배치 수정 (2026-11-17)」 값을 유지한다. 코드·씬 적용은 포함하지 않는다.
+
+### 용기 장착 측정
+
+- 이동량은 **d=24px 아래, x=30px 오른쪽**이다. BlenderBase rect **(765,560,320,180)**는 그대로 둔다. 그림 자체는 수정하지 않았다.
+- 원본 BlenderJar의 알파 경계는 (36,29)–(686,745), 바닥 받침 중심은 원본 x≈290이다. 기존 표시에서 받침 중심 x≈895, 하단 y≈577.5였다. BlenderBase의 소켓 중심은 원본 x≈320, 창 x≈925이므로 x를 30px 보정했다.
+- 본체 중심선에서 소켓 뒤쪽 테두리는 원본 y≈22(창 y≈571), 내부·축은 y≈30..78(창 y≈575..599), 앞쪽 검은 테두리는 y≈80..96(창 y≈600..608)이다. 용기 하단을 **y≈601.5**로 내리면 내부 축을 덮으면서 앞쪽 테두리 안에 들어간다. d=24 합성에서 용기 바닥의 검은 받침과 소켓 테두리가 연속적으로 맞물리는 것을 확인했다.
+- Jar·Front·Lid와 자식 Contents·Whirl은 모두 같은 (30,24) 이동을 적용한다. JarPivot 정규화 (0.45,0.12)는 유지하며 정지 창 위치는 **(942,572.2)**가 된다.
+
+### 배치 값
+
+창 1600×900, 왼쪽 위 (0,0), y 아래쪽+, 단위는 표시 px. rect는 투명 여백을 포함한 (x,y,w,h)이며, 신규 PNG는 표시 크기의 2배다.
+
+| 요소 | 값 | 기준·용도 |
+|---|---|---|
+| BlenderBase | (765,560,320,180), 유지 | 카운터 위 고정 |
+| BlenderJar / BlenderJarFront / BlenderLid | **(780,229,360,390)** | 기존 공통 캔버스를 그대로 사용 |
+| Contents / Whirl | **(835,337,195,237)** | 용기 기준 상대 (55,108), fill 방식 유지 |
+| LidRest | **(470,610,287,72)** | LidLoose 표시; 상판 위 우유와 믹서기 사이 |
+| LidGrabOnJar | **(786,229,279,64)** | 이동한 BlenderLid의 알파 경계 (12,0)–(570,128)를 절반으로 환산 |
+| LidDrop | **(760,205,335,130)** | 뚜껑·용기 입구 주변의 넉넉한 마우스 놓기 영역 |
+| LidPivot | **(276/574, 1−44/144) = (0.480836,0.694444)** | 아래쪽 y=0; 원본 뚜껑 손잡이 부근 (280,36) → Loose (276,44) |
+| LabelLid | **(582.5,690,62,39)** | 고정 문구 `뚜껑`; LidRest 중심 x613.5 아래 |
+| Hint | **(444.5,55,711,39)** | 중심 (800,74.5) 유지; 표시 너비 732→711 |
+
+- LidRest는 Milk rect 오른쪽 x460과 10px, BlenderBase 왼쪽 x765와 8px 떨어져 있다. 실제 뚜껑 경계는 (474,614)–(753,678)이다. 선반은 이 위치에서 위쪽에 있고, 컵·받침·버튼과도 겹치지 않는다. 뚜껑 하단과 라벨 rect 사이 8px, 두 라벨 Milk/Lid는 y690으로 맞췄다. 기존 그림의 상면 시점은 유지하고 상판 안쪽 배치만으로 해결했다.
+- LidPivot의 표시 잡는 점은 Loose 왼쪽 위 기준 **(138,22)**다. 마우스 (mx,my)에 대해 드래그 rect는 **(mx−138,my−22,287,72)**다. LidDrop은 마우스 좌표 기준이다.
+- 최초에는 LidRest의 LidLoose만 보인다. 씌우면 Loose는 숨기고 BlenderLid를 Jar 공통 rect에 표시한다. 씌운 뚜껑은 LidGrabOnJar에서 잡아 Loose로 드래그하고, LidRest에 돌려놓으면 벗겨진 상태가 된다. LabelLid는 두 상태에서 자리에 남는다. 기존의 “갈 때만 Lid 표시” 기록은 이 단계로 대체한다. 용기·전면 위에 Lid를 그리고, 드래그 Loose는 일반 기물 위에 표시한다. 실제 상호작용 구현은 이번 작업 범위 밖이다.
+
+### 파일 제작·검수
+
+- **LidLoose.png — 574×144 RGBA**: BlenderLid.png 알파 bbox **(12,0,570,128)**(오른쪽·아래 제외)를 그대로 크롭한 558×128 픽셀을 사방 8px 투명 여백에 넣었다. 리사이즈·재생성·회전·색 보정 없이 원본 RGBA 바이트와 일치함을 검사했다. 표시 287×72.
+- **LabelLid.png — 124×78 RGBA**: 정확한 문구 **“뚜껑”**. Jua, 채움 높이56px, #380F00, #FCF0CA 사방3px 외곽선, 사방8px 투명 여백. Jua를 고해상도로 조판하고 채움 높이를 맞춘 뒤 4배 해상도에서 외곽선을 적용하고 Lanczos로 축소했다. 굵기 확장·최근접 도트 처리는 하지 않았다. LabelMilk의 글자 규격을 따르며 최종 캔버스 높이는 표준78px다.
+- **Hint.png — 1422×78 RGBA**(기존1464×78 교체): **“재료를 넣고 뚜껑을 덮은 뒤 갈아 주세요. 얼음은 스쿱으로!”**. 같은 Jua 채움56px·다크 커피·크림3px 외곽선·4배 안티앨리어싱 조판이다. 한 줄, 공백8개, 마침표1개, 느낌표1개. 높이39와 중심은 유지하고 표시 너비만711px로 바꿨다.
+- 최종 PNG와 두 상태 전체 합성에서 `뚜껑`, `재료를 넣고 뚜껑을 덮은 뒤 갈아 주세요. 얼음은 스쿱으로!` 철자와 잘림을 눈으로 확인했다. 투명 경계·원본 뚜껑 보존·신규 PNG의 2배 배율을 검사했다.
+- 미리보기는 저장소 밖 **C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/3c877158-9d17-4156-bff5-e3db1a17f799/scratchpad/**에 저장했다. **blender-seated.png**: 기존과 같은 창 (650,150)–(1250,760) 크롭, 600×610. **lid-rest.png**, **lid-on.png**: 각각1600×900 전체 합성. Panel, 원액 통5개와 ScoopInJar, 새 우유 배치, 본체, 이동한 Jar/Front, 컵/받침, 라벨/Hint/버튼을 포함한다. 빈 용기 상태이므로 Contents·Whirl은 숨겼다.
+- `.meta`·`.unity`·`.prefab`·`.asset`·코드를 생성하거나 수정하지 않았다. Unity **6000.6.4f1**에서 새 PNG를 임포트하여 `.meta`를 자동 생성하고 Sprite/Single, Bilinear, Mip Maps 끔, Alpha Is Transparency 켬, Full Rect를 확인한다. 배치·드래그·씌우기/벗기기 Play 검증은 코드 연결 후 별도로 필요하다. 새 ADR은 없다.
+- 최종 검사: `bash .github/scripts/check-repo.sh` **통과 (추적 파일 1921개)**. 이 검사는 추적 파일 기준이므로 신규 PNG 4장의 `.meta`는 Unity 임포트 후 별도로 확인한다.
+
+
+## 2026-11-17 바닐라 아이스크림 제조실 4종 (작업 C)
+
+- 도구: OpenAI 내장 `image_gen.imagegen`으로 Mango 기준 파일을 각각 편집 생성, Python 3 / Pillow 알파 정리·기하 정렬·부품 보존·겹침 검수.
+- 편집·스타일 기준: `JarMango.png`, `ScoopMango.png`, `ChunkyMango.png`, `SmoothMango.png`, `docs/ART_STYLE.md`. 부드러운 기기 창 일러스트, **Bilinear** 대상.
+- `JarVanilla.png` **240×320**: 망고를 바닐라 아이스크림으로, 라벨 그림을 바닐라 꽃·아이스크림으로 교체. 생성 RGB를 행별 기준 영역에 맞춘 뒤 **JarMango 알파를 그대로 복사**. 금속 테두리·바닥의 중성색 픽셀 보존. 위쪽 국자 꽂는 여백 유지.
+- `ScoopVanilla.png` **560×240**: 바닐라 아이스크림을 담은 국자. 생성 실체를 기준 bbox에 맞추고 투명 가장자리의 RGB 틈만 같은 행의 가까운 색으로 채운 뒤 **ScoopMango 알파를 그대로 복사**. x<380의 손잡이·자루, x≥380/y≥132의 금속 하부는 기존 RGBA 그대로 보존. 초기 행별 확대의 가로 이음선을 제거하고 확대 재검수.
+- `ChunkyVanilla.png` **390×474**: 갈기 전 아이스크림 덩어리·얼음·우유. `SmoothVanilla.png` **390×474**: 간 뒤 작은 공기방울·잔잔한 결의 매끈한 크림색. 두 질감을 행별로 공통 내용물 윤곽에 채우고 **각 Mango 기준 알파를 그대로 복사**. 유리·눈금·용기는 포함하지 않음.
+- 공통 전처리: 실제 알파12 미만 헤이즈·작은 분리 잡점 제거, 3px 열기 연산. 최종 알파는 기준 파일 값으로 복원, 완전 투명 RGB=0.
+- **붓는 줄기 권장색: `#F3E5CD`**(sRGB). 기존 중성 `SmoothieStream0~3.png` RGB에 곱하고 알파를 유지하는 용도다. 줄기 PNG는 바꾸지 않았다.
+
+### 좌표·동일 기하 검수
+
+PNG 원본 좌상단 (0,0), y 아래쪽+, bbox의 오른쪽·아래 끝 제외.
+
+| 파일 | 원본 실체 bbox | 유지할 기하 |
+|---|---|---|
+| JarVanilla | (12,104)–(228,312) | 위쪽 y0..103 여백, 공용 ScoopInJar를 전체240×320 캔버스로 겹침 |
+| ScoopVanilla | (12,28)–(548,184) | 잡는 점(30,100), 표시280×120의(15,50), pivot=(0.053571,0.583333) |
+| ChunkyVanilla | (0,0)–(390,474) | 모서리(0,0)→(389,0)→(339,473)→(50,473) |
+| SmoothVanilla | (0,0)–(390,474) | Chunky와 동일 영역 |
+
+- 기준4개와 새 파일을 50% 겹쳐 확인. 각 쌍의 **알파 차이 픽셀 수=0**, bbox·크기 일치. ChunkyVanilla와 SmoothVanilla 알파도 서로 일치.
+- 기존 2026-11-17 장착 배치 유지: BlenderJar/Front/Lid=(780,229,360,390), Contents=(835,337,195,237). 용기 기준 상대(55,108), Bottom/Vertical fill 사용.
+- 검수에서는 Mango 슬롯 **(152,285,120,160)**에 JarVanilla와 ScoopInJar를 겹쳤다. 크기·국자 자리·바닥 높이 확인용 임시 교체이며 6번째 슬롯이나 씬 배치를 확정한 것이 아니다.
+- 드래그 국자 rect=(mx−15,my−50,280,120), 놓기 판정은 기존 마우스 좌표 기준.
+- 줄기 참고: ICE=(1312,337,48,180), 붓기 용기 pivot=(1030,390), 회전−60°. 정지 자세에는 줄기를 추가하지 않는다.
+- Unity **6000.6.4f1**에서 .meta 자동 생성, Sprite / Single / **Bilinear** / Mip Maps 끔 / Alpha Is Transparency 켬 / Full Rect / Max Size2048. 코드 연결 후 국자 잡기·복귀·내용물 fill·붓기 색 Play 확인. 새 ADR·코드·씬·프리팹·에셋 정의 변경은 없다.
+
+### 파일별 실제 생성 프롬프트와 원본
+
+**JarVanilla.png** — 참조 `JarMango.png`
+
+> Use case: precise-object-edit. Production Unity cafe sprite. Input is edit target and exact soft painted style / geometry reference. Change ONLY yellow mango puree into pale ivory vanilla ice cream, thick softly scooped surface inside the SAME open stainless rimmed cylindrical tub. Replace mango label illustration with vanilla blossom and ivory ice cream scoop, NO lettering. Preserve exact tub silhouette, elliptical opening, rim, bottom, label location and EMPTY transparent space above tub for separate ladle handle. Thin warm contours, soft upper-left light, smooth illustration for Bilinear, NOT pixel art or photo. Fully visible edges, REAL transparent background. NO hands, text, digits, logos, watermark, checkerboard, ground or extra props. Keep original aspect ratio, framing and geometry; only edit ingredient and its identifying label image.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-c726fbd6-1ecd-4c50-b707-cdff799b7018.png`
+
+**ScoopVanilla.png** — 참조 `ScoopMango.png`
+
+> Use case: precise-object-edit. Production Unity cafe sprite. Input is edit target and exact soft painted style / geometry reference. Change ONLY orange mango puree and cubes into pale ivory vanilla ice cream, roughly scooped pieces and soft ridges, no fruit or yellow chunks. Preserve EXACT horizontal wooden handle on LEFT, metal shaft, ladle bowl on RIGHT, silhouette and placement. No extra scoop tool. Thin warm contours, soft upper-left light, smooth illustration for Bilinear, NOT pixel art or photo. Fully visible edges, REAL transparent background. NO hands, text, digits, logos, watermark, checkerboard, ground or extra props. Keep original aspect ratio, framing and geometry; only edit ingredient and its identifying label image.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-cc39e40a-d0dc-4ef3-bdbe-6442fda39ae1.png`
+
+**ChunkyVanilla.png** — 참조 `ChunkyMango.png`
+
+> Use case: precise-object-edit. Production Unity cafe sprite. Input is edit target and exact soft painted style / geometry reference. Change ONLY mango fruit chunks into large pale ivory vanilla ice cream chunks/scooped pieces with angular translucent ice cubes and white milk ribbons. This is unblended blender contents TEXTURE ONLY. Preserve EXACT full tapered silhouette and straight full top and bottom; NO container, no glass, no outline, no garnish. Thin warm contours, soft upper-left light, smooth illustration for Bilinear, NOT pixel art or photo. Fully visible edges, REAL transparent background. NO hands, text, digits, logos, watermark, checkerboard, ground or extra props. Keep original aspect ratio, framing and geometry; only edit ingredient and its identifying label image.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-c3adc5f8-5766-43c0-ac43-34c6d78c70cc.png`
+
+**SmoothVanilla.png** — 참조 `SmoothMango.png`
+
+> Use case: precise-object-edit. Production Unity cafe sprite. Input is edit target and exact soft painted style / geometry reference. Change ONLY yellow mango color into pale warm ivory cream #F3E5CD, fully blended smooth thick vanilla milkshake with tiny air bubbles and very subtle silky ripples. Preserve EXACT full tapered silhouette and straight full top and bottom; NO fruit chunks, no glass, no container, no garnish. Thin warm contours, soft upper-left light, smooth illustration for Bilinear, NOT pixel art or photo. Fully visible edges, REAL transparent background. NO hands, text, digits, logos, watermark, checkerboard, ground or extra props. Keep original aspect ratio, framing and geometry; only edit ingredient and its identifying label image.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-413e4dea-3039-4d15-8256-f1cca5e510cf.png`
+
+### 최종 검수 자료
+
+검수 PNG는 저장소 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/task-c/`에만 저장했다. `AssetsContact.png`는 전체15종, `SilhouetteOverlay.png`는 제조실 원본·신규·겹침·윤곽 비교, `LayoutChunky.png`·`LayoutSmooth.png`는 기존 제조실 배치 합성이다. 실제 크기·bbox·알파 비교는 `validation.json`, 프롬프트·원본 매핑은 `manifest.json`에 기록했다. 원화는 기본 생성 폴더에 보존했다.
+
+최종 PNG를 배경 위에서 눈으로 확인했다. 손·워터마크·체커보드·이미지 글자는 없으며 실제 RGBA 투명 배경이다. .meta·.cs·.unity·.prefab·.asset은 직접 생성·수정하지 않았다.
+
+### 최종 파일별 픽셀 배치
+
+| PNG | 크기 | 실체 bbox (왼쪽,위,오른쪽,아래) |
+|---|---|---|
+| JarVanilla.png | 240×320 | (12, 104, 228, 312) |
+| ScoopVanilla.png | 560×240 | (12, 28, 548, 184) |
+| ChunkyVanilla.png | 390×474 | (0, 0, 390, 474) |
+| SmoothVanilla.png | 390×474 | (0, 0, 390, 474) |
+
+### 전체 맛 계열 추가 대조
+
+저장소 밖 AllFlavorOverlay.png에서 기존 Strawberry/Mango/Hallabong/Melon/Cookie, 내용물의 Plain까지 각각 바닐라와 50% 겹쳐 확인했다. Chunky/Smooth는 모든 맛의 알파가 바닐라와 완전히 일치한다. 기존 Jar들은 bbox가 같지만 세부 윤곽 알파가 다르고, 기존 Scoop은 맛별 bbox 높이가 y22..184 범위로 다르다. 이번 바닐라는 요청에서 지정한 **Mango 기준과 픽셀 단위로 일치**시켰으며 다른 맛 원본은 수정하지 않았다. 비교 수치는 임시 AllFlavorValidation.json에 기록했다.
+
+최종 저장소 검사: bash .github/scripts/check-repo.sh 통과 (추적 파일 1993개). 이 검사는 추적 파일 기준이며 새 PNG 15개는 Unity 임포트 후 .meta 생성과 임포트 설정을 별도로 확인한다.
+
+
+## 2026-11-17 작업 F — 위아래 2단 선반
+
+- 최종 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일1993개), 작업 문서 `git diff --check` 통과. 새 PNG7개의 .meta 생성·임포트와 실제 Play 검수는 Unity에서 별도로 확인한다.
+
+- 도구: OpenAI 내장 `image_gen.imagegen` 편집 생성 + Python 3 / Pillow 크기 조정·국소 마스크 합성·검수. CLI/API 대체 없음.
+- 편집·스타일 참조: 기존 `ShakeRoom/Panel.png`, `docs/ART_STYLE.md`. 부드러운 일러스트·Bilinear, 기존 나무·세이지 브래킷·왼쪽 위 조명에 맞춘 위 선반 1개 추가. 통은 Panel에 굽지 않았다.
+- `Panel.png`: 기존과 같은 **3200×1800 RGBA**, 표시1600×900. 생성 원화를 Lanczos로 원본 크기에 맞춘 후 위 선반과 그 주변 그림자만 마스크 합성했다. 전체 알파는 원본 그대로다. 실제 변경 bbox는 원본 **(44,487)–(1287,778)**(우·하 배타), 이 밖 픽셀은 원본과 같다. 아래 선반·카운터·프레임·중앙/오른쪽 벽·기존 조명은 보존했다.
+
+### 선반 좌표 (창 좌상단 원점, 원본 px ÷ 2)
+
+| 선반 | 통 바닥을 놓을 윗면 y | 윗면의 수평 배치 안전 범위 x | 선반 전체 외곽 x (약) |
+|---|---:|---|---|
+| 위 | **265** (원본530) | **40~600** (원본80~1200) | 22~628 |
+| 아래 (기존 보존) | **440** (원본880) | **40~600** (원본80~1200) | 22~628 |
+
+- y265/440은 원근이 있는 윗면 안에서 정한 **정확한 통 바닥 정렬선**이다. 선반 윗면은 깊이를 가지므로 뒤쪽 모서리 전체를 단일 y선으로 해석하지 않는다. 위 선반 뒤쪽 수평 모서리는 약y261, 아래는 약y435다. 양끝 비스듬한 부분을 제외한 안전 범위를 위 표에 적었다.
+- 3개씩 검수 배치: 통 전체 rect **(64,109,120,160), (254,109,120,160), (444,109,120,160)** / 아래 **(64,284,120,160), (254,284,120,160), (444,284,120,160)**. 통 PNG 실체 하단y312가 표시156이므로 실제 통 바닥이265/440에 닿는다. `ScoopInJar.png`를 같은 rect로 겹쳤다. 위치는 연결 담당자용이며 코드·씬은 바꾸지 않았다.
+- 검수용 `SixJarsLayout.png`에 기존 안내 PNG를 중심x800/y55(글자 중심 약y74)에 얹었다. 위 통·국자와 안내문이 겹치지 않는다. 한글은 기존 안내문 “재료를 넣고 뚜껑을 덮은 뒤 갈아 주세요. 얼음은 스쿱으로!”를 확인했다. 납품 Panel에는 글자를 추가하지 않았다.
+- 검수 자료는 저장소 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/task-f/`의 `PanelPreview.png`, `SixJarsLayout.png`, `Validation.json`, `Manifest.json`, `build.py`에 있다.
+- Unity6000.6.4f1에서 재임포트 후 Sprite/Single/Bilinear/Mip Maps 끔/Alpha Is Transparency 켬/Full Rect/Max Size4096을 확인한다. 3개×2단 배치 연결과 Play 확인은 별도다. 새 ADR·게임 데이터·코드·.meta·씬·프리팹·.asset 변경 없음.
+
+**Panel.png**
+
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1ed3d-1c3d-7672-b46c-190ecf1a7ffd\exec-86685611-a757-489e-98db-8b48772852cc.png`
+
+> Use case: precise-object-edit. EDIT supplied ShakeRoom Panel.png, exact existing scene preserved. Add ONE identical duplicate of the existing left wooden wall shelf ABOVE the original. Target full canvas3200x1800: upper shelf same x44..1256 and same wood slab, sage metal curved brackets and soft shadow as lower shelf. New upper shelf rear top horizontal line y520 and resting plane y530 (display y265 at half scale). Existing lower shelf rear y870 resting y880 MUST remain unchanged. Exact same shelf width and geometry, 350px upward translation. Upper shelf empty (game overlays 3 ingredient tubs on each shelf). Preserve ALL other pixels, warm wall texture, left upper light, counter, frame and lower shelf. No text labels ingredients jars props people watermark checkerboard. Smooth painted illustration for Bilinear. Opaque wall interior and transparent exterior as reference.

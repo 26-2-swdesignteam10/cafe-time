@@ -44,7 +44,7 @@ namespace CafeTime.Cafe
             while (tickets.Count < orders.Count) tickets.Add(Instantiate(ticketTemplate, ticketContainer));
             for (int i = 0; i < tickets.Count; i++)
             {
-                if (i < orders.Count) tickets[i].Setup(orders[i], pickup.PlacedCount(orders[i]));
+                if (i < orders.Count) tickets[i].Setup(orders[i], pickup.PlacedCount(orders[i]), pickup.IsCalled(orders[i]));
                 else tickets[i].gameObject.SetActive(false);
             }
             emptyLabel.SetActive(orders.Count == 0);

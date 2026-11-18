@@ -29,6 +29,7 @@ namespace CafeTime.Cafe
         [SerializeField] float hallLaneY = 3.7f;     // 화분 사이로 좌석 구역에 들어가는 가로 통로
         [SerializeField] float hallAisleX = 11.1f;   // 좌석 구역 세로 통로
         [SerializeField] float headHeight = 1.7f;    // 머리 위 게이지 높이
+        [SerializeField] Vector2 pickupPoint = new Vector2(7.625f, 7.25f); // 진동벨 손님이 서는 픽업대 앞 (ADR-0040)
         [SerializeField] CafeTable[] tables;
 
         public static CustomerManager Instance { get; private set; }
@@ -284,10 +285,36 @@ namespace CafeTime.Cafe
             party.Gauge.Show(false);
             party.StayLeft = balance.StayDuration;
             party.Current = CustomerParty.State.Drinking;
+        }
 
-            // SFR-056: 서빙 완료 시 주문 호출 차임 재생
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.PlayServe();
+        // 진동벨 호출 (ADR-0040): 일행 중 1명이 픽업대로 걸어와 호출 때 트레이에 있던 물건을 받아 자리로 돌아간다.
+        // 걸어오는 동안 기다림 게이지는 멈추고, 만족도는 호출한 시점까지의 대기 시간으로 계산한다. 도착하면 onArrive
+        public bool Call(Order order, List<HeldItem> items)
+        {
+            var party = order.Party;
+            if (party == null || party.Current != CustomerParty.State.Waiting) return false;
+            party.Current = CustomerParty.State.ToPickup;
+            party.CalledItems = items;
+            party.Gauge.Show(false);
+            int index = party.Members.Count - 1; // 마지막 일행이 받으러 감
+            party.Runner = party.Members[index];
+            party.Runner.Walk(SeatToPickup(party, index));
+            return true;
+        }
+
+        List<Vector3> SeatToPickup(CustomerParty party, int index)
+        {
+            var table = party.Table;
+            var seat = table.Seat(index);
+            return new List<Vector3>
+            {
+                new Vector3(seat.x, table.LaneY),
+                new Vector3(hallAisleX, table.LaneY),
+                new Vector3(hallAisleX, hallLaneY),
+                new Vector3(hallRouteX, hallLaneY),
+                new Vector3(hallRouteX, queueLaneY),
+                pickupPoint,
+            };
         }
 
         // ───────── 퇴장 ─────────
@@ -424,6 +451,22 @@ namespace CafeTime.Cafe
                     {
                         Refund(party);
                         Leave(party, lost: true);
+                    }
+                    break;
+
+                case CustomerParty.State.ToPickup:
+                    if (party.Runner.IsMoving) break;
+                    {
+                        var runner = party.Runner;
+                        int index = party.Members.IndexOf(runner);
+                        var back = SeatToPickup(party, index);
+                        back.Reverse();
+                        back.RemoveAt(0); // 지금 서 있는 픽업대 앞
+                        back.Add(party.Table.Seat(index));
+                        Serve(party.Order, party.CalledItems); // 상태가 Drinking 이 되고, 돌아가 앉으면 마시기 시작
+                        party.Runner = null;
+                        party.CalledItems = null;
+                        runner.WalkToSeat(back, party.Table.SeatFacing(index));
                     }
                     break;
 

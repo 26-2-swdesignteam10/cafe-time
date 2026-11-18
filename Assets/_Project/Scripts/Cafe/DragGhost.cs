@@ -17,6 +17,8 @@ namespace CafeTime.Cafe
         bool released, judged;
         Vector3 from;
         float elapsed;
+        float seconds = ReturnSeconds;
+        Vector3 startScale = Vector3.one;
 
         public static DragGhost Create(Image original, Transform layer, Vector2 position)
         {
@@ -40,6 +42,15 @@ namespace CafeTime.Cafe
             released = true;
         }
 
+        // 다른 곳에서 꺼낸 물건이 손 칸으로 날아 들어온다 (커피잔 선반, 2026-11-18 사용자 요청). fromScale 크기에서 칸 크기로 줄어듦
+        public void FlyIn(Transform homeSpot, float flySeconds, float fromScale, Action onDone)
+        {
+            seconds = flySeconds;
+            startScale = Vector3.one * fromScale;
+            transform.localScale = startScale;
+            Release(homeSpot, () => true, onDone);
+        }
+
         // 날아가는 중에 다시 끌기 시작하면 바로 끝낸다
         public void Finish()
         {
@@ -61,8 +72,10 @@ namespace CafeTime.Cafe
             }
             if (!HomeVisible) { Finish(); return; }
             elapsed += Time.unscaledDeltaTime; // 일시정지(timeScale 0) 중에도 돌아가게
-            float t = Mathf.Clamp01(elapsed / ReturnSeconds);
-            transform.position = Vector3.Lerp(from, home.position, 1f - (1f - t) * (1f - t)); // 끝에서 느려짐
+            float t = Mathf.Clamp01(elapsed / seconds);
+            float eased = 1f - (1f - t) * (1f - t); // 끝에서 느려짐
+            transform.position = Vector3.Lerp(from, home.position, eased);
+            transform.localScale = Vector3.Lerp(startScale, Vector3.one, eased);
             if (t >= 1f) Finish();
         }
 
