@@ -188,3 +188,137 @@ HOT 8장·ICE 8장 각각을 별도 생성 호출로 만들었다.
 | TeaSteepPlastic5 | exec-23b8e8a2-971d-45c3-96a9-68a8901c57c9.png |
 | TeaSteepPlastic6 | exec-da76714b-9cea-4819-a0c9-b986e03c76db.png |
 | TeaSteepPlastic7 | exec-0774f786-e769-44d7-8b3f-b80d400ae9a5.png |
+
+## 재료별 전용 도구 변형 (2026-11-17)
+
+- 도구: OpenAI 내장 `image_gen.imagegen`으로 기존 도구 편집 원화·재료별 라벨 삽화·분말 낙하 시트를 생성했다. Python 3 / Pillow로 내용물 마스킹, 색상 조정, 생성 원화 내부 합성, Jua 조판, 상태 간 정렬, 알파 복원 및 차이 겹침 검수를 수행했다.
+- 스타일 참조: 이 폴더의 `PumpBottle.png`, `PumpBottlePressed.png`, `CheongJar.png`, `CheongJarOpen.png`, `SpoonFull.png`, `SpoonPour.png`, `TeaBox.png`, `SodaBottle.png`, `SodaBottlePour.png`, 기존 액체 프레임 및 `docs/ART_STYLE.md` 1·4·9장. 부드러운 일러스트 / Bilinear이며 도트 스타일이 아니다.
+- **변형은 범용 그림과 같은 기하**다. 원본 캔버스·투명 여백을 유지하고, 대응 원본의 알파 채널을 바이트 단위로 복사했다. 펌프 금속 조작부, 숟가락 손잡이, 병·숟가락·출구 실루엣을 이동하거나 재생성해 교체하지 않았다. 변경 영역은 재료색·내용물·용기 재질·라벨이다. 말차 통의 금속 재질과 시나몬·딸기 내용물은 생성 편집 원화를 원본 내부 마스크에만 합성했다.
+- 공통 원화 프롬프트: “Use case: precise-object-edit / illustration-story. Premium soft painted 2D cafe game illustration, fine warm charcoal contours, upper-left light, matching reference. Change ONLY ingredient contents / label artwork; preserve canvas, silhouette, utensil and outlet coordinates. True transparent background, fully visible with padding, no hands, no watermark, no checkerboard, no variable text.” 재료별 삽화는 개별 호출로 생성하고, 병·숟가락은 같은 원본에서 상태별로 합성했다.
+- 고정 재료명만 `Art/Fonts/Jua-Regular.ttf`로 조판했다. 일반 시럽 / 바닐라 / 카라멜 / 헤이즐넛 / 초코 / 블루 시럽 / 연유 / 딸기청 / 자몽청 / 유자청 / 말차 / 시나몬 / 캐모마일 / 얼그레이 / 콜드브루 철자를 최종 미리보기에서 확인했다. 금액·수량·메뉴명은 없다.
+- 기존 PNG 53개는 SHA-256이 모두 유지됐다. `.meta`, 코드, 씬, 프리팹, `.asset`은 이 작업에서 작성·수정하지 않았다. 새 ADR은 없다.
+
+### 파일별 프롬프트·후처리 및 알파 IoU
+
+IoU는 알파 > 0 영역의 교집합 픽셀 수 / 합집합 픽셀 수다. 아래 대응 변형 50개는 IoU뿐 아니라 알파 값 자체도 원본과 완전히 일치한다. 신규 낙하 그림 4개에는 비교할 범용 분말 원본이 없다.
+
+| 파일 | 크기 | 원본 | 개별 프롬프트 / 후처리 | 알파 IoU |
+|---|---|---|---|---:|
+| PumpBottleSyrupPlain.png | 1000×800 | PumpBottle.png | 일반 시럽: 투명 연금색 #F5E6BB, 시럽 방울과 각설탕; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleSyrupPlainPressed.png | 1000×800 | PumpBottlePressed.png | 일반 시럽: 투명 연금색 #F5E6BB, 시럽 방울과 각설탕; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleSyrupVanilla.png | 1000×800 | PumpBottle.png | 바닐라: 옅은 꿀색 #F5D697, 바닐라꽃·꼬투리; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleSyrupVanillaPressed.png | 1000×800 | PumpBottlePressed.png | 바닐라: 옅은 꿀색 #F5D697, 바닐라꽃·꼬투리; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleSyrupCaramel.png | 1000×800 | PumpBottle.png | 카라멜: 앰버 #C47A32, 카라멜 조각; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleSyrupCaramelPressed.png | 1000×800 | PumpBottlePressed.png | 카라멜: 앰버 #C47A32, 카라멜 조각; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleSyrupHazelnut.png | 1000×800 | PumpBottle.png | 헤이즐넛: 견과 갈색 #A56B3A, 껍질·알맹이; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleSyrupHazelnutPressed.png | 1000×800 | PumpBottlePressed.png | 헤이즐넛: 견과 갈색 #A56B3A, 껍질·알맹이; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleSyrupChocolate.png | 1000×800 | PumpBottle.png | 초코: 진갈색 #4C2C25, 초콜릿·카카오; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleSyrupChocolatePressed.png | 1000×800 | PumpBottlePressed.png | 초코: 진갈색 #4C2C25, 초콜릿·카카오; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleSyrupBlue.png | 1000×800 | PumpBottle.png | 블루 시럽: 청색 #268FCA, 푸른 시럽 방울; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleSyrupBluePressed.png | 1000×800 | PumpBottlePressed.png | 블루 시럽: 청색 #268FCA, 푸른 시럽 방울; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleCondensedMilk.png | 1000×800 | PumpBottle.png | 연유: 불투명 크림색 #FFE2A8, 연유를 담은 작은 숟가락; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| PumpBottleCondensedMilkPressed.png | 1000×800 | PumpBottlePressed.png | 연유: 불투명 크림색 #FFE2A8, 연유를 담은 작은 숟가락; 원본 액체 영역만 착색, 생성 삽화·한글 라벨 합성. Pressed는 같은 라벨·몸체. | 1.0000 |
+| CheongJarCheongStrawberry.png | 1000×800 | CheongJar.png | 딸기청: #CB3F52 계열 붉은 딸기 조각·씨, 딸기 그림; 원본 입구·손잡이·바닥 보존, 생성 질감·라벨 합성. Open은 원본 숟가락 없는 상태. | 1.0000 |
+| CheongJarCheongStrawberryOpen.png | 1000×800 | CheongJarOpen.png | 딸기청: #CB3F52 계열 붉은 딸기 조각·씨, 딸기 그림; 원본 입구·손잡이·바닥 보존, 생성 질감·라벨 합성. Open은 원본 숟가락 없는 상태. | 1.0000 |
+| SpoonCheongStrawberryFull.png | 640×160 | SpoonFull.png | 딸기청: #CB3F52 계열 붉은 딸기 조각·씨, 딸기 그림; 원본 손잡이 보존, 내용물만 교체. Full은 수평, Pour는 원본 기울기·낙하 끝 유지. | 1.0000 |
+| SpoonCheongStrawberryPour.png | 640×320 | SpoonPour.png | 딸기청: #CB3F52 계열 붉은 딸기 조각·씨, 딸기 그림; 원본 손잡이 보존, 내용물만 교체. Full은 수평, Pour는 원본 기울기·낙하 끝 유지. | 1.0000 |
+| CheongJarCheongGrapefruit.png | 1000×800 | CheongJar.png | 자몽청: 코랄 #EF8655 과육, 자몽 단면 그림; 원본 입구·손잡이·바닥 보존, 생성 질감·라벨 합성. Open은 원본 숟가락 없는 상태. | 1.0000 |
+| CheongJarCheongGrapefruitOpen.png | 1000×800 | CheongJarOpen.png | 자몽청: 코랄 #EF8655 과육, 자몽 단면 그림; 원본 입구·손잡이·바닥 보존, 생성 질감·라벨 합성. Open은 원본 숟가락 없는 상태. | 1.0000 |
+| SpoonCheongGrapefruitFull.png | 640×160 | SpoonFull.png | 자몽청: 코랄 #EF8655 과육, 자몽 단면 그림; 원본 손잡이 보존, 내용물만 교체. Full은 수평, Pour는 원본 기울기·낙하 끝 유지. | 1.0000 |
+| SpoonCheongGrapefruitPour.png | 640×320 | SpoonPour.png | 자몽청: 코랄 #EF8655 과육, 자몽 단면 그림; 원본 손잡이 보존, 내용물만 교체. Full은 수평, Pour는 원본 기울기·낙하 끝 유지. | 1.0000 |
+| CheongJarCheongYuja.png | 1000×800 | CheongJar.png | 유자청: 황금 노랑 #EFC24B 과육·유자 채, 유자 그림; 원본 입구·손잡이·바닥 보존, 생성 질감·라벨 합성. Open은 원본 숟가락 없는 상태. | 1.0000 |
+| CheongJarCheongYujaOpen.png | 1000×800 | CheongJarOpen.png | 유자청: 황금 노랑 #EFC24B 과육·유자 채, 유자 그림; 원본 입구·손잡이·바닥 보존, 생성 질감·라벨 합성. Open은 원본 숟가락 없는 상태. | 1.0000 |
+| SpoonCheongYujaFull.png | 640×160 | SpoonFull.png | 유자청: 황금 노랑 #EFC24B 과육·유자 채, 유자 그림; 원본 손잡이 보존, 내용물만 교체. Full은 수평, Pour는 원본 기울기·낙하 끝 유지. | 1.0000 |
+| SpoonCheongYujaPour.png | 640×320 | SpoonPour.png | 유자청: 황금 노랑 #EFC24B 과육·유자 채, 유자 그림; 원본 손잡이 보존, 내용물만 교체. Full은 수평, Pour는 원본 기울기·낙하 끝 유지. | 1.0000 |
+| MatchaTin.png | 1000×800 | CheongJar.png | 말차: 녹색 미세 가루, 말차 가루·찻잎 그림; 원본 입구·손잡이·바닥 보존, 생성 질감·라벨 합성. Open은 원본 숟가락 없는 상태. | 1.0000 |
+| MatchaTinOpen.png | 1000×800 | CheongJarOpen.png | 말차: 녹색 미세 가루, 말차 가루·찻잎 그림; 원본 입구·손잡이·바닥 보존, 생성 질감·라벨 합성. Open은 원본 숟가락 없는 상태. | 1.0000 |
+| SpoonMatchaFull.png | 640×160 | SpoonFull.png | 말차: 녹색 미세 가루, 말차 가루·찻잎 그림; 원본 손잡이 보존, 내용물만 교체. Full은 수평, Pour는 원본 기울기·낙하 끝 유지. | 1.0000 |
+| SpoonMatchaPour.png | 640×320 | SpoonPour.png | 말차: 녹색 미세 가루, 말차 가루·찻잎 그림; 원본 손잡이 보존, 내용물만 교체. Full은 수평, Pour는 원본 기울기·낙하 끝 유지. | 1.0000 |
+| CinnamonJar.png | 1000×800 | CheongJar.png | 시나몬: 적갈색 미세 가루, 시나몬 스틱 그림; 원본 입구·손잡이·바닥 보존, 생성 질감·라벨 합성. Open은 원본 숟가락 없는 상태. | 1.0000 |
+| CinnamonJarOpen.png | 1000×800 | CheongJarOpen.png | 시나몬: 적갈색 미세 가루, 시나몬 스틱 그림; 원본 입구·손잡이·바닥 보존, 생성 질감·라벨 합성. Open은 원본 숟가락 없는 상태. | 1.0000 |
+| SpoonCinnamonFull.png | 640×160 | SpoonFull.png | 시나몬: 적갈색 미세 가루, 시나몬 스틱 그림; 원본 손잡이 보존, 내용물만 교체. Full은 수평, Pour는 원본 기울기·낙하 끝 유지. | 1.0000 |
+| SpoonCinnamonPour.png | 640×320 | SpoonPour.png | 시나몬: 적갈색 미세 가루, 시나몬 스틱 그림; 원본 손잡이 보존, 내용물만 교체. Full은 수평, Pour는 원본 기울기·낙하 끝 유지. | 1.0000 |
+| TeaBoxChamomile.png | 1000×800 | TeaBox.png | 캐모마일: 노란색 상자, 노란 꽃술·흰 꽃잎 그림; 상자 색·전면 및 티백 포장 삽화·고정 한글명만 변경. | 1.0000 |
+| TeaBoxEarlgrey.png | 1000×800 | TeaBox.png | 얼그레이: 남색 상자, 베르가못 그림; 상자 색·전면 및 티백 포장 삽화·고정 한글명만 변경. | 1.0000 |
+| ColdBrewBottle.png | 1000×800 | SodaBottle.png | 콜드브루: 진한 커피 갈색, 커피콩·잎 그림; 원본 병 착색·내부 기포 완화, 크림 라벨 합성; Pour 입구 좌표 고정. | 1.0000 |
+| ColdBrewBottlePour.png | 1000×800 | SodaBottlePour.png | 콜드브루: 진한 커피 갈색, 커피콩·잎 그림; 원본 병 착색·내부 기포 완화, 크림 라벨 합성; Pour 입구 좌표 고정. | 1.0000 |
+| ColdBrewStream0.png | 72×192 | SodaStream0.png | 대응 SodaStream과 같은 8프레임·알파·배치, RGB만 반투명 커피 갈색으로 변환. | 1.0000 |
+| ColdBrewStream1.png | 72×192 | SodaStream1.png | 대응 SodaStream과 같은 8프레임·알파·배치, RGB만 반투명 커피 갈색으로 변환. | 1.0000 |
+| ColdBrewStream2.png | 72×192 | SodaStream2.png | 대응 SodaStream과 같은 8프레임·알파·배치, RGB만 반투명 커피 갈색으로 변환. | 1.0000 |
+| ColdBrewStream3.png | 72×192 | SodaStream3.png | 대응 SodaStream과 같은 8프레임·알파·배치, RGB만 반투명 커피 갈색으로 변환. | 1.0000 |
+| ColdBrewStream4.png | 72×192 | SodaStream4.png | 대응 SodaStream과 같은 8프레임·알파·배치, RGB만 반투명 커피 갈색으로 변환. | 1.0000 |
+| ColdBrewStream5.png | 72×192 | SodaStream5.png | 대응 SodaStream과 같은 8프레임·알파·배치, RGB만 반투명 커피 갈색으로 변환. | 1.0000 |
+| ColdBrewStream6.png | 72×192 | SodaStream6.png | 대응 SodaStream과 같은 8프레임·알파·배치, RGB만 반투명 커피 갈색으로 변환. | 1.0000 |
+| ColdBrewStream7.png | 72×192 | SodaStream7.png | 대응 SodaStream과 같은 8프레임·알파·배치, RGB만 반투명 커피 갈색으로 변환. | 1.0000 |
+| SyrupDripNeutral0.png | 72×192 | SyrupDrip0.png | 대응 SyrupDrip의 모양·알파 보존, RGB #CDD0D1~#FFFFFF 회백색으로 중립화. 곱셈 착색용. | 1.0000 |
+| SyrupDripNeutral1.png | 72×192 | SyrupDrip1.png | 대응 SyrupDrip의 모양·알파 보존, RGB #CDD0D1~#FFFFFF 회백색으로 중립화. 곱셈 착색용. | 1.0000 |
+| SyrupDripNeutral2.png | 72×192 | SyrupDrip2.png | 대응 SyrupDrip의 모양·알파 보존, RGB #CDD0D1~#FFFFFF 회백색으로 중립화. 곱셈 착색용. | 1.0000 |
+| SyrupDripNeutral3.png | 72×192 | SyrupDrip3.png | 대응 SyrupDrip의 모양·알파 보존, RGB #CDD0D1~#FFFFFF 회백색으로 중립화. 곱셈 착색용. | 1.0000 |
+| PowderFall0.png | 72×192 | 신규 | 밝은 회백색 미세 분말 낙하 4프레임 시트에서 분할. 생성 헤이즈 제거 후 72×192 정렬; 0 시작, 1 낙하, 2 아래 도달, 3 작은 수면 퍼짐. 곱셈 착색용. | 해당 없음 |
+| PowderFall1.png | 72×192 | 신규 | 밝은 회백색 미세 분말 낙하 4프레임 시트에서 분할. 생성 헤이즈 제거 후 72×192 정렬; 0 시작, 1 낙하, 2 아래 도달, 3 작은 수면 퍼짐. 곱셈 착색용. | 해당 없음 |
+| PowderFall2.png | 72×192 | 신규 | 밝은 회백색 미세 분말 낙하 4프레임 시트에서 분할. 생성 헤이즈 제거 후 72×192 정렬; 0 시작, 1 낙하, 2 아래 도달, 3 작은 수면 퍼짐. 곱셈 착색용. | 해당 없음 |
+| PowderFall3.png | 72×192 | 신규 | 밝은 회백색 미세 분말 낙하 4프레임 시트에서 분할. 생성 헤이즈 제거 후 72×192 정렬; 0 시작, 1 낙하, 2 아래 도달, 3 작은 수면 퍼짐. 곱셈 착색용. | 해당 없음 |
+
+### 좌표·배치 보고
+
+좌표는 기존 2026-11-12 **배치 / 배치 2차**를 그대로 따른다. 원본 좌표는 PNG 왼쪽 위 기준, 창 좌표는 1100×700 기준이다.
+
+| 요소 | PNG 크기 / 원본 기준점 | 창 배치 |
+|---|---|---|
+| 펌프 7종 × 2상태 | 1000×800, 눌림 출구 (936,192), 원본 펌프 머리 픽셀 보존 | Tool (260,84,500,400), 눌림 출구 (728,180) |
+| 청 3종·말차·시나몬 × 2상태 | 1000×800, 숟가락 잡는 점 (428,116), 병 바닥 y792 | Tool (260,84,500,400), 잡는 점 (474,142), CheongGrab (446,104,56,86) |
+| 숟가락 5종 Full | 640×160, 잡는 점 (44,80) | 마우스−(22,40), 표시 320×80 |
+| 숟가락 5종 Pour | 640×320, 낙하 접점 약 (608,306) | (428,78,320,160), 창 접점 약 (732,231) |
+| 티백 상자 2종 | 1000×800, 원본 티백 포장 위치 유지 | Tool (260,84,500,400), TeaGrab (378,188,98,72) |
+| 콜드브루 정지·붓기 | 1000×800, 붓기 출구 기준점 (940,300) | Tool (260,84,500,400), 붓기 출구 (730,234) |
+| 콜드브루 줄기 | 72×192 ×8, 기존 SodaStream 알파·위상 그대로 | (712,234,36,67) ICE / h106 HOT |
+| 중립 시럽 방울·분말 | 72×192 ×4씩, 중심 x36, 하단 수면 퍼짐 | 숟가락용 (714,231,36,70) ICE / h109 HOT. 펌프용 기존 Stream_Pump 배치 사용 |
+
+- 창 전체를 1.3배 표시할 때 기존 문서처럼 부모 변환으로 확대한다. PNG 캔버스·잡는 점을 따로 잘라 쓰거나 재중앙 정렬하지 않는다.
+- 기존 그림과 50:50 겹침 + 차이 픽셀을 분홍색으로 강조한 `OverlayDifferences.png`, `Tools.png`, `Spoons.png`, `Effects.png`, `Validation.json`을 저장소 밖 아래 임시 폴더에 저장했다. 알파 50쌍과 조작부 RGB 보호영역 34개가 일치했다.
+- 검수 폴더: `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/drinktools-b`. `Validation.json`에는 각 파일의 원본·크기·알파 bbox·차이 bbox·IoU·보호영역 검사·기존 PNG 해시가 있다.
+
+### Unity 적용 및 주의점
+
+- 최종 검사: 요청 파일명 54개·RGBA·완전 투명 픽셀 RGB=0·기존 PNG 53개 해시·알파 50쌍·조작부 보호영역 34개 모두 통과. `bash .github/scripts/check-repo.sh`도 추적 파일 1993개 기준 통과했다. 새 PNG는 아직 미추적 파일이므로 `.meta` 동반 검사는 Unity 임포트 후 확인한다.
+- `PreviewAll.png`는 임시 폴더의 실제 1100×700 배치 합성 4종 모음이다. 블루 시럽·딸기청·말차·콜드브루를 원본 패널·컵·저울 위에 겹쳐 출구와 낙하점이 컵 안에 연결됨을 확인했다. 검수용 재료색 곱셈과 컵은 최종 도구 PNG에 포함하지 않는다.
+- 추가 콜드브루 유리 원화 생성은 지연되어 중단하고 미채택했다. 납품한 병은 기존 SodaBottle의 원본 기하에 커피색·기포 완화·생성 라벨 삽화를 합성한 버전이다.
+- 작업 종료 시 새 PNG 옆에 Unity의 자동 임포트로 생성된 `.meta`가 관찰됐다. 에이전트는 `.meta`를 직접 작성하거나 수정하지 않았다.
+
+1. Unity **6000.6.4f1**로 돌아가 새 PNG 54개를 임포트하여 `.meta`를 자동 생성한다.
+2. Sprite (2D and UI), Single, **Bilinear**, Mip Maps 끔, Alpha Is Transparency 켬, Max Size 2048, Mesh Full Rect로 확인한다.
+3. 코드 연결 담당자가 재료별 파일명을 연결하고 기존 배치·잡는 점을 유지한다. 이 작업은 코드 연결을 포함하지 않는다.
+4. Play에서 펌프 정지↔눌림, 청·말차·시나몬 숟가락 잡기→Full→Pour→복귀, 콜드브루 입구→줄기 연결을 HOT/ICE 각각 확인한다. 중립 방울·분말에는 런타임에서 재료색을 곱한다.
+
+### 생성 원화 대응
+
+생성 원화는 아래 경로에 보존하고, 최종 합성 PNG만 Assets에 저장했다. 바닐라 첫 병 편집은 기하를 직접 채택하지 않았으며 별도 투명 삽화를 라벨에 합성했다.
+
+| 원화 키 | 내장 image_gen 저장 원본 |
+|---|---|
+| vanilla | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-683d66d7-cb7c-4438-a790-8b6aa842a1de.png` |
+| vanillainsert | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-c4186452-ef99-4700-afc8-fe1c1360e8be.png` |
+| plain | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-33d207f7-ddbb-474f-81d6-eb3b95af0f0f.png` |
+| caramel | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-a4d3848b-90d2-4926-a987-8ec57638397e.png` |
+| hazelnut | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-6700d218-e1e6-451d-be28-a81477832b9e.png` |
+| chocolate | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-596b4061-b667-4af0-93d0-1703dc28813d.png` |
+| blue | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-d9dbae8f-ea72-4518-a022-a1943d19b6e0.png` |
+| condensed | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-2f3352a6-ba68-4d13-8dee-ac4806c08f13.png` |
+| strawberry | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-f5679d2b-8413-4bc3-a31f-879bf740aa52.png` |
+| grapefruit | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-d0b2b650-37fe-42cf-a15a-da93ae0d1c98.png` |
+| yuja | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-bf90b966-704b-4367-a661-c550a83b379d.png` |
+| matcha | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-3585b255-55d2-49f7-8a40-8ef58d5e61eb.png` |
+| cinnamon | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-2ec989ae-51d4-4ceb-81ff-cb0de5c45945.png` |
+| coldbrew | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-4f4e914a-4917-4ef8-926a-8ec131f64d7a.png` |
+| chamomile | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-1ad46ec9-ae07-400a-9991-66b0ed471ddb.png` |
+| earlgrey | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-a21f3ee7-c94a-4d18-8668-aeb92eb6f070.png` |
+| matchajar | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-8c6f83ab-b431-47a0-98da-02a6b70ec28b.png` |
+| cinnamonjar | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-47a1e3e7-6fc3-4c10-a806-fb7690b1c4d2.png` |
+| strawberryjar | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-a4d3f56c-cd35-4984-9cd0-83834d665e13.png` |
+| powderfall | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-cbf71911-3cc9-4715-9bf5-7e8774b2ce3e.png` |
+| matchafull | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-c82c4f80-d4d6-4426-a0f0-5b7c71484257.png` |
+| matchapour | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-dc53e19d-2c2f-4994-be1e-aad1962915c4.png` |
+| cinnamonfull | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-c16e3db0-a98f-4b11-9591-c5e3a74b54e3.png` |
+| cinnamonpour | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-070f748a-234d-49fd-bf07-7d6eeaa2a275.png` |
+| strawberryfull | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-0e87ac14-cb21-49de-9c21-6c448733db74.png` |
+| strawberrypour | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-44caf482-a7bb-4493-98e9-a4163820d7b7.png` |

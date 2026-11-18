@@ -9,8 +9,8 @@
 - 고해상도 이미지에 **계단식 픽셀 외곽선**을 쓴 "도트풍" 일러스트 (저해상도 원본 도트를 확대한 방식이 아님)
 - 부드러운 그라데이션보다 2~3단계 명암 블록을 쓴다
 - **카페 맵 그림은 예외**: 도트는 유지하되 깔끔하고 모던한 미니멀 스타일로 그린다 (웜 화이트 벽, 밝은 오크 바닥, 스테인리스·무광 검정 기기, 포인트 색은 세이지 그린 하나, 차콜색 얇은 외곽선). 2장 팔레트는 UI에만 적용한다. 시안 진행 중 ([ADR-0016](adr/0016-cafe-map-layout-and-modern-style.md))
-- **영업 중 기기 작업 창은 예외**: 도트 규칙을 적용하지 않은 부드러운 일러스트로 그리고 Bilinear 필터로 표시한다. 기준은 샷 내리기 창(`Art/UI/ShotRoom`)이고, 대상 폴더는 `Art/UI/` 의 `ShotRoom`, `KnockRoom`, `CupShelf`, `IceMaker`, `Water`, `DrinkRoom`, `DrinkTools`, `DrinkResult`, `ShakeRoom`, `TrayReturn`, `Dishwash`, `Pos`, `Stations` 이다. 글자는 게임 폰트(4장)를 쓴다. 영업 HUD, 일시정지 창, 아이템·재료 아이콘은 도트 그대로다 (2026-11-09 사용자 요청, 2026-11-12 재료 작업 창 `DrinkTools` 포함)
-- **커피잔 아이콘도 예외**: `Art/Icons/Items` 의 `CupCeramic*`, `CupPlastic*`, `DirtyCeramic`, `DirtyPlastic` 은 샷 내리기 창과 같은 깔끔한 일러스트로 그리고 Bilinear로 표시한다. 게임 안 이름은 도자기 잔 → **HOT 컵**, 플라스틱 컵 → **ICE 컵** (2026-11-09 사용자 요청)
+- **영업 중 기기 작업 창은 예외**: 도트 규칙을 적용하지 않은 부드러운 일러스트로 그리고 Bilinear 필터로 표시한다. 기준은 샷 내리기 창(`Art/UI/ShotRoom`)이고, 대상 폴더는 `Art/UI/` 의 `ShotRoom`, `KnockRoom`, `CupShelf`, `IceMaker`, `Water`, `DrinkRoom`, `DrinkTools`, `DrinkResult`, `ShakeRoom`, `TrayReturn`, `Dishwash`, `Pos`, `Stations` 이다. 글자는 게임 폰트(4장)를 쓴다. 영업 HUD, 일시정지 창, 아이템·재료 아이콘은 도트 그대로다 (2026-11-09 사용자 요청, 2026-11-12 재료 작업 창 `DrinkTools` 포함). HUD 의 주문 내역·레시피 버튼(`Art/UI/OrderBook/OrdersButton`, `RecipeButton`, `Badge`)도 현대적인 부드러운 일러스트로 바꿨다 (2026-11-17 사용자 요청). 재료 작업 창은 재료마다 전용 도구 그림을 두며, 공용 그림과 같은 캔버스·기하로 그린다 (ADR-0038)
+- **커피잔 아이콘도 예외**: `Art/Icons/Items` 의 `CupCeramic*`, `CupPlastic*`, `DirtyCeramic`, `DirtyPlastic` 은 샷 내리기 창과 같은 깔끔한 일러스트로 그리고 Bilinear로 표시한다. 게임 안 이름은 도자기 잔 → **HOT 컵**, 플라스틱 컵 → **ICE 컵** (2026-11-09 사용자 요청). 샷 컵 `ShotGlass`, `ShotGlassFull` 도 같은 예외로, 스테인리스 샷 피처 일러스트다 (2026-11-17 사용자 요청)
 
 ## 2. 팔레트
 
@@ -43,6 +43,7 @@
 ## 4. 글자
 
 - 게임 폰트: **Jua** (`Art/Fonts/Jua-Regular.ttf`, TMP는 `Art/Fonts/Jua SDF.asset`). 이미지 속 글자도 Jua로 조판한다. 2026-11-12 Galmuri11에서 변경 ([ADR-0026](adr/0026-game-font-jua.md))
+  - 금액은 `12,000원` 처럼 숫자 뒤에 "원"을 붙인다. Jua에 `₩` 글자가 없어 네모로 깨지기 때문 (2026-11-18 사용자 확정, 화면 전체 적용)
 - **UI는 도형(Unity 기본 박스, Outline)으로 그리지 않는다.** 창, 버튼, 입력 칸, 탭 등 모든 컴포넌트는 디자인 에셋(PNG)으로 만든다.
 - **고정 문구는 전부 이미지**로 넣는다: 창 제목, 버튼 이름, 탭 이름, 항목 이름("방문 손님", "총액"), 안내·경고 문구, 확인 팝업 메시지.
   - 버튼·창 제목은 버튼·패널 이미지에 직접 그린다.
@@ -104,3 +105,35 @@ Prompt set: <공통 스타일 프롬프트>
 | 칠판 패널 | `Art/UI/GameStart/Board.png` |
 | 배경 일러스트 | `Art/Title/CafeInterior.png` |
 | 슬라이더·탭 | `Art/UI/Settings/` |
+
+
+## 9. 음료 제조실 내용물 레이어 (2026-11-17)
+
+기존 `Art/UI/DrinkRoom/BigCup*`의 깔끔한 회화풍을 따른다. 컵 위에 전체 캔버스를 겹치는 마스크·전면 유리·도자기 액면·폼은 **512×640 RGBA**이며 UI에서는 256×320이다. 원본 컵의 투명 여백까지 유지한다. 작은 반복 텍스처는 LiquidShade 128×8, LiquidSurface 400×64, BubblesTile 64×64, IceCubes 300×170이다. 투명 픽셀의 RGB는 0이며 새 PNG의 `.meta`는 Unity가 생성한다. 상세 좌표·생성 공정은 [DrinkRoom 생성 기록](../Assets/_Project/Art/UI/DrinkRoom/Generation.md)의 2026-11-17 절에 있다.
+
+다음은 런타임 합성용 재료색 **제안**이다. 색 형식은 sRGB `#RRGGBBAA`이며 LiquidShade·LiquidSurface의 중성 RGB와 곱한다. 물·탄산은 매우 투명하고, 우유·스무디는 거의 불투명하다. 차색은 물 전체에 적용한다. 청·과일·블루 시럽에는 재료 구별에 필요한 분홍·주황·연두·청색을 사용한다. 게임 데이터의 용량·레시피·가격은 바꾸지 않는다.
+
+| 재료 키 | 색상 (#RRGGBBAA) | 표현 |
+|---|---|---|
+| `shot` | `#60351FEF` | 에스프레소·따뜻한 갈색 크레마 계열 |
+| `water_hot` | `#E7F4FC24` | 뜨거운 물·매우 옅은 투명 물색 |
+| `water_cold` | `#DDF3FF30` | 찬물·매우 옅은 투명 청색 |
+| `milk` | `#FFF4DEFA` | 우유·불투명 크림 |
+| `soda` | `#D9F5FF38` | 탄산수·매우 옅은 투명 청백색 |
+| `condensed_milk` | `#FFE2A8F5` | 연유·진한 크림 |
+| `syrup_plain` | `#F5E6BB65` | 일반 시럽·투명한 옅은 금색 |
+| `syrup_vanilla` | `#F5D69796` | 바닐라·옅은 꿀색 |
+| `syrup_caramel` | `#C47A32DC` | 카라멜·앰버 |
+| `syrup_hazelnut` | `#A56B3ACB` | 헤이즐넛·견과 갈색 |
+| `syrup_chocolate` | `#4C2C25F5` | 초콜릿·짙은 갈색 |
+| `syrup_blue` | `#268FCAD0` | 블루 시럽·선명한 청색 |
+| `cheong_strawberry` | `#CB3F52EB` | 딸기청·붉은 분홍 |
+| `cheong_grapefruit` | `#EF8655DC` | 자몽청·코랄 |
+| `cheong_yuja` | `#EFC24BD9` | 유자청·황금색 |
+| `tea_chamomile` | `#E5BD57B8` | 캐모마일·우린 물 전체에 적용 |
+| `tea_earlgrey` | `#AD682ED4` | 얼그레이·우린 물 전체에 적용 |
+| `smoothie_strawberry` | `#ED8D9AFF` | 딸기 스무디·불투명 분홍 |
+| `smoothie_mango` | `#FFC656FF` | 망고 스무디·불투명 노랑 |
+| `smoothie_hallabong` | `#FFA23FFF` | 한라봉 스무디·불투명 주황 |
+| `smoothie_melon` | `#B8D59AFF` | 멜론 스무디·불투명 연두 |
+| `smoothie_cookie` | `#D6C8B6FF` | 쿠키 스무디·불투명 베이지 |

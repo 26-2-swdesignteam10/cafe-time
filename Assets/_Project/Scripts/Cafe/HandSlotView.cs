@@ -71,6 +71,19 @@ namespace CafeTime.Cafe
             returning.Release(icon.transform, () => HandInventory.Instance != null && HandInventory.Instance[hand] == item, Land);
         }
 
+        // 기기 화면에서 꺼낸 물건이 from(월드 위치)에서 이 칸으로 날아 들어온다. 도착할 때까지 칸은 비어 보인다
+        public void FlyIn(Vector3 from, float fromScale, float seconds)
+        {
+            if (HandInventory.Instance[hand] == null || ghost != null) return;
+            if (returning != null) returning.Finish();
+            returning = DragGhost.Create(icon, owner.DragLayer, from);
+            returning.FlyIn(icon.transform, seconds, fromScale, Land);
+            lifted = true;
+            ShowIcon();
+        }
+
+        public float IconHeight => ((RectTransform)icon.transform).rect.height * icon.transform.lossyScale.y;
+
         void Land()
         {
             returning = null;

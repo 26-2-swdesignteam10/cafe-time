@@ -7,7 +7,7 @@ using UnityEngine;
 namespace CafeTime.EditorTools
 {
     // CafeTime > Create Game Balance : Resources/GameBalance.asset 생성 (ADR-0009)
-    // 이미 있으면 기존 수치를 보존하고 누락 베이커리 추가·재료 아이콘 연결을 한다.
+    // 이미 있으면 기존 수치를 보존하고 메뉴 구성 동기화(ADR-0038)·재료 아이콘 연결을 한다.
     public static class GameBalanceAssetBuilder
     {
         const string AssetPath = "Assets/_Project/Resources/GameBalance.asset";
@@ -25,11 +25,23 @@ namespace CafeTime.EditorTools
                 Debug.Log("GameBalance 에셋 생성: " + AssetPath);
             }
 
-            balance.EnsureBakeryCatalog();
+            balance.EnsureCatalog();
+            RaiseCupCounts(balance);
             EditorUtility.SetDirty(balance);
             AssignIcons(balance);
             AssetDatabase.SaveAssets();
             Selection.activeObject = balance;
+        }
+
+        // 기존 에셋의 컵 개수가 2026-11-18 늘린 값(HOT 16, ICE 20)보다 적으면 올린다. 더 많이 바꿔 둔 값은 그대로
+        static void RaiseCupCounts(GameBalance balance)
+        {
+            var so = new SerializedObject(balance);
+            var ceramic = so.FindProperty("ceramicCups");
+            var plastic = so.FindProperty("plasticCups");
+            ceramic.intValue = Mathf.Max(ceramic.intValue, 16);
+            plastic.intValue = Mathf.Max(plastic.intValue, 20);
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         // 아이콘 파일 이름 = 재료 id 의 PascalCase (bean → Bean.png, syrup_vanilla → SyrupVanilla.png)

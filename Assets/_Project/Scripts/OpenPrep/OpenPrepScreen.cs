@@ -15,7 +15,7 @@ namespace CafeTime.OpenPrep
         // 고정 문구(오픈 준비, 보유금, 탭 이름, 총액 ...)는 씬의 이미지 라벨이고, 여기서는 바뀌는 값만 다룬다
         [Header("상단")]
         [SerializeField] TMP_Text dayText;   // "DAY 3"
-        [SerializeField] TMP_Text moneyText; // "₩182,000"
+        [SerializeField] TMP_Text moneyText; // "182,000원"
 
         [Header("재료 목록")]
         [Tooltip("IngredientCategory 순서대로 (커피, 우유·액체, 시럽·청, 티, 스무디, 디저트)")]
@@ -28,7 +28,7 @@ namespace CafeTime.OpenPrep
         [Header("장바구니")]
         [SerializeField] TMP_Text cartText;
         [SerializeField] GameObject cartEmptyLabel;   // "담은 재료가 없습니다."
-        [SerializeField] TMP_Text totalText;          // "₩31,500"
+        [SerializeField] TMP_Text totalText;          // "31,500원"
         [SerializeField] TMP_Text remainingText;      // 구매 후 잔액 = 보유금 - 총액
         [SerializeField] TMP_Text rentText;           // 오늘 임대료 (하루 정산 때 낸다, SFR-071)
         [SerializeField] GameObject boughtLabel;      // "구매 완료!"
@@ -106,7 +106,7 @@ namespace CafeTime.OpenPrep
 
         void Refresh()
         {
-            moneyText.text = $"₩{Save.money:N0}";
+            moneyText.text = $"{Save.money:N0}원";
 
             foreach (var card in cards)
             {
@@ -116,18 +116,18 @@ namespace CafeTime.OpenPrep
 
             var sb = new StringBuilder();
             foreach (var pair in cart)
-                sb.Append($"{pair.Key.DisplayName} x{pair.Value}<pos=68%>₩{pair.Key.Price * pair.Value:N0}\n");
+                sb.Append($"{pair.Key.DisplayName} x{pair.Value}<pos=68%>{pair.Key.Price * pair.Value:N0}원\n");
             cartText.text = sb.ToString();
             cartEmptyLabel.SetActive(cart.Count == 0);
 
             int total = CartTotal();
             bool affordable = total <= Save.money;
-            totalText.text = $"₩{total:N0}";
+            totalText.text = $"{total:N0}원";
             totalText.color = affordable ? normalTextColor : warningColor;
             int remaining = Save.money - total;
-            remainingText.text = remaining < 0 ? $"-₩{-remaining:N0}" : $"₩{remaining:N0}";
+            remainingText.text = remaining < 0 ? $"-{-remaining:N0}원" : $"{remaining:N0}원";
             remainingText.color = affordable ? normalTextColor : warningColor;
-            rentText.text = $"₩{GameBalance.Instance.GetRent(Save.day):N0}";
+            rentText.text = $"{GameBalance.Instance.GetRent(Save.day):N0}원";
             buyButton.interactable = total > 0 && affordable; // 총액이 보유금보다 많으면 비활성화
         }
 

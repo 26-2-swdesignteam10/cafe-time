@@ -125,3 +125,34 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
 | PlasticButton.png | ICE 컵 | 72px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 600×600 |
 
 - 검수: 완성 PNG에서 한글 철자·공백·문장부호와 잘림을 눈으로 확인했다. 그림 포함 PNG는 지정 글자 영역 밖의 RGBA가 원본과 일치하고 알파·캔버스 크기가 동일한지 검사했다. 투명 라벨의 높이는 모두 유지했다. `.meta`, 코드, 씬, 프리팹, `.asset`, `docs/`는 수정하지 않았다. Unity에서 재임포트한 뒤 실제 표시 크기의 가독성과 라벨 폭 증가에 따른 배치를 확인해야 한다.
+
+## 2026-11-18 HOT 16개·뒤집힌 ICE 두 탑
+
+- 도구: OpenAI 내장 `image_gen.imagegen`으로 패널과 뒤집힌 PET 컵을 생성하고 Python/Pillow로 크기 정규화 및 실제 좌표 미리보기를 합성했다.
+- 스타일 참조: 기존 `CupShelf/Panel.png`, `CupShelf/IceCupStackBottom.png`, `docs/ART_STYLE.md`의 기기 작업 창 일러스트 예외. 따뜻한 오크·호두나무 프레임과 부드러운 플라스틱 반사를 유지했다.
+- 생성 원본 폴더: `C:/Users/k9425/.codex/generated_images/01a1ed28-09b3-70b1-9f34-eac1a8ac4ff3/`.
+- `Panel.png` 프롬프트: 기존 프레임·금테·벽·오른쪽 카운터를 유지하고 왼쪽 선반을 얇은 오크 4단으로 늘린다. 각 단에는 뒤집힌 HOT 컵 4개를 놓을 여유를 둔다. 오른쪽에는 ICE 두 탑을 위한 빈 벽과 카운터를 둔다. 컵·문자·숫자·컨트롤은 그리지 않는다. 원본 `exec-d80424b2-c58d-4a33-bd4c-61d1b7fd17c6.png`를 Lanczos로 2000×1280 RGBA 정규화했다. 생성된 실제 선반 높이에 맞춰 아래 좌표를 확정했다.
+- `IceCupInverted.png` 프롬프트: 참조 PET 컵을 물리적으로 뒤집는다. 좁고 막힌 바닥은 위, 넓고 말린 입구는 아래이며 아래 입구로 평면에 선다. 위에는 열린 입구가 보이면 안 된다. 약간 내려다보는 정면 시점, 중성 회색의 얇은 윤곽과 투명 벽, 왼쪽 위 반사광. 뚜껑·내용물·문자·바닥·그림자 없이 진짜 투명 배경. 원본 `exec-d2767ba3-9bdd-41ef-98ee-f612fcc3223f.png`를 280×372 RGBA로 축소했다.
+- 띠만 겹치는 후보는 고리가 떠 보이는 틈 때문에 제외했다. 최종 빌더는 같은 뒤집힌 컵 몸체 전체를 16px씩 위로 겹친다. 뒤에 그린 윗컵이 아랫컵 몸체를 덮어 옆면이 연속되고, 아래 입구 테두리는 개수만큼 남는다. 기존 입구가 위인 `IceCupStackBottom.png`·`IceCupStackRim.png`는 보존하지만 새 빌더에서는 사용하지 않는다.
+- 가변 수량은 PNG에 넣지 않고 TMP 26px로 표시한다. 새 그림에는 고정 문구도 없다.
+
+### 배치 (2026-11-18)
+
+1000×640 창의 왼쪽 위 기준. PNG 전체 캔버스 기준이며 이전 배치 표를 대체한다.
+
+| 요소 | x | y | w | h |
+|---|---:|---:|---:|---:|
+| Panel | 0 | 0 | 1000 | 640 |
+| HOT 클릭·반환 영역 | 48 | 98 | 540 | 400 |
+| HOT 각 컵 (열 c=0..3, 행 r=0..3) | 64 + 132c | 98 / 194 / 290 / 387 | 110 | 100 |
+| HOT 수량 (TMP) | 270 | 540 | 120 | 36 |
+| ICE 왼쪽 클릭·반환 영역 | 624 | 108 | 164 | 346 |
+| ICE 오른쪽 클릭·반환 영역 | 792 | 108 | 164 | 346 |
+| ICE 각 컵 (탑 t=0..1, 층 k=0..9) | 636 + 168t | 261 - 16k | 140 | 186 |
+| ICE 수량 (TMP) | 735 | 540 | 120 | 36 |
+| 닫기 버튼 (기존 공용 아트) | 900 | 36 | 64 | 64 |
+
+- HOT은 위쪽 왼쪽부터 16개, ICE는 왼쪽 탑의 아래→위 10개를 채운 뒤 오른쪽 탑의 아래→위 10개를 채운다. `iceLayers[0..9]`는 왼쪽, `[10..19]`는 오른쪽이다. 컵을 가져가면 배열 끝부터 사라진다.
+- ICE의 두 버튼은 모두 동일한 재고에서 한 개씩 가져온다. 두 탑 모두 빈 상태에서도 클릭·반환 영역을 유지하며, 빈 컵 반환은 기존 CupShelf.ReturnCup 동작을 따른다.
+- 미리보기: scratchpad `r3/c/CupShelf16Hot20Ice.png`, `CupShelf7Hot11Ice.png`, `CupShelf1Hot1Ice.png`, `CupShelf0Hot0Ice.png`. 실제 PNG·빌더 좌표·겹침 순서로 합성했다. 수량만 미리보기에서 Jua로 별도 조판했다.
+- Unity 6000.6.4f1에서 새 PNG를 임포트한 뒤 `CafeTime/Build Cafe Scene`으로 직렬화 연결을 다시 생성해야 한다. Sprite / Single / Bilinear / Mip Maps 끔 / Alpha Is Transparency 켬, 패널 Max Size 2048 이상. 새 `.meta`는 Unity가 생성한다. 이 작업에서 `.meta`·`.unity`·`.prefab`·`.asset`은 직접 수정하지 않았다. 새 ADR은 없다.

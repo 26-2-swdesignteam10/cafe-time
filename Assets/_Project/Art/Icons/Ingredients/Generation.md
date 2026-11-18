@@ -70,3 +70,93 @@ HoneyBread.png: 네모난 허니브레드 큐브를 모아 놓고 위에 휘핑�
 
 Unity 임포트: 에디터로 돌아가 자동 임포트 및 .meta 생성을 진행한다. Texture Type은 Sprite (2D and UI), Sprite Mode는 Single, Filter Mode는 Point (no filter), Generate Mip Maps는 끔, Alpha Is Transparency는 켬, Max Size는 2048로 설정한다. .meta는 직접 생성하거나 편집하지 않았다.
 
+
+
+## 2026-11-17 새 메뉴용 재료 아이콘 4종 (작업 C)
+
+- 도구: OpenAI 내장 `image_gen.imagegen`으로 파일별 개별 생성, Python 3 / Pillow 후처리.
+- 스타일 참조: `SyrupVanilla.png`, `Milk.png`, `SmoothieMango.png`, `docs/ART_STYLE.md`. 도트·3/4 시점·짙은 커피색 계단형 외곽선·왼쪽 위 조명.
+- 파일: `ColdBrew.png` 콜드브루 원액 병, `Matcha.png` 말차 파우더 통, `Cinnamon.png` 시나몬 파우더 통과 스틱, `VanillaIceCream.png` 바닐라 아이스크림 통. 모두 **256×256 RGBA**.
+- 공통 후처리: 실제 알파의 12 미만 헤이즈·작은 분리 잡점 제거, 3px 열기 연산으로 작은 외곽 돌출 정리. 실체 bbox 크롭 후 최대 길이201px로 최근접 보간, 32색 팔레트와 알파128 임계값으로 정리. x는 캔버스 중앙, 바닥 경계 **y226**(마지막 픽셀 y225). 완전 투명 RGB=0.
+- Unity **6000.6.4f1**에서 자동 임포트해 .meta 생성. Sprite / Single / **Point** / Mip Maps 끔 / Alpha Is Transparency 켬 / Max Size2048. 메뉴 데이터·레시피·코드 연결은 포함하지 않는다. 새 ADR은 없다.
+
+### 파일별 실제 생성 프롬프트와 원본
+
+**ColdBrew.png** — 참조 `SyrupVanilla.png`
+
+> Use case: stylized-concept. Production Unity ingredient icon, ONE isolated asset. Input is style reference for pixel scale, 3/4 view, dark coffee stepped outline thickness and warm cream palette. A squat dark amber glass bottle of cold brew concentrate, screw cap not pump, cream label showing coffee bean illustration only, very dark clear brown liquid. Crisp pixel art, 2-3 stepped shade blocks, upper-left light, no smooth gradients. Centered full object with padding, intended 256x256. REAL transparent background. NO words, letters, numbers, hands, watermark, checkerboard, ground or cast shadow.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-8fd4762b-ae0f-4e78-a3f3-140b5ea6bfe6.png`
+
+**Matcha.png** — 참조 `SmoothieMango.png`
+
+> Use case: stylized-concept. Production Unity ingredient icon, ONE isolated asset. Input is style reference for pixel scale, 3/4 view, dark coffee stepped outline thickness and warm cream palette. A small cylindrical matcha powder tin with green lid, pale green body and cream label showing a tea leaf and small mound of green powder illustration only. Crisp pixel art, 2-3 stepped shade blocks, upper-left light, no smooth gradients. Centered full object with padding, intended 256x256. REAL transparent background. NO words, letters, numbers, hands, watermark, checkerboard, ground or cast shadow.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-704f11b1-71a9-427d-844e-3de808956b2e.png`
+
+**Cinnamon.png** — 참조 `Milk.png`
+
+> Use case: stylized-concept. Production Unity ingredient icon, ONE isolated asset. Input is style reference for pixel scale, 3/4 view, dark coffee stepped outline thickness and warm cream palette. A small cinnamon powder spice shaker jar with brown cap, cream label with cinnamon stick illustration, and two short cinnamon sticks leaning against its bottom right. Crisp pixel art, 2-3 stepped shade blocks, upper-left light, no smooth gradients. Centered full object with padding, intended 256x256. REAL transparent background. NO words, letters, numbers, hands, watermark, checkerboard, ground or cast shadow.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-f9c7e98b-3e8f-440e-9a54-51040e87ea19.png`
+
+**VanillaIceCream.png** — 참조 `SmoothieMango.png`
+
+> Use case: stylized-concept. Production Unity ingredient icon, ONE isolated asset. Input is style reference for pixel scale, 3/4 view, dark coffee stepped outline thickness and warm cream palette. A squat round vanilla ice cream tub with cream lid, ivory body, cream label showing one vanilla blossom and an ivory ice cream scoop illustration only. Crisp pixel art, 2-3 stepped shade blocks, upper-left light, no smooth gradients. Centered full object with padding, intended 256x256. REAL transparent background. NO words, letters, numbers, hands, watermark, checkerboard, ground or cast shadow.
+
+생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e957-2f2c-7ac3-a135-5ea490a79811\exec-129b8a2b-ef45-4fd7-96aa-f1a39fd85e54.png`
+
+### 최종 검수 자료
+
+검수 PNG는 저장소 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/task-c/`에만 저장했다. `AssetsContact.png`는 전체15종, `SilhouetteOverlay.png`는 제조실 원본·신규·겹침·윤곽 비교, `LayoutChunky.png`·`LayoutSmooth.png`는 기존 제조실 배치 합성이다. 실제 크기·bbox·알파 비교는 `validation.json`, 프롬프트·원본 매핑은 `manifest.json`에 기록했다. 원화는 기본 생성 폴더에 보존했다.
+
+최종 PNG를 배경 위에서 눈으로 확인했다. 손·워터마크·체커보드·이미지 글자는 없으며 실제 RGBA 투명 배경이다. .meta·.cs·.unity·.prefab·.asset은 직접 생성·수정하지 않았다.
+
+### 최종 파일별 픽셀 배치
+
+| PNG | 크기 | 실체 bbox (왼쪽,위,오른쪽,아래) |
+|---|---|---|
+| ColdBrew.png | 256×256 | (73, 25, 182, 226) |
+| Matcha.png | 256×256 | (51, 25, 204, 226) |
+| Cinnamon.png | 256×256 | (61, 25, 195, 226) |
+| VanillaIceCream.png | 256×256 | (33, 25, 223, 226) |
+
+최종 저장소 검사: bash .github/scripts/check-repo.sh 통과 (추적 파일 1993개). 이 검사는 추적 파일 기준이며 새 PNG 15개는 Unity 임포트 후 .meta 생성과 임포트 설정을 별도로 확인한다.
+
+
+## 2026-11-17 콜드브루·말차·시나몬 아이콘 재제작 (작업 E)
+
+- 최종 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일 1993개), 작업 문서 `git diff --check` 통과. Unity Play 검수는 사용자 확인이 필요하다.
+- 도구: OpenAI 내장 image_gen.imagegen으로 파일별 개별 생성·편집, Python 3 / Pillow 후처리·검수. CLI/API 대체 사용 없음.
+- 스타일 참조: SyrupVanilla.png·Milk.png·CheongStrawberry.png·SmoothieMango.png·Bean.png의 도트·3/4 시점·짙은 커피색 외곽선·2~3단계 명암·크기감.
+- 후처리·좌표: 알파96 이상 실체 영역, 3px 열기 연산과 256px 축소 연결영역 검사로 미세한 분리 잡점을 제거했다. 실체 bbox를 최대 길이200px로 최근접 조정했다. 최종2px 도트 격자·32색(디더링 없음)·알파128 임계값. 중심 x128, 공통 바닥 경계 y226(마지막 픽셀 y225), 투명 RGB=0.
+- 검수: IngredientsComparison.png 및 IngredientsAt100.png에서 SyrupVanilla / ColdBrew / Milk / Matcha / CheongStrawberry / Cinnamon / SmoothieMango / Bean을 나란히 놓았다. 진갈색 원액 병과 커피콩 라벨, 열린 틴의 초록 가루와 대나무 스푼, 적갈색 파우더 통과 시나몬 스틱을 약100px 선반 크기에서도 구별할 수 있음을 확인했다.
+- Unity 적용: Unity 6000.6.4f1 자동 재임포트 후 Sprite / Single / Point / Mip Maps 끔 / Alpha Is Transparency 켬을 확인한다. 음료 제조실의 약100px 선반 슬롯에서 잘림과 구분을 Play로 확인한다.
+- 검수 합성·스크립트·원본 매핑은 저장소 밖 임시 폴더에만 저장: `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/1ac9cc50-e1f2-4923-a674-160ca3239d3d/scratchpad/codex/task-e/`. 후처리 build.py, 프롬프트·원본 Manifest.json, 픽셀 검사 Validation.json.
+- 같은 파일 이름·같은 크기의 PNG만 교체했다. 완전한 RGBA 투명 배경이며 손·워터마크·체커보드·글자는 없다. .meta·.cs·.unity·.prefab·.asset은 직접 생성·수정하지 않았다. 기존 기록 보존, 새 ADR·게임 데이터 변경 없음.
+
+### 파일별 프롬프트·배치
+
+| 파일 | 크기 | 실체 bbox (좌,상,우,하; 우·하는 배타 경계) |
+|---|---|---|
+| ColdBrew.png | 256×256 | (73, 26, 183, 226) |
+| Matcha.png | 256×256 | (28, 50, 228, 226) |
+| Cinnamon.png | 256×256 | (41, 26, 215, 226) |
+
+**ColdBrew.png**
+- 입력: `SyrupVanilla.png, Bean.png`
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e973-6339-7b70-be7b-7bae3b8f6f20\exec-8469afcd-5b72-4b4f-b9a5-1b953e09fb00.png`
+
+> Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: stylized-concept. Attached reference images are mandatory STYLE references. Match their actual detailed high-resolution dot illustration, approx 4px dark coffee outline at final 256px, crisp 2px stair steps, warm 2-3 shade clusters, three-quarter front view, upper-left light, no smooth gradients. ONE isolated ingredient sprite centered with 25px padding for a 256x256 canvas, readable at 100px. Real transparent alpha. No words, letters, numbers, hands, watermark, checkerboard, floor or shadows. A sturdy compact rectangular DARK BROWN amber glass cold brew concentrate bottle, short neck and dark screw cap, not pump. Very dark coffee brown liquid and small amber edge highlights. Large cream label with TWO recognizable coffee beans illustration only. Body wide enough for strong silhouette, rich dark coffee contrast with cream label.
+
+**Matcha.png**
+- 입력: `CheongStrawberry.png, SmoothieMango.png`
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e973-6339-7b70-be7b-7bae3b8f6f20\exec-67f4c8d6-21d1-42a5-b03b-f4f477dd723c.png`
+
+> Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: stylized-concept. Attached reference images are mandatory STYLE references. Match their actual detailed high-resolution dot illustration, approx 4px dark coffee outline at final 256px, crisp 2px stair steps, warm 2-3 shade clusters, three-quarter front view, upper-left light, no smooth gradients. ONE isolated ingredient sprite centered with 25px padding for a 256x256 canvas, readable at 100px. Real transparent alpha. No words, letters, numbers, hands, watermark, checkerboard, floor or shadows. An OPEN squat matcha powder tin with a deep dark green side wall and cream label bearing tea leaf picture, fresh GREEN POWDER visibly mounded inside oval open top, its green lid leaning just behind. One curved bamboo matcha scoop leaning diagonally at right, small green powder heap in spoon. Green powder and bamboo scoop must be clear at tiny size. No whisk.
+
+**Cinnamon.png**
+- 입력: `CheongStrawberry.png, Milk.png`
+- 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e973-6339-7b70-be7b-7bae3b8f6f20\exec-c7c46bed-8977-4fe9-817a-25bcb434d5bf.png`
+
+> Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: stylized-concept. Attached reference images are mandatory STYLE references. Match their actual detailed high-resolution dot illustration, approx 4px dark coffee outline at final 256px, crisp 2px stair steps, warm 2-3 shade clusters, three-quarter front view, upper-left light, no smooth gradients. ONE isolated ingredient sprite centered with 25px padding for a 256x256 canvas, readable at 100px. Real transparent alpha. No words, letters, numbers, hands, watermark, checkerboard, floor or shadows. A squat clear cinnamon powder spice jar with warm brown ridged shaker cap, red-brown cinnamon powder visibly filling the jar, large cream front label with cinnamon stick picture only. TWO substantial rolled cinnamon sticks leaning against bottom right of jar, recognizable rolled spiral ends. Red-brown powder and cinnamon sticks distinguish it from matcha and coffee.

@@ -26,7 +26,7 @@ namespace CafeTime.Cafe
         [SerializeField] Sprite failedHot;
         [SerializeField] Sprite failedIce;
 
-        [SerializeField] float duration = 2.5f;
+        [SerializeField] float duration = 1.5f;
         [SerializeField] float stampDelay = 0.3f;
 
         float shownAt;

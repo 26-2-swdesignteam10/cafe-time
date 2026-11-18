@@ -8,6 +8,7 @@ using UnityEditor.Events;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 using static CafeTime.EditorTools.BuilderUtil;
@@ -130,6 +131,7 @@ namespace CafeTime.EditorTools
 
             GameBalanceAssetBuilder.CreateOrUpdate();
             PrepareWorldSprites(MapArtDir, new[] { "Floor", "FloorKitchen", "Wall", "WallPlain", "WallKitchen", "WallTop", "Counter", "Door", "WorkDone", "WorkBubble", "CleanRequest" });
+            PrepareWorldSprites($"{MapArtDir}/Bakery", null); // 진열대 위 작은 빵 (ADR-0034)
             PrepareWorldSprites(PlayerArtDir, null);
             PrepareWorldSprites(CustomerArtDir, null);
             var worldHud = new[] { "PromptKey", "GaugeFrame", "GaugeFill" }; // 맵 위에 그리는 HUD 그림
@@ -303,8 +305,8 @@ namespace CafeTime.EditorTools
             var root = new GameObject("Decor").transform;
             for (int i = 0; i < 6; i++)
                 Decor("창문", root, "WindowHall", 12.75f + i * 2.1f, 13.4f, Vector2.one);
-            Decor("빵 진열대 왼쪽", root, "BreadShelf", 4.3f, 1.5f, new Vector2(1.9f, 5.06f));
-            Decor("빵 진열대 오른쪽", root, "BreadShelf", 7.7f, 1.5f, new Vector2(1.9f, 5.06f));
+            BreadShelf("빵 진열대 왼쪽", root, 4.3f, 0);
+            BreadShelf("빵 진열대 오른쪽", root, 7.7f, 1);
             foreach (float y in new[] { 1f, 2f, 4.4f, 5f, 6f, 7f }) // 사이 y3~4.4 는 좌석으로 가는 통로
                 Decor("화분 칸막이", root, "PlanterSegment", 10.5f, y, Vector2.one);
             for (int x = 11; x < MapWidth - 1; x++)
@@ -313,6 +315,50 @@ namespace CafeTime.EditorTools
                 Decor($"스툴 {i + 1}", root, "Stool", 11.8f + i * 1.03f, 11.1f, new Vector2(0.6f, 0.6f));
             foreach (float y in new[] { 2f, 4.6f, 7.2f, 9.8f })
                 Decor("부스", root, "Booth", 23.6f, y, new Vector2(2.56f, 1.6f));
+        }
+
+        // 빵 진열대 (SFR-056, ADR-0034): 빈 진열대(336x640px) 위에 재고만큼 작은 빵을 늘어놓는다.
+        // 아래쪽 손님 통로(y 1.25) 바로 위부터 포스기 앞 줄(y 7.25) 아래까지 홀 가운데를 세로로 채운다
+        const float BreadShelfY = 1.55f;
+        const int BreadShelfCount = 2;
+        // 칸 순서: 위 행부터 왼쪽→오른쪽 (Art/Sprites/Cafe/Generation.md "빵 진열대 재제작" 칸 좌표 표)
+        static readonly (string stockId, string sprite)[] BreadShelfItems =
+        {
+            ("dessert_strawberry_cake", "BakeryStrawberryCake"), ("dessert_croissant", "BakeryCroissant"),
+            ("dessert_bagel", "BakeryBagel"), ("dessert_waffle", "BakeryWaffle"),
+            ("dessert_sandwich", "BakerySandwich"), ("dessert_croque_monsieur", "BakeryCroqueMonsieur"),
+            ("dessert_cookie", "BakeryCookie"), ("dessert_honey_bread", "BakeryHoneyBread"),
+        };
+        // 칸 안쪽 선반 영역 (BreadShelf.png 픽셀, 왼쪽 아래 기준 x, y, 너비, 높이)
+        static readonly RectInt[] BreadShelfCellsPx =
+        {
+            new RectInt(30, 488, 128, 64), new RectInt(178, 488, 128, 64),
+            new RectInt(30, 346, 128, 64), new RectInt(178, 346, 128, 64),
+            new RectInt(30, 204, 128, 64), new RectInt(178, 204, 128, 64),
+            new RectInt(30, 62, 128, 64), new RectInt(178, 62, 128, 64),
+        };
+
+        static void BreadShelf(string name, Transform parent, float x, int index)
+        {
+            var go = WorldObject(name, parent, LoadSprite($"{MapArtDir}/BreadShelf.png"), x, BreadShelfY, new Vector2(1.9f, 5f));
+            go.AddComponent<SortingGroup>().sortingOrder = -1; // 캐릭터보다 항상 뒤, 그룹 안에서 빵이 진열대 앞
+            var view = new SerializedObject(go.AddComponent<BakeryShelfView>());
+            var ids = view.FindProperty("stockIds");
+            ids.arraySize = BreadShelfItems.Length;
+            for (int i = 0; i < BreadShelfItems.Length; i++) ids.GetArrayElementAtIndex(i).stringValue = BreadShelfItems[i].stockId;
+            SetArray(view, "sprites", BreadShelfItems.Select(i => (Object)LoadSprite($"{MapArtDir}/Bakery/{i.sprite}.png")).ToArray());
+            var cells = view.FindProperty("cells");
+            cells.arraySize = BreadShelfCellsPx.Length;
+            const float halfWidthPx = 336 / 2f; // 그림 기준점은 아래쪽 가운데
+            for (int i = 0; i < BreadShelfCellsPx.Length; i++)
+            {
+                var px = BreadShelfCellsPx[i];
+                cells.GetArrayElementAtIndex(i).rectValue = new Rect(
+                    (px.x - halfWidthPx) / PixelsPerUnit, (float)px.y / PixelsPerUnit, (float)px.width / PixelsPerUnit, (float)px.height / PixelsPerUnit);
+            }
+            view.FindProperty("shelfIndex").intValue = index;
+            view.FindProperty("shelfCount").intValue = BreadShelfCount;
+            view.ApplyModifiedPropertiesWithoutUndo();
         }
 
         static void Decor(string name, Transform parent, string sprite, float x, float y, Vector2 collider)
@@ -396,6 +442,11 @@ namespace CafeTime.EditorTools
             var icons = new SerializedObject(go.AddComponent<ItemIcons>());
             SetArray(icons, "sprites", System.Enum.GetNames(typeof(ItemSprite))
                 .Select(n => (Object)LoadSprite($"{ItemIconDir}/{n}.png")).ToArray());
+            var pictureIds = icons.FindProperty("menuPictureIds");
+            pictureIds.arraySize = CafeUiBuilder.MenuPictures.Length;
+            for (int i = 0; i < CafeUiBuilder.MenuPictures.Length; i++) pictureIds.GetArrayElementAtIndex(i).stringValue = CafeUiBuilder.MenuPictures[i].id;
+            SetArray(icons, "menuPictures", CafeUiBuilder.MenuPictures.Select(p => (Object)CafeUiBuilder.LoadMenuPicture(p.ice)).ToArray());
+            SetArray(icons, "menuPicturesHot", CafeUiBuilder.MenuPictures.Select(p => (Object)CafeUiBuilder.LoadMenuPicture(p.hot)).ToArray());
             icons.ApplyModifiedPropertiesWithoutUndo();
 
             var customers = new SerializedObject(managers.Customers);
@@ -616,13 +667,13 @@ namespace CafeTime.EditorTools
             return go.transform;
         }
 
-        // 커피잔 아이콘은 도트가 아닌 일러스트라 Bilinear (docs/ART_STYLE.md 1장)
+        // 커피잔·샷 컵 아이콘은 도트가 아닌 일러스트라 Bilinear (docs/ART_STYLE.md 1장, 샷 컵은 2026-11-17 스테인리스 일러스트로 교체)
         static void PrepareCupIcons()
         {
             foreach (var path in Directory.GetFiles(ItemIconDir, "*.png").Select(p => p.Replace('\\', '/')))
             {
                 string name = Path.GetFileNameWithoutExtension(path);
-                if (!name.StartsWith("Cup") && name != "DirtyCeramic" && name != "DirtyPlastic") continue;
+                if (!name.StartsWith("Cup") && !name.StartsWith("ShotGlass") && name != "DirtyCeramic" && name != "DirtyPlastic") continue;
                 if (!(AssetImporter.GetAtPath(path) is TextureImporter importer)) continue;
                 importer.filterMode = FilterMode.Bilinear;
                 importer.SaveAndReimport();

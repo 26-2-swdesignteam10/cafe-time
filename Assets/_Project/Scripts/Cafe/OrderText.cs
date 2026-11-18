@@ -10,9 +10,11 @@ namespace CafeTime.Cafe
         static readonly string[] CupCounts = { "", "한", "두", "세", "네", "다섯", "여섯", "일곱", "여덟" };
         static readonly string[] PieceCounts = { "", "하나", "두 개", "세 개", "네 개", "다섯 개", "여섯 개", "일곱 개", "여덟 개" };
 
-        // "ICE 바닐라라떼" / "딸기 케이크"
+        // "[ICE] 바닐라라떼" / "딸기라떼"(ICE 고정) / "딸기 케이크". HOT/ICE 중 하나로 고정된 메뉴는 온도를 붙이지 않는다 (2026-11-17 사용자 요청)
         public static string ItemLabel(MenuDefinition menu, Temperature temperature) =>
-            temperature == Temperature.None ? menu.DisplayName : $"{(temperature == Temperature.Hot ? "HOT" : "ICE")} {menu.DisplayName}";
+            temperature == Temperature.None || menu.OnlyTemperature != Temperature.None
+                ? menu.DisplayName
+                : $"[{(temperature == Temperature.Hot ? "HOT" : "ICE")}] {menu.DisplayName}";
 
         // 손님 주문 대사 (SFR-026). 메뉴 한 줄당 말풍선 하나: "아이스 바닐라라떼 한 잔이랑" / "딸기 케이크 하나 주세요."
         public static List<string> Sentences(IReadOnlyList<OrderLine> lines)

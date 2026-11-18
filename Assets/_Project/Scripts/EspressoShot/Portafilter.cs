@@ -142,6 +142,7 @@ namespace CafeTime.EspressoShot
         void SnapToSlot()
         {
             transform.SetParent(Slot.transform, false);
+            transform.localRotation = Quaternion.identity; // 기울여 놓은 받침대 슬롯이면 그 기울기를 따른다 (2026-11-18)
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
             rect.anchoredPosition = new Vector2(0f, Slot.portafilterOffsetY);
         }
@@ -159,6 +160,7 @@ namespace CafeTime.EspressoShot
             Refresh();                         // 그룹헤드에서 빼면 장착 그림 대신 내용물이 보이게
             group.blocksRaycasts = false;      // 드롭 위치의 슬롯을 레이캐스트로 찾기 위해
             transform.SetParent(rootCanvas.transform, true);
+            transform.localRotation = Quaternion.identity; // 끄는 동안은 똑바로
             transform.SetAsLastSibling();
         }
 

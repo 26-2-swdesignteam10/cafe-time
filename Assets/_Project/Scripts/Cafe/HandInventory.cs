@@ -5,15 +5,14 @@ using UnityEngine.EventSystems;
 
 namespace CafeTime.Cafe
 {
-    // 양손 인벤토리 (SFR-021): 왼손 / 오른손 2칸, 칸당 1개, 겹쳐 들 수 없음
+    // 손 인벤토리 (SFR-021): 4칸, 칸당 1개, 겹쳐 들 수 없음 (2026-11-17 사용자 요청으로 2칸 → 4칸, ADR-0038)
     public class HandInventory : MonoBehaviour
     {
-        public const int Left = 0;
-        public const int Right = 1;
+        public const int SlotCount = 4;
 
         public static HandInventory Instance { get; private set; }
 
-        readonly HeldItem[] hands = new HeldItem[2];
+        readonly HeldItem[] hands = new HeldItem[SlotCount];
 
         public event Action Changed;
 
@@ -32,14 +31,17 @@ namespace CafeTime.Cafe
 
         public HeldItem this[int hand] => hands[hand];
 
-        public bool HasSpace => hands[Left] == null || hands[Right] == null;
+        public bool HasSpace => Array.IndexOf(hands, null) >= 0;
 
-        public bool Holds<T>() where T : HeldItem => hands[Left] is T || hands[Right] is T;
+        public bool Holds<T>() where T : HeldItem => Array.Exists(hands, h => h is T);
 
-        // 빈 손(왼손 먼저)에 든다. 양손이 차 있으면 false → 호출한 화면이 '인벤토리가 가득 찼습니다.' 표시
+        // 조건에 맞는 물건을 든 첫 칸. 없으면 -1
+        public int Find(Predicate<HeldItem> match) => Array.FindIndex(hands, h => h != null && match(h));
+
+        // 빈 칸(왼쪽부터)에 든다. 모든 칸이 차 있으면 false → 호출한 화면이 '인벤토리가 가득 찼습니다.' 표시
         public bool TryAdd(HeldItem item)
         {
-            int hand = hands[Left] == null ? Left : hands[Right] == null ? Right : -1;
+            int hand = Array.IndexOf(hands, null);
             if (hand < 0) return false;
             hands[hand] = item;
             Changed?.Invoke();

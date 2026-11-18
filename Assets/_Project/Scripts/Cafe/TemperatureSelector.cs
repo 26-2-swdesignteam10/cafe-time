@@ -1,3 +1,4 @@
+using System;
 using CafeTime.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,9 @@ namespace CafeTime.Cafe
 
         public Temperature Current { get; private set; } = Temperature.Ice;
 
+        // 온도를 바꿀 때마다 (포스기 메뉴 카드 그림 갱신용)
+        public event Action Changed;
+
         void Awake()
         {
             hotButton.onClick.AddListener(() => Select(Temperature.Hot));
@@ -28,6 +32,7 @@ namespace CafeTime.Cafe
             Current = temperature;
             hotButton.image.sprite = temperature == Temperature.Hot ? hotSelected : hotNormal;
             iceButton.image.sprite = temperature == Temperature.Ice ? iceSelected : iceNormal;
+            Changed?.Invoke();
         }
 
         // 메뉴에 실제로 적용할 온도: 한쪽만 되는 메뉴는 그 온도, 디저트는 None

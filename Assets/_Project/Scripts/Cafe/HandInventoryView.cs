@@ -15,6 +15,8 @@ namespace CafeTime.Cafe
 
         public Transform DragLayer => dragLayer;
 
+        public HandSlotView Slot(int hand) => System.Array.Find(slots, s => s.Hand == hand);
+
         void Start()
         {
             HandInventory.Instance.Changed += Refresh;
