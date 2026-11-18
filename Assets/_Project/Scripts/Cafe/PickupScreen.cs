@@ -100,6 +100,7 @@ namespace CafeTime.Cafe
                 Toast.Show(ToastMessage.OrderSkipped);
             }
             called.Add(order);
+            if (AudioManager.Instance != null) AudioManager.Instance.PlayServe(); // 진동벨 호출 차임 (SFR-056)
             RefreshIfOpen();
             return CallResult.Called;
         }

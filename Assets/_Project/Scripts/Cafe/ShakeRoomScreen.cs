@@ -170,6 +170,8 @@ namespace CafeTime.Cafe
         {
             base.OnDisable();
             if (pourTime >= 0 && Mixer != null) FinishPour(); // 붓는 도중 닫으면 바로 붓기
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetBlenderRunning(false);
             CancelDrag();
         }
 
@@ -220,6 +222,9 @@ namespace CafeTime.Cafe
 
             // 가는 동안: 소용돌이, 흔들림
             bool blending = Blending;
+            // SFR-054: 실제로 갈리는 동안 믹서 모터음 재생
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetBlenderRunning(blending);
             if (whirl.gameObject.activeSelf != blending) whirl.gameObject.SetActive(blending);
             shaker.anchoredPosition = shakerRestPosition + (blending ? Random.insideUnitCircle * shakePixels : Vector2.zero);
             shaker.localEulerAngles = new Vector3(0, 0, blending ? Random.Range(-shakeDegrees, shakeDegrees) : 0);
@@ -277,6 +282,8 @@ namespace CafeTime.Cafe
                 pouring = false;
                 milkBlocked = true;
             }
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetWaterPouring(pouring, this);
             if (milkStream.gameObject.activeSelf != pouring) milkStream.gameObject.SetActive(pouring);
             if (pouring)
             {
@@ -347,6 +354,8 @@ namespace CafeTime.Cafe
 
         void CancelDrag()
         {
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetWaterPouring(false, this);
             if (draggingBase >= 0) jarScoops[draggingBase].SetActive(true);
             draggingBase = -1;
             draggingMilk = false;
@@ -379,6 +388,9 @@ namespace CafeTime.Cafe
             jar.anchoredPosition = Vector2.Lerp(jarRestPosition, pourPosition, tilt);
             jar.localEulerAngles = new Vector3(0, 0, Mathf.LerpAngle(0, pourAngle, tilt));
             bool streaming = tilt >= 1f;
+            // SFR-055: 스무디가 실제로 흘러나오는 동안 재생
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetSmoothiePouring(streaming);
             if (pourStream.gameObject.activeSelf != streaming) pourStream.gameObject.SetActive(streaming);
             if (streaming) fill = Mathf.MoveTowards(fill, 0, Time.deltaTime / (pourSeconds * 0.6f));
             // 용기에서 줄어든 만큼 컵이 아래부터 차오른다
@@ -390,6 +402,8 @@ namespace CafeTime.Cafe
 
         void FinishPour()
         {
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetSmoothiePouring(false);
             pourTime = -1;
             pourStream.gameObject.SetActive(false);
             jar.anchoredPosition = jarRestPosition;

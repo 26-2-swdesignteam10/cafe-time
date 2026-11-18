@@ -52,6 +52,11 @@ namespace CafeTime.Cafe
             }
             ice -= balance.IcePerScoop;
             Scoop.HasIce = true;
+
+            // SFR-039: 스쿱에 얼음이 담겼을 때 한 번 재생
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayIceScoop();
+
             Changed?.Invoke();
             return true;
         }

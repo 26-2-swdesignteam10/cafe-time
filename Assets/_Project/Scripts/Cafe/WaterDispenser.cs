@@ -71,6 +71,18 @@ namespace CafeTime.Cafe
                 if (left[zone] <= 0) done = true;
                 Changed?.Invoke();
             }
+
+            // SFR-041~043: 어느 한쪽이라도 물을 받는 동안 물소리 재생
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetWaterPouring(
+                    Filling(Hot) || Filling(Cold)
+                );
+        }
+
+        void OnDisable()
+        {
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetWaterPouring(false);
         }
 
         public float ZoneProgress(int zone) => Filling(zone) ? 1f - left[zone] / balance.WaterSeconds : -1f;

@@ -148,6 +148,7 @@ namespace CafeTime.EditorTools
             var tables = BuildSeating();
             BuildDecor();
             var managers = BuildManagers(tables);
+            BuildAudio();
             var ui = CafeUiBuilder.Build(managers);
             BuildStations(ui, managers.Business);
             var player = BuildPlayer();
@@ -411,6 +412,45 @@ namespace CafeTime.EditorTools
             public CustomerManager Customers;
             public BusinessDay Day;
             public GameObject Business;
+        }
+
+        // BGM·효과음 (PR #19). 음원은 Assets/_Project/Audio, 볼륨은 PR 작성자가 씬에서 맞춘 값
+        const string AudioDir = "Assets/_Project/Audio";
+
+        static void BuildAudio()
+        {
+            var go = new GameObject("AudioManager");
+            AudioSource Source(string name)
+            {
+                var child = new GameObject(name);
+                child.transform.SetParent(go.transform, false);
+                return child.AddComponent<AudioSource>();
+            }
+            var bgm = Source("BGMSource");
+            var sfx = Source("SFXSource");
+            var so = new SerializedObject(go.AddComponent<CafeTime.Core.AudioManager>());
+            Set(so, "bgmSource", bgm);
+            Set(so, "sfxSource", sfx);
+            (string field, string file, float volume)[] clips =
+            {
+                ("cafeBgm", "BGM/cafebgm.mp3", 0.1f), ("paymentClip", "SFX/cashsound.mp3", 0.3f),
+                ("buttonClickClip", "SFX/clicksound.ogg", 1f), ("customerEnterClip", "SFX/doorbellsound.mp3", 0.3f),
+                ("interactClip", "SFX/eclicksound.ogg", 0.7f), ("warningClip", "SFX/errorsound.mp3", 0.25f),
+                ("serveClip", "SFX/bellsound.mp3", 0.3f), ("waterPourClip", "SFX/waterpoursound.mp3", 0.25f),
+                ("workCompleteClip", "SFX/alarmsound.mp3", 0.2f), ("iceScoopClip", "SFX/icesound.mp3", 0.15f),
+                ("smoothiePourClip", "SFX/smoothiesound.mp3", 0.3f), ("blenderClip", "SFX/mixersound.mp3", 0.2f),
+                ("dishScrubClip", "SFX/scrubsound.mp3", 0.25f),
+            };
+            string[] volumes = { "bgmVolume", "paymentVolume", "buttonClickVolume", "customerEnterVolume", "interactVolume", "warningVolume",
+                                 "serveVolume", "waterPourVolume", "workCompleteVolume", "iceScoopVolume", "smoothiePourVolume", "blenderVolume", "dishScrubVolume" };
+            for (int i = 0; i < clips.Length; i++)
+            {
+                var clip = AssetDatabase.LoadAssetAtPath<AudioClip>($"{AudioDir}/{clips[i].file}");
+                if (clip == null) Debug.LogWarning($"음원 없음: {AudioDir}/{clips[i].file}");
+                Set(so, clips[i].field, clip);
+                so.FindProperty(volumes[i]).floatValue = clips[i].volume;
+            }
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         static Managers BuildManagers(CafeTable[] tables)

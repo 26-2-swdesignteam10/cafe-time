@@ -113,6 +113,8 @@ namespace CafeTime.Cafe
         protected override void OnDisable()
         {
             base.OnDisable();
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetWaterPouring(false, this);
             dragging = false;
             steeping = false;
             pumpHeld = false;
@@ -279,6 +281,13 @@ namespace CafeTime.Cafe
             }
             steepImage.enabled = steeping;
             ShowTool();
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetWaterPouring(
+                    IsPour && pouring,
+                    this
+                );
+
             pouring = false; // HoldButton 이 매 프레임 다시 켠다
         }
 

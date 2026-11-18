@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using CafeTime.Core;
 
 namespace CafeTime.Cafe
 {
@@ -30,11 +31,22 @@ namespace CafeTime.Cafe
         public static void Show(ToastMessage message)
         {
             if (instance == null) return;
+
             var sprite = instance.messages[(int)message];
+
             instance.label.sprite = sprite;
-            if (sprite != null) instance.label.rectTransform.sizeDelta = sprite.rect.size * 0.5f; // 글자 이미지는 절반 크기
+
+            if (sprite != null)
+            {
+                instance.label.rectTransform.sizeDelta =
+                    sprite.rect.size * 0.5f;
+            }
+
             instance.panel.SetActive(true);
             instance.hideAt = Time.unscaledTime + instance.duration;
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayWarning();
         }
 
         void Update()
