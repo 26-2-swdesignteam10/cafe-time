@@ -291,3 +291,9 @@ Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구
 - Unity 6000.6.4f1로 돌아가 16개 신규 PNG를 임포트하여 `.meta`를 자동 생성한다. DAY·Coin은 Sprite/Single, Point, Mip Maps 끔, Alpha Is Transparency 켬을 확인한다. 이번 작업에는 HUD 코드 연결·빌더 실행이 포함되지 않는다.
 
 - 검증 결과: PNG 18장 RGBA/크기/외부 투명 여백 검사 통과, 합성 미리보기 눈 검수 완료. bash .github/scripts/check-repo.sh 통과 (추적 파일 1993개). 이 검사는 신규 미추적 파일의 .meta 확인을 대신하지 않는다.
+## 2026-11-19 ToastGroupOrderExpired.png (ADR-0042)
+
+- 도구: Python / Pillow의 Jua-Regular.ttf 조판(4배 크기 렌더링 후 Lanczos 축소). AI 이미지 생성은 쓰지 않았다.
+- 스타일 참조: 같은 폴더의 기존 토스트(`ToastOrderSkipped.png` 등)와 같은 규격. 채움 `#380F00`, 채움 높이 50px, `#FCF0CA` 외곽선 3px(MaxFilter 7), 사방 투명 여백 8px, 전체 높이 72px.
+- 파일: `ToastGroupOrderExpired.png`, 829×72, RGBA. 문구: "단체 주문 시간이 지나 취소되었습니다."
+- 검수: 완성 PNG에서 철자·공백·마침표를 눈으로 확인했다.

@@ -31,5 +31,6 @@ namespace CafeTime.Cafe
         WaterFirst,             // 물을 먼저 받아 주세요. (티백, ADR-0028)
         CloseLid,               // 뚜껑을 덮어 주세요. (믹서기, ADR-0036)
         OpenLid,                // 뚜껑을 열어 주세요. (믹서기, ADR-0036)
+        GroupOrderExpired,      // 단체 주문 시간이 지나 취소되었습니다. (SFR-009, ADR-0042)
     }
 }

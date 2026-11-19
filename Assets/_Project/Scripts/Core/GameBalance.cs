@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace CafeTime.Core
@@ -51,6 +52,10 @@ namespace CafeTime.Core
         [SerializeField] float neutralSatisfaction = 60f;
         [Tooltip("하루 평판 변동 최대치 (+/-)")]
         [SerializeField] float maxReputationChange = 0.5f;
+
+        [Header("단체 주문 이벤트 (SFR-009, ADR-0042) — 임시값")]
+        [Tooltip("DAY별 영업 중 단체 주문. 해당 DAY가 없으면 이벤트 없음")]
+        [SerializeField] List<GroupOrderEvent> groupOrders = DefaultGroupOrders();
 
         [Header("레시피 (SFR-051) — 정량 임시값")]
         [SerializeField] List<RecipeDefinition> recipes = DefaultRecipes();
@@ -159,7 +164,13 @@ namespace CafeTime.Core
 
             recipes.RemoveAll(r => FindMenu(r.MenuId) is not { } m || !m.Allows(r.Temperature));
             foreach (var recipe in DefaultRecipes())
-                if (!recipes.Exists(r => r.MenuId == recipe.MenuId && r.Temperature == recipe.Temperature)) recipes.Add(recipe);
+            {
+                int index = recipes.FindIndex(r => r.MenuId == recipe.MenuId && r.Temperature == recipe.Temperature);
+                if (index < 0) recipes.Add(recipe);
+                // 샷이 들어가야 하는 레시피에 샷이 없으면 코드 레시피로 되돌린다. 정량 조절과 달리 다른 음료로 판정되기 때문
+                // (메뉴 개편 때 커피 레시피 12개의 샷이 딸기청 40g 으로 저장된 에셋 복구, ADR-0043)
+                else if (MissingShot(recipes[index], recipe)) recipes[index] = recipe;
+            }
 
             var orderedIngredients = new List<IngredientDefinition>();
             foreach (var ingredient in DefaultIngredients())
@@ -170,6 +181,9 @@ namespace CafeTime.Core
             foreach (var stock in DefaultStartingStock())
                 if (!startingStock.Exists(i => i.id == stock.id)) startingStock.Add(stock);
         }
+
+        static bool HasShot(RecipeDefinition recipe) => recipe.Amounts.Any(a => a.Key == RecipeKeys.Shot);
+        static bool MissingShot(RecipeDefinition saved, RecipeDefinition code) => HasShot(code) && !HasShot(saved);
 
         public int StartingMoney => startingMoney;
         public IReadOnlyList<IngredientStock> StartingStock => startingStock;
@@ -189,6 +203,8 @@ namespace CafeTime.Core
         public int TipPerPerson => tipPerPerson;
         public float NeutralSatisfaction => neutralSatisfaction;
         public float MaxReputationChange => maxReputationChange;
+        // 그 DAY의 단체 주문 이벤트. 없으면 null (SFR-009)
+        public GroupOrderEvent GroupOrderFor(int day) => groupOrders?.Find(e => e.day == day);
 
         public IReadOnlyList<RecipeDefinition> Recipes => recipes;
         public float PerfectTolerance => perfectTolerance;
@@ -286,6 +302,17 @@ namespace CafeTime.Core
             new DayDifficulty(22, 37, new[] { 2, 3, 3, 2 }, 19, 230),
             new DayDifficulty(21, 35, new[] { 2, 3, 3, 2 }, 18, 220),
             new DayDifficulty(20, 32, new[] { 2, 3, 3, 2 }, 18, 210), // DAY 15
+        };
+
+        // DAY 4 단체 주문 (SFR-009, docs/GAME_DATA.md 9장): 11:00 요청, 16:00 마감, ICE 6잔 ₩26,000 + 정확히 맞추면 30% 보너스
+        static List<GroupOrderEvent> DefaultGroupOrders() => new List<GroupOrderEvent>
+        {
+            new GroupOrderEvent(4, 11f, 16f, 0.3f, "day4_group_order", new List<GroupOrderEntry>
+            {
+                new GroupOrderEntry("americano", Temperature.Ice, 3),
+                new GroupOrderEntry("cafe_latte", Temperature.Ice, 2),
+                new GroupOrderEntry("vanilla_latte", Temperature.Ice, 1),
+            }),
         };
 
         static int[] DefaultRent()

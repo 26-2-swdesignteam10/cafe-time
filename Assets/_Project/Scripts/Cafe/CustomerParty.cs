@@ -48,7 +48,15 @@ namespace CafeTime.Cafe
         //  - 대기 시간: 인내심을 다 쓸수록 최대 -30
         public float Satisfaction(IReadOnlyList<HeldItem> received, float servePatience)
         {
-            var remaining = Wanted.Where(l => !l.Menu.IsDessert).SelectMany(l => Enumerable.Repeat((l.Menu, l.Temperature), l.Quantity)).ToList();
+            float score = MatchScore(Wanted, received);
+            score -= 30f * Mathf.Clamp01(WaitedSeconds / servePatience);
+            return Mathf.Clamp(score, 0f, 100f);
+        }
+
+        // 원한 음료와 받은 물건을 비교한 점수 (0~100, 대기 시간 제외). 단체 주문도 같은 기준을 쓴다 (ADR-0042)
+        public static float MatchScore(IEnumerable<OrderLine> wanted, IReadOnlyList<HeldItem> received)
+        {
+            var remaining = wanted.Where(l => !l.Menu.IsDessert).SelectMany(l => Enumerable.Repeat((l.Menu, l.Temperature), l.Quantity)).ToList();
             int total = Mathf.Max(1, remaining.Count);
             float score = 100f;
             int wrong = 0;
@@ -63,7 +71,6 @@ namespace CafeTime.Cafe
             }
             // 다른 음료·못 받은 음료 1개당 −100/주문 개수. 다른 음료가 못 받은 자리를 대신하면 한 번만 깎는다 (ADR-0018 덜 채운 서빙)
             score -= 100f / total * Mathf.Max(wrong, remaining.Count);
-            score -= 30f * Mathf.Clamp01(WaitedSeconds / servePatience);
             return Mathf.Clamp(score, 0f, 100f);
         }
 

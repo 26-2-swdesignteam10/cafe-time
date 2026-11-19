@@ -19,6 +19,9 @@ namespace CafeTime.Cafe
         [SerializeField] Transform slotContainer;
         [SerializeField] Button slotTemplate;   // 자리 그림 + 자식 "Icon"
         [SerializeField] GameObject calledMark; // 진동벨로 호출해 손님이 받으러 오는 중
+        [Tooltip("단체 주문일 때만 보이는 줄: '단체 주문' 글자 이미지 + 마감 시각 (ADR-0042)")]
+        [SerializeField] GameObject groupRow;
+        [SerializeField] TMP_Text deadlineText;
         [SerializeField, Range(0f, 1f)] float hintAlpha = 0.35f; // 빈 자리의 놓아야 할 음료 그림
 
         readonly List<Button> slots = new List<Button>();
@@ -33,6 +36,7 @@ namespace CafeTime.Cafe
         {
             this.order = order;
             numberText.text = $"#{order.Number}";
+            GroupDeadline.Show(order, groupRow, deadlineText);
             var sb = new StringBuilder();
             for (int i = 0; i < order.PreparationLines.Count; i++)
             {
