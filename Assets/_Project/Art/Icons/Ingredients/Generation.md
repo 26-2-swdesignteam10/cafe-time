@@ -160,3 +160,16 @@ Unity 임포트: 에디터로 돌아가 자동 임포트 및 .meta 생성을 진
 - 생성 원본: `C:\Users\k9425\.codex\generated_images\01a1e973-6339-7b70-be7b-7bae3b8f6f20\exec-c7c46bed-8977-4fe9-817a-25bcb434d5bf.png`
 
 > Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: stylized-concept. Attached reference images are mandatory STYLE references. Match their actual detailed high-resolution dot illustration, approx 4px dark coffee outline at final 256px, crisp 2px stair steps, warm 2-3 shade clusters, three-quarter front view, upper-left light, no smooth gradients. ONE isolated ingredient sprite centered with 25px padding for a 256x256 canvas, readable at 100px. Real transparent alpha. No words, letters, numbers, hands, watermark, checkerboard, floor or shadows. A squat clear cinnamon powder spice jar with warm brown ridged shaker cap, red-brown cinnamon powder visibly filling the jar, large cream front label with cinnamon stick picture only. TWO substantial rolled cinnamon sticks leaning against bottom right of jar, recognizable rolled spiral ends. Red-brown powder and cinnamon sticks distinguish it from matcha and coffee.
+
+
+## 2026-11-18 레몬청 (`cheong_lemon`) 추가
+
+- 도구: OpenAI 내장 `image_gen.imagegen` 파일별 개별 편집, Python 3 / Pillow 정렬·마스킹·색상 조정·알파 검사. CLI/API 대체 사용 없음.
+- 스타일 참조: `CheongYuja.png`(편집·기하 기준), `CheongStrawberry.png`(도트 기법), `docs/ART_STYLE.md`.
+- 공통 프롬프트: “Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: precise-object-edit.”
+- `CheongLemon.png` — **256×256 RGBA**. 개별 프롬프트: “Edit this EXACT 256x256 pixel icon. Same jar lid label framing outlines and side fruit silhouette, crisp pixel stair steps and 2-3 tone blocks. Replace yuja with pale bright lemon yellow #F3E25A preserve containing round thin lemon cross sections, white pith rings and radial pulp segments. Label picture and fruit beside jar are lemon. No text. True transparent alpha background, no checkerboard, no watermark. Do not crop, recenter, enlarge, move, or redesign any object.”
+- 방법: 기존 유자청처럼 같은 병·뚜껑·라벨·시점의 내용물과 과일 그림만 교체했다. 원화를 불투명 bbox에 최근접 정렬해 원본 내부에 합성하고, 원본 뚜껑·외곽선과 전체 알파를 보존했다. 기준색 **#F3E25A** 계열로 조정, 투명 여백·최종 캔버스 유지, 재중앙 배치 없음. 글자 없음.
+- 유자청 대비 전체 알파 값·bbox 동일, 위치 차이 **0px**, 알파 IoU **1.0000**. 원본: `C:\Users\k9425\.codex\generated_images\01a1eec7-150b-7282-b3ef-ba15a944d660\exec-9bb4c411-bd45-4c42-9098-4594e7e3891d.png`.
+- 검수 자료·실제 전체 프롬프트·후처리 스크립트: 저장소 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/3c877158-9d17-4156-bff5-e3db1a17f799/scratchpad/lemon/manifest.json`, `build.py`, `Validation.json`, `Preview.png`. 기존 PNG SHA-256 보존 검사. 새 ADR 없음. `.meta` 직접 생성 없음.
+- Unity 6000.6.4f1에서 자동 임포트해 `.meta`를 생성한다. Sprite / Single / **Point** / Mip Maps 끔 / Alpha Is Transparency 켬. 코드 연결은 포함하지 않는다.
+- 작업 종료 시 Unity 자동 임포트로 새 PNG 옆 .meta가 생성된 것을 관찰했다. 에이전트는 .meta를 직접 생성·수정하지 않았다.

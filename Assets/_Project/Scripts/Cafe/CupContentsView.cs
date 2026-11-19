@@ -189,7 +189,7 @@ namespace CafeTime.Cafe
             color.a = Mathf.Max(color.a, ceramicMinAlpha);
             ceramicTop.color = color;
             var contents = cup.Contents;
-            foam.enabled = !cup.Blended && contents.Get(RecipeKeys.Shot) > 0 && contents.Get("milk") > 0;
+            foam.enabled = !cup.Blended && contents.Get(RecipeKeys.Shot) > 0 && (contents.Get("milk") > 0 || contents.Get(RecipeKeys.SteamedMilk) > 0);
         }
 
         // 무게 × 불투명도로 색을 섞는다 (물처럼 투명한 재료는 색에 적게 들어감)

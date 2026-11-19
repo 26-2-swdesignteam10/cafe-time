@@ -9,7 +9,7 @@
 - 고해상도 이미지에 **계단식 픽셀 외곽선**을 쓴 "도트풍" 일러스트 (저해상도 원본 도트를 확대한 방식이 아님)
 - 부드러운 그라데이션보다 2~3단계 명암 블록을 쓴다
 - **카페 맵 그림은 예외**: 도트는 유지하되 깔끔하고 모던한 미니멀 스타일로 그린다 (웜 화이트 벽, 밝은 오크 바닥, 스테인리스·무광 검정 기기, 포인트 색은 세이지 그린 하나, 차콜색 얇은 외곽선). 2장 팔레트는 UI에만 적용한다. 시안 진행 중 ([ADR-0016](adr/0016-cafe-map-layout-and-modern-style.md))
-- **영업 중 기기 작업 창은 예외**: 도트 규칙을 적용하지 않은 부드러운 일러스트로 그리고 Bilinear 필터로 표시한다. 기준은 샷 내리기 창(`Art/UI/ShotRoom`)이고, 대상 폴더는 `Art/UI/` 의 `ShotRoom`, `KnockRoom`, `CupShelf`, `IceMaker`, `Water`, `DrinkRoom`, `DrinkTools`, `DrinkResult`, `ShakeRoom`, `TrayReturn`, `Dishwash`, `Pos`, `Stations` 이다. 글자는 게임 폰트(4장)를 쓴다. 영업 HUD, 일시정지 창, 아이템·재료 아이콘은 도트 그대로다 (2026-11-09 사용자 요청, 2026-11-12 재료 작업 창 `DrinkTools` 포함). HUD 의 주문 내역·레시피 버튼(`Art/UI/OrderBook/OrdersButton`, `RecipeButton`, `Badge`)도 현대적인 부드러운 일러스트로 바꿨다 (2026-11-17 사용자 요청). 재료 작업 창은 재료마다 전용 도구 그림을 두며, 공용 그림과 같은 캔버스·기하로 그린다 (ADR-0038)
+- **영업 중 기기 작업 창은 예외**: 도트 규칙을 적용하지 않은 부드러운 일러스트로 그리고 Bilinear 필터로 표시한다. 기준은 샷 내리기 창(`Art/UI/ShotRoom`)이고, 대상 폴더는 `Art/UI/` 의 `ShotRoom`, `KnockRoom`, `CupShelf`, `IceMaker`, `Water`, `DrinkRoom`, `DrinkTools`, `SteamRoom`, `DrinkResult`, `ShakeRoom`, `TrayReturn`, `Dishwash`, `Pos`, `Stations` 이다. 글자는 게임 폰트(4장)를 쓴다. 영업 HUD, 일시정지 창, 아이템·재료 아이콘은 도트 그대로다 (2026-11-09 사용자 요청, 2026-11-12 재료 작업 창 `DrinkTools` 포함). HUD 의 주문 내역·레시피 버튼(`Art/UI/OrderBook/OrdersButton`, `RecipeButton`, `Badge`)도 현대적인 부드러운 일러스트로 바꿨다 (2026-11-17 사용자 요청). 재료 작업 창은 재료마다 전용 도구 그림을 두며, 공용 그림과 같은 캔버스·기하로 그린다 (ADR-0038)
 - **커피잔 아이콘도 예외**: `Art/Icons/Items` 의 `CupCeramic*`, `CupPlastic*`, `DirtyCeramic`, `DirtyPlastic` 은 샷 내리기 창과 같은 깔끔한 일러스트로 그리고 Bilinear로 표시한다. 게임 안 이름은 도자기 잔 → **HOT 컵**, 플라스틱 컵 → **ICE 컵** (2026-11-09 사용자 요청). 샷 컵 `ShotGlass`, `ShotGlassFull` 도 같은 예외로, 스테인리스 샷 피처 일러스트다 (2026-11-17 사용자 요청)
 
 ## 2. 팔레트
@@ -102,7 +102,7 @@ Prompt set: <공통 스타일 프롬프트>
 | 크림 패널 | `Art/UI/Quit/Panel.png`, `Art/UI/Settings/Panel.png` |
 | 주요 / 보조 버튼 | `Art/UI/Quit/Yes.png` / `Art/UI/Quit/No.png` |
 | 큰 메뉴 버튼 | `Art/UI/GameStart/NewGame.png`, `Art/Title/MenuStart.png` |
-| 칠판 패널 | `Art/UI/GameStart/Board.png` |
+| 칠판 패널 | `Art/UI/GameStart/Board.png`, `Art/UI/Score/Panel.png` (득점 결과, 2026-11-18: 분필 글씨 기본 `#FCF0CA`·강조 `#F1D889`·감점 `#EDA6A1`, 손그림 분필 아이콘) |
 | 배경 일러스트 | `Art/Title/CafeInterior.png` |
 | 슬라이더·탭 | `Art/UI/Settings/` |
 
@@ -119,9 +119,9 @@ Prompt set: <공통 스타일 프롬프트>
 | `water_hot` | `#E7F4FC24` | 뜨거운 물·매우 옅은 투명 물색 |
 | `water_cold` | `#DDF3FF30` | 찬물·매우 옅은 투명 청색 |
 | `milk` | `#FFF4DEFA` | 우유·불투명 크림 |
+| `milk_steamed` | `#FFE8C4FA` | 스팀 우유·기존 우유보다 따뜻한 크림, 미세 거품 (2026-11-19) |
 | `soda` | `#D9F5FF38` | 탄산수·매우 옅은 투명 청백색 |
 | `condensed_milk` | `#FFE2A8F5` | 연유·진한 크림 |
-| `syrup_plain` | `#F5E6BB65` | 일반 시럽·투명한 옅은 금색 |
 | `syrup_vanilla` | `#F5D69796` | 바닐라·옅은 꿀색 |
 | `syrup_caramel` | `#C47A32DC` | 카라멜·앰버 |
 | `syrup_hazelnut` | `#A56B3ACB` | 헤이즐넛·견과 갈색 |
@@ -130,6 +130,7 @@ Prompt set: <공통 스타일 프롬프트>
 | `cheong_strawberry` | `#CB3F52EB` | 딸기청·붉은 분홍 |
 | `cheong_grapefruit` | `#EF8655DC` | 자몽청·코랄 |
 | `cheong_yuja` | `#EFC24BD9` | 유자청·황금색 |
+| `cheong_lemon` | `#F3E25AD9` | 레몬청·밝은 레몬 노랑 (2026-11-18 추가) |
 | `tea_chamomile` | `#E5BD57B8` | 캐모마일·우린 물 전체에 적용 |
 | `tea_earlgrey` | `#AD682ED4` | 얼그레이·우린 물 전체에 적용 |
 | `smoothie_strawberry` | `#ED8D9AFF` | 딸기 스무디·불투명 분홍 |
@@ -137,3 +138,18 @@ Prompt set: <공통 스타일 프롬프트>
 | `smoothie_hallabong` | `#FFA23FFF` | 한라봉 스무디·불투명 주황 |
 | `smoothie_melon` | `#B8D59AFF` | 멜론 스무디·불투명 연두 |
 | `smoothie_cookie` | `#D6C8B6FF` | 쿠키 스무디·불투명 베이지 |
+
+## 10. 시간대 조명 (2026-11-19)
+
+카페 맵의 URP 2D Global Light 색·강도 **제안**이다. 색은 sRGB `#RRGGBB`이며, 실내 전체에 곱해지므로 옅은 크림에서 살구색까지 제한해 바닥·가구·캐릭터의 구분을 유지한다. 현재 씬의 흰색·강도 1 설정은 이번 작업에서 변경하지 않았다.
+
+| 시간대 | Global Light 색 | 강도 | 의도 |
+|---|---|---|---|
+| 아침 09:00~12:00 | `#FFF5DF` | 1.08 | 밝고 따뜻한 햇빛, 선명한 하늘과 대비 |
+| 낮 12:00~15:00 | `#FFFBF3` | 1.00 | 거의 중성인 부드러운 크림빛 |
+| 노을 시작 15시 직후 | `#FFE7D2` | 0.98 | 약한 살구빛으로 전환 |
+| 노을 끝 18:00 | `#FFD0B8` | 0.86 | 가장 짙은 따뜻한 노을, 명암 구분 유지 |
+
+창문은 `Art/Sprites/Cafe/WindowHallMorning.png`, `WindowHallNoon.png`, `WindowHallSunset.png`를 사용한다. 모두 원본 `WindowHall.png`와 동일한 256×160 RGBA이며, 원본 창틀 RGBA·알파·나무와 구름의 픽셀 좌표를 유지하고 하늘·구름·나무의 색만 바꿨다. 낮은 원본과 픽셀이 같다. 노을 하늘은 도트 스타일을 유지하는 단계식 보라→분홍→주황 그라데이션이며, 해 대신 기존 구름 아래쪽에 금빛 가장자리를 넣었다.
+
+실제 `Floor`, `WallPlain`, `Table`, `ChairLeft`, `StationEspresso`, `Booth`, `PlayerDown0` 스프라이트를 배치해 네 시간대를 육안 점검했다. 미리보기는 sRGB를 선형 RGB로 변환한 뒤 `스프라이트 × 조명색 × 강도`를 계산하고 다시 sRGB로 변환한 근사치다. 창문에도 같은 조명을 곱했다. 노을 시작의 창문은 낮 85% + 노을 15%, 노을 끝은 노을 100%로 합성한 검수용 예시이며 런타임 전환 비율을 확정하지 않는다. Unity 렌더링·색 공간·머티리얼에 따른 최종 모습은 에디터에서 확인한다. 상세 프롬프트와 검수 경로는 [생성 기록](../Assets/_Project/Art/Sprites/Cafe/Generation.md)의 2026-11-19 절에 있다.

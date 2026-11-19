@@ -27,6 +27,8 @@ namespace CafeTime.Cafe
         [SerializeField] Button completeButton;
         [SerializeField] JudgeResultView result;
         [SerializeField] IngredientToolScreen toolScreen;
+        [SerializeField] Button steamButton;   // 우유 스티밍 창 열기 (ADR-0044)
+        [SerializeField] SteamScreen steamScreen;
 
         static DrinkStation Station => DrinkStation.Instance;
 
@@ -52,6 +54,7 @@ namespace CafeTime.Cafe
             BindSpot(scale, PlaceOnScale, Station.TakeCup, () => Station.OnScale != null);
             emptyButton.onClick.AddListener(Station.Empty);
             completeButton.onClick.AddListener(Station.Complete);
+            steamButton.onClick.AddListener(() => { tooltip.Hide(); steamScreen.Open(); }); // 잔이 없어도 피처에 우유를 붓고 데울 수 있다
         }
 
         protected override void OnDestroy()
@@ -74,6 +77,7 @@ namespace CafeTime.Cafe
         public override void Close()
         {
             if (toolScreen != null && toolScreen.gameObject.activeSelf) toolScreen.Close();
+            if (steamScreen != null && steamScreen.gameObject.activeSelf) steamScreen.Close();
             base.Close();
         }
 

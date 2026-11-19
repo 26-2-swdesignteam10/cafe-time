@@ -142,11 +142,13 @@ namespace CafeTime.EditorTools
             PrepareCupIcons();
 
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            new GameObject("Global Light 2D").AddComponent<Light2D>().lightType = Light2D.LightType.Global;
+            var globalLight = new GameObject("Global Light 2D").AddComponent<Light2D>();
+            globalLight.lightType = Light2D.LightType.Global;
 
             var walls = BuildMap();
             var tables = BuildSeating();
-            BuildDecor();
+            var windows = BuildDecor();
+            BuildDaylight(globalLight, windows);
             var managers = BuildManagers(tables);
             BuildAudio();
             var ui = CafeUiBuilder.Build(managers);
@@ -301,11 +303,12 @@ namespace CafeTime.EditorTools
         }
 
         // 가구 (ADR-0016, 0031): 빵 진열대는 손님 픽업 위치이며 플레이어 상호작용은 없다. 창문, 화분 칸막이, 창가 바, 스툴, 부스 (퇴식구 받침대는 2026-11-12 퇴식구 그림에 합침)
-        static void BuildDecor()
+        static GameObject[] BuildDecor()
         {
             var root = new GameObject("Decor").transform;
-            for (int i = 0; i < 6; i++)
-                Decor("창문", root, "WindowHall", 12.75f + i * 2.1f, 13.4f, Vector2.one);
+            var windows = new GameObject[6];
+            for (int i = 0; i < windows.Length; i++)
+                windows[i] = Window(root, 12.75f + i * 2.1f, 13.4f);
             BreadShelf("빵 진열대 왼쪽", root, 4.3f, 0);
             BreadShelf("빵 진열대 오른쪽", root, 7.7f, 1);
             foreach (float y in new[] { 1f, 2f, 4.4f, 5f, 6f, 7f }) // 사이 y3~4.4 는 좌석으로 가는 통로
@@ -316,7 +319,44 @@ namespace CafeTime.EditorTools
                 Decor($"스툴 {i + 1}", root, "Stool", 11.8f + i * 1.03f, 11.1f, new Vector2(0.6f, 0.6f));
             foreach (float y in new[] { 2f, 4.6f, 7.2f, 9.8f })
                 Decor("부스", root, "Booth", 23.6f, y, new Vector2(2.56f, 1.6f));
+            return windows;
         }
+
+        // 창문: 아래 그림 + 교차 페이드용 위 그림 (DaylightCycle). 둘을 묶어 캐릭터보다 항상 뒤
+        static GameObject Window(Transform parent, float x, float y)
+        {
+            var go = WorldObject("창문", parent, LoadSprite($"{MapArtDir}/WindowHallMorning.png"), x, y, Vector2.one);
+            go.AddComponent<SortingGroup>().sortingOrder = -1;
+            var over = new GameObject("Over").AddComponent<SpriteRenderer>();
+            over.transform.SetParent(go.transform, false);
+            over.sortingOrder = 1;
+            over.color = Color.clear;
+            return go;
+        }
+
+        // 시간대 연출: 조명 색·창밖 하늘 (2026-11-19). 색 값은 docs/ART_STYLE.md "시간대 조명"
+        static void BuildDaylight(Light2D globalLight, GameObject[] windows)
+        {
+            var so = new SerializedObject(new GameObject("Daylight").AddComponent<DaylightCycle>());
+            Set(so, "globalLight", globalLight);
+            SetArray(so, "windowBase", windows.Select(w => (Object)w.GetComponent<SpriteRenderer>()).ToArray());
+            SetArray(so, "windowOver", windows.Select(w => (Object)w.transform.Find("Over").GetComponent<SpriteRenderer>()).ToArray());
+            Set(so, "morningWindow", LoadSprite($"{MapArtDir}/WindowHallMorning.png"));
+            Set(so, "noonWindow", LoadSprite($"{MapArtDir}/WindowHallNoon.png"));
+            Set(so, "sunsetWindow", LoadSprite($"{MapArtDir}/WindowHallSunset.png"));
+            foreach (var (field, hex, intensity) in DaylightColors)
+            {
+                ColorUtility.TryParseHtmlString(hex, out var color);
+                so.FindProperty($"{field}Light").colorValue = color;
+                so.FindProperty($"{field}Intensity").floatValue = intensity;
+            }
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        static readonly (string field, string hex, float intensity)[] DaylightColors =
+        {
+            ("morning", "#FFF5DF", 1.08f), ("noon", "#FFFBF3", 1f), ("sunsetStart", "#FFE7D2", 0.98f), ("sunsetEnd", "#FFD0B8", 0.86f),
+        };
 
         // 빵 진열대 (SFR-056, ADR-0034): 빈 진열대(336x640px) 위에 재고만큼 작은 빵을 늘어놓는다.
         // 아래쪽 손님 통로(y 1.25) 바로 위부터 포스기 앞 줄(y 7.25) 아래까지 홀 가운데를 세로로 채운다

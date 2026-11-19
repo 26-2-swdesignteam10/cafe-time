@@ -211,3 +211,15 @@ Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구
 - `.meta`, `.unity`, `.prefab`, `.asset`은 직접 생성·수정하지 않았다. 새 ADR 없음(요청된 에셋 규격 이행).
 
 - 2026-11-18: 얼음은 `CupContentsView` 가 컵 안을 채워 그리게 되어(ADR-0037) 쓰지 않게 된 `IceCubes.png` 를 삭제했다. 위 프롬프트 기록은 참고용으로 남긴다.
+
+## 스팀 피처 진입 버튼 (2026-11-19)
+
+- 도구: OpenAI 내장 image_gen.imagegen 원화 생성, Python 3 / Pillow 크롭·리샘플링·Jua 조판·검수 합성.
+- 스타일 참조: 이 폴더의 EmptyButton.png, Panel.png, Shelf.png, BigCupCeramic.png. 부드러운 기기 작업 창 일러스트, 왼쪽 위 조명, 세이지·허니 골드. 기존 PNG는 덮어쓰지 않았다.
+- **SteamButton.png (660×180 RGBA)**: “Use case stylized-concept. Production Unity UI button. Match reference EXACT style of sage green enamel pill, fine honey gold double rim, softly beveled edges and upper-left highlight, realistic warm cafe illustration. One wide empty capsule button on transparent background, aspect 3:1, no text no icons. Full edge visible.” 생성 원화 알파 경계를 크롭하고 4px 여백으로 정규화한 빈 버튼이다.
+- **LabelSteam.png (268×88 RGBA)**: 고정 문구 “스팀 피처”, Jua-Regular.ttf 72px, 다크 커피 글자·크림 외곽선·8px 여백. 한국어 철자 육안 확인.
+- 1600×900 창 좌표(왼쪽 위 원점): 버튼/일반 클릭 영역 **(1080,80,330,90)**, 라벨 **(1178,103,134,44)**. 라벨은 원본의 절반, 버튼 중심 (1245,125)에 정렬한다.
+- 선반 (100,200,920,660), 컵·저울 영역 (1110,184,360,486), 하단 비우기·완성 버튼과 겹치지 않는다. 버튼 아래끝170과 저울 영역 위끝184 사이14px, 닫기 버튼 왼쪽1500과 새 버튼 오른끝1410 사이90px.
+- 스팀 창 에셋·파일별 프롬프트·HoldButton·TMP·온도계·HOT 컵 줄기 좌표: [SteamRoom 생성 기록](../SteamRoom/Generation.md).
+- 검수 미리보기: C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/3c877158-9d17-4156-bff5-e3db1a17f799/scratchpad/steam/DrinkRoomPreview.png (1600×900). 기존 패널·선반·컵·저울·하단 버튼과 합성해 버튼 위치·철자·가독성을 확인했다.
+- Unity 6000.6.4f1에서 임포트해 .meta를 자동 생성한다. Sprite / Single / Full Rect / Bilinear / Mip Maps 끔 / Alpha Is Transparency 켬 / 압축 없음. 코드·씬 연결은 이번 작업 범위에 포함하지 않았다. 새 ADR 없음.

@@ -13,6 +13,8 @@ namespace CafeTime.Cafe
         [SerializeField] DragItem scoop;
         [SerializeField] Sprite scoopEmpty;
         [SerializeField] Sprite scoopIce;
+        [Tooltip("얼음을 푼 스쿱이 손 칸으로 날아가는 시간 (2026-11-19 사용자 요청)")]
+        [SerializeField] float flySeconds = 0.4f;
 
         static IceMaker Maker => IceMaker.Instance;
 
@@ -25,7 +27,12 @@ namespace CafeTime.Cafe
 
             bin.Dropped += e =>
             {
-                if (DragItem.From(e)?.DroppedPayload is IceScoop) Maker.FillScoop();
+                // 얼음을 푸면 손에 빈 칸이 있을 때 스쿱이 바로 손으로 들어온다. 손이 꽉 차 있으면 스쿱 자리에 그대로 (2026-11-19 사용자 요청)
+                if (DragItem.From(e)?.DroppedPayload is IceScoop && Maker.FillScoop() && HandInventory.Instance.HasSpace)
+                {
+                    var before = HandInventoryView.Snapshot();
+                    if (Maker.ScoopToHand()) HandInventoryView.FlyToNewSlot(before, scoop.GetComponent<Image>(), flySeconds); // 스쿱 자리에서 손 칸으로 날아감
+                }
                 else if (DropZone.HandOf(e) >= 0 && HandInventory.Instance[DropZone.HandOf(e)] is IceScoop)
                     Toast.Show(ToastMessage.ReturnScoop); // 스쿱을 반납하기 전에는 얼음을 담을 수 없음
             };

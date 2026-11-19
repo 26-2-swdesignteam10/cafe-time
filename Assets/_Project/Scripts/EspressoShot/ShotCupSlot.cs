@@ -17,6 +17,8 @@ namespace CafeTime.EspressoShot
         public PortafilterSlot head;       // 위쪽 그룹헤드 슬롯
         public Image glassIcon;            // 컵 그림 (없으면 숨김)
         public bool startWithGlass = true; // 영업 시작 때 이 자리에 빈 컵이 놓여 있음 (머신에 컵 2개)
+        [Tooltip("꺼낸 샷 컵이 손 칸으로 날아가는 시간 (2026-11-18 사용자 요청)")]
+        public float flySeconds = 0.4f;
 
         public ShotGlass Glass { get; private set; }
 
@@ -102,11 +104,13 @@ namespace CafeTime.EspressoShot
                 Toast.Show(ToastMessage.Extracting);
                 return;
             }
+            var before = HandInventoryView.Snapshot();
             if (!HandInventory.Instance.TryAdd(Glass))
             {
                 Toast.Show(ToastMessage.HandsFull);
                 return;
             }
+            HandInventoryView.FlyToNewSlot(before, glassIcon, flySeconds); // 컵 그림이 사라지기 전에 출발 위치를 잡는다
             Glass = null;
             Refresh();
         }

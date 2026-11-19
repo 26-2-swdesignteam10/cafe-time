@@ -1,4 +1,3 @@
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,8 +21,6 @@ namespace CafeTime.Cafe
         [SerializeField] DropZone[] returnZones;
         [Tooltip("꺼낸 잔이 손 칸으로 날아가는 시간 (2026-11-18 사용자 요청)")]
         [SerializeField] float flySeconds = 0.4f;
-
-        HandInventoryView handsView;
 
         bool[] hotFilled; // 잔 자리마다 잔이 있는지
         bool taking;
@@ -58,7 +55,7 @@ namespace CafeTime.Cafe
         void TakeHotCup(int slot)
         {
             int before = CupShelf.Instance.Count(CupType.Ceramic);
-            var hands = Snapshot();
+            var hands = HandInventoryView.Snapshot();
             taking = true;
             CupShelf.Instance.TakeCup(CupType.Ceramic);
             taking = false;
@@ -74,28 +71,13 @@ namespace CafeTime.Cafe
         void TakeIceCup()
         {
             int before = CupShelf.Instance.Count(CupType.Plastic);
-            var hands = Snapshot();
+            var hands = HandInventoryView.Snapshot();
             CupShelf.Instance.TakeCup(CupType.Plastic);
             int after = CupShelf.Instance.Count(CupType.Plastic);
             if (after < before && after < iceLayers.Length) FlyToHand(hands, iceLayers[after].GetComponent<Image>());
         }
 
-        static HeldItem[] Snapshot() => Enumerable.Range(0, HandInventory.SlotCount).Select(i => HandInventory.Instance[i]).ToArray();
-
-        // 새로 채워진 손 칸으로, 클릭한 잔 자리에서 잔 아이콘이 날아간다
-        void FlyToHand(HeldItem[] before, Image source)
-        {
-            int hand = -1;
-            for (int i = 0; i < before.Length; i++)
-                if (before[i] == null && HandInventory.Instance[i] != null) { hand = i; break; }
-            if (hand < 0 || source == null) return;
-            if (handsView == null) handsView = FindFirstObjectByType<HandInventoryView>();
-            var slot = handsView != null ? handsView.Slot(hand) : null;
-            if (slot == null) return;
-            var rt = source.rectTransform;
-            float scale = slot.IconHeight > 0 ? rt.rect.height * rt.lossyScale.y / slot.IconHeight : 1f;
-            slot.FlyIn(rt.TransformPoint(rt.rect.center), Mathf.Clamp(scale, 0.5f, 2.5f), flySeconds);
-        }
+        void FlyToHand(HeldItem[] before, Image source) => HandInventoryView.FlyToNewSlot(before, source, flySeconds);
 
         protected override void Refresh()
         {

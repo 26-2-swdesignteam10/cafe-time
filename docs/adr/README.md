@@ -53,3 +53,6 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0039](0039-hud-day-image-no-rent.md) | 영업 HUD에서 임대료를 빼고 DAY 그림·원 표기·평판 숫자를 쓴다 | 승인 |
 | [0040](0040-pickup-bell-call.md) | 픽업대 진동벨 번호 호출로 서빙 | 승인 |
 | [0041](0041-cold-brew-hot-temperature-pictures.md) | 콜드브루 HOT 추가, 포스기 카드 그림을 HOT/ICE 에 맞춰 바꾼다 | 승인 |
+| [0042](0042-close-at-six.md) | 영업 종료를 18:00, 입장 마감을 17:30으로 당긴다 | 승인 |
+| [0043](0043-random-bell-numbers.md) | 진동벨 번호를 1~30 중 무작위로 준다 | 승인 |
+| [0044](0044-steamed-milk.md) | HOT 우유 메뉴는 스팀 피처로 데운 우유를 쓴다 | 승인 |

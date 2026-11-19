@@ -26,6 +26,7 @@ namespace CafeTime.Cafe
             var grade = worst <= balance.PerfectTolerance ? DrinkGrade.Perfect
                 : worst <= balance.GoodTolerance ? DrinkGrade.Good : DrinkGrade.Bad;
             var rightCup = recipe.Temperature == Temperature.Hot ? CupType.Ceramic : CupType.Plastic;
+            if (cup.BadSteam && grade < DrinkGrade.Bad) grade++; // 미지근하거나 너무 뜨거운 스팀 우유 (ADR-0044)
             if (cup.Type != rightCup) grade = DrinkGrade.Bad;
             cup.Finish(menu, recipe.Temperature, grade);
         }

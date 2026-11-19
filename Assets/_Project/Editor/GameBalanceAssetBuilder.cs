@@ -27,6 +27,7 @@ namespace CafeTime.EditorTools
 
             balance.EnsureCatalog();
             RaiseCupCounts(balance);
+            MigrateBusinessHours(balance);
             EditorUtility.SetDirty(balance);
             AssignIcons(balance);
             AssetDatabase.SaveAssets();
@@ -41,6 +42,19 @@ namespace CafeTime.EditorTools
             var plastic = so.FindProperty("plasticCups");
             ceramic.intValue = Mathf.Max(ceramic.intValue, 16);
             plastic.intValue = Mathf.Max(plastic.intValue, 20);
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        // 기존 에셋의 영업 시간이 예전 값(1시간 120초, 입장 마감 20시, 종료 21시)이면 ADR-0021·0042 값으로 바꾼다. 따로 고친 값은 그대로
+        static void MigrateBusinessHours(GameBalance balance)
+        {
+            var so = new SerializedObject(balance);
+            var seconds = so.FindProperty("secondsPerGameHour");
+            var entry = so.FindProperty("entryCloseHour");
+            var close = so.FindProperty("closeHour");
+            if (Mathf.Approximately(seconds.floatValue, 120f)) seconds.floatValue = 35f;
+            if (Mathf.Approximately(entry.floatValue, 20f)) entry.floatValue = 17.5f;
+            if (close.intValue == 21) close.intValue = 18;
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 

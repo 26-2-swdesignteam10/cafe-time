@@ -462,3 +462,54 @@ Use case: precise-object-edit. Edit ONLY the THREE SILVER TRAYS on the supplied 
 - 최종 PNG 크기·RGBA·실제 투명도와 빈 상판을 직접 확인했다. 맵은 기존 Point(no filter), PPU128, Mip Maps 끔을 유지한다. `.meta`는 수정하지 않았다. Unity 재임포트 후 기존 벨/상판과 맵 클릭 외곽을 확인한다. 새 ADR 없음.
 
 - 마무리 검사: `bash .github/scripts/check-repo.sh` 통과 (추적 파일 1993개). 이 검사는 추적 파일 기준이므로 신규 ReceiptConfirmButton.png의 Unity .meta 생성 확인을 대신하지 않는다. 이번 작업에서는 PNG와 위 Generation.md만 수정했으며 코드·.meta·씬·프리팹·.asset은 수정하지 않았다.
+
+## 2026-11-19 시간대별 창문 3종·Global Light 색 제안
+
+Generated with OpenAI built-in `image_gen.imagegen` (시간대별 색감 시안 편집), PowerShell / .NET System.Drawing (원본 픽셀 마스크 기반 색 치환·실제 스프라이트 조명 합성·검증). Style reference / edit target: `Assets/_Project/Art/Sprites/Cafe/WindowHall.png` (256×160), `docs/ART_STYLE.md`의 카페 맵 스타일.
+
+Prompt set (세 생성 호출에 공통으로 사용):
+
+```text
+Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: lighting-weather. Edit target is supplied WindowHall.png, a 256x160 window sprite. Preserve EXACT window frame, central vertical mullion, transparency, all tree silhouettes and every leaf silhouette position, composition and clouds positions. Change ONLY sky colors, cloud light and tree colors. No text, objects or changed outlines. Keep original clean stepped pixel shapes. Output one window only, same 8:5 aspect.
+```
+
+- `WindowHallMorning.png`: `Bright crisp clear morning: vivid clean light cyan blue sky, brilliant white clouds, sunlight bright yellow-green tree highlights, cool green tree shadows.`
+- `WindowHallNoon.png`: `Calm noon: nearly identical to original pale desaturated blue sky, soft white clouds, muted sage trees. Preserve original palette very closely.`
+- `WindowHallSunset.png`: `Sunset: sky from soft violet at top through dusty pink to orange gold at horizon, original cloud shapes warm pale gold with golden edges, original tree silhouettes dark warm olive in backlight. Do not add sun or change tree silhouettes.`
+
+### 생성 시안과 최종 규격 처리
+
+- 생성 시안은 창틀·나무의 미세한 변형이 있어 색감 참고로만 사용했다. 특히 아침 생성 시안의 잘못된 투명 영역은 최종본에 사용하지 않았다. 생성본을 축소해 납품하지 않고, 원본의 하늘·나무·구름 픽셀만 원래 좌표에서 색 치환했다. 생성 원본 폴더: `C:\Users\k9425\.codex\generated_images\01a1ef2e-24f1-7ea1-bba1-03526bdf8a61` (아침 `exec-238749b9-a635-4578-a9bb-91518f62fb76.png`, 낮 `exec-1c3d637e-3987-44d4-8387-98d190499edd.png`, 노을 `exec-6ffc7bb7-a95d-4582-9f39-2e5a9bde0918.png`).
+- 최종 PNG는 모두 **256×160 RGBA**다. 리샘플링·이동·크롭 없이 원본 알파 전체와 보호 영역 8,940픽셀의 RGBA를 유지했다. 같은 원본 마스크(하늘 21,250 / 나무 10,421 / 구름 349픽셀)에만 색을 적용하므로 창틀·나무 윤곽과 위치가 교차 페이드 중에도 고정된다. 픽셀 수 합계 40,960이다.
+- 마스크는 왼쪽 위 기준 x10~245, y10~149 안쪽에서 x125~130 중앙 창틀을 제외하고 원본 색으로 구분했다. 하늘은 `B-R >= 12, B >= G-1`, 나무는 `G-R >= 9, G-B >= 10, R < 205`, 구름은 RGB 최솟값 > 205이며 그 외는 전부 보호했다. 각 조건은 위에서부터 순서대로 적용했다.
+- 아침: 하늘 기준 `#6CCAEC`, 흰 구름 `#FDFEF7`, 나무 명암 기준 `#568B4B`~`#9ABC5E`. 원본 색의 미세 명암도 반영했다.
+- 낮: 원본 RGBA를 그대로 복사했다. PNG 압축 데이터는 달라도 디코딩한 모든 픽셀이 같다.
+- 노을: 원본 하늘 영역에 약 10px 단위의 단계식 보라 `#9887BB`→분홍 `#E59B9D`→주황 `#FFC27E` 그라데이션을 적용했다. 원본 나무 명암은 따뜻한 올리브 `#4F4F39`~`#756F45`로 바꾸고, 기존 구름 아래쪽에 `#FFD58C` 금빛 가장자리를 넣었다. 해·새 구름·새 실루엣은 추가하지 않았다.
+- 원본 `WindowHall.png` SHA-256: `B0E13C78EFF23848D993A9900FDBB7E4D6A7A12C6F1ACFC8B507C65AB1021D97`. 원본은 수정하지 않았다. 새 `.meta`는 생성하지 않았다.
+
+### Global Light 2D 제안
+
+| 시간대 | 색 (sRGB hex) | 강도 | 의도 |
+|---|---|---|---|
+| 아침 09:00~12:00 | `#FFF5DF` | 1.08 | 밝고 따뜻한 햇빛 |
+| 낮 12:00~15:00 | `#FFFBF3` | 1.00 | 거의 중성인 크림빛 |
+| 노을 시작 15시 직후 | `#FFE7D2` | 0.98 | 약한 살구빛 |
+| 노을 끝 18:00 | `#FFD0B8` | 0.86 | 가장 짙은 따뜻한 노을 |
+
+검수에는 실제 맵의 `Floor.png`, `WallPlain.png`, `Table.png`, `ChairLeft.png`, `StationEspresso.png`, `Booth.png`와 `../Player/PlayerDown0.png`를 사용했다. 모든 시간대에 같은 배치·동일 스프라이트를 사용하고 창문·조명만 바꿨다. sRGB를 선형 RGB로 디코딩해 `spriteLinear × lightLinear × intensity`를 곱하고 sRGB로 재인코딩·클램프했다. 알파는 유지했다. 창문에도 같은 조명을 적용했다. 노을 시작 창문은 낮 85% + 노을 15%, 끝은 노을 100%인 검수용 예시다. 이 비율이나 전환 시각을 코드에 구현하지 않았다.
+
+미리보기·재현 스크립트·검증 결과 저장 위치:
+
+`C:\Users\k9425\AppData\Local\Temp\claude\bd37fc10698b196c\3c877158-9d17-4156-bff5-e3db1a17f799\scratchpad\daylight\`
+
+- `WindowVariants.png`: 아침·낮·노을 창문 비교.
+- `LightingComparison.png`: 네 시간대 조명 비교, 색·강도 표기.
+- `PreviewMorning.png`, `PreviewNoon.png`, `PreviewSunsetStart.png`, `PreviewSunsetEnd.png`: 시간대별 768×576 PNG.
+- `PreviewNeutral.png`: 창문 합성 전 흰색·강도 1 기준 스프라이트 배치.
+- `BuildDaylight.ps1`, `Validation.txt`: 후처리·미리보기 재현과 불변 조건 검사.
+
+육안 점검에서 가장 짙은 노을에도 캐릭터 얼굴·가구 외곽·검은 기기의 구분이 유지됐다. 미리보기는 정적 곱셈 근사이며 실제 Unity 렌더링 결과는 아니다. 새 ADR·기존 ADR 변경 없음. 기존 코드·씬·프리팹·`.asset`·`.meta`는 수정하지 않았다.
+
+Unity 확인: Unity **6000.6.4f1**로 돌아가 세 PNG를 임포트하고 Unity가 `.meta`를 생성하도록 한다. Sprite (2D and UI), Single, PPU 128, Point (no filter), Mip Maps 끔, Alpha Is Transparency 켬을 원본과 맞추고 Pivot도 원본과 동일하게 설정한다. 이후 기존 시간대 전환 코드에 연결한 상태에서 창문 6개의 교차 페이드와 노을 끝 캐릭터 가독성을 Play로 확인한다.
+
+마무리 검증: 저장된 PNG를 다시 읽어 모두 256×160 / Format32bppArgb, 알파 차이 0픽셀, 보호 영역 차이 0픽셀을 확인했다. 낮은 전체 차이 0픽셀이며 아침·노을은 각각 마스크 내부 32,020픽셀만 바뀌었다. 원본 SHA-256 동일. `git diff --check` 통과. `bash .github/scripts/check-repo.sh` 통과 (추적 파일 2,281개). 저장소 검사는 추적 파일 기준이므로 새 PNG 세 장의 `.meta` 생성 확인을 대신하지 않는다.

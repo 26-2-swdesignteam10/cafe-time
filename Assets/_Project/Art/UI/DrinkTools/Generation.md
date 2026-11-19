@@ -322,3 +322,31 @@ IoU는 알파 > 0 영역의 교집합 픽셀 수 / 합집합 픽셀 수다. 아�
 | cinnamonpour | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-070f748a-234d-49fd-bf07-7d6eeaa2a275.png` |
 | strawberryfull | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-0e87ac14-cb21-49de-9c21-6c448733db74.png` |
 | strawberrypour | `C:\Users\k9425\.codex\generated_images\01a1e957-2735-7260-b8f9-95c9a2fba968\exec-44caf482-a7bb-4493-98e9-a4163820d7b7.png` |
+
+
+## 2026-11-18 레몬청 (`cheong_lemon`) 추가
+
+- 라벨 수정(2026-11-18): `CheongJarCheongLemon.png`·`CheongJarCheongLemonOpen.png`에 내장 `image_gen.imagegen`으로 “유자청·딸기청·자몽청 라벨과 같은 작은 레몬 삽화 위/글자 아래 구성, 정확한 한글 레몬청, 병·숟가락·캔버스 유지” 편집 후 System.Drawing으로 원본 종이에 합성하고 기존과 같은 `Jua-Regular.ttf` 42px·`#380F00`·중앙 x252·글자 상단 y609로 “레몬청”을 조판했다. 철자 육안 확인, 두 파일 1000×800·전체 알파·라벨 밖 픽셀 보존, `.meta` 생성·수정 없음.
+- 도구: OpenAI 내장 `image_gen.imagegen` 파일별 개별 편집, Python 3 / Pillow 정렬·마스킹·색상 조정·알파 검사. CLI/API 대체 사용 없음.
+- 스타일 참조: `CheongJarCheongYuja.png`, `CheongJarCheongYujaOpen.png`, `SpoonCheongYujaFull.png`, `SpoonCheongYujaPour.png`(각 대응 편집·기하 기준). 공용 원본 `CheongJar.png`, `CheongJarOpen.png`, `SpoonFull.png`, `SpoonPour.png`; `docs/ART_STYLE.md`의 작업 창 예외.
+- 공통 프롬프트: “Use case: precise-object-edit. Replace ONLY golden yuja preserve with brighter paler lemon yellow #F3E25A syrup and thin circular lemon slices with white pith rings and radial segments. Same soft painted technique. True transparent alpha background, no letters, no checkerboard, no watermark. Do not crop, recenter, enlarge, move, or redesign any object.” 도트 문구보다 부드러운 원본 작업 창 기법을 우선한다.
+- 방법: 기존 CheongYuja 행처럼 생성 원화를 원본 내용물 내부 마스크에 합성하고 원본 알파를 바이트 단위로 복원했다. 기준색 **#F3E25A** 계열로 조정하며 조명·유리·흰 속껍질 음영을 보존한다. 원본 숟가락 손잡이·실루엣·바닥·낙하 끝 좌표를 유지한다. 이번 요청대로 글자를 넣지 않고 기존 유자청 글자는 공용 원본의 빈 라벨로 지워 생성 레몬 삽화만 합성했다. 병 두 상태는 y420 아래 RGB를 공유한다.
+
+| 파일 | 크기 | 스타일·기하 참조 / 개별 프롬프트·방법 | 알파 IoU |
+|---|---|---|---:|
+| CheongJarCheongLemon.png | 1000×800 | CheongJarCheongYuja.png (공용 CheongJar.png). “Preserve jar shape size location rim base, all spoon pixels and transparency. Remove all Korean text from cream label and replace label illustration with a lemon and lemon cross section.” 내용물·삽화 합성, 원본 숟가락 보존. | 1.0000 |
+| CheongJarCheongLemonOpen.png | 1000×800 | CheongJarCheongYujaOpen.png (공용 CheongJarOpen.png). “Jar with NO spoon. Preserve jar shape size location rim base and transparency. Remove all Korean text from cream label and replace label illustration with a lemon and lemon cross section.” 숟가락 없는 원본 알파, y420 아래 몸체 공유. | 1.0000 |
+| SpoonCheongLemonFull.png | 640×160 | SpoonCheongYujaFull.png (공용 SpoonFull.png). “Preserve every metal handle pixel, silver rim, silhouette, position and transparency. Change ONLY spoon contents into glossy lemon preserve, thin round lemon cross sections with white pith rings and radial pulp patterns, not diced fruit.” 내용물 bbox 정렬·내부 마스킹, 손잡이 보존. | 1.0000 |
+| SpoonCheongLemonPour.png | 640×320 | SpoonCheongYujaPour.png (공용 SpoonPour.png). “Preserve every metal handle pixel, silver rim, silhouette, position and transparency including syrup drop endpoint. Change ONLY spoon contents and flowing syrup into glossy lemon preserve, thin round lemon cross sections with white pith rings and radial pulp patterns, not diced fruit.” 원본 기울기·낙하 끝·손잡이 보존. | 1.0000 |
+
+### 생성 원본 및 검수
+
+- `CheongJarCheongLemon.png`: `C:\Users\k9425\.codex\generated_images\01a1eec7-150b-7282-b3ef-ba15a944d660\exec-d83c3a86-ee90-430f-a25a-9ab6bbf9742d.png`.
+- `CheongJarCheongLemonOpen.png`: `C:\Users\k9425\.codex\generated_images\01a1eec7-150b-7282-b3ef-ba15a944d660\exec-9be3403e-a0a3-4cce-9704-3b54956dc8c8.png`.
+- `SpoonCheongLemonFull.png`: `C:\Users\k9425\.codex\generated_images\01a1eec7-150b-7282-b3ef-ba15a944d660\exec-b4f78303-1bef-4416-8a64-64080614fd11.png`.
+- `SpoonCheongLemonPour.png`: `C:\Users\k9425\.codex\generated_images\01a1eec7-150b-7282-b3ef-ba15a944d660\exec-a2b7f7f5-7d31-4752-973a-c0abbf555a45.png`.
+
+- 크기·RGBA·투명 배경, 유자청 대응 4쌍의 전체 알파 값·bbox 동일, 위치 차이 **0px**. 손잡이·병에 꽂힌 숟가락 보호영역 RGB와 두 병 y420 아래 RGB 검사. 글자·체커보드·워터마크 없음. 기존 PNG SHA-256 보존 검사.
+- 검수 자료·실제 전체 프롬프트·후처리 스크립트: 저장소 밖 `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/3c877158-9d17-4156-bff5-e3db1a17f799/scratchpad/lemon/manifest.json`, `build.py`, `Validation.json`, `Preview.png`. `.meta`·코드·씬·프리팹·에셋 직접 생성·수정 없음. 새 ADR 없음.
+- Unity 6000.6.4f1에서 자동 임포트해 `.meta`를 생성한다. Sprite / Single / **Bilinear** / Mip Maps 끔 / Alpha Is Transparency 켬 / Max Size2048. 기존 캔버스·좌표·피벗으로 연결한 뒤 Play에서 병 전환·잡기·붓기를 확인한다. 코드 연결은 포함하지 않는다.
+- 작업 종료 시 Unity 자동 임포트로 새 PNG 옆 .meta가 생성된 것을 관찰했다. 에이전트는 .meta를 직접 생성·수정하지 않았다.

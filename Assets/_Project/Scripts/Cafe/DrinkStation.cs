@@ -96,6 +96,49 @@ namespace CafeTime.Cafe
             return true;
         }
 
+        // ───────── 스팀 피처 (ADR-0044) ─────────
+        public SteamPitcher Pitcher { get; } = new SteamPitcher();
+
+        // 우유팩을 누르고 있는 동안 피처에 붓기. 가득 차거나 우유가 없으면 false
+        public bool PourMilkToPitcher(float seconds)
+        {
+            float amount = Mathf.Min(balance.PourPerSecond * seconds, balance.PitcherCapacity - Pitcher.Milk);
+            if (amount <= 0f) { Toast.Show(ToastMessage.PitcherFull); return false; }
+            if (!Pantry.TryUse("milk", amount)) { Toast.Show(ToastMessage.NoIngredient); return false; }
+            Pitcher.AddMilk(amount, balance);
+            Changed?.Invoke();
+            return true;
+        }
+
+        // 스팀 완드를 누르고 있는 동안 데우기. 피처가 비었으면 false
+        public bool Steam(float seconds)
+        {
+            if (Pitcher.IsEmpty) { Toast.Show(ToastMessage.PitcherEmpty); return false; }
+            Pitcher.Heat(seconds, balance);
+            Changed?.Invoke();
+            return true;
+        }
+
+        // 피처의 스팀 우유를 저울 위 잔에 붓기. 적정 온도가 아니면 그 잔은 등급 한 단계 하락
+        public bool PourPitcher(float seconds)
+        {
+            if (NeedCup()) return false;
+            if (Pitcher.IsEmpty) { Toast.Show(ToastMessage.PitcherEmpty); return false; }
+            bool right = Pitcher.RightTemperature(balance);
+            OnScale.AddSteamedMilk(Pitcher.Take(balance.PourPerSecond * seconds), right);
+            Changed?.Invoke();
+            return true;
+        }
+
+        // 피처 비우기: 버린 우유는 감점 사항에 반영 (SFR-050 과 같음)
+        public void EmptyPitcher()
+        {
+            if (Pitcher.IsEmpty) return;
+            Pitcher.Clear();
+            DayResult.Today.itemsDiscarded++;
+            Changed?.Invoke();
+        }
+
         // 비우기 (SFR-050): 버린 재료는 복구되지 않고 감점 사항에 반영
         public void Empty()
         {

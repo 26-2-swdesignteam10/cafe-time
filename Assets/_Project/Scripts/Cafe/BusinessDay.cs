@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CafeTime.Cafe
 {
-    // 하루 영업의 시작과 끝 (SFR-014): 20:00 입장 마감 안내, 21:00 영업 종료 → 평판 변동 계산 → 하루 정산
+    // 하루 영업의 시작과 끝 (SFR-014): 17:30 입장 마감 안내, 18:00 영업 종료 → 평판 변동 계산 → 하루 정산
     public class BusinessDay : MonoBehaviour
     {
         [SerializeField] GameClock clock;

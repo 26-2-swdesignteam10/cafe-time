@@ -17,6 +17,29 @@ namespace CafeTime.Cafe
 
         public HandSlotView Slot(int hand) => System.Array.Find(slots, s => s.Hand == hand);
 
+        // 지금 손 칸 상태 (FlyToNewSlot 에 넘길 '꺼내기 전' 상태)
+        public static HeldItem[] Snapshot()
+        {
+            var items = new HeldItem[HandInventory.SlotCount];
+            for (int i = 0; i < items.Length; i++) items[i] = HandInventory.Instance[i];
+            return items;
+        }
+
+        // 기기 화면에서 꺼낸 물건이 source 그림 자리에서 새로 채워진 손 칸으로 날아간다 (컵 선반·샷 컵 공용)
+        public static void FlyToNewSlot(HeldItem[] before, Image source, float seconds)
+        {
+            int hand = -1;
+            for (int i = 0; i < before.Length; i++)
+                if (before[i] == null && HandInventory.Instance[i] != null) { hand = i; break; }
+            if (hand < 0 || source == null) return;
+            var view = FindFirstObjectByType<HandInventoryView>();
+            var slot = view != null ? view.Slot(hand) : null;
+            if (slot == null) return;
+            var rt = source.rectTransform;
+            float scale = slot.IconHeight > 0 ? rt.rect.height * rt.lossyScale.y / slot.IconHeight : 1f;
+            slot.FlyIn(rt.TransformPoint(rt.rect.center), Mathf.Clamp(scale, 0.5f, 2.5f), seconds);
+        }
+
         void Start()
         {
             HandInventory.Instance.Changed += Refresh;

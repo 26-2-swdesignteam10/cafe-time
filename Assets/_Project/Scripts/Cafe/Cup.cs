@@ -11,6 +11,8 @@ namespace CafeTime.Cafe
         public bool IsFinished { get; private set; }
         // 믹서기로 갈아 부은 잔: 층 없이 한 색으로 섞여 보인다 (ADR-0037)
         public bool Blended { get; private set; }
+        // 적정 온도를 벗어난 스팀 우유를 부은 적이 있음 → 판정 때 등급 한 단계 하락 (ADR-0044)
+        public bool BadSteam { get; private set; }
 
         MenuDefinition menu;
         Temperature temperature;
@@ -38,6 +40,12 @@ namespace CafeTime.Cafe
             IsFinished = false;
         }
 
+        public void AddSteamedMilk(float amount, bool rightTemperature)
+        {
+            Add(RecipeKeys.SteamedMilk, amount);
+            if (!rightTemperature) BadSteam = true;
+        }
+
         public void AddBlended(Mixture mixture)
         {
             AddAll(mixture);
@@ -50,6 +58,7 @@ namespace CafeTime.Cafe
             Contents.Clear();
             IsFinished = false;
             Blended = false;
+            BadSteam = false;
         }
 
         public void Finish(MenuDefinition judgedMenu, Temperature judgedTemperature, DrinkGrade judgedGrade)

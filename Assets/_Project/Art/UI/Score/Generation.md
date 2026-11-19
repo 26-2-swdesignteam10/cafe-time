@@ -92,3 +92,131 @@ Unity 6000.6.4f1 임포트: Sprite (2D and UI), Single, Point, Mip Maps 끔, Alp
 | Panel.png | 득점 결과 | 144px | #380F00 | 없음 | 주변 픽셀 확산 인페인트로 옛 글자·외곽선 마스크 복원 + Pillow Jua 조판 | 2200×1840 |
 
 - 검수: 완성 PNG에서 한글 철자·공백·문장부호와 잘림을 눈으로 확인했다. 그림 포함 PNG는 지정 글자 영역 밖의 RGBA가 원본과 일치하고 알파·캔버스 크기가 동일한지 검사했다. 투명 라벨의 높이는 모두 유지했다. `.meta`, 코드, 씬, 프리팹, `.asset`, `docs/`는 수정하지 않았다. Unity에서 재임포트한 뒤 실제 표시 크기의 가독성과 라벨 폭 증가에 따른 배치를 확인해야 한다.
+
+
+## 2026-11-18 칠판 리디자인
+
+- 사용자 확정 방향: 카페 칠판 메뉴판. 기존 구성은 유지하고 다크 그린 칠판·나무 틀·분필 글씨·손그림 아이콘·총점 타원으로 시각적 위계를 만든다.
+- 도구: OpenAI 내장 image_gen(패널, 나무 버튼, 아이콘 7종), Python 3 / Pillow(Jua 조판, PNG 규격 정리, 분필 선·타원, 합성 미리보기). CLI/API는 사용하지 않았다.
+- 스타일 참조: `../GameStart/Board.png`의 나무 틀과 칠판, 작업 전 `Panel.png`, `LabelOrders.png`의 도트 밀도, `Background.png`의 기존 카페 배경, `../../Fonts/Jua-Regular.ttf`.
+- 이 화면의 국소 스타일: 칠판 `#1F362B`, 틀 `#C08858`, 기본 분필 `#FCF0CA`, 섹션·가산·기록 달성 `#F1D889`, 감점 `#EDA6A1`. Jua를 유지하며 고정 글자에만 옅은 분필 입자를 적용한다. 기본 다크 커피 라벨 외곽선은 이 칠판 화면에서 생략한다.
+- `Background.png`는 수정하지 않았다. SHA256: `1FF98D3B0A129D71ED99B4C2CC6DE8A6A908B08C7710E36477952EA61077FE4C`.
+- 코드·빌더·씬·프리팹·에셋·기존 .meta는 수정하지 않았다. 새 .meta는 만들지 않았다. 아래 표는 후속 씬 적용용이며 현재 빌더가 자동으로 이 배치를 적용하지 않는다. 현재 빌더의 갈색 TMP 및 이미지 tint도 후속 적용 때 흰색으로 바꿔야 한다. 아이콘과 TotalCircle은 현재 빌더에서 참조하지 않는다.
+
+### 생성 프롬프트와 후처리
+
+공통 프롬프트 시작:
+
+> Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding.
+
+- `Panel.png`: ONE EMPTY dark forest green chalkboard panel sprite with restrained warm oak wood frame, frontal orthographic view, aspect ratio 2200:1840. Reference Board.png is style reference only. Refined cafe menu board, thin elegant frame, subtle bevels and stepped pixel corners. Flat #1F362B green interior, mostly clean with extremely faint erased chalk near edges only. Frame #C08858 with two-tone shading. Whole panel fills canvas with transparent padding. Interior fully opaque. NO text, numbers, dividers or icons; title typeset later in Jua. Bottom wood ledge may hold two tiny chalk sticks at far left. 생성 원화를 NEAREST로 2200×1840으로 맞추고 안쪽에 불투명 칠판색을 깐 뒤, Jua "득점 결과" 채움 높이 108px를 원본 좌표 (228,143)에 넣었다. 외곽의 생성 알파는 보존했다.
+- `NextButton.png`: ONE horizontal wooden cafe menu button asset, 840x192 aspect ratio. Refined warm oak #C08858 wood face, restrained 2-3 tone bevel and thin dark walnut edge, tiny pale wood grain, elegant understated rectangle with lightly stepped corners. Match reference chalkboard oak material. Transparent exterior padding. Empty central face reserved for Jua typography later. NO TEXT, numbers or symbols. 생성 원화의 알파 경계를 크롭해 824×176으로 맞추고 840×192 캔버스 중앙에 배치했다. "다음 날 준비"를 Jua 채움 높이 72px, #382519로 중앙 조판했다.
+- 아이콘 공통 프롬프트: ONE isolated hand drawn chalk outline icon: [아래 파일별 주제]. Cream white #FCF0CA chalk strokes, restrained powder texture, no dark outlines, no colored fill. Consistent 12px chalk stroke at 256x256 canvas, shape fills central 192x192 with generous transparent padding. Simple instantly recognizable silhouette readable when reduced to 36x36. Frontal flat 2D cafe chalk menu doodle, subtle stepped edges matching Score panel pixel density. Actual transparent RGBA background including inside outlined shapes. NO board, square tile, text, numbers or shadow.
+- 아이콘 후처리: 생성 알파 경계를 크롭하고 종횡비를 유지해 최대 208×208으로 축소한 뒤 동일한 256×256 투명 캔버스 중앙에 배치. 생성 알파와 분필 질감을 유지한다.
+
+| 파일 | 파일별 프롬프트 주제 / 고정 문구 |
+|---|---|
+| IconOrders.png | a small steaming coffee cup and saucer |
+| IconSatisfaction.png | a friendly smiling round face with one tiny heart |
+| IconLost.png | a walking person leaving through an open doorway, arrow pointing out |
+| IconDiscarded.png | a simple waste bin with lid and two vertical lines |
+| IconTrayLeft.png | a serving tray holding an empty cup |
+| IconCleaning.png | a cleaning cloth wiping a small stain with one sparkle |
+| IconOrderSkipped.png | two curved arrows exchanging order, simple clear sequential order symbol without numbers |
+| LabelRecord.png | Jua "오늘의 기록", 채움 72px, #F1D889, 분필 질감, 사방 투명 여백 8px |
+| LabelOrders.png | Jua "완료한 주문", 채움 56px, #FCF0CA, 분필 질감, 사방 투명 여백 8px |
+| LabelSatisfaction.png | Jua "손님 만족도", 채움 56px, #FCF0CA, 분필 질감, 사방 투명 여백 8px |
+| LabelPenalty.png | Jua "감점 사항", 채움 72px, #F1D889, 분필 질감, 사방 투명 여백 8px |
+| LabelLost.png | Jua "손님 이탈", 채움 56px, #FCF0CA, 분필 질감, 사방 투명 여백 8px |
+| LabelDiscarded.png | Jua "버린 재료·음료", 채움 56px, #FCF0CA, 분필 질감, 사방 투명 여백 8px |
+| LabelTrayLeft.png | Jua "쟁반 방치", 채움 56px, #FCF0CA, 분필 질감, 사방 투명 여백 8px |
+| LabelCleaning.png | Jua "청소 미처리", 채움 56px, #FCF0CA, 분필 질감, 사방 투명 여백 8px |
+| LabelOrderSkipped.png | Jua "주문 순서 어김", 채움 56px, #FCF0CA, 분필 질감, 사방 투명 여백 8px |
+| LabelTotal.png | Jua "오늘의 총점", 채움 72px, #FCF0CA, 분필 질감, 사방 투명 여백 8px |
+| LabelBest.png | Jua "최고 기록", 채움 56px, #FCF0CA, 분필 질감, 사방 투명 여백 8px |
+| NewBest.png | Jua "최고 기록 달성!", 채움 64px, #F1D889 분필, 위아래 짧은 스탬프 선, 투명 배경 |
+| Divider.png | 1800×24 투명 PNG, #FCF0CA 3px 굵기 분필 점선. 24px 간격, 각 조각 12px, 세로 위치 ±1px |
+| TotalCircle.png | 760×208 투명 PNG, #FCF0CA 손그림 타원, 약 726×174, 5px 주선과 옅은 2px 보조선, 내부 투명 |
+
+라벨은 Jua 원문을 조판해 채움 높이를 맞추고, 외곽선 없이 미세 입자 알파를 곱했다. 가운뎃점은 Jua 마침표를 가운데로 올렸다. 가변 값은 최종 에셋에 넣지 않았고 미리보기에만 예시로 조판했다.
+
+### 배치표
+
+기준: 화면 1920×1080, 패널 표시 1100×920, 패널 왼쪽 위=(0,0). 화면에서는 패널 원점=(410,80). 아래 값은 모두 **표시 픽셀**이다. PNG는 기본 1/2 표시. 라벨은 **왼쪽 가운데 기준점**, 사각형은 **왼쪽 위 x,y,w,h**다. 모든 Image tint는 #FFFFFF. 섹션 2줄 + 상세 7줄 = 9줄이며, 섹션 행에는 횟수·점수가 없다.
+
+| 요소 | 좌표 / 크기 | 정렬 |
+|---|---|---|
+| Panel | (0,0,1100,920) | 중앙 |
+| 득점 결과 (Panel에 포함) | 채움 경계 (114,71.5), 채움 높이 54 | 왼쪽 |
+| LabelRecord | (110,170), PNG 1/2 | 왼쪽 가운데 |
+| LabelOrders / IconOrders | 라벨 (155,225), 아이콘 (103,206,38,38) | 왼쪽 가운데 / 중앙 |
+| LabelSatisfaction / IconSatisfaction | 라벨 (155,280), 아이콘 (103,261,38,38) | 왼쪽 가운데 / 중앙 |
+| Divider 1 | (100,320,900,12) | 중앙 |
+| LabelPenalty | (110,365), PNG 1/2 | 왼쪽 가운데 |
+| LabelLost / IconLost | 라벨 (155,420), 아이콘 (103,401,38,38) | 왼쪽 가운데 / 중앙 |
+| LabelDiscarded / IconDiscarded | 라벨 (155,462), 아이콘 (103,443,38,38) | 왼쪽 가운데 / 중앙 |
+| LabelTrayLeft / IconTrayLeft | 라벨 (155,504), 아이콘 (103,485,38,38) | 왼쪽 가운데 / 중앙 |
+| LabelCleaning / IconCleaning | 라벨 (155,546), 아이콘 (103,527,38,38) | 왼쪽 가운데 / 중앙 |
+| LabelOrderSkipped / IconOrderSkipped | 라벨 (155,588), 아이콘 (103,569,38,38) | 왼쪽 가운데 / 중앙 |
+| 각 상세 행 연결 점선 | (410,행 y-3,95,6), Divider 재사용 | 중앙 |
+| Divider 2 | (100,625,900,12) | 중앙 |
+| LabelTotal | (110,690), PNG 1/2 | 왼쪽 가운데 |
+| TotalCircle | (615,640,380,104) | 중앙 |
+| LabelBest | (110,758), PNG 1/2 | 왼쪽 가운데 |
+| NewBest | (585,735,250,48), 최고 기록 경신 때만 표시 | 중앙 |
+| NextButton | (340,800,420,96) | 중앙 |
+
+TextMeshPro는 모두 **기존 Jua SDF**, 자동 크기 끔, 줄바꿈 끔, 세로 가운데 정렬. 아래 사각형 위치와 글자 크기는 표시 기준이다. 숫자는 자릿수에 따라 작아져야 할 경우 같은 상자 안에서만 조정한다.
+
+| TMP 값 | 사각형 (x,y,w,h) | 글자 크기 | 가로 정렬 | 기본색 | 미리보기 |
+|---|---|---:|---|---|---|
+| DAY | (800,76,190,44) | 32 | 오른쪽 | #FCF0CA | DAY 7 |
+| 완료한 주문 횟수 | (520,202,180,46) | 28 | 오른쪽 | #FCF0CA | 24건 |
+| 완료한 주문 점수 | (760,202,230,46) | 30 | 오른쪽 | #F1D889 | +2,400 |
+| 손님 만족도 점수 | (760,257,230,46) | 30 | 오른쪽 | #F1D889 | +420 |
+| 손님 이탈 횟수 / 점수 | (520,397,180,46) / (760,397,230,46) | 28 / 30 | 오른쪽 | #FCF0CA / #EDA6A1 | 2회 / -100 |
+| 버린 재료·음료 횟수 / 점수 | (520,439,180,46) / (760,439,230,46) | 28 / 30 | 오른쪽 | #FCF0CA / #EDA6A1 | 3회 / -60 |
+| 쟁반 방치 횟수 / 점수 | (520,481,180,46) / (760,481,230,46) | 28 / 30 | 오른쪽 | #FCF0CA / #EDA6A1 | 1회 / -20 |
+| 청소 미처리 횟수 / 점수 | (520,523,180,46) / (760,523,230,46) | 28 / 30 | 오른쪽 | #FCF0CA / #EDA6A1 | 1회 / -30 |
+| 주문 순서 어김 횟수 / 점수 | (520,565,180,46) / (760,565,230,46) | 28 / 30 | 오른쪽 | #FCF0CA / #EDA6A1 | 1회 / -50 |
+| 오늘의 총점 | (640,650,330,84) | 76 | 가운데 | #FCF0CA | 2,560 |
+| 최고 기록 | (280,735,220,46) | 30 | 왼쪽 | #FCF0CA | 2,300 |
+| 기록 차이 | (845,736,145,46) | 30 | 오른쪽 | #F1D889 | +260 |
+
+만족도에는 횟수가 없다. 0회 행의 흐림은 런타임 알파 처리이며 에셋 기본색은 그대로 둔다. 가산 점수는 노랑, 감점 점수는 분홍, 횟수는 기본 분필색이다.
+
+### 최종 파일 규격
+
+| 파일 | PNG 크기 | 표시 크기 |
+|---|---|---|
+| LabelRecord.png | 382×88 | 191×44 |
+| LabelOrders.png | 306×72 | 153×36 |
+| LabelSatisfaction.png | 296×72 | 148×36 |
+| LabelPenalty.png | 326×88 | 163×44 |
+| LabelLost.png | 246×72 | 123×36 |
+| LabelDiscarded.png | 372×72 | 186×36 |
+| LabelTrayLeft.png | 249×72 | 124.5×36 |
+| LabelCleaning.png | 297×72 | 148.5×36 |
+| LabelOrderSkipped.png | 371×72 | 185.5×36 |
+| LabelTotal.png | 375×88 | 187.5×44 |
+| LabelBest.png | 248×72 | 124×36 |
+| Panel.png | 2200×1840 | 1100×920 |
+| NextButton.png | 840×192 | 420×96 |
+| Divider.png | 1800×24 | 900×12 |
+| TotalCircle.png | 760×208 | 380×104 |
+| NewBest.png | 470×96 | 250×48 |
+| IconOrders.png | 256×256 | 38×38 |
+| IconSatisfaction.png | 256×256 | 38×38 |
+| IconLost.png | 256×256 | 38×38 |
+| IconDiscarded.png | 256×256 | 38×38 |
+| IconTrayLeft.png | 256×256 | 38×38 |
+| IconCleaning.png | 256×256 | 38×38 |
+| IconOrderSkipped.png | 256×256 | 38×38 |
+
+### 검수 및 Unity 적용 안내
+
+- 합성 미리보기: `C:/Users/k9425/AppData/Local/Temp/claude/bd37fc10698b196c/3c877158-9d17-4156-bff5-e3db1a17f799/scratchpad/score/preview.png` (1920×1080). 예시 합계는 2,400+420-100-60-20-30-50=2,560, 최고 기록 차이는 +260.
+- 제목·섹션·상세 행·총점 타원·최고 기록·버튼을 표시 크기로 합성해 겹침과 가독성을 확인했다. 모든 고정 한글·띄어쓰기·가운뎃점·느낌표를 원문과 대조했다.
+- Unity 6000.6.4f1로 돌아가 새 PNG를 임포트해 .meta를 생성한다. Sprite (2D and UI), Single, Point, Mip Maps 끔, Alpha Is Transparency 켬. Panel은 Max Size 4096, 나머지는 2048로 원본 크기를 보존한다.
+- 이 작업에서는 씬을 빌드하지 않는다. 후속 적용 시 표의 좌표·TMP 색·흰 Image tint와 신규 아이콘·타원 연결이 필요하며, 그 뒤 Play에서 DAY·가감점·0회 알파·최고 기록 달성 표시를 확인한다.
+- 새 ADR은 없음. 사용자가 지정한 칠판 방향을 이 화면의 생성 기록에 반영했으며 공통 폰트·구조·흐름은 바꾸지 않았다.
