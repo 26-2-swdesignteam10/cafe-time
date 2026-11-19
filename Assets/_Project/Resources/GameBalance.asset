@@ -73,14 +73,6 @@ MonoBehaviour:
     baseUnit: g
     price: 4000
     icon: {fileID: 21300000, guid: b02c75fe73d34634b9fe58297df8c6b4, type: 3}
-  - id: syrup_plain
-    displayName: "\uC77C\uBC18 \uC2DC\uB7FD"
-    category: 2
-    purchaseUnit: "\uBCD1"
-    amountPerUnit: 1000
-    baseUnit: g
-    price: 8000
-    icon: {fileID: 21300000, guid: 5f8d10b0d562dfe42aa33ac0b6cd5754, type: 3}
   - id: syrup_vanilla
     displayName: "\uBC14\uB2D0\uB77C \uC2DC\uB7FD"
     category: 2
@@ -145,6 +137,14 @@ MonoBehaviour:
     baseUnit: g
     price: 10000
     icon: {fileID: 21300000, guid: ea6bcf5ce5ec54e46b5c9b6eada37f15, type: 3}
+  - id: cheong_lemon
+    displayName: "\uB808\uBAAC\uCCAD"
+    category: 2
+    purchaseUnit: "\uBCD1"
+    amountPerUnit: 1000
+    baseUnit: g
+    price: 10000
+    icon: {fileID: 21300000, guid: ee5b758919cdffe45b3cf43bb3ec5058, type: 3}
   - id: tea_chamomile
     displayName: "\uCE90\uBAA8\uB9C8\uC77C \uD2F0\uBC31"
     category: 3
@@ -282,8 +282,6 @@ MonoBehaviour:
     amount: 2000
   - id: condensed_milk
     amount: 300
-  - id: syrup_plain
-    amount: 300
   - id: syrup_vanilla
     amount: 300
   - id: syrup_caramel
@@ -338,6 +336,8 @@ MonoBehaviour:
     amount: 100
   - id: vanilla_ice_cream
     amount: 450
+  - id: cheong_lemon
+    amount: 300
   menus:
   - id: americano
     displayName: "\uC544\uBA54\uB9AC\uCE74\uB178"
@@ -563,10 +563,10 @@ MonoBehaviour:
     hot: 0
     ice: 0
     stockId: dessert_croque_monsieur
-  secondsPerGameHour: 120
+  secondsPerGameHour: 35
   openHour: 9
-  entryCloseHour: 20
-  closeHour: 21
+  entryCloseHour: 17.5
+  closeHour: 18
   difficultyByDay:
   - arrivalInterval: {x: 45, y: 75}
     partySizeWeights: 07000000030000000000000000000000i
@@ -785,9 +785,9 @@ MonoBehaviour:
     temperature: 2
     amounts:
     - key: syrup_blue
+      amount: 20
+    - key: cheong_lemon
       amount: 30
-    - key: syrup_plain
-      amount: 10
     - key: soda
       amount: 200
     - key: ice

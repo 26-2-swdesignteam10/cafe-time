@@ -102,7 +102,8 @@ namespace CafeTime.Cafe
                 return CallResult.Called;
             }
             if (!CustomerManager.Instance.Call(order, trays[order])) return CallResult.NoSuchOrder; // 아직 자리에 앉지 않음 등
-            if (OrderBoard.Instance.Orders.Any(o => o.Number < order.Number && !IsCalled(o) && !o.IsGroup))
+            var orders = OrderBoard.Instance.Orders; // 들어온 순서 (번호는 무작위라 순서와 무관, ADR-0045)
+            if (orders.TakeWhile(o => o != order).Any(o => !IsCalled(o) && !o.IsGroup))
             {
                 DayResult.Today.ordersSkipped++;
                 Toast.Show(ToastMessage.OrderSkipped);

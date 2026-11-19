@@ -384,7 +384,7 @@ namespace CafeTime.Cafe
             return points;
         }
 
-        // 21:00 영업 종료: 음료를 못 받은 주문은 이탈과 같이 처리(환불·감점), 나머지 손님은 그냥 퇴장 (SFR-014)
+        // 18:00 영업 종료: 음료를 못 받은 주문은 이탈과 같이 처리(환불·감점), 나머지 손님은 그냥 퇴장 (SFR-014)
         public void CloseAll()
         {
             closed = true;

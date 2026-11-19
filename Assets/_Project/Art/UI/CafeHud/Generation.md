@@ -291,6 +291,19 @@ Codex(AI 에이전트)로 다시 만들어 교체한 것으로 보인다. 도구
 - Unity 6000.6.4f1로 돌아가 16개 신규 PNG를 임포트하여 `.meta`를 자동 생성한다. DAY·Coin은 Sprite/Single, Point, Mip Maps 끔, Alpha Is Transparency 켬을 확인한다. 이번 작업에는 HUD 코드 연결·빌더 실행이 포함되지 않는다.
 
 - 검증 결과: PNG 18장 RGBA/크기/외부 투명 여백 검사 통과, 합성 미리보기 눈 검수 완료. bash .github/scripts/check-repo.sh 통과 (추적 파일 1993개). 이 검사는 신규 미추적 파일의 .meta 확인을 대신하지 않는다.
+
+## 피처 상태 토스트 (2026-11-19)
+
+- 도구: Python 3 / Pillow + `Assets/_Project/Art/Fonts/Jua-Regular.ttf`. 새 원화 생성 없이 기존과 같은 Jua 조판으로 제작했다. 스타일 참조: 이 폴더의 `ToastNoIce.png`, `ToastCupFirst.png`, 「2026-11-12 Jua 재조판 (ADR-0026)」, `docs/ART_STYLE.md`.
+- 공통 제작 지시: 한 줄 Jua 고정 문구, #380F00 채움·#FCF0CA 사방3px 외곽선, 채움 높이50px·외곽선 포함 높이56px, 사방8px 투명 여백, 전체 높이72px, PNG RGBA. Jua 400px 조판 마스크를 채움 높이200px로 정규화하고 4배 해상도에서 외곽선을 적용한 뒤 Lanczos 축소했다. 글자 굵기 확장·최근접 도트 처리 없이 문구별 자연스러운 폭을 유지했다. 완전 투명 픽셀의 RGB는0이다.
+
+| 파일 | 정확한 문구·파일별 제작 지시 | PNG 크기 | 기본 표시 크기 |
+|---|---|---|---|
+| ToastPitcherFull.png | **피처가 가득 찼습니다.** — 공통 규격으로 조판, 공백2개·마침표1개 | **485×72** | 242.5×36 |
+| ToastPitcherEmpty.png | **피처에 우유를 먼저 부어 주세요.** — 공통 규격으로 조판, 공백4개·마침표1개 | **696×72** | 348×36 |
+
+- 검수: 최종 PNG에서 **피 / 처 / 가 / 공백 / 가 / 득 / 공백 / 찼 / 습 / 니 / 다 / .**, **피 / 처 / 에 / 공백 / 우 / 유 / 를 / 공백 / 먼 / 저 / 공백 / 부 / 어 / 공백 / 주 / 세 / 요 / .**를 눈으로 확인했다. RGBA·전체 높이72px·외곽선 포함 높이56px·사방8px 투명 여백·잘림 없음도 확인했다.
+- 신규 PNG 2장과 이 기록만 추가·수정했다. `.meta`는 만들지 않았고 새 ADR은 없다. Unity 6000.6.4f1로 돌아가 신규 PNG를 임포트하면 `.meta`가 자동 생성된다.
 ## 2026-11-19 ToastGroupOrderExpired.png (ADR-0042)
 
 - 도구: Python / Pillow의 Jua-Regular.ttf 조판(4배 크기 렌더링 후 Lanczos 축소). AI 이미지 생성은 쓰지 않았다.

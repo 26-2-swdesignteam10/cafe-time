@@ -34,8 +34,9 @@ namespace CafeTime.Core
         [Tooltip("게임 시간 1시간이 실제 몇 초인지 (명세 2분 → ADR-0021 35초, 하루 약 7분)")]
         [SerializeField] float secondsPerGameHour = 35f;
         [SerializeField] int openHour = 9;
-        [SerializeField] int entryCloseHour = 20;
-        [SerializeField] int closeHour = 21;
+        [Tooltip("손님 입장 마감 시각 (17.5 = 17:30)")]
+        [SerializeField] float entryCloseHour = 17.5f; // ADR-0044
+        [SerializeField] int closeHour = 18;           // ADR-0044
 
         [Header("손님 (SFR-024, 025, 057, 058) — 임시값, 시간은 실제 초")]
         [Tooltip("DAY 1 ~ 15 손님 난이도: 입장 간격, 일행 인원 가중치, 인내심 (ADR-0020)")]
@@ -94,6 +95,14 @@ namespace CafeTime.Core
         [SerializeField] float smoothiePerClick = 50f;
         [Tooltip("우유·탄산수를 누르고 있을 때 1초에 부어지는 양 (g)")]
         [SerializeField] float pourPerSecond = 50f;
+
+        [Header("우유 스티밍 (ADR-0046) — 임시값")]
+        [SerializeField] float pitcherCapacity = 400f;       // 피처에 담을 수 있는 우유 (g)
+        [SerializeField] float coldMilkTemperature = 5f;     // 냉장 우유 온도 (℃)
+        [SerializeField] float steamDegreesPerSecond = 15f;  // 스팀 중 초당 오르는 온도
+        [SerializeField] float maxMilkTemperature = 90f;
+        [SerializeField] float steamMinTemperature = 60f;    // 적정 구간. 벗어난 우유를 넣은 잔은 등급 한 단계 하락
+        [SerializeField] float steamMaxTemperature = 70f;
         [Tooltip("저울에 표시되는 샷 1개 무게 (g)")]
         [SerializeField] float shotWeight = 30f;
         [Tooltip("저울에 표시되는 얼음 스쿱 1회 무게 (g)")]
@@ -167,23 +176,23 @@ namespace CafeTime.Core
             {
                 int index = recipes.FindIndex(r => r.MenuId == recipe.MenuId && r.Temperature == recipe.Temperature);
                 if (index < 0) recipes.Add(recipe);
-                // 샷이 들어가야 하는 레시피에 샷이 없으면 코드 레시피로 되돌린다. 정량 조절과 달리 다른 음료로 판정되기 때문
-                // (메뉴 개편 때 커피 레시피 12개의 샷이 딸기청 40g 으로 저장된 에셋 복구, ADR-0043)
-                else if (MissingShot(recipes[index], recipe)) recipes[index] = recipe;
+                // 재료 구성이 코드와 다르면(재료가 바뀌었거나 에셋이 깨진 경우) 코드 기본값으로. 같은 구성이면 정량은 보존. 샷 누락 복구(ADR-0043)도 여기에 포함된다
+                else if (!SameKeys(recipes[index], recipe)) recipes[index] = recipe;
             }
 
             var orderedIngredients = new List<IngredientDefinition>();
             foreach (var ingredient in DefaultIngredients())
                 orderedIngredients.Add(ingredients.Find(i => i.Id == ingredient.Id) ?? ingredient);
-            orderedIngredients.AddRange(ingredients.FindAll(i => !orderedIngredients.Contains(i)));
-            ingredients = orderedIngredients;
+            ingredients = orderedIngredients; // 코드에서 뺀 재료(예: 2026-11-18 일반 시럽)는 지운다
 
-            foreach (var stock in DefaultStartingStock())
+            var defaultStock = DefaultStartingStock();
+            startingStock.RemoveAll(s => !defaultStock.Exists(d => d.id == s.id));
+            foreach (var stock in defaultStock)
                 if (!startingStock.Exists(i => i.id == stock.id)) startingStock.Add(stock);
         }
 
-        static bool HasShot(RecipeDefinition recipe) => recipe.Amounts.Any(a => a.Key == RecipeKeys.Shot);
-        static bool MissingShot(RecipeDefinition saved, RecipeDefinition code) => HasShot(code) && !HasShot(saved);
+        static bool SameKeys(RecipeDefinition a, RecipeDefinition b) =>
+            a.Amounts.Count == b.Amounts.Count && a.Amounts.All(x => b.Amounts.Any(y => y.Key == x.Key));
 
         public int StartingMoney => startingMoney;
         public IReadOnlyList<IngredientStock> StartingStock => startingStock;
@@ -194,7 +203,7 @@ namespace CafeTime.Core
 
         public float SecondsPerGameHour => secondsPerGameHour;
         public int OpenHour => openHour;
-        public int EntryCloseHour => entryCloseHour;
+        public float EntryCloseHour => entryCloseHour;
         public int CloseHour => closeHour;
         public DayDifficulty Difficulty(int day) => difficultyByDay[Mathf.Clamp(day - 1, 0, difficultyByDay.Count - 1)];
         public float DessertChance => dessertChance;
@@ -223,6 +232,12 @@ namespace CafeTime.Core
         public float SyrupPerClick => syrupPerClick;
         public float SmoothiePerClick => smoothiePerClick;
         public float PourPerSecond => pourPerSecond;
+        public float PitcherCapacity => pitcherCapacity;
+        public float ColdMilkTemperature => coldMilkTemperature;
+        public float SteamDegreesPerSecond => steamDegreesPerSecond;
+        public float MaxMilkTemperature => maxMilkTemperature;
+        public float SteamMinTemperature => steamMinTemperature;
+        public float SteamMaxTemperature => steamMaxTemperature;
         public float ShotWeight => shotWeight;
         public float IceScoopWeight => iceScoopWeight;
         public float TeabagWeight => teabagWeight;
@@ -271,8 +286,8 @@ namespace CafeTime.Core
             Add(5000, "milk");               // 5팩
             Add(2000, "soda");               // 2병
             Add(300, "condensed_milk");
-            Add(300, "syrup_plain", "syrup_vanilla", "syrup_caramel", "syrup_hazelnut", "syrup_chocolate", "syrup_blue");
-            Add(300, "cheong_strawberry", "cheong_grapefruit", "cheong_yuja");
+            Add(300, "syrup_vanilla", "syrup_caramel", "syrup_hazelnut", "syrup_chocolate", "syrup_blue");
+            Add(300, "cheong_strawberry", "cheong_grapefruit", "cheong_yuja", "cheong_lemon");
             Add(10, "tea_chamomile", "tea_earlgrey"); // 각 1박스
             Add(600, "cold_brew");           // 콜드브루 6잔
             Add(200, "matcha");              // 말차라떼 10잔
@@ -378,6 +393,7 @@ namespace CafeTime.Core
             var hotWater = A(RecipeKeys.HotWater, 200);
             var coldWater = A(RecipeKeys.ColdWater, 200);
             var milk = A("milk", 200);
+            var steamed = A(RecipeKeys.SteamedMilk, 200); // HOT 우유 메뉴는 스팀 우유 (ADR-0046)
             var soda = A("soda", 200);
             var list = new List<RecipeDefinition>
             {
@@ -393,24 +409,22 @@ namespace CafeTime.Core
             {
                 var parts = new List<RecipeAmount> { shot };
                 if (syrup != "") parts.Add(A(syrup, grams));
-                parts.Add(milk);
-                list.Add(new RecipeDefinition(id, hot, parts.ToArray()));
-                parts.Add(cube);
-                list.Add(new RecipeDefinition(id, ice, parts.ToArray()));
+                list.Add(new RecipeDefinition(id, hot, parts.Append(steamed).ToArray()));
+                list.Add(new RecipeDefinition(id, ice, parts.Append(milk).Append(cube).ToArray()));
             }
             // 카푸치노: 우유를 덜 넣고 시나몬 (2026-11-17 사용자 선택)
-            list.Add(new("cappuccino", hot, shot, A("milk", 150), A("cinnamon", 10)));
+            list.Add(new("cappuccino", hot, shot, A(RecipeKeys.SteamedMilk, 150), A("cinnamon", 10)));
             list.Add(new("cappuccino", ice, shot, A("milk", 150), A("cinnamon", 10), cube));
             // 콜드브루: HOT 은 뜨거운 물, ICE 는 차가운 물 + 얼음 (2026-11-18 사용자 요청으로 HOT 추가)
             list.Add(new("cold_brew", hot, A("cold_brew", 100), A(RecipeKeys.HotWater, 150)));
             list.Add(new("cold_brew", ice, A("cold_brew", 100), A(RecipeKeys.ColdWater, 150), cube));
-            list.Add(new("cold_brew_latte", hot, A("cold_brew", 100), A("milk", 150)));
+            list.Add(new("cold_brew_latte", hot, A("cold_brew", 100), A(RecipeKeys.SteamedMilk, 150)));
             list.Add(new("cold_brew_latte", ice, A("cold_brew", 100), A("milk", 150), cube));
             list.Add(new("strawberry_latte", ice, A("cheong_strawberry", 40), milk, cube));
             list.Add(new("chocolate_latte", ice, A("syrup_chocolate", 30), milk, cube));
             list.Add(new("matcha_latte", ice, A("matcha", 20), milk, cube));
             list.Add(new("grapefruit_ade", ice, A("cheong_grapefruit", 40), soda, cube));
-            list.Add(new("blue_lemon_ade", ice, A("syrup_blue", 30), A("syrup_plain", 10), soda, cube));
+            list.Add(new("blue_lemon_ade", ice, A("syrup_blue", 20), A("cheong_lemon", 30), soda, cube)); // 2026-11-18 사용자 요청으로 레몬청
             list.Add(new("yuja_tea", hot, A("cheong_yuja", 40), hotWater));
             list.Add(new("grapefruit_tea", hot, A("cheong_grapefruit", 40), hotWater));
             foreach (var (id, bag) in new[] { ("chamomile", "tea_chamomile"), ("earl_grey", "tea_earlgrey") })
@@ -446,7 +460,6 @@ namespace CafeTime.Core
                 new("milk", "우유", liquid, "팩", 1000, "g", 2500),
                 new("soda", "탄산수", liquid, "병", 1000, "g", 1500),
                 new("condensed_milk", "연유", liquid, "통", 500, "g", 4000),
-                new("syrup_plain", "일반 시럽", syrup, "병", 1000, "g", 8000),
                 new("syrup_vanilla", "바닐라 시럽", syrup, "병", 1000, "g", 8000),
                 new("syrup_caramel", "카라멜 시럽", syrup, "병", 1000, "g", 8000),
                 new("syrup_hazelnut", "헤이즐넛 시럽", syrup, "병", 1000, "g", 8000),
@@ -455,6 +468,7 @@ namespace CafeTime.Core
                 new("cheong_strawberry", "딸기청", syrup, "병", 1000, "g", 10000),
                 new("cheong_grapefruit", "자몽청", syrup, "병", 1000, "g", 10000),
                 new("cheong_yuja", "유자청", syrup, "병", 1000, "g", 10000),
+                new("cheong_lemon", "레몬청", syrup, "병", 1000, "g", 10000), // 블루레몬에이드 (2026-11-18 사용자 요청, 일반 시럽 대신)
                 new("tea_chamomile", "캐모마일 티백", tea, "박스", 10, "개", 5000),
                 new("tea_earlgrey", "얼그레이 티백", tea, "박스", 10, "개", 5000),
                 new("smoothie_strawberry", "딸기 스무디", smoothie, "팩", 1000, "g", 9000),

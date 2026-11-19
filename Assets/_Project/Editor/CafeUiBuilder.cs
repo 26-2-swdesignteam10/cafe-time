@@ -438,12 +438,13 @@ namespace CafeTime.EditorTools
 
             // 오른쪽: 메뉴 이름·온도 선택, 큰 완성품 그림, 재료·정량 목록 (SFR-051)
             Set(so, "menuNameText", AddText(TopLeft("MenuName", window, 470, 148, 570, 60), "", 36, DarkCoffee, TextAlignmentOptions.Left));
-            Set(so, "hotToggle", AddButton(TopLeft("HotToggle", window, 1070, 152, 120, 48), B("ToggleHotOff"), Cream));
-            Set(so, "iceToggle", AddButton(TopLeft("IceToggle", window, 1200, 152, 120, 48), B("ToggleIceOff"), Cream));
-            Set(so, "hotOn", B("ToggleHotOn"));
-            Set(so, "hotOff", B("ToggleHotOff"));
-            Set(so, "iceOn", B("ToggleIceOn"));
-            Set(so, "iceOff", B("ToggleIceOff"));
+            // HOT/ICE 는 포스기와 같은 불꽃·얼음 아이콘 버튼 그림 (2026-11-18 사용자 요청, 240x112 → 120x56)
+            Set(so, "hotToggle", AddButton(TopLeft("HotToggle", window, 1070, 148, 120, 56), LoadSprite($"{Pos}/HotNormal.png"), Cream));
+            Set(so, "iceToggle", AddButton(TopLeft("IceToggle", window, 1200, 148, 120, 56), LoadSprite($"{Pos}/IceNormal.png"), Cream));
+            Set(so, "hotOn", LoadSprite($"{Pos}/HotSelected.png"));
+            Set(so, "hotOff", LoadSprite($"{Pos}/HotNormal.png"));
+            Set(so, "iceOn", LoadSprite($"{Pos}/IceSelected.png"));
+            Set(so, "iceOff", LoadSprite($"{Pos}/IceNormal.png"));
             Set(so, "card", RecipeCard(window));
             var picture = AddImage(TopLeft("FinishedDrink", window, 470, 260, 350, 410), null, Color.clear);
             picture.preserveAspect = true;

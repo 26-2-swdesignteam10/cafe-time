@@ -55,3 +55,6 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0041](0041-cold-brew-hot-temperature-pictures.md) | 콜드브루 HOT 추가, 포스기 카드 그림을 HOT/ICE 에 맞춰 바꾼다 | 승인 |
 | [0042](0042-group-order-event.md) | DAY 4 단체 주문은 영업 중 대화창으로 수락하고 픽업대 마감 주문으로 처리한다 | 제안 |
 | [0043](0043-restore-shot-recipes.md) | 샷이 빠진 커피 레시피는 에셋 동기화 때 코드 레시피로 복구한다 | 제안 |
+| [0044](0044-close-at-six.md) | 영업 종료를 18:00, 입장 마감을 17:30으로 당긴다 | 승인 |
+| [0045](0045-random-bell-numbers.md) | 진동벨 번호를 1~30 중 무작위로 준다 | 승인 |
+| [0046](0046-steamed-milk.md) | HOT 우유 메뉴는 스팀 피처로 데운 우유를 쓴다 | 승인 |

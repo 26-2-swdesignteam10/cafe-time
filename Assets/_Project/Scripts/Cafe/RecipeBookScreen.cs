@@ -162,6 +162,7 @@ namespace CafeTime.Cafe
                 case RecipeKeys.Ice: return (iceIcon, "얼음", $"{amount}스쿱");
                 case RecipeKeys.HotWater: return (hotWaterIcon, "뜨거운 물", $"{amount}g");
                 case RecipeKeys.ColdWater: return (coldWaterIcon, "차가운 물", $"{amount}g");
+                case RecipeKeys.SteamedMilk: return (GameBalance.Instance.FindIngredient("milk")?.Icon, "스팀 우유", $"{amount}g");
             }
             var ingredient = GameBalance.Instance.FindIngredient(part.Key);
             return ingredient != null

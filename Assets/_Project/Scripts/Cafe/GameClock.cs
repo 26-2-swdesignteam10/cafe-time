@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CafeTime.Cafe
 {
-    // 영업 시간 (SFR-014): 게임 시간 09:00 ~ 21:00, 실제 2분 = 게임 1시간 (GameBalance)
+    // 영업 시간 (SFR-014): 게임 시간 09:00 ~ 18:00, 실제 35초 = 게임 1시간 (GameBalance, ADR-0021·0042)
     // 기기 화면이 열려 있어도 시간은 흐르고, 일시정지 메뉴(SFR-023)가 열린 동안에만 멈춘다 → Paused
     public class GameClock : MonoBehaviour
     {
@@ -19,14 +19,15 @@ namespace CafeTime.Cafe
         // 영업 시간 기준 경과 시간(실제 초). 손님 타이머는 Time.deltaTime 대신 이 값을 쓴다
         public static float Delta => Instance == null || Paused ? 0f : Time.deltaTime * Instance.testSpeed;
 
-        public event Action EntryClosed; // 20:00 손님 입장 마감
-        public event Action Closed;      // 21:00 영업 종료
+        public event Action EntryClosed; // 17:30 손님 입장 마감
+        public event Action Closed;      // 18:00 영업 종료
 
         float minutes; // 00:00 부터의 게임 시간(분)
         GameBalance balance;
 
         public bool IsEntryClosed { get; private set; }
         public bool IsClosed { get; private set; }
+        public float Hour => minutes / 60f; // 시간대 연출용 (DaylightCycle)
         public string TimeText => $"{(int)minutes / 60:00}:{(int)minutes % 60 / 10 * 10:00}"; // 10분 단위 표시
         public float Minutes => minutes; // 00:00 부터의 게임 시간(분)
 

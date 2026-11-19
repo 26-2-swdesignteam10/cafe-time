@@ -7,5 +7,6 @@ namespace CafeTime.Core
         public const string Ice = "ice";               // 얼음 스쿱 (횟수, SFR-048)
         public const string HotWater = "water_hot";    // 정수기 뜨거운 물 (g, SFR-043)
         public const string ColdWater = "water_cold";  // 정수기 차가운 물 (g)
+        public const string SteamedMilk = "milk_steamed"; // 스팀 피처로 데운 우유 (g, ADR-0046). 재고는 우유(milk)에서 쓴다
     }
 }
