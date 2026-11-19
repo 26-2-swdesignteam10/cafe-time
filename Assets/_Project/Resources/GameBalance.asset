@@ -672,7 +672,7 @@ MonoBehaviour:
     amounts:
     - key: shot
       amount: 1
-    - key: milk
+    - key: milk_steamed
       amount: 200
   - menuId: cafe_latte
     temperature: 2
@@ -690,7 +690,7 @@ MonoBehaviour:
       amount: 1
     - key: syrup_vanilla
       amount: 20
-    - key: milk
+    - key: milk_steamed
       amount: 200
   - menuId: vanilla_latte
     temperature: 2
@@ -710,7 +710,7 @@ MonoBehaviour:
       amount: 1
     - key: syrup_caramel
       amount: 20
-    - key: milk
+    - key: milk_steamed
       amount: 200
   - menuId: caramel_macchiato
     temperature: 2
@@ -730,7 +730,7 @@ MonoBehaviour:
       amount: 1
     - key: syrup_hazelnut
       amount: 20
-    - key: milk
+    - key: milk_steamed
       amount: 200
   - menuId: hazelnut_latte
     temperature: 2
@@ -750,7 +750,7 @@ MonoBehaviour:
       amount: 1
     - key: syrup_chocolate
       amount: 30
-    - key: milk
+    - key: milk_steamed
       amount: 200
   - menuId: cafe_mocha
     temperature: 2
@@ -870,7 +870,7 @@ MonoBehaviour:
     amounts:
     - key: shot
       amount: 1
-    - key: milk
+    - key: milk_steamed
       amount: 150
     - key: cinnamon
       amount: 10
@@ -942,7 +942,7 @@ MonoBehaviour:
     amounts:
     - key: cold_brew
       amount: 100
-    - key: milk
+    - key: milk_steamed
       amount: 150
   perfectTolerance: 0.1
   goodTolerance: 0.25
@@ -960,6 +960,12 @@ MonoBehaviour:
   syrupPerClick: 10
   smoothiePerClick: 50
   pourPerSecond: 50
+  pitcherCapacity: 400
+  coldMilkTemperature: 5
+  steamDegreesPerSecond: 15
+  maxMilkTemperature: 90
+  steamMinTemperature: 60
+  steamMaxTemperature: 70
   shotWeight: 30
   iceScoopWeight: 100
   teabagWeight: 2

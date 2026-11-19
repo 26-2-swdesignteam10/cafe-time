@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace CafeTime.Player
 {
-    // 캐릭터 이동 (SFR-015), 달리기 (SFR-016), 충돌 (SFR-017)
+    // 캐릭터 이동 (SFR-015), 충돌 (SFR-017). 달리기(SFR-016)는 사용자 요청으로 뺐다 (ADR-0047)
     // - Rigidbody2D(Dynamic, 중력 0)에 속도를 주어 이동 → 벽·기기·가구의 Collider2D에 막힘
     // - 손님과 의자는 충돌 영역이 없어 통과한다 (ADR-0025)
     [RequireComponent(typeof(Rigidbody2D))]
@@ -20,7 +20,6 @@ namespace CafeTime.Player
         };
 
         [SerializeField] float walkSpeed = 4.5f;    // 이동 속도 (추후 결정)
-        [SerializeField] float runMultiplier = 1.6f; // 달리기 속도 배율 (추후 결정)
 
         // 누르고 있는 방향을 누른 순서대로 보관. 마지막 원소가 현재 이동 방향
         readonly List<Vector2> heldDirections = new List<Vector2>();
@@ -28,7 +27,6 @@ namespace CafeTime.Player
         Vector2 moveDirection;
 
         public bool IsMoving => moveDirection != Vector2.zero;
-        public bool IsRunning { get; private set; }
         public Vector2 Facing { get; private set; } = Vector2.down; // 마지막으로 바라본 방향 (SFR-018)
 
         void Awake()
@@ -46,7 +44,6 @@ namespace CafeTime.Player
             {
                 heldDirections.Clear();
                 moveDirection = Vector2.zero;
-                IsRunning = false;
                 return;
             }
 
@@ -59,14 +56,13 @@ namespace CafeTime.Player
             }
 
             moveDirection = heldDirections.Count > 0 ? heldDirections[heldDirections.Count - 1] : Vector2.zero;
-            IsRunning = IsMoving && keyboard.shiftKey.isPressed;
             if (IsMoving) Facing = moveDirection;
         }
 
         // 키를 떼면 즉시 정지 (가속/감속 없음)
         void FixedUpdate()
         {
-            body.linearVelocity = moveDirection * (IsRunning ? walkSpeed * runMultiplier : walkSpeed);
+            body.linearVelocity = moveDirection * walkSpeed;
         }
     }
 }
