@@ -58,3 +58,4 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0044](0044-close-at-six.md) | 영업 종료를 18:00, 입장 마감을 17:30으로 당긴다 | 승인 |
 | [0045](0045-random-bell-numbers.md) | 진동벨 번호를 1~30 중 무작위로 준다 | 승인 |
 | [0046](0046-steamed-milk.md) | HOT 우유 메뉴는 스팀 피처로 데운 우유를 쓴다 | 승인 |
+| [0047](0047-remove-running.md) | 달리기 기능을 없앤다 | 승인 |

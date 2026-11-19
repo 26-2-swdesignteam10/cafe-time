@@ -21,7 +21,6 @@ namespace CafeTime.Player
         [SerializeField] DirectionFrames left;
         [SerializeField] DirectionFrames right;
         [SerializeField] float walkFps = 8f;
-        [SerializeField] float runFpsMultiplier = 1.6f; // 달리기 중 재생 속도 배율
 
         SpriteRenderer spriteRenderer;
         float frameTime;
@@ -40,7 +39,7 @@ namespace CafeTime.Player
                 return;
             }
 
-            frameTime += Time.deltaTime * walkFps * (movement.IsRunning ? runFpsMultiplier : 1f);
+            frameTime += Time.deltaTime * walkFps;
             spriteRenderer.sprite = frames.walk[(int)frameTime % frames.walk.Length];
         }
 

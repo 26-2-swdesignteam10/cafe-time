@@ -666,7 +666,13 @@ namespace CafeTime.EditorTools
             float w = 1600 * Scale, h = 900 * Scale;
             var (popup, window) = Window<PosScreen>(canvas, "PosScreen", LoadSprite($"{Pos}/Panel.png"), 1600, 900, 540 - Top - h / 2, Scale);
             var so = new SerializedObject(popup);
-            Set(so, "chat", OrderChat(popup.transform, (1920 - w) / 2, Top + h + 10, w, 1080 - Top - h - 20));
+            // 주문 채팅 줄: 왼쪽에 손님 초상화(정사각형), 오른쪽에 말풍선 (2026-11-19 사용자 요청)
+            float chatX = (1920 - w) / 2, chatY = Top + h + 10, chatH = 1080 - Top - h - 20;
+            var portrait = AddImage(TopLeft("CustomerPortrait", popup.transform, chatX, chatY, chatH, chatH), null, Color.white);
+            portrait.preserveAspect = true;
+            portrait.raycastTarget = false;
+            Set(so, "portrait", portrait);
+            Set(so, "chat", OrderChat(popup.transform, chatX + chatH + 12, chatY, w - chatH - 12, chatH));
 
             // 좌표는 Art/UI/Pos/Generation.md "배치 (2026-11-12)" 표 (ADR-0029)
             var tabNormal = LoadSprite($"{Pos}/TabNormal.png");

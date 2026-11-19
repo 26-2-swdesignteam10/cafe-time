@@ -8,12 +8,17 @@ namespace CafeTime.Cafe
     public class Customer : MonoBehaviour
     {
         const float Speed = 2.2f; // 걷는 속도 (칸/초)
+        const float WalkFps = 8f; // 걷기 프레임 속도 (플레이어와 같음)
 
         readonly Queue<Vector3> path = new Queue<Vector3>();
         SpriteRenderer spriteRenderer;
         CustomerLook look;
         bool sitting;
         Vector2 seatFacing = Vector2.down; // 자리에 앉아 바라볼 방향
+        float walkTime;
+        Vector2 heading = Vector2.up; // 마지막으로 걸은 방향
+
+        public CustomerLook Look => look;
 
         public bool IsMoving => path.Count > 0;
 
@@ -64,9 +69,19 @@ namespace CafeTime.Cafe
             if (path.Count == 0 || sitting) return;
             var target = path.Peek();
             var offset = target - transform.position;
-            if (offset.sqrMagnitude > 0.0001f) Face(offset);
+            walkTime += GameClock.Delta * WalkFps;
+            if (offset.sqrMagnitude > 0.0001f) heading = offset;
+            spriteRenderer.sprite = look.Walking(heading, (int)walkTime);
             transform.position = Vector3.MoveTowards(transform.position, target, Speed * GameClock.Delta);
-            if ((transform.position - target).sqrMagnitude < 0.0001f) path.Dequeue();
+            if ((transform.position - target).sqrMagnitude < 0.0001f)
+            {
+                path.Dequeue();
+                if (path.Count == 0)
+                {
+                    Face(heading); // 멈추면 마지막 방향의 서 있는 그림
+                    walkTime = 0;
+                }
+            }
         }
     }
 }

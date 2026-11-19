@@ -155,7 +155,7 @@ namespace CafeTime.EditorTools
             // 단체 주문 이벤트 (SFR-009, ADR-0042): 대표 손님 그림은 손님 1 정면
             var groupOrders = new SerializedObject(managers.Business.AddComponent<GroupOrderManager>());
             Set(groupOrders, "dialog", ui.Dialog);
-            Set(groupOrders, "representative", LoadSprite($"{CustomerArtDir}/Customer1Down.png"));
+            Set(groupOrders, "representative", LoadSprite($"{CustomerArtDir}/Customer1Portrait.png"));
             groupOrders.ApplyModifiedPropertiesWithoutUndo();
             BuildStations(ui, managers.Business);
             var player = BuildPlayer();
@@ -543,6 +543,17 @@ namespace CafeTime.EditorTools
                 // 필드 이름 = 포즈 이름의 첫 글자만 소문자 (SitLeft → sitLeft). SitLeft/SitRight 는 의자에 앉은 옆모습 (SFR-024)
                 foreach (var pose in new[] { "Down", "Up", "Left", "Right", "Sit", "SitLeft", "SitRight" })
                     look.FindPropertyRelative(char.ToLower(pose[0]) + pose.Substring(1)).objectReferenceValue = LoadSprite($"{CustomerArtDir}/Customer{i + 1}{pose}.png");
+                // 걷기: 오른발·서기·왼발·서기 (플레이어와 같은 순서, 2026-11-19 캐릭터 개편)
+                foreach (var dir in new[] { "Down", "Up", "Left", "Right" })
+                {
+                    string Frame(string step) => $"{CustomerArtDir}/Customer{i + 1}{dir}{step}.png";
+                    var idle = LoadSprite(Frame(""));
+                    var walk = look.FindPropertyRelative("walk" + dir);
+                    var frames = new[] { LoadSprite(Frame("1")), idle, LoadSprite(Frame("2")), idle };
+                    walk.arraySize = frames.Length;
+                    for (int f = 0; f < frames.Length; f++) walk.GetArrayElementAtIndex(f).objectReferenceValue = frames[f];
+                }
+                look.FindPropertyRelative("portrait").objectReferenceValue = LoadSprite($"{CustomerArtDir}/Customer{i + 1}Portrait.png");
             }
             Set(customers, "gaugeFrame", LoadSprite($"{HudArt}/GaugeFrame.png"));
             Set(customers, "gaugeFill", LoadSprite($"{HudArt}/GaugeFill.png"));

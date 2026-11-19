@@ -35,6 +35,8 @@ namespace CafeTime.Cafe
 
         [Header("손님 주문 채팅")]
         [SerializeField] OrderChatView chat;
+        [Tooltip("주문 채팅 옆 손님 초상화 (대표 손님 외형)")]
+        [SerializeField] Image portrait;
         [Tooltip("포스기 화면이 열려 있는 동안 숨길 HUD (주문 채팅 자리와 겹치는 양손 칸)")]
         [SerializeField] GameObject[] hideWhileOpen;
 
@@ -80,6 +82,11 @@ namespace CafeTime.Cafe
             ShowCategory(MenuCategory.Coffee);
             Refresh();
             if (chat != null) chat.Show(party.Sentences); // 주문 대사를 보면서 입력하도록 함께 표시
+            if (portrait != null)
+            {
+                portrait.sprite = party.Leader.Look.portrait;
+                portrait.enabled = portrait.sprite != null;
+            }
         }
 
         protected override void OnEnable()
