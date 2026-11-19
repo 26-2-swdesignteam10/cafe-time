@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CafeTime.Cafe
 {
-    // 스팀 피처 (ADR-0044): 우유를 붓고 스팀으로 데운 뒤 저울 위 잔에 붓는다. 음료 제조실에 1개
+    // 스팀 피처 (ADR-0046): 우유를 붓고 스팀으로 데운 뒤 저울 위 잔에 붓는다. 음료 제조실에 1개
     public class SteamPitcher
     {
         public float Milk { get; private set; }        // g

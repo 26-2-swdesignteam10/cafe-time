@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace CafeTime.Cafe
 {
-    // 우유 스티밍 창 (ADR-0044): 음료 제조실에서 연다. 우유팩을 꾹 눌러 피처에 붓고, 스팀 완드를 꾹 눌러 데우고,
+    // 우유 스티밍 창 (ADR-0046): 음료 제조실에서 연다. 우유팩을 꾹 눌러 피처에 붓고, 스팀 완드를 꾹 눌러 데우고,
     // 피처를 꾹 눌러 저울 위 잔에 붓는다. 온도계에 적정 구간이 있고, 벗어난 우유를 넣은 잔은 판정 때 등급이 한 단계 내려간다.
     // 피처 상태는 DrinkStation.Pitcher 에 있어 창을 닫아도 유지된다. 좌표는 Art/UI/SteamRoom/Generation.md 배치표
     public class SteamScreen : Popup

@@ -27,7 +27,7 @@ namespace CafeTime.Cafe
         [SerializeField] Button completeButton;
         [SerializeField] JudgeResultView result;
         [SerializeField] IngredientToolScreen toolScreen;
-        [SerializeField] Button steamButton;   // 우유 스티밍 창 열기 (ADR-0044)
+        [SerializeField] Button steamButton;   // 우유 스티밍 창 열기 (ADR-0046)
         [SerializeField] SteamScreen steamScreen;
 
         static DrinkStation Station => DrinkStation.Instance;

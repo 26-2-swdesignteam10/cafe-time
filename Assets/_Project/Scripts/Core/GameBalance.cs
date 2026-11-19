@@ -35,8 +35,8 @@ namespace CafeTime.Core
         [SerializeField] float secondsPerGameHour = 35f;
         [SerializeField] int openHour = 9;
         [Tooltip("손님 입장 마감 시각 (17.5 = 17:30)")]
-        [SerializeField] float entryCloseHour = 17.5f; // ADR-0042
-        [SerializeField] int closeHour = 18;           // ADR-0042
+        [SerializeField] float entryCloseHour = 17.5f; // ADR-0044
+        [SerializeField] int closeHour = 18;           // ADR-0044
 
         [Header("손님 (SFR-024, 025, 057, 058) — 임시값, 시간은 실제 초")]
         [Tooltip("DAY 1 ~ 15 손님 난이도: 입장 간격, 일행 인원 가중치, 인내심 (ADR-0020)")]
@@ -53,6 +53,10 @@ namespace CafeTime.Core
         [SerializeField] float neutralSatisfaction = 60f;
         [Tooltip("하루 평판 변동 최대치 (+/-)")]
         [SerializeField] float maxReputationChange = 0.5f;
+
+        [Header("단체 주문 이벤트 (SFR-009, ADR-0042) — 임시값")]
+        [Tooltip("DAY별 영업 중 단체 주문. 해당 DAY가 없으면 이벤트 없음")]
+        [SerializeField] List<GroupOrderEvent> groupOrders = DefaultGroupOrders();
 
         [Header("레시피 (SFR-051) — 정량 임시값")]
         [SerializeField] List<RecipeDefinition> recipes = DefaultRecipes();
@@ -92,7 +96,7 @@ namespace CafeTime.Core
         [Tooltip("우유·탄산수를 누르고 있을 때 1초에 부어지는 양 (g)")]
         [SerializeField] float pourPerSecond = 50f;
 
-        [Header("우유 스티밍 (ADR-0044) — 임시값")]
+        [Header("우유 스티밍 (ADR-0046) — 임시값")]
         [SerializeField] float pitcherCapacity = 400f;       // 피처에 담을 수 있는 우유 (g)
         [SerializeField] float coldMilkTemperature = 5f;     // 냉장 우유 온도 (℃)
         [SerializeField] float steamDegreesPerSecond = 15f;  // 스팀 중 초당 오르는 온도
@@ -172,7 +176,7 @@ namespace CafeTime.Core
             {
                 int index = recipes.FindIndex(r => r.MenuId == recipe.MenuId && r.Temperature == recipe.Temperature);
                 if (index < 0) recipes.Add(recipe);
-                // 재료 구성이 코드와 다르면(재료가 바뀌었거나 에셋이 깨진 경우) 코드 기본값으로. 같은 구성이면 정량은 보존
+                // 재료 구성이 코드와 다르면(재료가 바뀌었거나 에셋이 깨진 경우) 코드 기본값으로. 같은 구성이면 정량은 보존. 샷 누락 복구(ADR-0043)도 여기에 포함된다
                 else if (!SameKeys(recipes[index], recipe)) recipes[index] = recipe;
             }
 
@@ -208,6 +212,8 @@ namespace CafeTime.Core
         public int TipPerPerson => tipPerPerson;
         public float NeutralSatisfaction => neutralSatisfaction;
         public float MaxReputationChange => maxReputationChange;
+        // 그 DAY의 단체 주문 이벤트. 없으면 null (SFR-009)
+        public GroupOrderEvent GroupOrderFor(int day) => groupOrders?.Find(e => e.day == day);
 
         public IReadOnlyList<RecipeDefinition> Recipes => recipes;
         public float PerfectTolerance => perfectTolerance;
@@ -313,6 +319,17 @@ namespace CafeTime.Core
             new DayDifficulty(20, 32, new[] { 2, 3, 3, 2 }, 18, 210), // DAY 15
         };
 
+        // DAY 4 단체 주문 (SFR-009, docs/GAME_DATA.md 9장): 11:00 요청, 16:00 마감, ICE 6잔 ₩26,000 + 정확히 맞추면 30% 보너스
+        static List<GroupOrderEvent> DefaultGroupOrders() => new List<GroupOrderEvent>
+        {
+            new GroupOrderEvent(4, 11f, 16f, 0.3f, "day4_group_order", new List<GroupOrderEntry>
+            {
+                new GroupOrderEntry("americano", Temperature.Ice, 3),
+                new GroupOrderEntry("cafe_latte", Temperature.Ice, 2),
+                new GroupOrderEntry("vanilla_latte", Temperature.Ice, 1),
+            }),
+        };
+
         static int[] DefaultRent()
         {
             var rent = new int[TotalDays];
@@ -376,7 +393,7 @@ namespace CafeTime.Core
             var hotWater = A(RecipeKeys.HotWater, 200);
             var coldWater = A(RecipeKeys.ColdWater, 200);
             var milk = A("milk", 200);
-            var steamed = A(RecipeKeys.SteamedMilk, 200); // HOT 우유 메뉴는 스팀 우유 (ADR-0044)
+            var steamed = A(RecipeKeys.SteamedMilk, 200); // HOT 우유 메뉴는 스팀 우유 (ADR-0046)
             var soda = A("soda", 200);
             var list = new List<RecipeDefinition>
             {

@@ -152,6 +152,11 @@ namespace CafeTime.EditorTools
             var managers = BuildManagers(tables);
             BuildAudio();
             var ui = CafeUiBuilder.Build(managers);
+            // 단체 주문 이벤트 (SFR-009, ADR-0042): 대표 손님 그림은 손님 1 정면
+            var groupOrders = new SerializedObject(managers.Business.AddComponent<GroupOrderManager>());
+            Set(groupOrders, "dialog", ui.Dialog);
+            Set(groupOrders, "representative", LoadSprite($"{CustomerArtDir}/Customer1Down.png"));
+            groupOrders.ApplyModifiedPropertiesWithoutUndo();
             BuildStations(ui, managers.Business);
             var player = BuildPlayer();
 

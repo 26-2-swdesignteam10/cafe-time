@@ -96,7 +96,7 @@ namespace CafeTime.Cafe
             return true;
         }
 
-        // ───────── 스팀 피처 (ADR-0044) ─────────
+        // ───────── 스팀 피처 (ADR-0046) ─────────
         public SteamPitcher Pitcher { get; } = new SteamPitcher();
 
         // 우유팩을 누르고 있는 동안 피처에 붓기. 가득 차거나 우유가 없으면 false

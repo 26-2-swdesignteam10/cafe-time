@@ -627,7 +627,7 @@ namespace CafeTime.EditorTools
             Set(so, "result", Result(window));
             Set(so, "tooltip", Tooltip(window));
             Set(so, "toolScreen", BuildIngredientTool(canvas));
-            // 우유 스티밍 창 열기 (ADR-0044, Art/UI/SteamRoom/Generation.md "음료 제조실 진입 버튼")
+            // 우유 스티밍 창 열기 (ADR-0046, Art/UI/SteamRoom/Generation.md "음료 제조실 진입 버튼")
             var steam = Btn(window, "SteamButton", S(F, "SteamButton"), 1080, 80, 330, 90);
             CenterLabel(steam.transform, "Label", S(F, "LabelSteam"));
             Set(so, "steamButton", steam);
@@ -636,7 +636,7 @@ namespace CafeTime.EditorTools
             return popup;
         }
 
-        // 우유 스티밍 창 (ADR-0044): 음료 제조실 위에 겹쳐 열린다. 좌표는 Art/UI/SteamRoom/Generation.md "스팀 창 배치표" (1100x700, 1.3배 표시)
+        // 우유 스티밍 창 (ADR-0046): 음료 제조실 위에 겹쳐 열린다. 좌표는 Art/UI/SteamRoom/Generation.md "스팀 창 배치표" (1100x700, 1.3배 표시)
         static SteamScreen BuildSteam(Transform canvas)
         {
             const string F = "SteamRoom";

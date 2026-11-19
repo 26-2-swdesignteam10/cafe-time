@@ -10,7 +10,7 @@ namespace CafeTime.Cafe
     {
         public static OrderBoard Instance { get; private set; }
 
-        // 진동벨 번호 (ADR-0043): 1~maxBellNumber 중 대기 중인 주문과 겹치지 않는 번호를 무작위로 (2026-11-19 사용자 요청).
+        // 진동벨 번호 (ADR-0045): 1~maxBellNumber 중 대기 중인 주문과 겹치지 않는 번호를 무작위로 (2026-11-19 사용자 요청).
         // 끝난 주문의 번호는 다시 나올 수 있다. 주문이 들어온 순서는 orders 목록 순서다
         [SerializeField] int maxBellNumber = 30;
 
@@ -28,9 +28,9 @@ namespace CafeTime.Cafe
             if (Instance == this) Instance = null;
         }
 
-        public Order Register(List<OrderLine> lines, int paid, CustomerParty party)
+        public Order Register(List<OrderLine> lines, int paid, CustomerParty party, GroupOrder group = null)
         {
-            var order = new Order(NextBellNumber(), lines, paid, party);
+            var order = new Order(NextBellNumber(), lines, paid, party, group);
             orders.Add(order);
             Changed?.Invoke();
             return order;

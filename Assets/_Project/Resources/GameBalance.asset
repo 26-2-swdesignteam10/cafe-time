@@ -634,6 +634,22 @@ MonoBehaviour:
   tipPerPerson: 500
   neutralSatisfaction: 60
   maxReputationChange: 0.5
+  groupOrders:
+  - day: 4
+    requestHour: 11
+    deadlineHour: 16
+    bonusRate: 0.3
+    lines:
+    - menuId: americano
+      temperature: 2
+      quantity: 3
+    - menuId: cafe_latte
+      temperature: 2
+      quantity: 2
+    - menuId: vanilla_latte
+      temperature: 2
+      quantity: 1
+    choiceId: day4_group_order
   recipes:
   - menuId: americano
     temperature: 1

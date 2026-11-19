@@ -12,7 +12,23 @@ namespace CafeTime.Core
         public float reputation = 3f; // 카페 평판 ★1~5 (SFR-072)
         public int bestScore;         // 하루 최고 점수 (SFR-067). 하루 정산에서 갱신해 저장
         public List<IngredientStock> stocks = new List<IngredientStock>(); // 재료 재고, 기본 단위 (ADR-0010)
-        // 스토리 선택 결과는 해당 기능 구현 시 추가
+        public List<ChoiceRecord> choices = new List<ChoiceRecord>(); // 스토리·이벤트 선택 결과 (SFR-008, 071)
+
+        // 선택 결과 기록. 같은 선택 지점을 다시 고르면(같은 DAY 재시작) 덮어쓴다
+        public void SetChoice(string id, string result)
+        {
+            if (string.IsNullOrEmpty(id)) return;
+            var record = choices.Find(c => c.id == id);
+            if (record == null)
+            {
+                record = new ChoiceRecord { id = id };
+                choices.Add(record);
+            }
+            record.result = result;
+        }
+
+        // 고른 적이 없으면 null
+        public string GetChoice(string id) => choices.Find(c => c.id == id)?.result;
 
         public int GetStock(string id)
         {

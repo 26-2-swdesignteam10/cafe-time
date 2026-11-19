@@ -29,6 +29,14 @@ namespace CafeTime.Cafe
         public bool IsClosed { get; private set; }
         public float Hour => minutes / 60f; // 시간대 연출용 (DaylightCycle)
         public string TimeText => $"{(int)minutes / 60:00}:{(int)minutes % 60 / 10 * 10:00}"; // 10분 단위 표시
+        public float Minutes => minutes; // 00:00 부터의 게임 시간(분)
+
+        // 게임 시각(시, 소수 가능) → "16:00"
+        public static string HourText(float hour)
+        {
+            int total = Mathf.RoundToInt(hour * 60f);
+            return $"{total / 60:00}:{total % 60:00}";
+        }
 
         void Awake()
         {
