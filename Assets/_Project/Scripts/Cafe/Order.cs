@@ -5,7 +5,8 @@ namespace CafeTime.Cafe
 {
     // 포스기로 결제해 등록한 주문 (SFR-027). Lines 는 플레이어가 입력한 내용이고,
     // 손님이 실제로 원한 메뉴는 Party.Wanted 에 있다 (잘못 입력해도 그대로 주문서에 반영, SFR-026)
-    // 단체 주문(SFR-009, ADR-0042)은 Party 없이 Group 이 있고, Paid 는 서빙하면 받을 주문 금액이다
+    // 단체 주문(SFR-009, ADR-0042)은 Party 없이 Group 이 있고, Paid 는 서빙하면 받을 주문 금액이다.
+    // 인플루언서 주문(SFR-009, ADR-0048)도 Party 없이 Influencer 가 있다
     public class Order
     {
         public int Number { get; }
@@ -13,16 +14,21 @@ namespace CafeTime.Cafe
         public int Paid { get; }
         public CustomerParty Party { get; }
         public GroupOrder Group { get; }
+        public InfluencerVisit Influencer { get; }
 
         public bool IsGroup => Group != null;
+        public bool IsInfluencer => Influencer != null;
+        // 손님 일행 없이 이벤트가 직접 처리하는 주문: 픽업대 앞에서 기다리다 바로 받아 가고, 선입선출 판정에서 빠진다
+        public bool IsEvent => IsGroup || IsInfluencer;
 
-        public Order(int number, List<OrderLine> lines, int paid, CustomerParty party, GroupOrder group = null)
+        public Order(int number, List<OrderLine> lines, int paid, CustomerParty party, GroupOrder group = null, InfluencerVisit influencer = null)
         {
             Number = number;
             Lines = lines;
             Paid = paid;
             Party = party;
             Group = group;
+            Influencer = influencer;
         }
 
         // 베이커리는 손님이 이미 가져왔다. 영수증에는 포함하고 제조·픽업 목록에서는 제외 (SFR-056).

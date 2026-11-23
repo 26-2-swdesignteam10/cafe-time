@@ -9,7 +9,8 @@ namespace CafeTime.Core
         public int drinksSold;        // 판매한 음료 수
         public int revenue;           // 오늘 수익 (결제 금액 합계 - 환불)
         public int tips;              // 받은 팁 합계
-        public float reputationChange; // 손님 만족도 평균에 따른 평판 변동 (SFR-072, 기준 임시)
+        public float reputationChange; // 손님 만족도 평균에 따른 평판 변동 + 이벤트 평판 변동 (SFR-072, 기준 임시)
+        public float eventReputationChange; // 영업 중 이벤트로 생긴 평판 변동 (인플루언서 방문, SFR-009, ADR-0048). 영업 종료 때 reputationChange 에 합친다
 
         // 득점 결과 화면(SFR-067, 068)용 기록
         public int ordersCompleted;    // 서빙 완료한 주문 수

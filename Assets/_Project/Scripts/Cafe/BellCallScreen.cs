@@ -44,7 +44,7 @@ namespace CafeTime.Cafe
         void Update()
         {
             var keyboard = Keyboard.current;
-            if (keyboard == null) return;
+            if (keyboard == null || EventDialog.IsShowing) return; // 이벤트 대화 중 키는 대사 넘기기 (SFR-008)
             for (int i = 0; i <= 9; i++)
                 if (keyboard[Key.Digit0 + i].wasPressedThisFrame || keyboard[Key.Numpad0 + i].wasPressedThisFrame) Type(i);
             if (keyboard.backspaceKey.wasPressedThisFrame) Back();

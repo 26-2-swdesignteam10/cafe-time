@@ -32,5 +32,20 @@ namespace CafeTime.Cafe
         public void OnPointerEnter(PointerEventData eventData) => Entered?.Invoke();
 
         public void OnPointerExit(PointerEventData eventData) => Exited?.Invoke();
+
+        // 끄는 그림 안의 한 점(정규화 좌표, 0~1)의 화면 좌표. 숟가락·국자는 손잡이 끝이 마우스에 붙어 있어,
+        // 놓을 자리 판정에 머리(내용물이 담긴 쪽) 위치도 함께 쓴다
+        public static Vector2 ScreenPoint(RectTransform rect, Vector2 normalized, Camera cam)
+        {
+            var corners = new Vector3[4];
+            rect.GetWorldCorners(corners); // 0 = 왼쪽 아래, 2 = 오른쪽 위
+            var world = new Vector3(Mathf.Lerp(corners[0].x, corners[2].x, normalized.x), Mathf.Lerp(corners[0].y, corners[2].y, normalized.y), corners[0].z);
+            return RectTransformUtility.WorldToScreenPoint(cam, world);
+        }
+
+        // 마우스 위치 또는 그림의 머리 점이 target 안에 있는가
+        public static bool Over(RectTransform target, PointerEventData e, RectTransform dragged, Vector2 head) =>
+            RectTransformUtility.RectangleContainsScreenPoint(target, e.position, e.pressEventCamera)
+            || RectTransformUtility.RectangleContainsScreenPoint(target, ScreenPoint(dragged, head, e.pressEventCamera), e.pressEventCamera);
     }
 }

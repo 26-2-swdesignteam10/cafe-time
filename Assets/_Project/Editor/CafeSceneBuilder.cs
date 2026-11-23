@@ -157,6 +157,11 @@ namespace CafeTime.EditorTools
             Set(groupOrders, "dialog", ui.Dialog);
             Set(groupOrders, "representative", LoadSprite($"{CustomerArtDir}/Customer1Portrait.png"));
             groupOrders.ApplyModifiedPropertiesWithoutUndo();
+            // 인플루언서 방문 이벤트 (SFR-009, ADR-0048): 같은 대화창, 인플루언서 그림은 손님 2 정면
+            var influencer = new SerializedObject(managers.Business.AddComponent<InfluencerManager>());
+            Set(influencer, "dialog", ui.Dialog);
+            Set(influencer, "portrait", LoadSprite($"{CustomerArtDir}/Customer2Portrait.png"));
+            influencer.ApplyModifiedPropertiesWithoutUndo();
             BuildStations(ui, managers.Business);
             var player = BuildPlayer();
 

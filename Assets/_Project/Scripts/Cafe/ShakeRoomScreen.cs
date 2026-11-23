@@ -18,6 +18,8 @@ namespace CafeTime.Cafe
         [SerializeField] Sprite[] scoopSprites;    // 마우스를 따라오는 원액 국자
         [SerializeField] Vector2 scoopSize;
         [SerializeField] Vector2 scoopPivot;       // 잡는 점 (정규화)
+        [Tooltip("국자 그림에서 원액이 담긴 머리 위치 (정규화). 마우스나 머리가 믹서기 위에 있으면 넣는다")]
+        [SerializeField] Vector2 scoopHead = new Vector2(0.84f, 0.5f);
         [SerializeField] IngredientTooltip tooltip;
 
         [Header("우유 팩")]
@@ -250,7 +252,7 @@ namespace CafeTime.Cafe
         {
             if (draggingBase < 0) return;
             var ingredient = bases[draggingBase];
-            bool over = OverBlender(e.position, e.pressEventCamera);
+            bool over = PointerDragRelay.Over(blenderArea, e, dragImage.rectTransform, scoopHead); // 손잡이 끝(마우스) 또는 국자 머리
             CancelDrag();
             if (over) Mixer.AddBase(ingredient); // 1회분 (갈기 시작 뒤에는 Blender 가 막음)
         }

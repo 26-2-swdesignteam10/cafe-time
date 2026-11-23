@@ -43,9 +43,11 @@ namespace CafeTime.Cafe
         {
             customers.CloseAll();
             if (GroupOrderManager.Instance != null) GroupOrderManager.Instance.Expire(); // 서빙 못 한 단체 주문 취소 (ADR-0042)
+            if (InfluencerManager.Instance != null) InfluencerManager.Instance.Expire(showReaction: false); // 받지 못한 인플루언서 촬영 실패 (ADR-0048)
             closedBanner.SetActive(true);
             yield return new WaitForSecondsRealtime(bannerSeconds);
-            DayResult.Today.reputationChange = ReputationChange(DayResult.Today, GameBalance.Instance);
+            var result = DayResult.Today;
+            result.reputationChange = Mathf.Round((ReputationChange(result, GameBalance.Instance) + result.eventReputationChange) * 10f) / 10f;
             SceneLoader.Load(SceneNames.Score); // 득점 결과 → 하루 정산 (SFR-067, 071)
         }
 

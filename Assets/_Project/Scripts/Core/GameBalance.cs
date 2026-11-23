@@ -54,9 +54,24 @@ namespace CafeTime.Core
         [Tooltip("하루 평판 변동 최대치 (+/-)")]
         [SerializeField] float maxReputationChange = 0.5f;
 
+        [Header("단골손님 (SFR-009 DAY 9, ADR-0049) — 임시값")]
+        [Tooltip("이름 있는 단골. firstDay 부터 매일 한 번 혼자 방문해 늘 마시는 메뉴를 주문한다")]
+        [SerializeField] List<RegularCustomer> regulars = DefaultRegulars();
+        [Tooltip("이 횟수만큼 주문한 뒤부터는 메뉴를 말하지 않고 '늘 마시던 걸로' 주문한다")]
+        [SerializeField] int regularVisitsToRemember = 2;
+        [Tooltip("단골이 이 만족도 이상이면 반드시 주는 팁")]
+        [SerializeField] int regularTip = 2000;
+        [Range(0f, 100f)] [SerializeField] float regularTipMinSatisfaction = 70f;
+        [Tooltip("단골 방문 게임 시각 범위 (시). 매일 이 사이에서 무작위")]
+        [SerializeField] Vector2 regularVisitHours = new Vector2(9.5f, 16.5f);
+
         [Header("단체 주문 이벤트 (SFR-009, ADR-0042) — 임시값")]
         [Tooltip("DAY별 영업 중 단체 주문. 해당 DAY가 없으면 이벤트 없음")]
         [SerializeField] List<GroupOrderEvent> groupOrders = DefaultGroupOrders();
+
+        [Header("인플루언서 방문 이벤트 (SFR-009, ADR-0048) — 임시값")]
+        [Tooltip("DAY별 영업 중 인플루언서 방문. 해당 DAY가 없으면 이벤트 없음")]
+        [SerializeField] List<InfluencerEvent> influencerEvents = DefaultInfluencerEvents();
 
         [Header("레시피 (SFR-051) — 정량 임시값")]
         [SerializeField] List<RecipeDefinition> recipes = DefaultRecipes();
@@ -214,6 +229,12 @@ namespace CafeTime.Core
         public float MaxReputationChange => maxReputationChange;
         // 그 DAY의 단체 주문 이벤트. 없으면 null (SFR-009)
         public GroupOrderEvent GroupOrderFor(int day) => groupOrders?.Find(e => e.day == day);
+        public IReadOnlyList<RegularCustomer> Regulars => regulars;
+        public int RegularVisitsToRemember => regularVisitsToRemember;
+        public int RegularTip => regularTip;
+        public float RegularTipMinSatisfaction => regularTipMinSatisfaction;
+        public Vector2 RegularVisitHours => regularVisitHours;
+        public InfluencerEvent InfluencerFor(int day) => influencerEvents?.Find(e => e.day == day);
 
         public IReadOnlyList<RecipeDefinition> Recipes => recipes;
         public float PerfectTolerance => perfectTolerance;
@@ -328,6 +349,26 @@ namespace CafeTime.Core
                 new GroupOrderEntry("cafe_latte", Temperature.Ice, 2),
                 new GroupOrderEntry("vanilla_latte", Temperature.Ice, 1),
             }),
+        };
+
+        // 단골손님 (SFR-009, docs/GAME_DATA.md 9장): DAY 7 부터 매일 방문 → 3번째 방문(DAY 9)부터 '늘 마시던 걸로'
+        // 외형 번호: 0 회사원, 1 학생(인플루언서와 같은 그림이라 쓰지 않음), 2 할머니, 3 안경 쓴 청년
+        static List<RegularCustomer> DefaultRegulars() => new List<RegularCustomer>
+        {
+            new RegularCustomer("kim", "김 과장", 0, "americano", Temperature.Hot, 7),
+            new RegularCustomer("sunja", "순자 할머니", 2, "chamomile", Temperature.Hot, 7),
+            new RegularCustomer("junho", "준호", 3, "vanilla_latte", Temperature.Ice, 7), // DAY 9 스토리의 아이스 바닐라라떼 단골
+        };
+
+        // DAY 6 인플루언서 방문 (SFR-009, docs/GAME_DATA.md 9장): 13:00 방문, 15:00 마감, 대표 메뉴 ICE 바닐라라떼 1잔
+        static List<InfluencerEvent> DefaultInfluencerEvents() => new List<InfluencerEvent>
+        {
+            new InfluencerEvent(6, 13f, 15f, "vanilla_latte", Temperature.Ice, "day6_influencer")
+            {
+                greatReputation = 0.3f, greatVisitorRate = 1.15f,
+                goodReputation = 0.1f, goodVisitorRate = 1.05f,
+                badReputation = -0.3f, badVisitorRate = 0.9f,
+            },
         };
 
         static int[] DefaultRent()

@@ -59,3 +59,5 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0045](0045-random-bell-numbers.md) | 진동벨 번호를 1~30 중 무작위로 준다 | 승인 |
 | [0046](0046-steamed-milk.md) | HOT 우유 메뉴는 스팀 피처로 데운 우유를 쓴다 | 승인 |
 | [0047](0047-remove-running.md) | 달리기 기능을 없앤다 | 승인 |
+| [0048](0048-influencer-visit-event.md) | DAY 6 인플루언서는 영업 중 대화창으로 대표 메뉴 촬영을 요청하고, 결과로 평판과 다음 날부터의 손님 수가 바뀐다 | 제안 |
+| [0049](0049-regular-customers.md) | 단골손님은 DAY 7부터 매일 혼자 와서 늘 마시는 음료를 주문하고, 세 번째 방문부터는 메뉴를 말하지 않는다 | 제안 |

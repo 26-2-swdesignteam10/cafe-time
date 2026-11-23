@@ -11,6 +11,7 @@ namespace CafeTime.Cafe
 {
     // 영업 중 NPC 이벤트 대화창 (SFR-008, 009, ADR-0042): 화자 이름·초상화·대사를 차례로 보여 주고,
     // 마지막 대사에서 수락/거절 선택지를 띄운 뒤 고른 결과에 맞는 답 대사를 보여 주고 닫힌다.
+    // 선택지 없이 대사만 보여 주고 닫을 수도 있다 (인플루언서 촬영 소감, ADR-0048).
     // 열려 있는 동안 게임 시간과 손님이 멈추고(일시정지 메뉴와 같은 방식), 플레이어 이동·상호작용은 Popup.AnyOpen 으로 막힌다.
     // 선택 전에는 ESC 로 닫을 수 없다
     public class EventDialog : Popup
@@ -43,7 +44,8 @@ namespace CafeTime.Cafe
             declineButton.onClick.AddListener(() => Choose(false));
         }
 
-        // lines 의 마지막 대사가 끝나면 선택지를 띄운다. onChoice 는 고른 결과를 처리하고 답 대사를 돌려준다
+        // lines 의 마지막 대사가 끝나면 선택지를 띄운다. onChoice 는 고른 결과를 처리하고 답 대사를 돌려준다.
+        // choice 가 null 이면 선택지 없이 마지막 대사 다음 입력에 닫힌다
         public void Show(string speaker, Sprite face, IReadOnlyList<string> dialogue, Func<bool, string> choice)
         {
             lines = dialogue;
@@ -141,6 +143,11 @@ namespace CafeTime.Cafe
             typing = false;
             if (!replied && index == lines.Count - 1)
             {
+                if (onChoice == null)
+                {
+                    replied = true; // 고를 것 없음: 다음 입력에 닫힘
+                    return;
+                }
                 waitingChoice = true;
                 choicePanel.SetActive(true);
             }
