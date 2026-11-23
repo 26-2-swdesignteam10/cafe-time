@@ -55,6 +55,8 @@ namespace CafeTime.Cafe
         [SerializeField] Sprite spoonFull;
         [SerializeField] Vector2 spoonSize;
         [SerializeField] Vector2 spoonPivot;
+        [Tooltip("숟가락 그림에서 청이 담긴 머리 위치 (정규화). 마우스나 머리가 컵 위에 있으면 넣는다")]
+        [SerializeField] Vector2 spoonHead = new Vector2(0.85f, 0.5f);
         [SerializeField] Sprite teaBag;
         [SerializeField] Vector2 teaBagSize;
         [SerializeField] Vector2 teaBagPivot;
@@ -236,7 +238,10 @@ namespace CafeTime.Cafe
             if (!dragging) return;
             dragging = false;
             dragImage.enabled = false;
-            if (!RectTransformUtility.RectangleContainsScreenPoint(cupImage.rectTransform, e.position, e.pressEventCamera)) return; // 컵 밖: 그냥 돌아감
+            bool overCup = tool == Tool.Spoon
+                ? PointerDragRelay.Over(cupImage.rectTransform, e, dragImage.rectTransform, spoonHead) // 손잡이 끝(마우스) 또는 숟가락 머리
+                : RectTransformUtility.RectangleContainsScreenPoint(cupImage.rectTransform, e.position, e.pressEventCamera);
+            if (!overCup) return; // 컵 밖: 그냥 돌아감
 
             if (tool == Tool.Spoon)
             {
