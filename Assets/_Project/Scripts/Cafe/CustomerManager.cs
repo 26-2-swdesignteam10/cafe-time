@@ -38,6 +38,8 @@ namespace CafeTime.Cafe
         readonly List<CustomerParty> queue = new List<CustomerParty>();
         GameBalance balance;
         float nextArrival;
+        readonly List<(RegularCustomer regular, float minutes)> dueRegulars = new List<(RegularCustomer, float)>(); // 오늘 올 단골과 방문 시각 (ADR-0049)
+        float visitorRate = 1f; // 인플루언서 방문 결과 (ADR-0048). 오늘 바뀐 값은 다음 DAY 부터 적용되도록 시작 때 한 번 읽는다
         bool closed;
 
         static DayResult Result => DayResult.Today;
@@ -56,13 +58,40 @@ namespace CafeTime.Cafe
             if (Instance == this) Instance = null;
         }
 
-        void Start() => nextArrival = 3f; // 영업 시작 직후 첫 손님
+        void Start()
+        {
+            nextArrival = 3f; // 영업 시작 직후 첫 손님
+            visitorRate = Mathf.Max(0.1f, Save.visitorRate);
+            ScheduleRegulars();
+        }
+
+        // 오늘 방문할 단골과 시각을 정한다 (SFR-009 DAY 9, ADR-0049)
+        void ScheduleRegulars()
+        {
+            if (balance.Regulars == null) return;
+            var hours = balance.RegularVisitHours;
+            foreach (var regular in balance.Regulars)
+            {
+                if (regular == null || Save.day < regular.firstDay || looks.Length == 0) continue;
+                var menu = balance.FindMenu(regular.menuId);
+                if (menu == null || menu.IsDessert)
+                {
+                    Debug.LogWarning($"단골 '{regular.displayName}' 의 메뉴 '{regular.menuId}' 를 쓸 수 없어 오늘은 오지 않습니다.");
+                    continue;
+                }
+                dueRegulars.Add((regular, Random.Range(hours.x, hours.y) * 60f));
+            }
+        }
 
         void Update()
         {
             float dt = GameClock.Delta;
             if (!closed && !GameClock.Instance.IsEntryClosed)
             {
+                // 방문 시각이 된 단골. 만석·줄이 가득 차면 자리가 날 때까지 기다렸다 들어온다 (ADR-0049)
+                for (int i = dueRegulars.Count - 1; i >= 0; i--)
+                    if (GameClock.Instance.Minutes >= dueRegulars[i].minutes && TrySpawnRegular(dueRegulars[i].regular))
+                        dueRegulars.RemoveAt(i);
                 nextArrival -= dt;
                 if (nextArrival <= 0)
                 {
@@ -79,29 +108,51 @@ namespace CafeTime.Cafe
         {
             // DAY가 지날수록 입장 빈도 증가 (SFR-024, DAY별 난이도 표 ADR-0020)
             var interval = Difficulty.arrivalInterval;
-            return Random.Range(interval.x, interval.y);
+            return Random.Range(interval.x, interval.y) / visitorRate; // 배율이 클수록 손님이 자주 온다 (SFR-009 인플루언서, ADR-0048)
         }
 
         // ───────── 입장 ─────────
 
+        // 만석이거나 줄이 가득 차면 들어오지 않음 (감점 없음)
+        bool CanSpawn(out List<CafeTable> free)
+        {
+            free = tables.Where(t => t.IsFree).ToList();
+            return free.Count > 0 && queue.Count + parties.Count(p => p.Current == CustomerParty.State.ToShowcase) < maxQueue;
+        }
+
         void TrySpawn()
         {
-            var free = tables.Where(t => t.IsFree).ToList();
-            if (free.Count == 0 || queue.Count + parties.Count(p => p.Current == CustomerParty.State.ToShowcase) >= maxQueue) return; // 만석이거나 줄이 가득 차면 들어오지 않음 (감점 없음)
-
+            if (!CanSpawn(out var free)) return;
             int size = WeightedPartySize();
+            Spawn(free, CustomerParty.RandomWants(size, balance), Enumerable.Range(0, size).Select(_ => looks[Random.Range(0, looks.Length)]).ToList());
+        }
+
+        // 단골은 혼자 와서 늘 마시는 메뉴 한 잔을 주문한다. 들어오면 true (ADR-0049)
+        bool TrySpawnRegular(RegularCustomer regular)
+        {
+            if (!CanSpawn(out var free)) return false;
+            var menu = balance.FindMenu(regular.menuId);
+            var temperature = menu.OnlyTemperature != Temperature.None ? menu.OnlyTemperature : regular.temperature;
+            var look = looks[Mathf.Clamp(regular.lookIndex, 0, looks.Length - 1)];
+            var party = Spawn(free, new List<OrderLine> { new OrderLine(menu, temperature, 1) }, new List<CustomerLook> { look });
+            party.Regular = regular;
+            party.RegularVisits = Save.GetRegularVisits(regular.id);
+            party.RegularRemembered = party.RegularVisits >= balance.RegularVisitsToRemember;
+            return true;
+        }
+
+        CustomerParty Spawn(List<CafeTable> free, List<OrderLine> wants, List<CustomerLook> memberLooks)
+        {
+            int size = memberLooks.Count;
             var party = new GameObject("Party").AddComponent<CustomerParty>();
             party.transform.SetParent(transform, false);
             party.Table = free[Random.Range(0, free.Count)];
             party.Table.Party = party;
-            party.Wanted = CustomerParty.RandomWants(size, balance);
+            party.Wanted = wants;
             party.Gauge = WorldGauge.Create(party.transform, gaugeFrame, gaugeFill);
             party.Gauge.Show(false);
             for (int i = 0; i < size; i++)
-            {
-                var look = looks[Random.Range(0, looks.Length)];
-                party.Members.Add(Customer.Create(party.transform, look, (Vector3)doorOutside + Vector3.down * 0.4f * i));
-            }
+                party.Members.Add(Customer.Create(party.transform, memberLooks[i], (Vector3)doorOutside + Vector3.down * 0.4f * i));
             parties.Add(party);
             Result.visitors += size;
 
@@ -120,6 +171,7 @@ namespace CafeTime.Cafe
                     });
             }
             else JoinQueue(party, fromDoor: true);
+            return party;
         }
 
         void JoinQueue(CustomerParty party, bool fromDoor)
@@ -234,6 +286,7 @@ namespace CafeTime.Cafe
             Result.revenue += total;
             var order = OrderBoard.Instance.Register(lines, total, party);
             party.Order = order;
+            if (party.Regular != null) Save.AddRegularVisit(party.Regular.id); // 주문한 방문만 센다 (ADR-0049)
 
             LeaveQueue(party);
             party.Gauge.Show(false);
@@ -273,13 +326,15 @@ namespace CafeTime.Cafe
             party.Served = items.ToList();
             party.CollectedBakery.Clear(); // 베이커리는 셀프서비스 포장으로 제공, 설거지 접시를 만들지 않음
 
-            // 만족도가 높을수록 높은 확률로 팁, 보유 자금에 바로 더함
-            if (Random.value < balance.MaxTipChance * satisfaction / 100f)
+            // 만족도가 높을수록 높은 확률로 팁, 보유 자금에 바로 더함. 단골은 늘 마시던 음료를 잘 받으면 반드시 단골 팁 (ADR-0049)
+            int tip = 0;
+            if (party.Regular != null)
             {
-                int tip = balance.TipPerPerson * party.Members.Count;
-                Save.money += tip;
-                Result.tips += tip;
+                if (satisfaction >= balance.RegularTipMinSatisfaction) tip = balance.RegularTip;
             }
+            else if (Random.value < balance.MaxTipChance * satisfaction / 100f) tip = balance.TipPerPerson * party.Members.Count;
+            Save.money += tip;
+            Result.tips += tip;
 
             party.Order = null;
             party.Gauge.Show(false);

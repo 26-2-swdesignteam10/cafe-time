@@ -27,6 +27,11 @@ namespace CafeTime.Cafe
 
         public List<OrderLine> CollectedBakery { get; } = new List<OrderLine>(); // 직접 집은 베이커리 (SFR-026, 056)
 
+        // 단골손님 (ADR-0049). null 이면 일반 손님. Visits = 오늘 전까지 주문한 횟수
+        public RegularCustomer Regular { get; set; }
+        public int RegularVisits { get; set; }
+        public bool RegularRemembered { get; set; } // true 면 메뉴를 말하지 않고 '늘 마시던 걸로' 주문
+
         public Customer Leader => Members[0];
         public bool Arrived => Members.All(m => !m.IsMoving);
 
@@ -34,12 +39,36 @@ namespace CafeTime.Cafe
         {
             get
             {
+                if (Regular != null) return RegularSentences();
                 var sentences = OrderText.Sentences(Wanted.Where(l => !l.Menu.IsDessert).ToList());
                 // 집어 온 베이커리 품목·수량을 대사로 알려 주고 플레이어가 직접 포스기에 입력한다 (SFR-026).
                 foreach (var sentence in OrderText.Sentences(CollectedBakery))
                     sentences.Add(sentence.Replace(" 주세요.", " 결제해 주세요."));
                 return sentences;
             }
+        }
+
+        // 단골 주문 대사: 이름을 밝히고, 기억해 줄 때가 되면 메뉴 없이 '늘 마시던 걸로' (SFR-009 DAY 9, ADR-0049)
+        List<string> RegularSentences()
+        {
+            string name = Regular.displayName;
+            if (RegularRemembered)
+                return new List<string> { $"{name}{Copula(name)}! 사장님, 또 왔어요.", "늘 마시던 걸로 주세요." };
+            string greeting = RegularVisits == 0
+                ? $"안녕하세요, 근처에 사는 {name}{Copula(name)}."
+                : $"{name}{Copula(name)}! 오늘도 들렀어요.";
+            var sentences = new List<string> { greeting };
+            sentences.AddRange(OrderText.Sentences(Wanted));
+            return sentences;
+        }
+
+        // 받침이 있으면 "이에요", 없으면 "예요"
+        static string Copula(string word)
+        {
+            if (string.IsNullOrEmpty(word)) return "예요";
+            char last = word[word.Length - 1];
+            bool batchim = last >= 0xAC00 && last <= 0xD7A3 && (last - 0xAC00) % 28 != 0;
+            return batchim ? "이에요" : "예요";
         }
 
         // 받은 물건으로 만족도 계산 (0~100, SFR-068 계산식은 추후 결정 → 임시)
