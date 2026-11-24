@@ -42,6 +42,9 @@ namespace CafeTime.EspressoShot
             }
 
             grinding = true;
+            // SFR-031: 원두 분쇄 시작 시 모터음 재생
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetGrinderRunning(true);
             slot.Locked = true;
             float seconds = GameBalance.Instance.GrindSeconds;
             if (progressFill != null) progressFill.fillAmount = 0f;
@@ -61,6 +64,8 @@ namespace CafeTime.EspressoShot
                 if (progressFill != null) progressFill.fillAmount = 0f;
                 slot.Locked = false;
                 grinding = false;
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.SetGrinderRunning(false);
             });
         }
     }

@@ -197,7 +197,23 @@ namespace CafeTime.Cafe
         {
             float before = Count();
             Station.AddIngredient(ingredient);
-            return Count() > before; // 재료 부족 등으로 들어가지 않으면 false (안내는 DrinkStation 이 띄움)
+
+            bool added = Count() > before;
+
+            // SFR-046: 재료가 실제로 들어간 경우에만 효과음 재생
+            if (added && AudioManager.Instance != null)
+            {
+                if (tool == Tool.Pump)
+                {
+                    AudioManager.Instance.PlayPump();
+                }
+                else if (ingredient.Id.StartsWith("cheong_"))
+                {
+                    AudioManager.Instance.PlayCheong();
+                }
+            }
+
+            return added;
         }
 
         // 누르고 있는 동안 붓기 (SFR-047)

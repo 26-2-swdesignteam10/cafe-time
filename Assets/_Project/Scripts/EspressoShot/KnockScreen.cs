@@ -4,6 +4,7 @@ using CafeTime.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using CafeTime.Core;
 
 namespace CafeTime.EspressoShot
 {
@@ -57,6 +58,10 @@ namespace CafeTime.EspressoShot
         [Header("안내 글자")]
         public Image hint;
         public Sprite hintKnock, hintHarder, hintBrush;
+
+        [Tooltip("브러시 움직임이 멈춘 뒤 소리를 끄기까지의 시간")]
+        [SerializeField] float brushSoundHoldSeconds = 0.1f;
+        float brushSoundUntil = -1f;
 
         Phase phase;
         Action onCleaned;
@@ -130,6 +135,7 @@ namespace CafeTime.EspressoShot
 
         public void OnEndDrag(PointerEventData e)
         {
+            StopBrushSound();
             if (draggingPortafilter && phase == Phase.Knock) StartCoroutine(MoveTo(pfRect, knockStart, 0.15f));
             if (draggingBrush && phase == Phase.Brush) LayBrush(0.15f);
             draggingPortafilter = draggingBrush = false;
@@ -149,6 +155,9 @@ namespace CafeTime.EspressoShot
             }
             pfRect.anchoredPosition = new Vector2(knockStart.x, contactY);
             draggingPortafilter = false;
+            // SFR-036: 포터필터가 넉박스 막대에 닿으면 한 번 재생
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayKnock();
             StartCoroutine(speed >= strongSpeed ? StrongHit() : WeakHit());
         }
 
@@ -209,18 +218,75 @@ namespace CafeTime.EspressoShot
 
         void DragBrush(Vector2 delta)
         {
-            brush.anchoredPosition += delta;
-            Vector2 tip = brush.anchoredPosition + (Vector2)(brush.localRotation * brushTip) - (pfRect.anchoredPosition + basketCenter);
-            Vector2 n = new Vector2(tip.x / basketRadius.x, tip.y / basketRadius.y);
-            if (n.sqrMagnitude > 1f) return; // 바스켓 밖
+            if (phase != Phase.Brush) return;
 
-            brushed += delta.magnitude;
-            // 터는 모션: 문지른 거리만큼 솔이 좌우로 까딱인다
-            float flick = flickAngle * Mathf.Sin(brushed / flickDistance * 2f * Mathf.PI);
-            brush.localRotation = Quaternion.Euler(0, 0, brushDragAngle + flick);
+            brush.anchoredPosition += delta;
+
+            Vector2 tip =
+                brush.anchoredPosition +
+                (Vector2)(brush.localRotation * brushTip) -
+                (pfRect.anchoredPosition + basketCenter);
+
+            Vector2 n = new Vector2(
+                tip.x / basketRadius.x,
+                tip.y / basketRadius.y
+            );
+
+            if (n.sqrMagnitude > 1f)
+            {
+                StopBrushSound();
+                return; // 바스켓 밖
+            }
+
+            float distance = delta.magnitude;
+            if (distance <= 0f) return;
+
+            // SFR-036: 바스켓 안을 실제로 문지르는 동안 소리 유지
+            brushSoundUntil =
+                Time.unscaledTime + brushSoundHoldSeconds;
+
+            brushed += distance;
+
+            float flick =
+                flickAngle *
+                Mathf.Sin(brushed / flickDistance * 2f * Mathf.PI);
+
+            brush.localRotation =
+                Quaternion.Euler(0, 0, brushDragAngle + flick);
+
             float left = 1f - Mathf.Clamp01(brushed / brushDistance);
             residue.color = new Color(1, 1, 1, left);
-            if (left <= 0f) StartCoroutine(Finish());
+
+            if (left <= 0f)
+            {
+                StopBrushSound();
+                StartCoroutine(Finish());
+            }
+        }
+
+        void LateUpdate()
+        {
+            bool brushing =
+                phase == Phase.Brush &&
+                draggingBrush &&
+                Time.unscaledTime < brushSoundUntil;
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetBrushing(brushing);
+        }
+
+        void StopBrushSound()
+        {
+            brushSoundUntil = -1f;
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetBrushing(false);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            StopBrushSound();
         }
 
         IEnumerator Finish()

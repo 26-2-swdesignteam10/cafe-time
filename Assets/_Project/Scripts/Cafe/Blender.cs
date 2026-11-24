@@ -79,6 +79,9 @@ namespace CafeTime.Cafe
             if (!CanAdd || !(HandInventory.Instance[hand] is IceScoop { HasIce: true } scoop) || LidBlocksAdding()) return false;
             scoop.HasIce = false;
             Jar.Add(RecipeKeys.Ice, 1);
+            // SFR-053: 믹서기에 얼음이 들어갔을 때 효과음 재생
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayIceScoop();
             IceMaker.Instance.ReturnFromHand(hand); // 얼음을 부은 빈 스쿱은 제빙기 스쿱 자리로 자동 반납
             HandInventory.Instance.NotifyChanged();
             Changed?.Invoke();

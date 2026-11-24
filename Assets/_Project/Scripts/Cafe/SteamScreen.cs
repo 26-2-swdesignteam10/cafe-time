@@ -79,6 +79,19 @@ namespace CafeTime.Cafe
         void LateUpdate()
         {
             ShowActions();
+
+            if (AudioManager.Instance != null)
+            {
+                // 우유팩 → 피처, 피처 → 컵
+                AudioManager.Instance.SetWaterPouring(
+                    pouringMilk || pouringPitcher,
+                    this
+                );
+
+                // 스팀 완드로 우유를 데우는 동안 반복 재생
+                AudioManager.Instance.SetSteaming(steaming);
+            }
+
             pouringMilk = steaming = pouringPitcher = false;
         }
 
@@ -118,6 +131,19 @@ namespace CafeTime.Cafe
             {
                 var rt = (RectTransform)pitcherStream.transform;
                 rt.sizeDelta = new Vector2(rt.sizeDelta.x, pitcherStreamHeights[cup.Type == CupType.Ceramic ? 0 : 1]); // 위끝(피처 입구) 고정
+            }
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            pouringMilk = steaming = pouringPitcher = false;
+
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.SetWaterPouring(false, this);
+                AudioManager.Instance.SetSteaming(false);
             }
         }
     }
