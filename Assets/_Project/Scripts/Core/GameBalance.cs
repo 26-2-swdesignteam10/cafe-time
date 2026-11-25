@@ -73,6 +73,10 @@ namespace CafeTime.Core
         [Tooltip("DAY별 영업 중 인플루언서 방문. 해당 DAY가 없으면 이벤트 없음")]
         [SerializeField] List<InfluencerEvent> influencerEvents = DefaultInfluencerEvents();
 
+        [Header("점심시간 러시 이벤트 (SFR-009, ADR-0050) — 임시값")]
+        [Tooltip("DAY별 점심시간 러시. 해당 DAY가 없으면 이벤트 없음")]
+        [SerializeField] List<LunchRushEvent> lunchRushes = DefaultLunchRushes();
+
         [Header("레시피 (SFR-051) — 정량 임시값")]
         [SerializeField] List<RecipeDefinition> recipes = DefaultRecipes();
         [Tooltip("재료별 오차 비율이 이 값 이하면 '완벽'")]
@@ -204,6 +208,11 @@ namespace CafeTime.Core
             startingStock.RemoveAll(s => !defaultStock.Exists(d => d.id == s.id));
             foreach (var stock in defaultStock)
                 if (!startingStock.Exists(i => i.id == stock.id)) startingStock.Add(stock);
+
+            // 새로 생긴 단체 주문(예: DAY 15 예약, ADR-0051)만 추가하고, 이미 있는 줄의 설정은 보존한다
+            groupOrders ??= new List<GroupOrderEvent>();
+            foreach (var ev in DefaultGroupOrders())
+                if (!groupOrders.Exists(g => g.choiceId == ev.choiceId)) groupOrders.Add(ev);
         }
 
         static bool SameKeys(RecipeDefinition a, RecipeDefinition b) =>
@@ -229,12 +238,15 @@ namespace CafeTime.Core
         public float MaxReputationChange => maxReputationChange;
         // 그 DAY의 단체 주문 이벤트. 없으면 null (SFR-009)
         public GroupOrderEvent GroupOrderFor(int day) => groupOrders?.Find(e => e.day == day);
+        // 그 DAY 영업 중에 받는 단체 주문 예약 (다음 날 이후 주문). 없으면 null (SFR-009 DAY 14, ADR-0051)
+        public GroupOrderEvent GroupReservationFor(int day) => groupOrders?.Find(e => e.reserveDay > 0 && e.reserveDay == day);
         public IReadOnlyList<RegularCustomer> Regulars => regulars;
         public int RegularVisitsToRemember => regularVisitsToRemember;
         public int RegularTip => regularTip;
         public float RegularTipMinSatisfaction => regularTipMinSatisfaction;
         public Vector2 RegularVisitHours => regularVisitHours;
         public InfluencerEvent InfluencerFor(int day) => influencerEvents?.Find(e => e.day == day);
+        public LunchRushEvent LunchRushFor(int day) => lunchRushes?.Find(e => e.day == day);
 
         public IReadOnlyList<RecipeDefinition> Recipes => recipes;
         public float PerfectTolerance => perfectTolerance;
@@ -349,6 +361,16 @@ namespace CafeTime.Core
                 new GroupOrderEntry("cafe_latte", Temperature.Ice, 2),
                 new GroupOrderEntry("vanilla_latte", Temperature.Ice, 1),
             }),
+            // DAY 14 14:00 에 예약 요청 → 수락하면 DAY 15 10:00 주문, 15:00 마감, ICE 10잔 ₩44,500 + 정확히 맞추면 40% 보너스 (ADR-0051)
+            new GroupOrderEvent(15, 10f, 15f, 0.4f, "day14_group_reserve", new List<GroupOrderEntry>
+            {
+                new GroupOrderEntry("americano", Temperature.Ice, 4),
+                new GroupOrderEntry("cafe_latte", Temperature.Ice, 3),
+                new GroupOrderEntry("vanilla_latte", Temperature.Ice, 3),
+            })
+            {
+                reserveDay = 14, reserveHour = 14f,
+            },
         };
 
         // 단골손님 (SFR-009, docs/GAME_DATA.md 9장): DAY 7 부터 매일 방문 → 3번째 방문(DAY 9)부터 '늘 마시던 걸로'
@@ -361,6 +383,12 @@ namespace CafeTime.Core
         };
 
         // DAY 6 인플루언서 방문 (SFR-009, docs/GAME_DATA.md 9장): 13:00 방문, 15:00 마감, 대표 메뉴 ICE 바닐라라떼 1잔
+        // DAY 11 점심시간 러시 (SFR-009, docs/GAME_DATA.md 9장): 11:30~13:30 손님이 몰려와 대부분 ICE 아메리카노를 주문
+        static List<LunchRushEvent> DefaultLunchRushes() => new List<LunchRushEvent>
+        {
+            new LunchRushEvent(11, 11.5f, 13.5f, 6f, 10f, new[] { 5, 4, 1, 0 }, "americano", Temperature.Ice, 1f, 0.5f),
+        };
+
         static List<InfluencerEvent> DefaultInfluencerEvents() => new List<InfluencerEvent>
         {
             new InfluencerEvent(6, 13f, 15f, "vanilla_latte", Temperature.Ice, "day6_influencer")

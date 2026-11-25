@@ -634,6 +634,29 @@ MonoBehaviour:
   tipPerPerson: 500
   neutralSatisfaction: 60
   maxReputationChange: 0.5
+  regulars:
+  - id: kim
+    displayName: "\uAE40 \uACFC\uC7A5"
+    lookIndex: 0
+    menuId: americano
+    temperature: 1
+    firstDay: 7
+  - id: sunja
+    displayName: "\uC21C\uC790 \uD560\uBA38\uB2C8"
+    lookIndex: 2
+    menuId: chamomile
+    temperature: 1
+    firstDay: 7
+  - id: junho
+    displayName: "\uC900\uD638"
+    lookIndex: 3
+    menuId: vanilla_latte
+    temperature: 2
+    firstDay: 7
+  regularVisitsToRemember: 2
+  regularTip: 2000
+  regularTipMinSatisfaction: 70
+  regularVisitHours: {x: 9.5, y: 16.5}
   groupOrders:
   - day: 4
     requestHour: 11
@@ -650,6 +673,48 @@ MonoBehaviour:
       temperature: 2
       quantity: 1
     choiceId: day4_group_order
+    reserveDay: 0
+    reserveHour: 0
+  - day: 15
+    requestHour: 10
+    deadlineHour: 15
+    bonusRate: 0.4
+    lines:
+    - menuId: americano
+      temperature: 2
+      quantity: 4
+    - menuId: cafe_latte
+      temperature: 2
+      quantity: 3
+    - menuId: vanilla_latte
+      temperature: 2
+      quantity: 3
+    choiceId: day14_group_reserve
+    reserveDay: 14
+    reserveHour: 14
+  influencerEvents:
+  - day: 6
+    requestHour: 13
+    deadlineHour: 15
+    menuId: vanilla_latte
+    temperature: 2
+    choiceId: day6_influencer
+    greatReputation: 0.3
+    greatVisitorRate: 1.15
+    goodReputation: 0.1
+    goodVisitorRate: 1.05
+    badReputation: -0.3
+    badVisitorRate: 0.9
+  lunchRushes:
+  - day: 11
+    startHour: 11.5
+    endHour: 13.5
+    arrivalInterval: {x: 6, y: 10}
+    partySizeWeights: 05000000040000000100000000000000i
+    menuId: americano
+    temperature: 2
+    menuChance: 1
+    stayMultiplier: 0.5
   recipes:
   - menuId: americano
     temperature: 1

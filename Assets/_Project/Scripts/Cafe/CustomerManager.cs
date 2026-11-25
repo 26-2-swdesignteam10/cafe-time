@@ -32,6 +32,11 @@ namespace CafeTime.Cafe
         [SerializeField] Vector2 pickupPoint = new Vector2(7.625f, 7.25f); // 진동벨 손님이 서는 픽업대 앞 (ADR-0040)
         [SerializeField] CafeTable[] tables;
 
+        [Header("점심시간 러시 (SFR-009 DAY 11, ADR-0050)")]
+        [Tooltip("러시 중 만석·줄이 가득 차 못 들어왔을 때 다시 입장을 시도하는 간격 (실제 초). 자리가 나는 대로 바로 채워진다")]
+        [SerializeField] float rushRetrySeconds = 1f;
+        [SerializeField] string rushSpeaker = "직장인 손님";
+
         public static CustomerManager Instance { get; private set; }
 
         readonly List<CustomerParty> parties = new List<CustomerParty>();
@@ -41,6 +46,9 @@ namespace CafeTime.Cafe
         readonly List<(RegularCustomer regular, float minutes)> dueRegulars = new List<(RegularCustomer, float)>(); // 오늘 올 단골과 방문 시각 (ADR-0049)
         float visitorRate = 1f; // 인플루언서 방문 결과 (ADR-0048). 오늘 바뀐 값은 다음 DAY 부터 적용되도록 시작 때 한 번 읽는다
         bool closed;
+        LunchRushEvent rush;   // 오늘의 점심시간 러시. 없으면 null (ADR-0050)
+        MenuDefinition rushMenu;
+        bool rushStarted;
 
         static DayResult Result => DayResult.Today;
         static SaveData Save => SaveSystem.Current;
@@ -63,7 +71,47 @@ namespace CafeTime.Cafe
             nextArrival = 3f; // 영업 시작 직후 첫 손님
             visitorRate = Mathf.Max(0.1f, Save.visitorRate);
             ScheduleRegulars();
+            SetUpLunchRush();
         }
+
+        // 오늘 점심시간 러시가 있으면 메뉴를 확인해 둔다 (SFR-009 DAY 11, ADR-0050)
+        void SetUpLunchRush()
+        {
+            rush = balance.LunchRushFor(Save.day);
+            if (rush == null) return;
+            rushMenu = balance.FindMenu(rush.menuId);
+            if (rushMenu == null || rushMenu.IsDessert)
+            {
+                Debug.LogWarning($"점심 러시 메뉴 '{rush.menuId}' 를 쓸 수 없어 러시 손님은 평소처럼 주문합니다.");
+                rushMenu = null;
+            }
+        }
+
+        // 러시 중인지. 시작 안내 뒤부터 끝 시각 전까지
+        bool InRush => rushStarted && GameClock.Instance.Minutes < rush.endHour * 60f;
+
+        // 러시 시작 시각이 되면 손님이 대사로 알리고, 첫 러시 손님이 곧바로 들어온다 (ADR-0050)
+        void UpdateLunchRush()
+        {
+            if (rush == null || rushStarted || EventDialog.IsShowing) return; // 다른 이벤트 대화 중이면 끝난 뒤에 시작
+            var clock = GameClock.Instance;
+            if (clock.Minutes < rush.startHour * 60f || clock.Minutes >= rush.endHour * 60f) return;
+            rushStarted = true;
+            nextArrival = Mathf.Min(nextArrival, rushRetrySeconds);
+            // 씬을 다시 빌드하지 않도록 단체 주문·인플루언서가 쓰는 대화창을 찾아 쓴다. 없으면 안내 없이 러시만 시작
+            var dialog = FindAnyObjectByType<EventDialog>(FindObjectsInactive.Include);
+            if (dialog == null || looks.Length == 0) return;
+            string menuText = rushMenu == null ? "커피"
+                : rushMenu.OnlyTemperature != Temperature.None ? rushMenu.DisplayName
+                : (RushTemperature == Temperature.Hot ? "따뜻한 " : "아이스 ") + rushMenu.DisplayName;
+            dialog.Show(rushSpeaker, looks[0].portrait, new List<string>
+            {
+                "사장님, 점심시간이에요! 근처 회사 사람들이 다 같이 나왔어요.",
+                $"다들 {menuText} 한 잔씩 사 들고 들어가려고요. 뒤에 줄이 엄청 길어요, 빨리 부탁드려요!",
+            }, null);
+        }
+
+        Temperature RushTemperature => rushMenu.OnlyTemperature != Temperature.None ? rushMenu.OnlyTemperature : rush.temperature;
 
         // 오늘 방문할 단골과 시각을 정한다 (SFR-009 DAY 9, ADR-0049)
         void ScheduleRegulars()
@@ -92,11 +140,13 @@ namespace CafeTime.Cafe
                 for (int i = dueRegulars.Count - 1; i >= 0; i--)
                     if (GameClock.Instance.Minutes >= dueRegulars[i].minutes && TrySpawnRegular(dueRegulars[i].regular))
                         dueRegulars.RemoveAt(i);
+                UpdateLunchRush();
                 nextArrival -= dt;
                 if (nextArrival <= 0)
                 {
-                    TrySpawn();
-                    nextArrival = NextInterval();
+                    bool rushing = InRush;
+                    // 러시 중에는 자리가 없어 못 들어온 손님이 문밖에서 기다리다 자리가 나면 바로 들어온다 (ADR-0050)
+                    nextArrival = TrySpawn() || !rushing ? NextInterval() : rushRetrySeconds;
                 }
             }
             foreach (var party in parties.ToArray()) Tick(party, dt);
@@ -107,7 +157,7 @@ namespace CafeTime.Cafe
         float NextInterval()
         {
             // DAY가 지날수록 입장 빈도 증가 (SFR-024, DAY별 난이도 표 ADR-0020)
-            var interval = Difficulty.arrivalInterval;
+            var interval = InRush ? rush.arrivalInterval : Difficulty.arrivalInterval; // 점심 러시 중에는 몰려온다 (ADR-0050)
             return Random.Range(interval.x, interval.y) / visitorRate; // 배율이 클수록 손님이 자주 온다 (SFR-009 인플루언서, ADR-0048)
         }
 
@@ -120,11 +170,36 @@ namespace CafeTime.Cafe
             return free.Count > 0 && queue.Count + parties.Count(p => p.Current == CustomerParty.State.ToShowcase) < maxQueue;
         }
 
-        void TrySpawn()
+        // 들어오면 true
+        bool TrySpawn()
         {
-            if (!CanSpawn(out var free)) return;
-            int size = WeightedPartySize();
-            Spawn(free, CustomerParty.RandomWants(size, balance), Enumerable.Range(0, size).Select(_ => looks[Random.Range(0, looks.Length)]).ToList());
+            if (!CanSpawn(out var free)) return false;
+            bool rushing = InRush;
+            var weights = rushing && rush.partySizeWeights is { Length: > 0 } ? rush.partySizeWeights : Difficulty.partySizeWeights;
+            int size = WeightedPartySize(weights);
+            var wants = rushing ? RushWants(size) : CustomerParty.RandomWants(size, balance);
+            var party = Spawn(free, wants, Enumerable.Range(0, size).Select(_ => looks[Random.Range(0, looks.Length)]).ToList());
+            party.LunchRush = rushing;
+            return true;
+        }
+
+        // 러시 손님은 한 명씩 정해진 확률로 러시 메뉴(기본 ICE 아메리카노)를 고르고, 아니면 평소처럼 무작위 음료.
+        // 점심을 먹고 커피만 사러 온 손님이라 베이커리는 고르지 않는다 (SFR-009 DAY 11, ADR-0050)
+        List<OrderLine> RushWants(int size)
+        {
+            var lines = new List<OrderLine>();
+            int rushCount = rushMenu == null ? 0 : Enumerable.Range(0, size).Count(_ => Random.value < rush.menuChance);
+            if (rushCount > 0) lines.Add(new OrderLine(rushMenu, RushTemperature, rushCount));
+            if (rushCount < size)
+            {
+                foreach (var line in CustomerParty.RandomWants(size - rushCount, balance).Where(l => !l.Menu.IsDessert))
+                {
+                    var same = lines.Find(l => l.Matches(line.Menu, line.Temperature));
+                    if (same != null) same.Quantity += line.Quantity;
+                    else lines.Add(line);
+                }
+            }
+            return lines;
         }
 
         // 단골은 혼자 와서 늘 마시는 메뉴 한 잔을 주문한다. 들어오면 true (ADR-0049)
@@ -198,9 +273,8 @@ namespace CafeTime.Cafe
             party.Wanted.RemoveAll(l => l.Quantity <= 0);
         }
 
-        int WeightedPartySize()
+        int WeightedPartySize(int[] weights)
         {
-            var weights = Difficulty.partySizeWeights;
             int total = weights.Sum();
             int roll = Random.Range(0, total);
             for (int i = 0; i < weights.Length; i++)
@@ -338,7 +412,7 @@ namespace CafeTime.Cafe
 
             party.Order = null;
             party.Gauge.Show(false);
-            party.StayLeft = balance.StayDuration;
+            party.StayLeft = balance.StayDuration * (party.LunchRush ? rush.stayMultiplier : 1f); // 러시 손님은 금방 회사로 돌아감 (ADR-0050)
             party.Current = CustomerParty.State.Drinking;
         }
 

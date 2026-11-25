@@ -32,6 +32,8 @@ namespace CafeTime.Cafe
         public int RegularVisits { get; set; }
         public bool RegularRemembered { get; set; } // true 면 메뉴를 말하지 않고 '늘 마시던 걸로' 주문
 
+        public bool LunchRush { get; set; } // 점심시간 러시에 들어온 손님 (ADR-0050). 음료를 받고 금방 떠난다
+
         public Customer Leader => Members[0];
         public bool Arrived => Members.All(m => !m.IsMoving);
 
