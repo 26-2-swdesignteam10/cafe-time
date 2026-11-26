@@ -120,6 +120,9 @@ namespace CafeTime.EspressoShot
             }
 
             head.Locked = true; // 추출 중에는 포터필터 분리·컵 회수 불가
+                                // SFR-035: 추출구별 작동 상태를 전달해 추출음 재생
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.SetEspressoExtracting(head, true);
             float seconds = GameBalance.Instance.ExtractSeconds;
             if (head.extractStream != null) head.extractStream.SetActive(true);
             RunTimed(seconds, left =>
@@ -133,6 +136,8 @@ namespace CafeTime.EspressoShot
                 pf.SetState(PortafilterState.Used); // → '사용 완료(찌꺼기)'
                 if (cup != null) cup.FillShot();    // → '샷이 든 컵'
                 head.Locked = false;
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.SetEspressoExtracting(head, false);
             });
         }
 

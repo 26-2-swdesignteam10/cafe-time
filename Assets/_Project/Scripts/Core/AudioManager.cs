@@ -28,6 +28,13 @@ namespace CafeTime.Core
         [SerializeField] AudioClip smoothiePourClip;
         [SerializeField] AudioClip blenderClip;
         [SerializeField] AudioClip dishScrubClip;
+        [SerializeField] AudioClip grinderClip;
+        [SerializeField] AudioClip espressoClip;
+        [SerializeField] AudioClip knockClip;
+        [SerializeField] AudioClip brushClip;
+        [SerializeField] AudioClip steamClip;
+        [SerializeField] AudioClip pumpClip;
+        [SerializeField] AudioClip cheongClip;
 
 
         [Header("기본 볼륨")]
@@ -70,11 +77,40 @@ namespace CafeTime.Core
         [Range(0f, 1f)]
         [SerializeField] float dishScrubVolume = 0.25f;
 
+        [Range(0f, 1f)]
+        [SerializeField] float grinderVolume = 0.2f;
+
+        [Range(0f, 1f)]
+        [SerializeField] float espressoVolume = 0.2f;
+
+        [Range(0f, 1f)]
+        [SerializeField] float knockVolume = 0.3f;
+
+        [Range(0f, 1f)]
+        [SerializeField] float brushVolume = 0.5f;
+
+        [Range(0f, 1f)]
+        [SerializeField] float steamVolume = 0.2f;
+
+        [Range(0f, 1f)]
+        [SerializeField] float pumpVolume = 0.25f;
+
+        [Range(0f, 1f)]
+        [SerializeField] float cheongVolume = 0.25f;
+
         AudioSource uiSource;
         AudioSource waterPourSource;
         AudioSource smoothiePourSource;
         AudioSource blenderSource;
         AudioSource dishScrubSource;
+        AudioSource grinderSource;
+        AudioSource brushSource;
+        AudioSource steamSource;
+
+        AudioSource espressoSource;
+
+        readonly HashSet<UnityEngine.Object> extractingHeads =
+            new HashSet<UnityEngine.Object>();
 
         AudioClip pendingUiClip;
         float pendingUiVolume;
@@ -128,6 +164,26 @@ namespace CafeTime.Core
             dishScrubSource.playOnAwake = false;
             dishScrubSource.loop = true;
             dishScrubSource.spatialBlend = 0f;
+
+            grinderSource = gameObject.AddComponent<AudioSource>();
+            grinderSource.playOnAwake = false;
+            grinderSource.loop = true;
+            grinderSource.spatialBlend = 0f;
+
+            espressoSource = gameObject.AddComponent<AudioSource>();
+            espressoSource.playOnAwake = false;
+            espressoSource.loop = true;
+            espressoSource.spatialBlend = 0f;
+
+            brushSource = gameObject.AddComponent<AudioSource>();
+            brushSource.playOnAwake = false;
+            brushSource.loop = true;
+            brushSource.spatialBlend = 0f;
+
+            steamSource = gameObject.AddComponent<AudioSource>();
+            steamSource.playOnAwake = false;
+            steamSource.loop = true;
+            steamSource.spatialBlend = 0f;
         }
 
         void Start()
@@ -155,9 +211,46 @@ namespace CafeTime.Core
             PlaySfx(paymentClip, paymentVolume);
         }
 
+        public void PlayPump()
+        {
+            PlaySfx(pumpClip, pumpVolume);
+        }
+
+        public void PlayCheong()
+        {
+            PlaySfx(cheongClip, cheongVolume);
+        }
+
         public void PlayWorkComplete()
         {
             PlaySfx(workCompleteClip, workCompleteVolume);
+        }
+
+        public void PlayKnock()
+        {
+            PlaySfx(knockClip, knockVolume);
+        }
+
+        public void SetBrushing(bool brushing)
+        {
+            if (brushSource == null) return;
+
+            brushSource.volume =
+                brushVolume * GameSettings.SfxVolume;
+
+            if (!brushing || brushClip == null)
+            {
+                if (brushSource.isPlaying)
+                    brushSource.Stop();
+
+                return;
+            }
+
+            if (brushSource.clip != brushClip)
+                brushSource.clip = brushClip;
+
+            if (!brushSource.isPlaying)
+                brushSource.Play();
         }
 
         public void SetBlenderRunning(bool running)
@@ -180,6 +273,81 @@ namespace CafeTime.Core
 
             if (!blenderSource.isPlaying)
                 blenderSource.Play();
+        }
+
+        public void SetGrinderRunning(bool running)
+        {
+            if (grinderSource == null) return;
+
+            grinderSource.volume =
+                grinderVolume * GameSettings.SfxVolume;
+
+            if (!running || grinderClip == null)
+            {
+                if (grinderSource.isPlaying)
+                    grinderSource.Stop();
+
+                return;
+            }
+
+            if (grinderSource.clip != grinderClip)
+                grinderSource.clip = grinderClip;
+
+            if (!grinderSource.isPlaying)
+                grinderSource.Play();
+        }
+
+        public void SetEspressoExtracting(
+    UnityEngine.Object head,
+    bool extracting)
+        {
+            if (espressoSource == null || head == null) return;
+
+            if (extracting)
+                extractingHeads.Add(head);
+            else
+                extractingHeads.Remove(head);
+
+            extractingHeads.RemoveWhere(target => target == null);
+
+            espressoSource.volume =
+                espressoVolume * GameSettings.SfxVolume;
+
+            if (extractingHeads.Count == 0 || espressoClip == null)
+            {
+                if (espressoSource.isPlaying)
+                    espressoSource.Stop();
+
+                return;
+            }
+
+            if (espressoSource.clip != espressoClip)
+                espressoSource.clip = espressoClip;
+
+            if (!espressoSource.isPlaying)
+                espressoSource.Play();
+        }
+
+        public void SetSteaming(bool steaming)
+        {
+            if (steamSource == null) return;
+
+            steamSource.volume =
+                steamVolume * GameSettings.SfxVolume;
+
+            if (!steaming || steamClip == null)
+            {
+                if (steamSource.isPlaying)
+                    steamSource.Stop();
+
+                return;
+            }
+
+            if (steamSource.clip != steamClip)
+                steamSource.clip = steamClip;
+
+            if (!steamSource.isPlaying)
+                steamSource.Play();
         }
 
         public void SetDishScrubbing(bool scrubbing)
