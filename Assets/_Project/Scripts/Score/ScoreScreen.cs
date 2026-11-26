@@ -18,7 +18,7 @@ namespace CafeTime.Score
         [SerializeField] TMP_Text ordersCount;
         [SerializeField] TMP_Text ordersPoints;
         [SerializeField] TMP_Text satisfactionPoints;
-        [Header("감점 사항 (횟수, 감점): 손님 이탈, 버린 재료·음료, 쟁반 방치, 청소 미처리, 주문 순서 어김")]
+        [Header("감점 사항 (횟수, 감점): 손님 이탈, 버린 재료·음료, 쟁반 방치, 청소 미처리, 주문 순서 어김, 마감 초과(분)")]
         [SerializeField] TMP_Text[] penaltyCounts;
         [SerializeField] TMP_Text[] penaltyPoints;
         [Header("총점")]
@@ -28,7 +28,7 @@ namespace CafeTime.Score
         [SerializeField] TMP_Text newBestDelta;   // "+120"
         [SerializeField] Button nextButton;
         [Header("연출")]
-        [Tooltip("위에서부터 나타날 줄: 완료한 주문, 손님 만족도, 감점 5줄 순서")]
+        [Tooltip("위에서부터 나타날 줄: 완료한 주문, 손님 만족도, 감점 6줄 순서")]
         [SerializeField] CanvasGroup[] rows;
         [SerializeField] CanvasGroup totalGroup; // 총점·최고 기록 묶음
         [SerializeField] float rowInterval = 0.18f;
@@ -61,11 +61,12 @@ namespace CafeTime.Score
             rowAlpha = new float[rows.Length];
             for (int i = 0; i < rowAlpha.Length; i++) rowAlpha[i] = 1f;
 
-            int[] counts = { result.customersLost, result.itemsDiscarded, result.traysLeft, result.cleaningMissed, result.ordersSkipped };
-            int[] points = { score.LostPenalty, score.DiscardPenalty, score.TrayLeftPenalty, score.CleaningPenalty, score.SkippedPenalty };
+            int[] counts = { result.customersLost, result.itemsDiscarded, result.traysLeft, result.cleaningMissed, result.ordersSkipped, result.overtimeMinutes };
+            int[] points = { score.LostPenalty, score.DiscardPenalty, score.TrayLeftPenalty, score.CleaningPenalty, score.SkippedPenalty, score.OvertimePenalty };
+            string[] units = { "회", "회", "회", "회", "회", "분" }; // 마감 초과는 넘긴 게임 시간 (ADR-0055)
             for (int i = 0; i < counts.Length && i < penaltyCounts.Length; i++)
             {
-                penaltyCounts[i].text = $"{counts[i]}회";
+                penaltyCounts[i].text = $"{counts[i]}{units[i]}";
                 penaltyPoints[i].text = points[i] > 0 ? $"-{points[i]:N0}" : "0";
                 if (counts[i] == 0 && 2 + i < rowAlpha.Length) rowAlpha[2 + i] = zeroRowAlpha;
             }

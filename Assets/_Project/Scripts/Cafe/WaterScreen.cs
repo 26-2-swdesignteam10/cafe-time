@@ -18,6 +18,8 @@ namespace CafeTime.Cafe
         [SerializeField] GameObject[] streams;
         [SerializeField] Button[] fillButtons;
         [SerializeField] Image[] progress;
+        [Tooltip("다 받은 잔이 손 칸으로 날아가는 시간 (2026-11-24 사용자 요청)")]
+        [SerializeField] float flySeconds = 0.4f;
 
         static WaterDispenser Water => WaterDispenser.Instance;
 
@@ -30,7 +32,7 @@ namespace CafeTime.Cafe
             for (int i = 0; i < zones.Length; i++)
             {
                 int zone = i;
-                BindSpot(zones[i], hand => Water.Place(zone, hand), () => Water.Take(zone), () => Water.Cups[zone] != null);
+                BindSpot(zones[i], hand => Water.Place(zone, hand), () => Take(zone), () => Water.Cups[zone] != null);
                 fillButtons[i].onClick.AddListener(() => Water.Fill(zone));
             }
         }
@@ -39,6 +41,14 @@ namespace CafeTime.Cafe
         {
             base.OnDestroy();
             if (Water != null) Water.Changed -= RefreshIfOpen;
+        }
+
+        // 잔을 손으로 가져오면 큰 컵 그림 자리에서 손 칸으로 날아간다 (SFR-043)
+        void Take(int zone)
+        {
+            var hands = HandInventoryView.Snapshot();
+            Water.Take(zone);
+            HandInventoryView.FlyToNewSlot(hands, cupImages[zone], flySeconds);
         }
 
         protected override void Refresh()

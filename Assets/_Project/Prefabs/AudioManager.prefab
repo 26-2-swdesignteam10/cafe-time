@@ -61,6 +61,13 @@ MonoBehaviour:
   smoothiePourClip: {fileID: 8300000, guid: 893b121f5ed4349419ce0663a9939a54, type: 3}
   blenderClip: {fileID: 8300000, guid: 12cc35e93527ab545a168c89fe41679d, type: 3}
   dishScrubClip: {fileID: 8300000, guid: a38fb29344e92624fbfe70d0d1a661f8, type: 3}
+  grinderClip: {fileID: 8300000, guid: abb29e4c80d0f6e43acb1370843db0fc, type: 3}
+  espressoClip: {fileID: 8300000, guid: 5e999accd003c51428c298ed3f5c6feb, type: 3}
+  knockClip: {fileID: 8300000, guid: 9ced22affcde81749a429514b29c11ac, type: 3}
+  brushClip: {fileID: 8300000, guid: 4c6c1fb207738f445917fad7f8ff42aa, type: 3}
+  steamClip: {fileID: 8300000, guid: 274be4b420d9a644aa97c8af34f19b88, type: 3}
+  pumpClip: {fileID: 8300000, guid: b1ecf7c85f13df449a160c609f4f4588, type: 3}
+  cheongClip: {fileID: 8300000, guid: b10e587e168d60b478b4d2b7664c50f1, type: 3}
   bgmVolume: 0.1
   paymentVolume: 0.3
   buttonClickVolume: 1
@@ -74,6 +81,13 @@ MonoBehaviour:
   smoothiePourVolume: 0.3
   blenderVolume: 0.2
   dishScrubVolume: 0.25
+  grinderVolume: 0.2
+  espressoVolume: 0.2
+  knockVolume: 0.3
+  brushVolume: 0.5
+  steamVolume: 0.2
+  pumpVolume: 0.25
+  cheongVolume: 1
 --- !u!1 &3713599465838489925
 GameObject:
   m_ObjectHideFlags: 0

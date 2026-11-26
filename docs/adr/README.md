@@ -55,7 +55,7 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0041](0041-cold-brew-hot-temperature-pictures.md) | 콜드브루 HOT 추가, 포스기 카드 그림을 HOT/ICE 에 맞춰 바꾼다 | 승인 |
 | [0042](0042-group-order-event.md) | DAY 4 단체 주문은 영업 중 대화창으로 수락하고 픽업대 마감 주문으로 처리한다 | 제안 |
 | [0043](0043-restore-shot-recipes.md) | 샷이 빠진 커피 레시피는 에셋 동기화 때 코드 레시피로 복구한다 | 제안 |
-| [0044](0044-close-at-six.md) | 영업 종료를 18:00, 입장 마감을 17:30으로 당긴다 | 승인 |
+| [0044](0044-close-at-six.md) | 영업 종료를 18:00, 입장 마감을 17:30으로 당긴다 | 대체됨 (ADR-0055) |
 | [0045](0045-random-bell-numbers.md) | 진동벨 번호를 1~30 중 무작위로 준다 | 승인 |
 | [0046](0046-steamed-milk.md) | HOT 우유 메뉴는 스팀 피처로 데운 우유를 쓴다 | 승인 |
 | [0047](0047-remove-running.md) | 달리기 기능을 없앤다 | 승인 |
@@ -63,3 +63,7 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0049](0049-regular-customers.md) | 단골손님은 DAY 7부터 매일 혼자 와서 늘 마시는 음료를 주문하고, 세 번째 방문부터는 메뉴를 말하지 않는다 | 제안 |
 | [0050](0050-lunch-rush-event.md) | DAY 11 점심시간 러시는 정해진 시간 동안 손님이 몰려와 대부분 ICE 아메리카노를 주문하고 금방 떠난다 | 제안 |
 | [0051](0051-group-order-reservation.md) | DAY 14 에 다음 날 단체 주문 예약을 받고, 수락하면 DAY 15 에 단체 주문이 들어온다 | 제안 |
+| [0052](0052-carry-dirty-dishes-by-hand.md) | 퇴식구의 잔·접시는 손으로 운반해 설거지실 설거지 대기 바구니에 넣는다 | 승인 |
+| [0053](0053-show-served-items-on-map.md) | 서빙한 음료·베이커리를 맵의 픽업대 카운터와 손님 테이블 위에 그림으로 보여 준다 | 승인 |
+| [0054](0054-audio-manager-prefab-builder.md) | AudioManager 는 빌더가 만든 프리팹으로 두고, 씬 빌더가 그 프리팹을 넣는다 | 승인 |
+| [0055](0055-close-after-last-customer.md) | 영업은 21시 마감, 20시 입장 마감으로 하고, 남은 손님을 다 보내야 하루가 끝나며 마감을 넘기면 감점한다 | 승인 |

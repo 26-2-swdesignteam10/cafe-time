@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace CafeTime.Cafe
 {
-    // 하루 영업의 시작과 끝 (SFR-014): 17:30 입장 마감 안내, 18:00 영업 종료 → 평판 변동 계산 → 하루 정산
+    // 하루 영업의 시작과 끝 (SFR-014, ADR-0055): 20:00 입장 마감 안내 → 남은 손님을 다 보내면 영업 종료
+    // → 평판 변동 계산 → 하루 정산. 21:00 마감 시각을 넘기면 넘긴 시간만큼 감점되고, 영업은 손님이 다 갈 때까지 계속된다
     public class BusinessDay : MonoBehaviour
     {
         [SerializeField] GameClock clock;
@@ -36,11 +37,20 @@ namespace CafeTime.Cafe
         void Start()
         {
             clock.EntryClosed += () => Toast.Show(ToastMessage.EntryClosed);
-            clock.Closed += () => StartCoroutine(Close());
+        }
+
+        // 입장 마감 뒤 손님 일행·대기 주문이 모두 없어지면 하루를 끝낸다
+        void Update()
+        {
+            if (clock.IsClosed || !clock.IsEntryClosed) return;
+            if (customers.HasParties || OrderBoard.Instance.Orders.Count > 0) return;
+            StartCoroutine(Close());
         }
 
         IEnumerator Close()
         {
+            DayResult.Today.overtimeMinutes = Mathf.CeilToInt(clock.OvertimeMinutes);
+            clock.EndDay();
             customers.CloseAll();
             if (GroupOrderManager.Instance != null) GroupOrderManager.Instance.Expire(); // 서빙 못 한 단체 주문 취소 (ADR-0042)
             if (InfluencerManager.Instance != null) InfluencerManager.Instance.Expire(showReaction: false); // 받지 못한 인플루언서 촬영 실패 (ADR-0048)

@@ -88,3 +88,12 @@ Prompt set: Production Unity sprites for a cozy Korean pixel art cafe game. Cris
 
 - LabelTrash·LabelDishBin·Hint 는 위 Jua 재조판본을 쓰고, Panel.png 는 일러스트 교체본(글자 없음)을 쓴다. Jua 재조판 절의 Panel.png 행("퇴식구" 제목을 패널에 조판)은 일러스트 교체로 대체됐고, 제목은 LabelTitle.png 로 표시한다.
 - LabelTitle.png 를 Jua 로 다시 조판했다: 정확히 `퇴식구`, Pillow 로 `Art/Fonts/Jua-Regular.ttf` 를 4배 크기에서 채움 #380F00 / 크림 #FCF0CA 3px 외곽선으로 그린 뒤 Lanczos 축소. 채움 높이 56px, 사방 투명 여백 8px, 179×78 (전 197×77, Galmuri11). 같은 방법으로 만든 `쓰레기통` 이 위 Jua 재조판본과 같은 모양인지 비교해 확인했다.
+
+## 2026-11-24 퇴식구 안내 문구 교체
+
+- 도구: OpenAI 내장 image_gen 이미지 편집, PowerShell / System.Drawing 재조판·후처리.
+- 참조: 작업 직전 `Hint.png`, `Assets/_Project/Art/Fonts/Jua-Regular.ttf`, `docs/ART_STYLE.md` 4장과 승인 ADR-0026.
+- `Hint.png` 프롬프트: Use case: text-localization. Edit existing transparent Korean UI label. Replace whole text with exactly "쓰레기는 쓰레기통에, 잔과 접시는 인벤토리로 가져가세요". Single line. Same rounded bold Jua font, dark coffee #380F00 fill, cream #FCF0CA thin outline, glyph height 56px, 3px cream stroke and 8px transparent padding. Canvas height 78px, width adapts to text. No other graphic elements. Genuine transparent background. Every Korean syllable, space and comma must be exact. Match original letterforms and smooth edges.
+- 후처리: AI 생성본에 배경 번짐이 있어 최종본은 저장소의 Jua-Regular.ttf로 정확히 재조판했다. System.Drawing GraphicsPath 글리프 채움 경계를 56px로 맞추고 #380F00 채움 / #FCF0CA 3px 외곽선을 4배 해상도에서 그린 뒤 HighQualityBicubic으로 축소했다. 최종 크기 **1437×78px**, RGBA, 기존 높이 78px 유지. 완전 투명 픽셀의 RGB는 0이다.
+- 검수: 최종 PNG를 직접 열어 **쓰레기는 쓰레기통에, 잔과 접시는 인벤토리로 가져가세요**의 모든 한글, 쉼표와 띄어쓰기를 대조했다. 한 줄 표시, 글자 잘림 없음, 둥근 굵은 Jua 글꼴, 다크 커피 채움·크림 외곽선, 투명 배경을 확인했다.
+- 기존 `Hint.png`만 덮어썼다. `.meta`, 코드, 씬, 프리팹, `.asset`, `docs/`는 수정하지 않았다. Unity 재임포트 후 퇴식구에서 문구 표시를 확인한다.

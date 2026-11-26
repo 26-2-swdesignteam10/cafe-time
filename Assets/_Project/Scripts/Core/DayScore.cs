@@ -12,8 +12,9 @@ namespace CafeTime.Core
         public int TrayLeftPenalty { get; }
         public int CleaningPenalty { get; }
         public int SkippedPenalty { get; }
+        public int OvertimePenalty { get; }
 
-        public int Penalty => LostPenalty + DiscardPenalty + TrayLeftPenalty + CleaningPenalty + SkippedPenalty;
+        public int Penalty => LostPenalty + DiscardPenalty + TrayLeftPenalty + CleaningPenalty + SkippedPenalty + OvertimePenalty;
         public int Total => Mathf.Max(0, OrderPoints + SatisfactionPoints - Penalty);
 
         public DayScore(DayResult r, GameBalance b)
@@ -26,6 +27,8 @@ namespace CafeTime.Core
             TrayLeftPenalty = r.traysLeft * b.PenaltyTrayLeft;
             CleaningPenalty = r.cleaningMissed * b.PenaltyCleaning;
             SkippedPenalty = r.ordersSkipped * b.PenaltyOrderSkipped;
+            // 마감 초과: 넘긴 게임 시간 10분마다 (1분만 넘겨도 10분으로 친다, ADR-0055)
+            OvertimePenalty = Mathf.CeilToInt(r.overtimeMinutes / 10f) * b.PenaltyOvertimePer10Min;
         }
     }
 }

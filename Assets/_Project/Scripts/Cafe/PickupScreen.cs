@@ -19,6 +19,9 @@ namespace CafeTime.Cafe
 
         public enum CallResult { Called, NoSuchOrder, EmptyTray, AlreadyCalled }
 
+        // 트레이에 물건을 놓거나 빼거나 트레이가 없어질 때. 맵의 픽업대 카운터 그림이 따라 바뀐다 (PickupCounterView)
+        public event System.Action Changed;
+
         static readonly List<HeldItem> None = new List<HeldItem>();
 
         // 주문별 트레이에 놓인 물건. 창을 닫아도 남는다
@@ -51,6 +54,9 @@ namespace CafeTime.Cafe
         // 주문 내역 창의 영수증에 표시할, 이 주문 트레이에 놓인 물건 수
         public int PlacedCount(Order order) => trays.TryGetValue(order, out var items) ? items.Count : 0;
 
+        // 이 주문 트레이에 놓인 물건
+        public IReadOnlyList<HeldItem> Placed(Order order) => trays.TryGetValue(order, out var items) ? items : None;
+
         public bool IsCalled(Order order) => called.Contains(order);
 
         // 트레이를 누름: 손 칸에서 고른 물건을 놓는다. 고른 칸이 없으면 완성품을 든 첫 칸(왼쪽부터)
@@ -70,6 +76,7 @@ namespace CafeTime.Cafe
             if (!trays.TryGetValue(order, out var items)) trays[order] = items = new List<HeldItem>();
             items.Add(HandInventory.Instance.Take(hand));
             Refresh();
+            Changed?.Invoke();
         }
 
         // 트레이에 놓인 물건을 눌러 손으로 되돌림
@@ -83,6 +90,7 @@ namespace CafeTime.Cafe
             }
             items.Remove(item);
             Refresh();
+            Changed?.Invoke();
         }
 
         // 진동벨 호출 (ADR-0040): 번호의 트레이에 놓인 물건을 손님이 받으러 온다. 없는 번호·빈 트레이는 안내만.
@@ -122,6 +130,7 @@ namespace CafeTime.Cafe
         {
             trays.Remove(order);
             called.Remove(order);
+            Changed?.Invoke();
         }
 
         void RefreshIfOpen()

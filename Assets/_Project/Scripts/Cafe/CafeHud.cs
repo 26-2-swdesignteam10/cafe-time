@@ -15,6 +15,8 @@ namespace CafeTime.Cafe
         [SerializeField] Sprite[] daySprites;
         [SerializeField] TMP_Text dayText; // 그림이 없을 때만 글자로 표시
         [SerializeField] TMP_Text clockText;
+        [Tooltip("마감 시각(21:00)을 넘기면 시계 글자색 (ADR-0055)")]
+        [SerializeField] Color overtimeColor = new Color32(0xD9, 0x3A, 0x2E, 0xFF);
         [SerializeField] TMP_Text moneyText;
         [SerializeField] Image[] stars;
         [SerializeField] TMP_Text reputationText; // 별 옆 "3.4"
@@ -31,6 +33,8 @@ namespace CafeTime.Cafe
 
         static SaveData Save => SaveSystem.Current;
 
+        Color clockColor;
+
         void Start()
         {
             int day = Save.day;
@@ -45,6 +49,7 @@ namespace CafeTime.Cafe
                 dayText.text = $"DAY {day}";
                 dayText.enabled = daySprite == null;
             }
+            clockColor = clockText.color;
             ordersButton.onClick.AddListener(ordersScreen.Open);
             recipeButton.onClick.AddListener(recipeScreen.Open);
             OrderBoard.Instance.Changed += RefreshOrderCount;
@@ -59,6 +64,7 @@ namespace CafeTime.Cafe
         void Update()
         {
             clockText.text = GameClock.Instance.TimeText;
+            clockText.color = GameClock.Instance.IsOvertime ? overtimeColor : clockColor;
             moneyText.text = $"{Save.money:N0}원";
             int filled = Mathf.RoundToInt(Save.reputation);
             for (int i = 0; i < stars.Length; i++) stars[i].sprite = i < filled ? starFull : starEmpty;

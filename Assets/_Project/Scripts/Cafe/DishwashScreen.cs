@@ -8,7 +8,8 @@ using UnityEngine.UI;
 
 namespace CafeTime.Cafe
 {
-    // 설거지실 화면 (SFR-063~065): 싱크대의 잔을 수세미로 좌우로 문질러 얼룩을 지우면 건조대로.
+    // 설거지실 화면 (SFR-063~065): 퇴식구에서 손으로 가져온 잔·접시를 설거지 대기 바구니에 끌어 넣고(ADR-0052),
+    // 싱크대의 잔을 수세미로 좌우로 문질러 얼룩을 지우면 건조대로.
     // 연출: 문지르면 비누 방울·거품이 생기고, 얼룩이 줄 때마다 잔을 뒤집어 닦는다.
     // 다 닦으면 물로 헹군 뒤 반짝이고, 거꾸로 뒤집히며 건조대 빈칸으로 날아간다. 다음 잔은 바구니 쪽에서 내려온다.
     // 연출은 화면에만 있고 설거지 규칙(DishStation)은 그대로다
@@ -16,6 +17,8 @@ namespace CafeTime.Cafe
     {
         [SerializeField] TMP_Text waitingText;  // "3개"
         [SerializeField] Image[] crateItems;    // 바구니에 보이는 대기 잔 (앞에서부터)
+        [Tooltip("설거지 대기 바구니: 손 칸의 더러운 잔·접시를 끌어 놓거나, 손 칸을 고른 뒤 누르면 넣는다 (ADR-0052)")]
+        [SerializeField] DropZone waitingZone;
         [SerializeField] Image sinkItem;        // 깨끗한 잔 그림
         [SerializeField] Image stain;           // 같은 자리에 겹친 더러운 잔 그림. 얼룩이 줄수록 투명해진다
         [SerializeField] Image suds;            // 잔 위 비누 거품. 문지를수록 진해진다
@@ -64,6 +67,20 @@ namespace CafeTime.Cafe
             Dish.Changed += RefreshIfOpen;
             sponge.Moved += OnScrub;
             sponge.Released += ResetSponge;
+            waitingZone.Dropped += e => PutWaiting(DropZone.HandOf(e));
+            waitingZone.Clicked += () =>
+            {
+                var hands = HandInventory.Instance;
+                PutWaiting(hands.Selected >= 0 ? hands.Selected : hands.Find(item => item is DirtyDish));
+            };
+        }
+
+        // 손에 든 더러운 잔·접시를 설거지 대기 바구니에 넣는다. 다른 물건이면 그대로
+        static void PutWaiting(int hand)
+        {
+            if (hand < 0 || !(HandInventory.Instance[hand] is DirtyDish dish)) return;
+            HandInventory.Instance.Take(hand);
+            Dish.Enqueue(dish.Kind);
         }
 
         protected override void OnDestroy()

@@ -28,6 +28,7 @@ namespace CafeTime.EditorTools
             balance.EnsureCatalog();
             RaiseCupCounts(balance);
             MigrateBusinessHours(balance);
+            RaiseWaterSeconds(balance);
             EditorUtility.SetDirty(balance);
             AssignIcons(balance);
             AssetDatabase.SaveAssets();
@@ -45,7 +46,9 @@ namespace CafeTime.EditorTools
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        // 기존 에셋의 영업 시간이 예전 값(1시간 120초, 입장 마감 20시, 종료 21시)이면 ADR-0021·0042 값으로 바꾼다. 따로 고친 값은 그대로
+        // 기존 에셋의 영업 시간이 예전 값이면 지금 값으로 바꾼다. 따로 고친 값은 그대로
+        //  - 1시간 120초 → 35초 (ADR-0021)
+        //  - 입장 마감 17:30·종료 18시(ADR-0044) → 입장 마감 20시·마감 21시 (ADR-0055)
         static void MigrateBusinessHours(GameBalance balance)
         {
             var so = new SerializedObject(balance);
@@ -53,8 +56,17 @@ namespace CafeTime.EditorTools
             var entry = so.FindProperty("entryCloseHour");
             var close = so.FindProperty("closeHour");
             if (Mathf.Approximately(seconds.floatValue, 120f)) seconds.floatValue = 35f;
-            if (Mathf.Approximately(entry.floatValue, 20f)) entry.floatValue = 17.5f;
-            if (close.intValue == 21) close.intValue = 18;
+            if (Mathf.Approximately(entry.floatValue, 17.5f)) entry.floatValue = 20f;
+            if (close.intValue == 18) close.intValue = 21;
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        // 물 받는 시간이 2026-11-24 사용자 요청 값(7초)보다 짧으면 올린다. 에셋에 3초가 남아 있던 문제도 같이 고친다. 더 길게 바꿔 둔 값은 그대로
+        static void RaiseWaterSeconds(GameBalance balance)
+        {
+            var so = new SerializedObject(balance);
+            var water = so.FindProperty("waterSeconds");
+            water.floatValue = Mathf.Max(water.floatValue, 7f);
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 

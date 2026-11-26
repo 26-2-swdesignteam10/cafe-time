@@ -9,7 +9,7 @@ using CafeTime.Core;
 namespace CafeTime.EspressoShot
 {
     // SFR-036: 찌꺼기 털기 창. 사용한 포터필터를 넉박스에 대면 열린다.
-    //  1) 바스켓이 아래를 향한 포터필터를 막대에 빠르게 내려치면 찌꺼기 덩어리가 대부분 떨어진다
+    //  1) 바스켓이 아래를 향한 포터필터를 막대에 빠르게 strongHitsNeeded 번 내려치면 찌꺼기 덩어리가 떨어진다 (2026-11-24 사용자 요청 1번 → 3번)
     //  2) 오른쪽 브러시를 끌어 바스켓 안을 문지르면 남은 가루가 사라지고, 다 털면 창이 닫히며 빈 필터가 된다
     // 중간에 닫으면 포터필터는 찌꺼기가 남은 채 넉박스 자리에 있고, 다시 넉박스에 대면 처음부터 한다.
     public class KnockScreen : Popup, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -31,6 +31,10 @@ namespace CafeTime.EspressoShot
         public Vector2 basketBottom = new Vector2(120, -100);
         [Tooltip("이 속도(캔버스 단위/초) 이상으로 내려치면 털린다")]
         public float strongSpeed = 1400f;
+        [Tooltip("덩어리가 떨어지기까지 세게 내려쳐야 하는 횟수 (2026-11-24 사용자 요청)")]
+        public int strongHitsNeeded = 3;
+        [Tooltip("마지막이 아닌 세게 친 횟수마다 덩어리가 흔들리는 폭 (캔버스 단위)")]
+        public float puckShake = 10f;
 
         [Header("찌꺼기")]
         public RectTransform puck;
@@ -70,6 +74,7 @@ namespace CafeTime.EspressoShot
         bool draggingPortafilter, draggingBrush;
         float speed;       // 아래 방향 속도 (부드럽게 평균)
         float brushed;
+        int strongHits;    // 이번에 세게 내려친 횟수
 
         protected override void Awake()
         {
@@ -106,6 +111,7 @@ namespace CafeTime.EspressoShot
             brush.localRotation = Quaternion.identity;
             SetHint(hintKnock);
             brushed = 0f;
+            strongHits = 0;
         }
 
         void SetHint(Sprite sprite)
@@ -158,7 +164,29 @@ namespace CafeTime.EspressoShot
             // SFR-036: 포터필터가 넉박스 막대에 닿으면 한 번 재생
             if (AudioManager.Instance != null)
                 AudioManager.Instance.PlayKnock();
-            StartCoroutine(speed >= strongSpeed ? StrongHit() : WeakHit());
+            if (speed < strongSpeed) StartCoroutine(WeakHit());
+            else if (++strongHits < strongHitsNeeded) StartCoroutine(LooseningHit());
+            else StartCoroutine(StrongHit());
+        }
+
+        // 세게 쳤지만 아직 덩어리가 붙어 있음: 크게 튀고 덩어리가 바스켓 아래로 살짝 비어져 나왔다 들어간다
+        IEnumerator LooseningHit()
+        {
+            SetHint(hintKnock);
+            puck.gameObject.SetActive(true);
+            Vector2 at = new Vector2(knockStart.x, contactY) + basketBottom;
+            var puckImage = puck.GetComponent<Image>();
+            puckImage.color = Color.white;
+            StartCoroutine(Bounce(18f));
+            for (float t = 0; t < 0.18f; t += Time.unscaledDeltaTime)
+            {
+                float k = Mathf.Sin(t / 0.18f * Mathf.PI);
+                // 칠수록 조금씩 더 빠져나온다
+                puck.anchoredPosition = at + new Vector2(UnityEngine.Random.Range(-1f, 1f) * puckShake * k, -puckShake * strongHits * 0.5f * k);
+                yield return null;
+            }
+            puck.gameObject.SetActive(false);
+            yield return MoveTo(pfRect, knockStart, 0.2f);
         }
 
         IEnumerator WeakHit()

@@ -38,7 +38,7 @@ namespace CafeTime.Cafe
             if (Instance == this) Instance = null;
         }
 
-        // 퇴식구 설거지통에 넣거나, 손에서 버린 잔·접시 (SFR-021, 064)
+        // 설거지 대기 바구니에 넣은 더러운 잔·접시(ADR-0052)나, 손에서 버린 잔·접시 (SFR-021, 064)
         public void Enqueue(TrayItemKind dish)
         {
             if (Tray.IsTrash(dish)) return;
