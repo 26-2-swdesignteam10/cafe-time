@@ -69,6 +69,7 @@ namespace CafeTime.Cafe
 
         public void OpenMenu(HandSlotView slot)
         {
+            if (HandInventory.Instance[slot.Hand] is DirtyDish) return; // 버릴 수 없는 물건 (ADR-0052)
             menuHand = slot.Hand;
             contextMenu.position = slot.transform.position;
             contextMenu.gameObject.SetActive(true);

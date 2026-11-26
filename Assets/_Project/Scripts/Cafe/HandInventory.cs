@@ -72,12 +72,15 @@ namespace CafeTime.Cafe
         //  - 커피잔·접시: 내용물만 버리고 잔·접시는 설거지 대기로
         //  - 샷이 든 컵: 샷만 버리고 빈 컵은 손에 남음 / 얼음이 든 스쿱도 같음
         //  - 빈 샷 컵·빈 스쿱·행주: 제자리에 내려놓음
+        //  - 퇴식구에서 가져온 더러운 잔·접시: 버릴 수 없음 (설거지 대기 바구니에 직접 넣어야 함, ADR-0052)
         //  버린 재료·음료는 감점 사항 (SFR-068)
         public void Discard(int hand)
         {
             var item = hands[hand];
             switch (item)
             {
+                case DirtyDish _:
+                    break;
                 case Cup cup:
                     if (!cup.IsEmpty) Penalty();
                     Take(hand);

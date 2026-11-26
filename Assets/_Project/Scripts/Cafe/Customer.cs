@@ -17,6 +17,9 @@ namespace CafeTime.Cafe
         Vector2 seatFacing = Vector2.down; // 자리에 앉아 바라볼 방향
         float walkTime;
         Vector2 heading = Vector2.up; // 마지막으로 걸은 방향
+        const float BobHeight = 0.06f, BobSeconds = 0.3f;
+        float bobLeft;      // 한 입 먹을 때 들썩이는 남은 시간 (ADR-0053)
+        Vector3 bobHome;
 
         public CustomerLook Look => look;
 
@@ -43,6 +46,7 @@ namespace CafeTime.Cafe
 
         public void Walk(IEnumerable<Vector3> points)
         {
+            StopBob();
             path.Clear();
             foreach (var p in points) path.Enqueue(p);
             sitting = false;
@@ -64,8 +68,28 @@ namespace CafeTime.Cafe
 
         public void Face(Vector2 direction) => spriteRenderer.sprite = look.Facing(direction);
 
+        // 앉아서 한 입 먹을 때 살짝 들썩인다 (ADR-0053)
+        public void Bob()
+        {
+            if (!sitting || bobLeft > 0f) return;
+            bobHome = transform.position;
+            bobLeft = BobSeconds;
+        }
+
+        void StopBob()
+        {
+            if (bobLeft <= 0f) return;
+            bobLeft = 0f;
+            transform.position = bobHome;
+        }
+
         void Update()
         {
+            if (bobLeft > 0f)
+            {
+                bobLeft = Mathf.Max(0f, bobLeft - GameClock.Delta);
+                transform.position = bobHome + Vector3.up * (BobHeight * Mathf.Sin((1f - bobLeft / BobSeconds) * Mathf.PI));
+            }
             if (path.Count == 0 || sitting) return;
             var target = path.Peek();
             var offset = target - transform.position;

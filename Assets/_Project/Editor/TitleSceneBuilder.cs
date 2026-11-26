@@ -190,6 +190,7 @@ namespace CafeTime.EditorTools
             Set(refs, "rankingPopup", ranking.GetComponent<Popup>());
             Set(refs, "confirmPopup", confirm.GetComponent<ConfirmPopup>());
             refs.ApplyModifiedPropertiesWithoutUndo();
+            AudioManagerBuilder.AddToScene(AudioManagerBuilder.TitleBgm); // 타이틀 BGM + 클릭음 (PR #25, ADR-0054)
 
             EditorSceneManager.SaveScene(scene, ScenePath);
 

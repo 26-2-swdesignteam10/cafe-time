@@ -398,6 +398,7 @@ namespace CafeTime.Cafe
             Result.satisfactionSum += satisfaction;
             Result.drinksSold += items.Count(i => !(i is DessertItem));
             party.Served = items.ToList();
+            party.EatenBakery = party.CollectedBakery.ToList(); // 테이블에 놓고 먹는다 (ADR-0053)
             party.CollectedBakery.Clear(); // 베이커리는 셀프서비스 포장으로 제공, 설거지 접시를 만들지 않음
 
             // 만족도가 높을수록 높은 확률로 팁, 보유 자금에 바로 더함. 단골은 늘 마시던 음료를 잘 받으면 반드시 단골 팁 (ADR-0049)
@@ -413,6 +414,7 @@ namespace CafeTime.Cafe
             party.Order = null;
             party.Gauge.Show(false);
             party.StayLeft = balance.StayDuration * (party.LunchRush ? rush.stayMultiplier : 1f); // 러시 손님은 금방 회사로 돌아감 (ADR-0050)
+            party.StayTotal = party.StayLeft; // 먹는 진행률 기준 (ADR-0053)
             party.Current = CustomerParty.State.Drinking;
         }
 
@@ -446,6 +448,24 @@ namespace CafeTime.Cafe
             };
         }
 
+        // 다 앉으면 받은 음료·베이커리를 자리마다 나눠 테이블에 놓는다 (ADR-0053). 음료는 한 명씩 차례로, 베이커리도 이어서
+        void ShowMeal(CustomerParty party)
+        {
+            party.MealShown = true;
+            var bySeat = new List<List<(Sprite sprite, bool dessert)>>();
+            for (int i = 0; i < party.Members.Count; i++) bySeat.Add(new List<(Sprite sprite, bool dessert)>());
+            int next = 0;
+            void Add(Sprite sprite, bool dessert)
+            {
+                bySeat[next % bySeat.Count].Add((sprite, dessert));
+                next++;
+            }
+            foreach (var item in party.Served ?? new List<HeldItem>()) Add(ItemIcons.Of(item), item is DessertItem);
+            foreach (var line in party.EatenBakery ?? new List<OrderLine>())
+                for (int q = 0; q < line.Quantity; q++) Add(ItemIcons.ForMenu(line.Menu, Temperature.None), true);
+            party.Table.ShowMeal(bySeat);
+        }
+
         // ───────── 퇴장 ─────────
 
         // 주문 후 음료를 못 받고 떠남: 결제 금액 환불 + 손님 이탈 감점 (SFR-057, 014)
@@ -466,6 +486,8 @@ namespace CafeTime.Cafe
             party.CollectedBakery.Clear();
             if (party.QueueIndex >= 0) LeaveQueue(party);
             if (party.Table.Party == party) party.Table.Party = null;
+            if (party.MealShown) party.Table.ClearMeal();
+            party.MealShown = false;
             party.Gauge.Show(false);
             party.Current = CustomerParty.State.Leaving;
             // 다 마시고 떠나면 퇴식구에 쟁반 반납. 가득 차 있으면 테이블에 두고 감 → 청소 요청 (SFR-057, 060, 062)
@@ -603,6 +625,9 @@ namespace CafeTime.Cafe
                     // 테이블로 걸어가는 중에 서빙받은 손님도 도착하면 앉는다
                     foreach (var m in party.Members) if (!m.IsMoving) m.Sit();
                     if (!party.Arrived) break;
+                    if (!party.MealShown) ShowMeal(party);
+                    if (party.Table.Eat(1f - party.StayLeft / Mathf.Max(0.01f, party.StayTotal)))
+                        foreach (var m in party.Members) m.Bob();
                     party.StayLeft -= dt;
                     if (party.StayLeft <= 0) Leave(party, lost: false);
                     break;

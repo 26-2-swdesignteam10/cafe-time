@@ -150,7 +150,7 @@ namespace CafeTime.EditorTools
             var windows = BuildDecor();
             BuildDaylight(globalLight, windows);
             var managers = BuildManagers(tables);
-            BuildAudio();
+            AudioManagerBuilder.AddToScene(AudioManagerBuilder.CafeBgm); // BGM·효과음 (ADR-0054)
             var ui = CafeUiBuilder.Build(managers);
             // 단체 주문 이벤트 (SFR-009, ADR-0042): 대표 손님 그림은 손님 1 정면
             var groupOrders = new SerializedObject(managers.Business.AddComponent<GroupOrderManager>());
@@ -464,45 +464,6 @@ namespace CafeTime.EditorTools
             public GameObject Business;
         }
 
-        // BGM·효과음 (PR #19). 음원은 Assets/_Project/Audio, 볼륨은 PR 작성자가 씬에서 맞춘 값
-        const string AudioDir = "Assets/_Project/Audio";
-
-        static void BuildAudio()
-        {
-            var go = new GameObject("AudioManager");
-            AudioSource Source(string name)
-            {
-                var child = new GameObject(name);
-                child.transform.SetParent(go.transform, false);
-                return child.AddComponent<AudioSource>();
-            }
-            var bgm = Source("BGMSource");
-            var sfx = Source("SFXSource");
-            var so = new SerializedObject(go.AddComponent<CafeTime.Core.AudioManager>());
-            Set(so, "bgmSource", bgm);
-            Set(so, "sfxSource", sfx);
-            (string field, string file, float volume)[] clips =
-            {
-                ("cafeBgm", "BGM/cafebgm.mp3", 0.1f), ("paymentClip", "SFX/cashsound.mp3", 0.3f),
-                ("buttonClickClip", "SFX/clicksound.ogg", 1f), ("customerEnterClip", "SFX/doorbellsound.mp3", 0.3f),
-                ("interactClip", "SFX/eclicksound.ogg", 0.7f), ("warningClip", "SFX/errorsound.mp3", 0.25f),
-                ("serveClip", "SFX/bellsound.mp3", 0.3f), ("waterPourClip", "SFX/waterpoursound.mp3", 0.25f),
-                ("workCompleteClip", "SFX/alarmsound.mp3", 0.2f), ("iceScoopClip", "SFX/icesound.mp3", 0.15f),
-                ("smoothiePourClip", "SFX/smoothiesound.mp3", 0.3f), ("blenderClip", "SFX/mixersound.mp3", 0.2f),
-                ("dishScrubClip", "SFX/scrubsound.mp3", 0.25f),
-            };
-            string[] volumes = { "bgmVolume", "paymentVolume", "buttonClickVolume", "customerEnterVolume", "interactVolume", "warningVolume",
-                                 "serveVolume", "waterPourVolume", "workCompleteVolume", "iceScoopVolume", "smoothiePourVolume", "blenderVolume", "dishScrubVolume" };
-            for (int i = 0; i < clips.Length; i++)
-            {
-                var clip = AssetDatabase.LoadAssetAtPath<AudioClip>($"{AudioDir}/{clips[i].file}");
-                if (clip == null) Debug.LogWarning($"음원 없음: {AudioDir}/{clips[i].file}");
-                Set(so, clips[i].field, clip);
-                so.FindProperty(volumes[i]).floatValue = clips[i].volume;
-            }
-            so.ApplyModifiedPropertiesWithoutUndo();
-        }
-
         static Managers BuildManagers(CafeTable[] tables)
         {
             var go = new GameObject("Business");
@@ -639,6 +600,10 @@ namespace CafeTime.EditorTools
                     break;
                 case Screen.Pickup:
                     UnityEventTools.AddVoidPersistentListener(onInteract, ui.Pickup.Open);
+                    // 트레이에 놓은 음료·베이커리를 카운터 위에 보여 준다 (ADR-0053)
+                    var counter = new SerializedObject(station.AddComponent<PickupCounterView>());
+                    Set(counter, "pickup", ui.Pickup);
+                    counter.ApplyModifiedPropertiesWithoutUndo();
                     break;
                 case Screen.CupShelf: Open(onInteract, ui.CupShelf); break;
                 case Screen.Espresso: // 완료 아이콘 지우기(SFR-022)까지 EspressoMachine.Open 이 처리

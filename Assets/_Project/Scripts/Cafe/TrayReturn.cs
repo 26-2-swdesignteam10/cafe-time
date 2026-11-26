@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace CafeTime.Cafe
 {
-    // 퇴식구 (SFR-059~062): 쟁반 칸 n개. 쟁반 위 물건을 쓰레기통 / 설거지통으로 분류한다
+    // 퇴식구 (SFR-059~062): 쟁반 칸 n개. 쟁반 위 쓰레기는 쓰레기통에 버리고, 잔·접시는 손으로 가져가
+    // 설거지실의 설거지 대기 바구니에 넣는다 (ADR-0052, 예전 설거지통 칸은 없앰)
     public class TrayReturn : MonoBehaviour
     {
         public static TrayReturn Instance { get; private set; }
@@ -37,18 +38,41 @@ namespace CafeTime.Cafe
             return true;
         }
 
-        // 쟁반 위 물건 하나를 쓰레기통(toDishBin=false) 또는 설거지통으로. 맞지 않는 곳이면 false (SFR-061)
-        public bool Sort(int slot, int index, bool toDishBin)
+        // 쟁반 위 쓰레기 하나를 쓰레기통에. 잔·접시면 false (SFR-061)
+        public bool Trash(int slot, int index)
+        {
+            if (!TryGet(slot, index, out var kind) || !Tray.IsTrash(kind)) return false;
+            Remove(slot, index);
+            return true;
+        }
+
+        // 쟁반 위 잔·접시 하나를 손 칸으로 (ADR-0052). 쓰레기이거나 손이 가득 차면 false
+        public bool TakeDish(int slot, int index)
+        {
+            if (!TryGet(slot, index, out var kind) || Tray.IsTrash(kind)) return false;
+            if (!HandInventory.Instance.TryAdd(new DirtyDish(kind)))
+            {
+                Toast.Show(ToastMessage.HandsFull);
+                return false;
+            }
+            Remove(slot, index);
+            return true;
+        }
+
+        bool TryGet(int slot, int index, out TrayItemKind kind)
+        {
+            var tray = slot >= 0 && slot < Slots.Length ? Slots[slot] : null;
+            bool ok = tray != null && index >= 0 && index < tray.Items.Count;
+            kind = ok ? tray.Items[index] : default;
+            return ok;
+        }
+
+        void Remove(int slot, int index)
         {
             var tray = Slots[slot];
-            if (tray == null || index < 0 || index >= tray.Items.Count) return false;
-            var kind = tray.Items[index];
-            if (Tray.IsTrash(kind) == toDishBin) return false;
             tray.Items.RemoveAt(index);
-            if (toDishBin) DishStation.Instance.Enqueue(kind);
-            if (tray.IsEmpty) Slots[slot] = null; // 모두 분류하면 쟁반이 치워짐
+            if (tray.IsEmpty) Slots[slot] = null; // 모두 치우면 쟁반이 없어짐
             Changed?.Invoke();
-            return true;
         }
     }
 }

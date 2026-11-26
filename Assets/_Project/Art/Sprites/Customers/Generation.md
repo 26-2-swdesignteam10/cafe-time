@@ -277,3 +277,23 @@ Use case: stylized-concept. Production transparent pixel-art portrait for a cozy
 검수: 9장 전후 비교 PortraitsChibi.png를 작업 폴더에 저장. 최종 크기·RGBA·알파 0의 RGB 0·최소 8px 외곽 여백을 자동 검사. 원본 이름으로 덮어썼고 .meta 및 코드·씬·프리팹·에셋 파일은 수정하지 않았다. Unity에서 기존 스프라이트가 재임포트된 뒤 대화창/손님 UI의 표시 확인이 필요하다.
 
 최종 육안 확인: PortraitsChibi.png를 직접 열어 이전 대비 큰 머리·짧은 몸·단순한 명암, 5개 표정의 구분, 9장 화풍과 외곽선의 일관성, 머리·리본·어깨 잘림 없음을 확인했다.
+
+## 2026-11-24 포스기 손님 초상화 구도 조정
+
+- 도구: OpenAI 내장 image_gen 이미지 편집, PowerShell / System.Drawing 후처리.
+- 참조: 각 파일의 작업 직전 `CustomerNPortrait.png`(인물·표정·화풍), 같은 폴더의 `CustomerNSourceSheet.png`와 `CustomerNDown.png`(머리·의상 디자인). `docs/ART_STYLE.md` 11장의 손님 치비 도트 규칙을 적용했다.
+- 공통 프롬프트: Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: identity-preserve. Edit the original portrait, slightly zoom out only. Reduce head crown-to-chin height to approximately 82% of the original on the same square canvas. Preserve the same character, hairstyle, large eyes, friendly closed-mouth smile, blush, clothing, chunky stepped outlines and simple two-tone shading. Show more shoulders and upper chest; lower torso cropped as a bust. Leave slight padding above complete hair. Use sheet and Down sprite for clothing only. No hands, text, effects, cast shadow or background. Target 320x320 RGBA, actual transparent alpha, no antialiasing or blur.
+
+### 파일별 프롬프트
+
+- `Customer1Portrait.png`: Same friendly smiling chibi businessman, dark swept hair, navy blazer and cream collared button-up shirt. Preserve identical face and hair silhouette. Reveal more shirt collar, buttons and blazer lapels; crown near 4% canvas height, chin near 64%.
+- `Customer2Portrait.png`: Same smiling young woman, chestnut brown high wavy ponytail with yellow hair tie, mustard yellow hoodie with cream drawstrings and brown backpack straps. Preserve ponytail shape and all facial features. Reveal more shoulders and hoodie upper chest.
+- `Customer3Portrait.png`: Same smiling grandmother, swept silver-gray hair with low side bun, pearl earrings, lavender cardigan over cream collared blouse, cream buttons. Preserve age, gentle smile lines and facial features. Reveal more blouse collar and cardigan front.
+- `Customer4Portrait.png`: Same smiling man, warm chestnut curly hair in large curl clumps, round brown glasses, olive moss green ribbed knit sweater with round collar. Preserve all facial features. Reveal more sweater shoulders and upper chest.
+
+### 후처리·검수
+
+- 생성본을 System.Drawing으로 최근접 표본 추출해 320×320으로 정규화했다. 알파는 128을 경계로 0/255로 정리하고, 알파 0인 픽셀은 RGB도 모두 0으로 저장했다. 부드러운 보간을 쓰지 않아 계단식 외곽선을 유지했다.
+- 생성본의 머리 비율을 맞추기 위해 Customer2는 1.12배·위로 4px, Customer3은 1.08배·위로 16px, Customer4는 1.03배·위로 2px 최근접 조정했다. 머리 위 여백과 버스트 구도를 유지했다.
+- 최종 PNG 네 장의 RGBA·크기·투명 픽셀 RGB 0·이진 알파를 검사했다. 기존 초상화와 디자인 시트를 대조해 인물·머리·표정·옷의 일치, 머리 위 잘림 없음, 어깨와 가슴 윗부분 노출 증가를 육안 확인했다.
+- 기존 이름으로 덮어썼으며 새 프로젝트 파일, `.meta`, 코드, 씬, 프리팹, `.asset`, `docs/`는 수정하지 않았다. Unity 6000.6.4f1로 돌아가 자동 재임포트 후 포스기 초상화 표시를 확인한다.

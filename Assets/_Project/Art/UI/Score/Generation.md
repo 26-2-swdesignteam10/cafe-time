@@ -220,3 +220,26 @@ TextMeshPro는 모두 **기존 Jua SDF**, 자동 크기 끔, 줄바꿈 끔, 세�
 - Unity 6000.6.4f1로 돌아가 새 PNG를 임포트해 .meta를 생성한다. Sprite (2D and UI), Single, Point, Mip Maps 끔, Alpha Is Transparency 켬. Panel은 Max Size 4096, 나머지는 2048로 원본 크기를 보존한다.
 - 이 작업에서는 씬을 빌드하지 않는다. 후속 적용 시 표의 좌표·TMP 색·흰 Image tint와 신규 아이콘·타원 연결이 필요하며, 그 뒤 Play에서 DAY·가감점·0회 알파·최고 기록 달성 표시를 확인한다.
 - 새 ADR은 없음. 사용자가 지정한 칠판 방향을 이 화면의 생성 기록에 반영했으며 공통 폰트·구조·흐름은 바꾸지 않았다.
+
+## 2026-11-26 IconOvertime.png, LabelOvertime.png (ADR-0055)
+
+- 관련 결정: 승인 ADR-0055의 마감 초과 감점 항목. 기존 ADR의 변경이나 새 ADR 추가는 없다.
+- 도구: OpenAI 내장 image_gen(아이콘), Python 3 / Pillow(아이콘 크기 정리 및 Jua 라벨 조판). CLI/API는 사용하지 않았다.
+- 스타일 참조: 같은 폴더의 `IconLost.png`, `IconTrayLeft.png`, `IconCleaning.png`를 직접 열어 확인하고 이미지 생성 도구의 참조 이미지로 전달했다. 세 아이콘의 알파 >32 경계는 각각 (54,61)–(197,193), (48,71)–(209,192), (47,55)–(207,210)이며, 넉넉한 여백의 크림색 분필 선과 짙은 커피색 가장자리를 따른다.
+- 라벨 실측: `LabelLost.png`는 246×72, 알파 경계 (8,8)–(238,64), `LabelTrayLeft.png`는 249×72, 알파 경계 (8,8)–(241,64)다. 두 파일 모두 채움 높이 56px, 채움색 `#FCF0CA`, 외곽선 0px, 사방 투명 여백 8px다. 2026-11-18 칠판 리디자인이 반영된 실제 PNG를 기준으로 하며, 2026-11-12 Jua 재조판(ADR-0026)의 폰트·4배 안티앨리어싱·Lanczos 방식을 사용했다.
+
+### 프롬프트
+
+`IconOvertime.png` 이미지 생성 도구에 전달한 전체 프롬프트:
+
+> Production Unity sprites for a cozy Korean pixel art cafe game. Crisp stepped pixel outlines; warm walnut, honey gold and cream palette; transparent backgrounds; fully visible edges with padding. Use case: stylized-concept. Create ONE new overtime penalty icon for the Score screen. The three input images IconLost.png, IconTrayLeft.png, IconCleaning.png are STYLE REFERENCES ONLY. Match their actual hand-drawn cream chalk line style, fine dark coffee edge accents, speckled chalk texture, line thickness, sparse transparent interior and generous padding, NOT a solid filled object. Subject: a small round wall clock seen straight on, with short hour hand pointing just above left toward 9 and long minute hand pointing just clockwise past 12 toward 1, clearly about 9:05. Only TWO hands. Small red/pink chalk exclamation warning immediately beside the clock, restrained warning accent #EDA6A1. NO clock numerals, NO hour tick marks, NO letters, NO words. Cream #FCF0CA main chalk lines. Transparent background and clock interior, no board or backing. Center the combined clock and warning in square canvas; visible combined artwork roughly 160x150 pixels within intended 256x256 final canvas (about 48px side padding), comparable to reference icon sizes. Match references closely; do not draw the reference subjects. Output a single isolated transparent RGBA sprite.
+
+- `LabelOvertime.png` 조판 지시: 정확한 문구 "마감 초과". `Assets/_Project/Art/Fonts/Jua-Regular.ttf`로 조판하고 현재 `LabelLost.png`, `LabelTrayLeft.png`와 같은 채움 높이 56px, 크림색 `#FCF0CA`, 외곽선 없음, 분필 질감, 캔버스 높이 72px 및 사방 여백 8px를 적용한다. 이미지 생성으로 글자를 그리지 않는다.
+
+### 후처리 및 최종 검수
+
+- 아이콘: 생성본 1254×1254 RGBA의 알파 >32인 주 그림 경계 (297,306)–(1047,970)를 구하고 사방 8px를 더해 미세한 원거리 알파 잔여물을 잘랐다. 생성된 그림과 알파를 유지한 채 Lanczos로 164×146에 축소하고 256×256 투명 캔버스 가운데에 배치했다. 최종 알파 경계 (46,55)–(210,201), 좌우 여백 46px·상하 55px다. 약 9시 5분의 짧은 시침과 긴 분침, 붉은 분필 느낌표를 눈으로 확인했다. 시계 숫자·눈금·문자 없음.
+- 라벨: Jua를 256px 크기로 4배 해상도에서 조판해 채움 경계로 자른 뒤, 종횡비를 유지하며 Lanczos로 231×56에 축소했다. 알파에 약한 분필 입자를 적용했다(고정 난수 시드 55, 4.5% 픽셀은 알파 45–85%, 나머지는 96–100%). 색상은 `#FCF0CA`, 외곽선은 추가하지 않았다. 사방 8px 투명 여백을 더했으며 완전 투명 픽셀의 RGB는 0으로 정리했다.
+- 최종 규격: `IconOvertime.png` **256×256 RGBA**, `LabelOvertime.png` **247×72 RGBA**. 두 파일 모두 투명 배경이다.
+- 철자 확인: 최종 PNG를 칠판색 배경에 합성해 `마 / 감 / 공백 / 초 / 과`를 눈으로 대조했다. 정확한 문구는 **마감 초과**이며 공백은 한 개다. 유니코드도 U+B9C8 / U+AC10 / U+0020 / U+CD08 / U+ACFC와 대조했다.
+- 기존 PNG·코드·씬·프리팹·`.asset`·기존 `.meta`는 수정하지 않았으며 새 `.meta`도 만들지 않았다. Unity 6000.6.4f1에서 새 PNG를 임포트해 `.meta`를 생성한다. Sprite (2D and UI), Single, Point, Mip Maps 끔, Alpha Is Transparency 켬, Max Size 2048을 확인한다.

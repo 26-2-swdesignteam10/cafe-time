@@ -565,8 +565,8 @@ MonoBehaviour:
     stockId: dessert_croque_monsieur
   secondsPerGameHour: 35
   openHour: 9
-  entryCloseHour: 17.5
-  closeHour: 18
+  entryCloseHour: 20
+  closeHour: 21
   difficultyByDay:
   - arrivalInterval: {x: 45, y: 75}
     partySizeWeights: 07000000030000000000000000000000i
@@ -1020,7 +1020,7 @@ MonoBehaviour:
   iceMax: 24
   iceSecondsPerCube: 3
   icePerScoop: 4
-  waterSeconds: 3
+  waterSeconds: 7
   waterAmount: 200
   syrupPerClick: 10
   smoothiePerClick: 50
@@ -1049,6 +1049,7 @@ MonoBehaviour:
   penaltyTrayLeft: 50
   penaltyCleaning: 50
   penaltyOrderSkipped: 30
+  penaltyOvertimePer10Min: 30
   ending03Profit: 150000
   ending03Reputation: 3
   ending04Profit: 600000

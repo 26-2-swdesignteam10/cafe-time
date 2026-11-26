@@ -20,12 +20,15 @@ namespace CafeTime.Cafe
         public float MaxPatience { get; set; }
         public float WaitedSeconds { get; set; }      // 주문 후 서빙까지 걸린 시간 (만족도)
         public float StayLeft { get; set; }
+        public float StayTotal { get; set; }          // 서빙받은 뒤 머무는 전체 시간 (먹는 진행률, ADR-0053)
         public List<HeldItem> Served { get; set; }    // 받은 음료·디저트 (퇴식구 쟁반 내용, SFR-060)
         public WorldGauge Gauge { get; set; }
         public Customer Runner { get; set; }              // 진동벨이 울려 픽업대로 받으러 간 일행 1명 (ADR-0040)
         public List<HeldItem> CalledItems { get; set; }   // 호출할 때 트레이에 놓여 있던 물건
 
         public List<OrderLine> CollectedBakery { get; } = new List<OrderLine>(); // 직접 집은 베이커리 (SFR-026, 056)
+        public List<OrderLine> EatenBakery { get; set; }  // 서빙 때 받은 베이커리. 테이블에 놓고 먹는다 (ADR-0053)
+        public bool MealShown { get; set; }               // 받은 음식을 테이블에 놓았는지
 
         // 단골손님 (ADR-0049). null 이면 일반 손님. Visits = 오늘 전까지 주문한 횟수
         public RegularCustomer Regular { get; set; }

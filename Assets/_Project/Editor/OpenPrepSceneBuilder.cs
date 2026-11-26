@@ -102,6 +102,7 @@ namespace CafeTime.EditorTools
             else Debug.LogWarning("ConfirmPopup 프리팹이 없습니다: " + ConfirmPrefabPath);
 
             so.ApplyModifiedPropertiesWithoutUndo();
+            AudioManagerBuilder.AddToScene(AudioManagerBuilder.TitleBgm); // 클릭음 + 타이틀 BGM (PR #25, ADR-0054)
             SaveSceneAndAddToBuild(ScenePath);
             Debug.Log("OpenPrep 씬 생성 완료: " + ScenePath);
         }

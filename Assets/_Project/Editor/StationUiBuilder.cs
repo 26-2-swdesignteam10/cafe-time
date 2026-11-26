@@ -1055,7 +1055,8 @@ namespace CafeTime.EditorTools
         {
             const string F = "TrayReturn";
             // 좌표는 Art/UI/TrayReturn/Generation.md "배치 (2026-11-12)" 표 (창 1600x900 왼쪽 위 기준)
-            // 정면에서 본 수납장: 오크 상판(윗면 y 474~516) 위에 쟁반, 아래 왼쪽 칸 쓰레기통, 오른쪽 칸 설거지통
+            // 정면에서 본 수납장: 오크 상판(윗면 y 474~516) 위에 쟁반, 아래 왼쪽 칸 쓰레기통.
+            // 오른쪽 칸의 설거지통은 없앴다: 잔·접시는 손으로 가져가 설거지실 대기 바구니에 넣는다 (ADR-0052)
             var popup = Screen<TrayReturnScreen>(canvas, F, "TrayReturnScreen", 1600, 900, out var window);
             var so = new SerializedObject(popup);
             Label(window, "LabelTitle", S(F, "LabelTitle"), 800, 62, PivotCenter); // 퇴식구 제목은 남긴다 (ADR-0019)
@@ -1090,36 +1091,8 @@ namespace CafeTime.EditorTools
             Label(trash.transform, "LabelTrash", S(F, "LabelTrash"), 275 - 62, 590 - 556, PivotCenter);
             Set(so, "trashBin", trash);
 
-            // 설거지통 칸: 낮은 대야 뒤판 → 쌓인 잔(4줄 × 4개)·접시 더미 → 반투명 앞벽
-            var dish = Zone(window, "DishBin", 1132, 556, 406, 296, null, Invisible);
-            var dt = dish.transform;
-            const float ox = 1132, oy = 556, cupSize = 100, cupStep = 26, plateSize = 90, plateStep = 9, stackBottom = 846;
-            AddImage(TopLeft("Tub", dt, 1145 - ox, 794 - oy, 380, 58), S(F, "DishBin"), Cream).raycastTarget = false;
-            float[] stackX = { 1190, 1262, 1334, 1406 };
-            var cups = new Object[stackX.Length * 4];
-            for (int s = 0; s < stackX.Length; s++)
-                for (int lvl = 0; lvl < 4; lvl++)
-                    cups[s * 4 + lvl] = StackIcon(dt, $"Cup {s + 1}-{lvl + 1}", stackX[s] - ox, stackBottom - cupSize - lvl * cupStep - oy, cupSize);
-            var plates = new Object[8];
-            for (int lvl = 0; lvl < plates.Length; lvl++)
-                plates[lvl] = StackIcon(dt, $"Plate {lvl + 1}", 1478 - ox, stackBottom - plateSize + 12 - lvl * plateStep - oy, plateSize);
-            Overlay(dt, "TubFront", S(F, "DishBinFront"), 1145 - ox, 794 - oy, 380, 58);
-            Label(dt, "LabelDishBin", S(F, "LabelDishBin"), 1335 - ox, 590 - oy, PivotCenter);
-            Set(so, "dishBin", dish);
-            SetArray(so, "cupStack", cups);
-            SetArray(so, "platePile", plates);
             so.ApplyModifiedPropertiesWithoutUndo();
             return popup;
-        }
-
-        // 설거지통에 쌓이는 잔·접시 한 자리 (cx: 가운데 x, top: 위끝 y, 부모 왼쪽 위 기준). 클릭·드롭은 칸이 받는다
-        static Image StackIcon(Transform parent, string name, float cx, float top, float size)
-        {
-            var image = AddImage(TopLeft(name, parent, cx - size / 2, top, size, size), null, Color.clear);
-            image.preserveAspect = true;
-            image.raycastTarget = false;
-            image.enabled = false;
-            return image;
         }
 
         // ───────── 설거지실 (SFR-063~065) ─────────
@@ -1131,9 +1104,10 @@ namespace CafeTime.EditorTools
             var popup = Screen<DishwashScreen>(canvas, F, "DishwashScreen", 1600, 900, out var window);
             var so = new SerializedObject(popup);
 
-            // 설거지 대기 바구니: 뒤판 → 대기 잔 3개(조금씩 기울여 담음) → 앞판
+            // 설거지 대기 바구니: 뒤판 → 대기 잔 3개(조금씩 기울여 담음) → 앞판. 손 칸의 더러운 잔·접시를 놓는 자리 (ADR-0052)
             var crate = TopLeft("WaitingCrate", window, 60, 385, 340, 230);
-            AddImage(crate, S(F, "WaitingCrate"), Cream);
+            AddImage(crate, S(F, "WaitingCrate"), Cream, true);
+            Set(so, "waitingZone", crate.gameObject.AddComponent<DropZone>());
             var crateItems = new Object[3];
             float[] tilt = { 8, -6, 10 };
             for (int i = 0; i < crateItems.Length; i++) crateItems[i] = CenterIcon(crate, $"Waiting {i + 1}", 85 + i * 85, 85, 130, tilt[i]);

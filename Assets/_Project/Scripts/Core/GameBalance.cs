@@ -34,9 +34,10 @@ namespace CafeTime.Core
         [Tooltip("게임 시간 1시간이 실제 몇 초인지 (명세 2분 → ADR-0021 35초, 하루 약 7분)")]
         [SerializeField] float secondsPerGameHour = 35f;
         [SerializeField] int openHour = 9;
-        [Tooltip("손님 입장 마감 시각 (17.5 = 17:30)")]
-        [SerializeField] float entryCloseHour = 17.5f; // ADR-0044
-        [SerializeField] int closeHour = 18;           // ADR-0044
+        [Tooltip("손님 입장 마감 시각 (17.5 = 17:30). 이후 새 손님은 오지 않고, 남은 손님을 다 보내면 하루가 끝난다")]
+        [SerializeField] float entryCloseHour = 20f; // ADR-0055
+        [Tooltip("마감 시각. 이때까지 손님을 다 보내지 못하면 넘긴 시간만큼 감점 (영업은 계속된다)")]
+        [SerializeField] int closeHour = 21;         // ADR-0055
 
         [Header("손님 (SFR-024, 025, 057, 058) — 임시값, 시간은 실제 초")]
         [Tooltip("DAY 1 ~ 15 손님 난이도: 입장 간격, 일행 인원 가중치, 인내심 (ADR-0020)")]
@@ -103,8 +104,8 @@ namespace CafeTime.Core
         [SerializeField] int icePerScoop = 4;
 
         [Header("정수기 (SFR-043) — 임시값")]
-        [Tooltip("물 받는 시간 (2026-11-17 사용자 요청 3초 → 6초)")]
-        [SerializeField] float waterSeconds = 6f;
+        [Tooltip("물 받는 시간 (2026-11-17 사용자 요청 3초 → 6초, 2026-11-24 → 7초)")]
+        [SerializeField] float waterSeconds = 7f;
         [SerializeField] float waterAmount = 200f;
 
         [Header("음료·쉐이크 제조실 (SFR-046, 047, 053, 054) — 임시값")]
@@ -153,6 +154,8 @@ namespace CafeTime.Core
         [SerializeField] int penaltyCleaning = 50;
         [Tooltip("선입선출을 어기고 나중 주문을 먼저 서빙했을 때 1회 감점 (ADR-0022)")]
         [SerializeField] int penaltyOrderSkipped = 30;
+        [Tooltip("마감 시각을 넘긴 게임 시간 10분마다 감점 (ADR-0055)")]
+        [SerializeField] int penaltyOvertimePer10Min = 30;
 
         [Header("엔딩 (SFR-073) — 임시값. 최종 수익 = 최종 보유금 - 시작 자금")]
         [SerializeField] int ending03Profit = 150000;
@@ -289,6 +292,7 @@ namespace CafeTime.Core
         public int PenaltyTrayLeft => penaltyTrayLeft;
         public int PenaltyCleaning => penaltyCleaning;
         public int PenaltyOrderSkipped => penaltyOrderSkipped;
+        public int PenaltyOvertimePer10Min => penaltyOvertimePer10Min;
         public int Ending03Profit => ending03Profit;
         public float Ending03Reputation => ending03Reputation;
         public int Ending04Profit => ending04Profit;
