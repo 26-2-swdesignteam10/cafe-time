@@ -58,7 +58,6 @@ namespace CafeTime.Cafe
         {
             if (!CanAdd || LidBlocksAdding()) return;
             float amount = balance.AmountPerClick(ingredient);
-            if (!Pantry.TryUse(ingredient.Id, amount)) { Toast.Show(ToastMessage.NoIngredient); return; }
             Jar.Add(ingredient.Id, amount);
             Changed?.Invoke();
         }
@@ -67,7 +66,6 @@ namespace CafeTime.Cafe
         {
             if (!CanAdd || LidBlocksAdding()) return false;
             float amount = balance.PourPerSecond * seconds;
-            if (!Pantry.TryUse(ingredient.Id, amount)) { Toast.Show(ToastMessage.NoIngredient); return false; }
             Jar.Add(ingredient.Id, amount);
             Changed?.Invoke();
             return true;

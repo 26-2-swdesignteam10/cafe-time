@@ -9,10 +9,7 @@ namespace CafeTime.EspressoShot
     // 그라인더 오브젝트에 붙이고, 분쇄 버튼 OnClick → Grinder.OnClickGrind
     public class Grinder : MonoBehaviour
     {
-        public const string BeanId = "bean"; // 오픈 준비에서 구매한 원두 재고 (단위: 회)
-
         public PortafilterSlot slot;        // 그라인더 슬롯 (type = Grinder)
-        public int beansPerGrind = 1;
         public Image progressFill;          // 선택: Image Type = Filled 로 설정
         public GameObject stream;           // 선택: 분쇄 중에 켜는 가루 줄기
 
@@ -33,11 +30,6 @@ namespace CafeTime.EspressoShot
             if (pf.State != PortafilterState.Empty)
             {
                 Toast.Show(ToastMessage.EmptyPortafilterOnly);
-                return;
-            }
-            if (!Pantry.TryUse(BeanId, beansPerGrind)) // 분쇄 1회당 재고 차감
-            {
-                Toast.Show(ToastMessage.NoBean);
                 return;
             }
 

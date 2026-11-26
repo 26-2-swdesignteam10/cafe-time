@@ -13,7 +13,7 @@ namespace CafeTime.Core
         [SerializeField] int price;
         [SerializeField] bool hot;
         [SerializeField] bool ice;
-        [Tooltip("디저트만: 오픈 준비에서 산 재고의 재료 id (SFR-056)")]
+        [Tooltip("디저트만: 진열대 빵 그림·저장에 쓰는 id (SFR-056, 재고는 없앰 ADR-0056)")]
         [SerializeField] string stockId;
 
         public string Id => id;

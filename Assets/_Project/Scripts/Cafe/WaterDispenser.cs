@@ -55,6 +55,9 @@ namespace CafeTime.Cafe
             if (Filling(zone)) return;
             if (Cups[zone] == null) { Toast.Show(ToastMessage.PlaceCup); return; }
             left[zone] = balance.WaterSeconds;
+            // 정수기 3단계: 다른 구역에 빈 컵이 있으면 함께 받는다 (ADR-0057)
+            int other = 1 - zone;
+            if (balance.WaterBothZones && Cups[other] != null && Cups[other].IsEmpty && !Filling(other)) left[other] = balance.WaterSeconds;
             Changed?.Invoke();
         }
 

@@ -1062,10 +1062,12 @@ namespace CafeTime.EditorTools
             Label(window, "LabelTitle", S(F, "LabelTitle"), 800, 62, PivotCenter); // 퇴식구 제목은 남긴다 (ADR-0019)
             Label(window, "Hint", S(F, "Hint"), 800, 112, PivotCenter);
 
-            // 쟁반 칸: 상판 위에 가로로 나란히 (4칸 기준 x = 75, 445, 815, 1185). 쟁반 아래에 늘 보이는 자리 매트
+            // 쟁반 칸: 상판 위에 가로로 나란히 (4칸 기준 x = 75, 445, 815, 1185). 쟁반 아래에 늘 보이는 자리 매트.
+            // 퇴식구 업그레이드 최대 칸 수만큼 만들고, 화면이 그날 칸 수에 맞춰 다시 배치한다 (ADR-0057)
             const float trayW = 340, trayH = 44, trayBottom = 512;
             float step = slots > 1 ? (1525 - 75 - trayW) / (slots - 1) : 0;
             var trays = new Object[slots];
+            var mats = new Object[slots];
             var containers = new Object[slots];
             DragItem template = null;
             for (int i = 0; i < slots; i++)
@@ -1073,6 +1075,7 @@ namespace CafeTime.EditorTools
                 float x = slots > 1 ? 75 + i * step : 630;
                 var mat = TopLeft($"TraySlot {i + 1}", window, x - 10, trayBottom - 14, trayW + 20, 22);
                 AddImage(mat, S(F, "TraySlot"), Spot);
+                mats[i] = mat;
                 var tray = TopLeft($"Tray {i + 1}", window, x, trayBottom - trayH, trayW, trayH);
                 AddImage(tray, S(F, "Tray"), new Color32(0x8B, 0x5A, 0x3C, 0xFF));
                 // 물건 컨테이너: 아래 가장자리가 쟁반 윗면(쟁반 위끝 + 14). 물건은 화면이 줄 단위로 배치한다
@@ -1082,6 +1085,7 @@ namespace CafeTime.EditorTools
                 if (template == null) template = Draggable(items, "Item", null, 96, 96);
             }
             SetArray(so, "trays", trays);
+            SetArray(so, "slotMats", mats);
             SetArray(so, "itemContainers", containers);
             Set(so, "itemTemplate", template);
 

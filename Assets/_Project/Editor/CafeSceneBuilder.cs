@@ -28,6 +28,7 @@ namespace CafeTime.EditorTools
         const string OutlineDir = "Assets/_Project/Art/Sprites/Cafe/Outlines";
         const string PlayerArtDir = "Assets/_Project/Art/Sprites/Player";
         const string CustomerArtDir = "Assets/_Project/Art/Sprites/Customers";
+        const string StaffArtDir = "Assets/_Project/Art/Sprites/Staff";
         const string HudArt = "Assets/_Project/Art/UI/CafeHud";
         const string ItemIconDir = "Assets/_Project/Art/Icons/Items";
         const int PixelsPerUnit = 128;
@@ -134,6 +135,7 @@ namespace CafeTime.EditorTools
             PrepareWorldSprites($"{MapArtDir}/Bakery", null); // 진열대 위 작은 빵 (ADR-0034)
             PrepareWorldSprites(PlayerArtDir, null);
             PrepareWorldSprites(CustomerArtDir, null);
+            PrepareWorldSprites(StaffArtDir, null); // 알바생 (ADR-0057)
             var worldHud = new[] { "PromptKey", "GaugeFrame", "GaugeFill" }; // 맵 위에 그리는 HUD 그림
             PrepareWorldSprites(HudArt, worldHud, worldHud);
             SetSideBorder($"{HudArt}/GaugeFrame.png", 12); // 9-slice: 캡슐 양끝 반원 (높이 24)
@@ -319,8 +321,8 @@ namespace CafeTime.EditorTools
             var windows = new GameObject[6];
             for (int i = 0; i < windows.Length; i++)
                 windows[i] = Window(root, 12.75f + i * 2.1f, 13.4f);
-            BreadShelf("빵 진열대 왼쪽", root, 4.3f, 0);
-            BreadShelf("빵 진열대 오른쪽", root, 7.7f, 1);
+            BreadShelf("빵 진열대 왼쪽", root, 4.3f);
+            BreadShelf("빵 진열대 오른쪽", root, 7.7f);
             foreach (float y in new[] { 1f, 2f, 4.4f, 5f, 6f, 7f }) // 사이 y3~4.4 는 좌석으로 가는 통로
                 Decor("화분 칸막이", root, "PlanterSegment", 10.5f, y, Vector2.one);
             for (int x = 11; x < MapWidth - 1; x++)
@@ -368,10 +370,9 @@ namespace CafeTime.EditorTools
             ("morning", "#FFF5DF", 1.08f), ("noon", "#FFFBF3", 1f), ("sunsetStart", "#FFE7D2", 0.98f), ("sunsetEnd", "#FFD0B8", 0.86f),
         };
 
-        // 빵 진열대 (SFR-056, ADR-0034): 빈 진열대(336x640px) 위에 재고만큼 작은 빵을 늘어놓는다.
+        // 빵 진열대 (SFR-056, ADR-0034): 빈 진열대(336x640px) 위에 작은 빵을 가득 늘어놓는다 (재고 없음, ADR-0056).
         // 아래쪽 손님 통로(y 1.25) 바로 위부터 포스기 앞 줄(y 7.25) 아래까지 홀 가운데를 세로로 채운다
         const float BreadShelfY = 1.55f;
-        const int BreadShelfCount = 2;
         // 칸 순서: 위 행부터 왼쪽→오른쪽 (Art/Sprites/Cafe/Generation.md "빵 진열대 재제작" 칸 좌표 표)
         static readonly (string stockId, string sprite)[] BreadShelfItems =
         {
@@ -389,7 +390,7 @@ namespace CafeTime.EditorTools
             new RectInt(30, 62, 128, 64), new RectInt(178, 62, 128, 64),
         };
 
-        static void BreadShelf(string name, Transform parent, float x, int index)
+        static void BreadShelf(string name, Transform parent, float x)
         {
             var go = WorldObject(name, parent, LoadSprite($"{MapArtDir}/BreadShelf.png"), x, BreadShelfY, new Vector2(1.9f, 5f));
             go.AddComponent<SortingGroup>().sortingOrder = -1; // 캐릭터보다 항상 뒤, 그룹 안에서 빵이 진열대 앞
@@ -407,8 +408,6 @@ namespace CafeTime.EditorTools
                 cells.GetArrayElementAtIndex(i).rectValue = new Rect(
                     (px.x - halfWidthPx) / PixelsPerUnit, (float)px.y / PixelsPerUnit, (float)px.width / PixelsPerUnit, (float)px.height / PixelsPerUnit);
             }
-            view.FindProperty("shelfIndex").intValue = index;
-            view.FindProperty("shelfCount").intValue = BreadShelfCount;
             view.ApplyModifiedPropertiesWithoutUndo();
         }
 
@@ -488,6 +487,7 @@ namespace CafeTime.EditorTools
             var cleaning = new SerializedObject(go.AddComponent<CleaningManager>());
             SetArray(cleaning, "tables", tables.Cast<Object>().ToArray());
             cleaning.ApplyModifiedPropertiesWithoutUndo();
+            BuildStaff(go, tables);
 
             // 물건 아이콘: ItemSprite 순서, 파일 이름 = 값 이름
             var icons = new SerializedObject(go.AddComponent<ItemIcons>());
@@ -527,6 +527,35 @@ namespace CafeTime.EditorTools
             customers.ApplyModifiedPropertiesWithoutUndo();
             SetBakeryPickupPoint(managers.Customers);
             return managers;
+        }
+
+        // 알바생 (ADR-0057): 그림 묶음은 손님과 같은 구조 (Staff{id}Down.png, Staff{id}Down1.png ...)
+        static void BuildStaff(GameObject business, CafeTable[] tables)
+        {
+            var staff = new SerializedObject(business.AddComponent<StaffManager>());
+            SetArray(staff, "tables", tables.Cast<Object>().ToArray());
+            var definitions = CafeTime.Core.GameBalance.Instance.Staff;
+            var looks = staff.FindProperty("looks");
+            looks.arraySize = definitions.Count;
+            for (int i = 0; i < definitions.Count; i++)
+            {
+                string id = definitions[i].Id;
+                var entry = looks.GetArrayElementAtIndex(i);
+                entry.FindPropertyRelative("id").stringValue = id;
+                var look = entry.FindPropertyRelative("look");
+                foreach (var dir in new[] { "Down", "Up", "Left", "Right" })
+                {
+                    string Frame(string step) => $"{StaffArtDir}/Staff{id}{dir}{step}.png";
+                    var idle = LoadSprite(Frame(""));
+                    look.FindPropertyRelative(char.ToLower(dir[0]) + dir.Substring(1)).objectReferenceValue = idle;
+                    var walk = look.FindPropertyRelative("walk" + dir);
+                    var frames = new[] { LoadSprite(Frame("1")), idle, LoadSprite(Frame("2")), idle };
+                    walk.arraySize = frames.Length;
+                    for (int f = 0; f < frames.Length; f++) walk.GetArrayElementAtIndex(f).objectReferenceValue = frames[f];
+                }
+                look.FindPropertyRelative("portrait").objectReferenceValue = LoadSprite($"{StaffArtDir}/Staff{id}Portrait.png");
+            }
+            staff.ApplyModifiedPropertiesWithoutUndo();
         }
 
         // ───────── 기기 (SFR-012, 020) ─────────

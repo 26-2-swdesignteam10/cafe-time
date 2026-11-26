@@ -92,7 +92,7 @@ namespace CafeTime.EditorTools
                 Water = StationUiBuilder.BuildWater(main),
                 DrinkRoom = StationUiBuilder.BuildDrinkRoom(main),
                 ShakeRoom = StationUiBuilder.BuildShakeRoom(main),
-                TrayReturn = StationUiBuilder.BuildTrayReturn(main, GameBalance.Instance.TrayReturnSlots),
+                TrayReturn = StationUiBuilder.BuildTrayReturn(main, GameBalance.Instance.MaxTrayReturnSlots),
                 Dishwash = StationUiBuilder.BuildDishwash(main),
                 Pickup = BuildPickup(main),
             };
@@ -600,7 +600,6 @@ namespace CafeTime.EditorTools
             icon.preserveAspect = true;
             Set(so, "icon", icon);
             Set(so, "nameText", AddText(TopLeft("Name", rt, 10, 118, 180, 28), "", 22, DarkCoffee));
-            Label(rt, "StockLabel", LoadSprite($"{OpenPrep}/LabelStock.png"), 96, 168, PivotRight, 0.3f);
             Set(so, "detailText", AddText(TopLeft("Detail", rt, 102, 157, 95, 22), "", 17, TextBrown, TextAlignmentOptions.Left));
             so.ApplyModifiedPropertiesWithoutUndo();
             return view;

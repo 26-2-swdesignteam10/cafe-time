@@ -1,6 +1,6 @@
-using System.IO;
+using System.Linq;
+using CafeTime.Core;
 using CafeTime.OpenPrep;
-using CafeTime.UI;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -9,18 +9,20 @@ using static CafeTime.EditorTools.BuilderUtil;
 
 namespace CafeTime.EditorTools
 {
-    // CafeTime > Build Open Prep Scene : 오픈 준비 씬(SFR-010)과 재료 카드 프리팹 생성 (ADR-0006, 최초 생성용)
+    // CafeTime > Build Open Prep Scene : 영업 준비 씬 = 장비 업그레이드 / 알바생 고용 화면 (ADR-0006, ADR-0057).
+    // 배치는 사용자가 준 시안(2026-11-26)을 따른다. 재료 구매 화면은 없앴다 (ADR-0056)
     public static class OpenPrepSceneBuilder
     {
         const string ScenePath = "Assets/_Project/Scenes/OpenPrep.unity";
-        const string CardPrefabPath = "Assets/_Project/Prefabs/OpenPrep/IngredientCard.prefab";
-        const string ConfirmPrefabPath = "Assets/_Project/Prefabs/UI/ConfirmPopup.prefab";
-        const string Art = "Assets/_Project/Art/UI/OpenPrep";
-        const string BackgroundPath = "Assets/_Project/Art/Title/CafeInterior.png";
+        const string Art = "Assets/_Project/Art/UI/Upgrade";
+        const string StaffArt = "Assets/_Project/Art/Sprites/Staff";
+        const string StarFull = "Assets/_Project/Art/UI/Settlement/Star.png";
+        const string StarEmpty = "Assets/_Project/Art/UI/Settlement/StarEmpty.png";
 
-        // 탭 글자 이미지 (IngredientCategory 순서)
-        static readonly string[] TabLabels = { "TabCoffee", "TabMilk", "TabSyrup", "TabTea", "TabSmoothie", "TabDessert" };
-        static readonly Color Amber = new Color32(0xDF, 0x70, 0x15, 0xFF);
+        // Equipment 순서
+        static readonly string[] EquipmentIcons = { "IconDishwasher", "IconIceMaker", "IconEspresso", "IconPos", "IconTrayReturn", "IconWater" };
+        static readonly Color Orange = new Color32(0xD9, 0x6B, 0x1E, 0xFF);
+        static readonly Color Muted = new Color32(0x9A, 0x86, 0x70, 0xFF);
 
         [MenuItem("CafeTime/Build Open Prep Scene")]
         public static void Build()
@@ -30,76 +32,47 @@ namespace CafeTime.EditorTools
 
             GameBalanceAssetBuilder.CreateOrUpdate();
             PrepareSprites(Art);
+            PrepareSprites(StaffArt);
 
-            var canvas = NewSceneWithCanvas(new Color32(0xE9, 0xC0, 0x8E, 0xFF));
-            // 프리팹은 새 씬을 만든 뒤에 저장한다. 먼저 저장하면 NewScene 이 참조 없는 에셋을 내려 cardPrefab 이 비어 저장된다
-            var card = BuildCardPrefab();
-            AddBackground(canvas, LoadSprite(BackgroundPath), Cream, 0.35f);
+            var canvas = NewSceneWithCanvas(new Color32(0x2A, 0x1A, 0x12, 0xFF));
+            AddBackground(canvas, LoadSprite($"{Art}/Background.png"), new Color32(0x2A, 0x1A, 0x12, 0xFF), 0.15f);
             var screen = canvas.gameObject.AddComponent<OpenPrepScreen>();
             var so = new SerializedObject(screen);
+            var buttonNormal = LoadSprite($"{Art}/ButtonPrimary.png");
+            var buttonDisabled = LoadSprite($"{Art}/ButtonDisabled.png");
+            var starFull = LoadSprite(StarFull);
+            var starEmpty = LoadSprite(StarEmpty);
 
-            // 상단 바: "DAY n" + [오픈 준비]    [보유금] + "n원"   ([ ] = 글자 이미지)
-            var top = TopLeft("TopBar", canvas, 40, 20, 1840, 120);
-            AddImage(top, LoadSprite($"{Art}/TopBar.png"), new Color32(0x90, 0x47, 0x1B, 0xFF));
-            Set(so, "dayText", AddText(TopLeft("DayText", top, 110, 0, 170, 120), "DAY 1", 44, Cream, TextAlignmentOptions.Left));
-            Label(top, "OpenPrepLabel", LoadSprite($"{Art}/LabelOpenPrep.png"), 290, 60, PivotLeft);
-            Label(top, "MoneyLabel", LoadSprite($"{Art}/LabelMoney.png"), 1420, 60, PivotRight);
-            Set(so, "moneyText", AddText(TopLeft("MoneyText", top, 1435, 0, 300, 120), "0원", 44, Cream, TextAlignmentOptions.Left));
+            // 상단: [장비 업그레이드 | 알바생 고용] 제목      [보유금] n원 / DAY n
+            Set(so, "upgradeTitle", Label(canvas, "TitleUpgrade", LoadSprite($"{Art}/LabelTitleUpgrade.png"), 60, 80, PivotLeft, 0.6f).gameObject);
+            Set(so, "staffTitle", Label(canvas, "TitleStaff", LoadSprite($"{Art}/LabelTitleStaff.png"), 60, 80, PivotLeft, 0.6f).gameObject);
+            Label(canvas, "MoneyLabel", LoadSprite($"{Art}/LabelMoney.png"), 1230, 75, PivotLeft, 0.6f);
+            Set(so, "moneyText", AddText(TopLeft("MoneyText", canvas, 1440, 40, 420, 76), "0원", 60, Cream, TextAlignmentOptions.Right));
+            Set(so, "dayText", AddText(TopLeft("DayText", canvas, 1440, 118, 420, 44), "DAY 1", 34, Cream, TextAlignmentOptions.Right));
 
-            // 왼쪽: 분류 탭 + 재료 카드
-            var catalog = TopLeft("CatalogPanel", canvas, 40, 160, 1200, 860);
-            AddImage(catalog, LoadSprite($"{Art}/CatalogPanel.png"), Cream);
-            var tabNormal = LoadSprite($"{Art}/TabNormal.png");
-            var tabSelected = LoadSprite($"{Art}/TabSelected.png");
-            var tabs = new Object[TabLabels.Length];
-            for (int i = 0; i < TabLabels.Length; i++)
-            {
-                var tab = TopLeft(TabLabels[i], catalog, 95 + i * 170, 100, 160, 62); // 패널 안쪽 금색 선(약 y 95) 아래
-                tabs[i] = AddButton(tab, tabNormal, Cream);
-                CenterLabel(tab, "Label", LoadSprite($"{Art}/{TabLabels[i]}.png"));
-            }
-            SetArray(so, "categoryTabs", tabs);
-            Set(so, "tabNormal", tabNormal);
-            Set(so, "tabSelected", tabSelected);
+            // 탭 + 오늘 정산 안내
+            var tabOn = LoadSprite($"{Art}/TabOn.png");
+            var tabOff = LoadSprite($"{Art}/TabOff.png");
+            var upgradeTab = AddButton(TopLeft("UpgradeTab", canvas, 60, 180, 320, 76), tabOn, Orange);
+            CenterLabel(upgradeTab.transform, "Label", LoadSprite($"{Art}/LabelTabUpgrade.png"));
+            var staffTab = AddButton(TopLeft("StaffTab", canvas, 400, 180, 320, 76), tabOff, Cream);
+            CenterLabel(staffTab.transform, "Label", LoadSprite($"{Art}/LabelTabStaff.png"));
+            Set(so, "upgradeTab", upgradeTab);
+            Set(so, "staffTab", staffTab);
+            Set(so, "tabOn", tabOn);
+            Set(so, "tabOff", tabOff);
+            Set(so, "costText", AddText(TopLeft("CostText", canvas, 760, 196, 1100, 44), "", 28, Cream, TextAlignmentOptions.Right));
 
-            var grid = TopLeft("Cards", catalog, 60, 190, 1080, 560);
-            var layout = grid.gameObject.AddComponent<GridLayoutGroup>();
-            layout.cellSize = new Vector2(200, 252);
-            layout.spacing = new Vector2(12, 24);
-            layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            layout.constraintCount = 5;
-            layout.childAlignment = TextAnchor.UpperCenter;
-            Set(so, "cardContainer", grid);
-            Set(so, "cardPrefab", card);
+            var panel = TopLeft("Panel", canvas, 60, 270, 1800, 680);
+            AddImage(panel, LoadSprite($"{Art}/Panel.png"), Cream);
+            Set(so, "upgradePage", BuildUpgradePage(panel, so, buttonNormal, buttonDisabled, starFull, starEmpty));
+            Set(so, "staffPage", BuildStaffPage(panel, so, buttonNormal, buttonDisabled));
 
-            // 오른쪽: 장바구니. CartPanel.png 의 종이 영역은 x 50~550, y 115~790 ("장바구니" 제목이 y 230까지)
-            var cart = TopLeft("CartPanel", canvas, 1280, 160, 600, 860);
-            AddImage(cart, LoadSprite($"{Art}/CartPanel.png"), Cream);
-            // 장바구니 목록은 재료 이름·수량·금액이 바뀌는 값이라 폰트로 표시
-            var cartText = AddText(TopLeft("CartList", cart, 75, 255, 450, 190), "", 26, TextBrown, TextAlignmentOptions.TopLeft);
-            cartText.lineSpacing = 20;
-            Set(so, "cartText", cartText);
-            Set(so, "cartEmptyLabel", Label(cart, "CartEmpty", LoadSprite($"{Art}/CartEmpty.png"), 300, 300, PivotCenter).gameObject);
-            // 총액 / 구매 후 잔액 / 오늘 임대료 (목록 아래 ~ 구매 버튼 위)
-            Label(cart, "TotalLabel", LoadSprite($"{Art}/LabelTotal.png"), 75, 470, PivotLeft);
-            Set(so, "totalText", AddText(TopLeft("Total", cart, 225, 447, 300, 46), "0원", 34, TextBrown, TextAlignmentOptions.Right));
-            Label(cart, "RemainingLabel", LoadSprite($"{Art}/LabelRemaining.png"), 75, 512, PivotLeft, 0.4f);
-            Set(so, "remainingText", AddText(TopLeft("Remaining", cart, 225, 492, 300, 40), "0원", 28, TextBrown, TextAlignmentOptions.Right));
-            Label(cart, "RentLabel", LoadSprite($"{Art}/LabelRent.png"), 75, 550, PivotLeft, 0.4f);
-            Set(so, "rentText", AddText(TopLeft("Rent", cart, 225, 530, 300, 40), "0원", 28, TextBrown, TextAlignmentOptions.Right));
-            Set(so, "boughtLabel", Label(cart, "Bought", LoadSprite($"{Art}/MessageBought.png"), 300, 588, PivotCenter).gameObject);
-            Set(so, "unboughtMessage", LoadSprite($"{Art}/ConfirmUnbought.png"));
-            Set(so, "buyButton", AddButton(TopLeft("BuyButton", cart, 90, 608, 420, 89), LoadSprite($"{Art}/BuyButton.png"), Amber));
-            Set(so, "startButton", AddButton(TopLeft("StartButton", cart, 90, 700, 420, 89), LoadSprite($"{Art}/StartButton.png"), Cream));
-
-            // 확인 팝업은 공용 프리팹 재사용 (맨 위에 그려지도록 마지막에 추가)
-            var confirmPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(ConfirmPrefabPath);
-            if (confirmPrefab != null)
-            {
-                var confirm = (GameObject)PrefabUtility.InstantiatePrefab(confirmPrefab, canvas);
-                Set(so, "confirmPopup", confirm.GetComponent<ConfirmPopup>());
-            }
-            else Debug.LogWarning("ConfirmPopup 프리팹이 없습니다: " + ConfirmPrefabPath);
+            Set(so, "buttonNormal", buttonNormal);
+            Set(so, "buttonDisabled", buttonDisabled);
+            Set(so, "starFull", starFull);
+            Set(so, "starEmpty", starEmpty);
+            Set(so, "startButton", AddButton(TopLeft("StartButton", canvas, 1340, 962, 520, 110), LoadSprite($"{Art}/StartButton.png"), Cream));
 
             so.ApplyModifiedPropertiesWithoutUndo();
             AudioManagerBuilder.AddToScene(AudioManagerBuilder.TitleBgm); // 클릭음 + 타이틀 BGM (PR #25, ADR-0054)
@@ -107,38 +80,158 @@ namespace CafeTime.EditorTools
             Debug.Log("OpenPrep 씬 생성 완료: " + ScenePath);
         }
 
-        // 재료 카드 200x252: 아이콘 / 이름 / 재고 / 단가 / - 수량 +. CardFrame.png 의 아이콘 칸은 x 52~148, y 20~113
-        static IngredientCard BuildCardPrefab()
+        // ───────── 장비 업그레이드 탭 ─────────
+        // 위: 장비 카드 6장 (260x330). 아래: 고른 장비 설명 + 1·2·3단계 상자 + 업그레이드 버튼
+
+        static GameObject BuildUpgradePage(RectTransform panel, SerializedObject so, Sprite buttonNormal, Sprite buttonDisabled, Sprite starFull, Sprite starEmpty)
         {
-            var root = new GameObject("IngredientCard", typeof(RectTransform));
-            var rt = (RectTransform)root.transform;
-            rt.sizeDelta = new Vector2(200, 252);
-            AddImage(rt, LoadSprite($"{Art}/CardFrame.png"), Cream);
-            var card = root.AddComponent<IngredientCard>();
-            var so = new SerializedObject(card);
+            var page = NewUI("UpgradePage", panel);
+            Stretch(page);
+            var cardNormal = LoadSprite($"{Art}/EquipmentCard.png");
+            var cardSelected = LoadSprite($"{Art}/EquipmentCardSelected.png");
+            var icons = EquipmentIcons.Select(n => (Object)LoadSprite($"{Art}/{n}.png")).ToArray();
 
-            var icon = TopLeft("Icon", rt, 56, 24, 88, 86);
-            var iconImage = icon.gameObject.AddComponent<Image>();
-            iconImage.preserveAspect = true;
-            iconImage.raycastTarget = false;
-            Set(so, "iconImage", iconImage);
-            Set(so, "nameText", AddText(TopLeft("Name", rt, 10, 118, 180, 28), "재료", 22, DarkCoffee));
-            Label(rt, "StockLabel", LoadSprite($"{Art}/LabelStock.png"), 96, 157, PivotRight, 0.3f); // 카드 글씨(17pt)에 맞춰 축소
-            Set(so, "stockText", AddText(TopLeft("Stock", rt, 102, 146, 95, 22), "0", 17, TextBrown, TextAlignmentOptions.Left));
-            Set(so, "priceText", AddText(TopLeft("Price", rt, 10, 168, 180, 22), "0원", 17, TextBrown));
-            // -/+ 는 길게 누르면 반복 (RepeatButton 이 클릭을 처리하고 Button 은 그림·비활성화 표시만)
-            var minus = AddButton(TopLeft("Minus", rt, 30, 198, 36, 36), LoadSprite($"{Art}/MinusButton.png"), Cream);
-            Set(so, "minusButton", minus);
-            Set(so, "minusRepeat", minus.gameObject.AddComponent<RepeatButton>());
-            Set(so, "quantityText", AddText(TopLeft("Quantity", rt, 70, 198, 60, 36), "0", 26, DarkCoffee));
-            var plus = AddButton(TopLeft("Plus", rt, 134, 198, 36, 36), LoadSprite($"{Art}/PlusButton.png"), Cream);
-            Set(so, "plusRepeat", plus.gameObject.AddComponent<RepeatButton>());
-            so.ApplyModifiedPropertiesWithoutUndo();
+            var cards = new Object[EquipmentIcons.Length];
+            for (int i = 0; i < cards.Length; i++)
+            {
+                var rt = TopLeft($"Card {(Equipment)i}", page, 60 + i * 284, 36, 260, 330);
+                var button = AddButton(rt, cardNormal, Cream);
+                var card = rt.gameObject.AddComponent<EquipmentCard>();
+                var c = new SerializedObject(card);
+                Set(c, "button", button);
+                Set(c, "frame", button.image);
+                Set(c, "frameNormal", cardNormal);
+                Set(c, "frameSelected", cardSelected);
+                var icon = AddImage(TopLeft("Icon", rt, 65, 28, 130, 130), (Sprite)icons[i], Color.clear);
+                icon.preserveAspect = true;
+                Set(c, "nameText", AddText(TopLeft("Name", rt, 10, 176, 240, 40), "", 30, DarkCoffee));
+                SetArray(c, "stars", Stars(rt, 130, 238, 40, 48, starEmpty));
+                Set(c, "priceText", AddText(TopLeft("Price", rt, 10, 272, 240, 40), "", 28, Orange));
+                c.ApplyModifiedPropertiesWithoutUndo();
+                cards[i] = card;
+            }
+            SetArray(so, "equipmentCards", cards);
+            SetArray(so, "equipmentIcons", icons);
 
-            Directory.CreateDirectory(Path.GetDirectoryName(CardPrefabPath));
-            var prefab = PrefabUtility.SaveAsPrefabAsset(root, CardPrefabPath);
-            Object.DestroyImmediate(root);
-            return prefab.GetComponent<IngredientCard>();
+            // 설명 영역 (y 400 ~ 660)
+            var detailIcon = AddImage(TopLeft("DetailIcon", page, 50, 410, 220, 220), null, Color.clear);
+            detailIcon.preserveAspect = true;
+            Set(so, "detailIcon", detailIcon);
+            Set(so, "detailName", AddText(TopLeft("DetailName", page, 300, 400, 560, 60), "", 46, DarkCoffee, TextAlignmentOptions.Left));
+            SetArray(so, "detailStars", Stars(page, 300 + 22, 490, 44, 54, starEmpty, leftAligned: true));
+            var description = AddText(TopLeft("DetailDescription", page, 300, 530, 560, 100), "", 27, TextBrown, TextAlignmentOptions.TopLeft);
+            description.textWrappingMode = TextWrappingModes.Normal;
+            Set(so, "detailDescription", description);
+
+            var boxes = new Object[3];
+            var titles = new Object[3];
+            var texts = new Object[3];
+            for (int i = 0; i < 3; i++)
+            {
+                var box = TopLeft($"Stage {i + 1}", page, 900 + i * 296, 404, 268, 96);
+                boxes[i] = AddImage(box, LoadSprite($"{Art}/StageBox.png"), Cream);
+                titles[i] = AddText(TopLeft("Title", box, 0, 10, 268, 38), "", 28, TextBrown);
+                texts[i] = AddText(TopLeft("Text", box, 0, 50, 268, 36), "", 24, TextBrown);
+                if (i < 2) AddImage(TopLeft($"Arrow {i + 1}", page, 1172 + i * 296, 432, 20, 40), LoadSprite($"{Art}/StageArrow.png"), Orange);
+            }
+            SetArray(so, "stageBoxes", boxes);
+            SetArray(so, "stageTitles", titles);
+            SetArray(so, "stageTexts", texts);
+            Set(so, "stageTodo", LoadSprite($"{Art}/StageBox.png"));
+            Set(so, "stageDone", LoadSprite($"{Art}/StageBoxDone.png"));
+
+            Set(so, "nextText", AddText(TopLeft("NextText", page, 900, 530, 540, 44), "", 28, TextBrown, TextAlignmentOptions.Left));
+            var upgrade = AddButton(TopLeft("UpgradeButton", page, 1440, 560, 330, 84), buttonNormal, Orange);
+            Set(so, "upgradeButton", upgrade);
+            Set(so, "upgradeLabel", StretchText(upgrade.transform, "Label", "", 30, DarkCoffee));
+            return page.gameObject;
+        }
+
+        // 별 3개. centerX 가 가운데 별의 가운데 (leftAligned 면 첫 별의 가운데)
+        static Object[] Stars(Transform parent, float centerX, float centerY, float size, float step, Sprite empty, bool leftAligned = false)
+        {
+            var stars = new Object[3];
+            for (int i = 0; i < 3; i++)
+            {
+                float x = (leftAligned ? centerX + i * step : centerX + (i - 1) * step) - size / 2;
+                var star = AddImage(TopLeft($"Star {i + 1}", parent, x, centerY - size / 2, size, size), empty, Color.clear);
+                star.preserveAspect = true;
+                stars[i] = star;
+            }
+            return stars;
+        }
+
+        // ───────── 알바생 고용 탭 ─────────
+        // 왼쪽: 알바생 카드 3장 (400x620). 오른쪽: 오늘의 알바생 자리 2개
+
+        static GameObject BuildStaffPage(RectTransform panel, SerializedObject so, Sprite buttonNormal, Sprite buttonDisabled)
+        {
+            var page = NewUI("StaffPage", panel);
+            Stretch(page);
+            var staff = GameBalance.Instance.Staff;
+            var portraits = staff.Select(s => (Object)LoadSprite($"{StaffArt}/Staff{s.Id}Portrait.png")).ToArray();
+            SetArray(so, "staffPortraits", portraits);
+
+            var cards = new Object[staff.Count];
+            for (int i = 0; i < cards.Length; i++)
+            {
+                var rt = TopLeft($"StaffCard {staff[i].Id}", page, 40 + i * 430, 30, 400, 620);
+                AddImage(rt, LoadSprite($"{Art}/StaffCard.png"), Cream);
+                var card = rt.gameObject.AddComponent<StaffCard>();
+                var c = new SerializedObject(card);
+                // StaffCard.png 에 그려진 초상화 칸 (안쪽 x 101~299, y 58~251)
+                var face = AddImage(TopLeft("Portrait", rt, 106, 62, 188, 186), null, Color.clear);
+                face.preserveAspect = true;
+                Set(c, "portrait", face);
+                Set(c, "nameText", AddText(TopLeft("Name", rt, 0, 266, 400, 50), "", 40, DarkCoffee));
+                AddText(TopLeft("TaskCaption", rt, 0, 320, 400, 30), "맡는 일", 22, Muted);
+                Set(c, "taskText", AddText(TopLeft("Task", rt, 0, 352, 400, 40), "", 28, TextBrown));
+                Set(c, "noteText", AddText(TopLeft("Note", rt, 0, 398, 400, 36), "", 26, Warning));
+                Set(c, "wageText", AddText(TopLeft("Wage", rt, 0, 440, 400, 46), "", 36, Orange));
+                var hire = AddButton(TopLeft("HireButton", rt, 60, 498, 280, 80), buttonNormal, Orange);
+                Set(c, "hireButton", hire);
+                Set(c, "hireLabel", StretchText(hire.transform, "Label", "고용하기", 30, DarkCoffee));
+                Set(c, "buttonNormal", buttonNormal);
+                Set(c, "buttonDisabled", buttonDisabled);
+                c.ApplyModifiedPropertiesWithoutUndo();
+                cards[i] = card;
+            }
+            SetArray(so, "staffCards", cards);
+
+            var hired = TopLeft("HiredPanel", page, 1330, 30, 430, 620);
+            AddImage(hired, LoadSprite($"{Art}/StaffSlotPanel.png"), Cream);
+            Set(so, "hiredCountText", AddText(TopLeft("HiredCount", hired, 0, 24, 430, 44), "", 30, DarkCoffee));
+            var slots = new Object[2];
+            for (int i = 0; i < slots.Length; i++)
+            {
+                var rt = TopLeft($"HiredSlot {i + 1}", hired, 20, 96 + i * 262, 390, 240);
+                var slot = rt.gameObject.AddComponent<HiredSlot>();
+                var c = new SerializedObject(slot);
+
+                var filled = TopLeft("Filled", rt, 0, 0, 390, 240);
+                var frame = TopLeft("PortraitFrame", filled, 0, 0, 110, 110);
+                var face = AddImage(TopLeft("Portrait", frame, 8, 8, 94, 94), null, Color.clear);
+                face.preserveAspect = true;
+                AddImage(TopLeft("Frame", frame, 0, 0, 110, 110), LoadSprite($"{Art}/PortraitFrame.png"), Color.clear); // 초상화 위에 틀
+                Set(c, "portrait", face);
+                Set(c, "nameText", AddText(TopLeft("Name", filled, 124, 4, 266, 40), "", 30, DarkCoffee, TextAlignmentOptions.Left));
+                Set(c, "taskText", AddText(TopLeft("Task", filled, 124, 46, 266, 32), "", 22, Muted, TextAlignmentOptions.Left));
+                Set(c, "wageText", AddText(TopLeft("Wage", filled, 124, 80, 266, 32), "", 24, Orange, TextAlignmentOptions.Left));
+                var cancel = AddButton(TopLeft("CancelButton", filled, 95, 136, 200, 64), buttonDisabled, Cream);
+                StretchText(cancel.transform, "Label", "고용 취소", 26, DarkCoffee);
+                Set(c, "cancelButton", cancel);
+                Set(c, "filled", filled.gameObject);
+
+                var empty = TopLeft("Empty", rt, 15, 40, 360, 150);
+                AddImage(empty, LoadSprite($"{Art}/StaffSlotEmpty.png"), Cream);
+                StretchText(empty, "Label", "빈 자리", 32, Muted);
+                Set(c, "empty", empty.gameObject);
+                c.ApplyModifiedPropertiesWithoutUndo();
+                slots[i] = slot;
+            }
+            SetArray(so, "hiredSlots", slots);
+            page.gameObject.SetActive(false);
+            return page.gameObject;
         }
     }
 }

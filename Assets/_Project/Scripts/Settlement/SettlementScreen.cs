@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace CafeTime.Settlement
 {
-    // 하루 정산 화면 (SFR-071): 영수증 표시, 임대료 차감, 평판 반영(SFR-072), 자동 저장, 다음 DAY로 이동
+    // 하루 정산 화면 (SFR-071): 영수증 표시, 임대료·알바생 일당 차감(ADR-0057), 평판 반영(SFR-072), 자동 저장, 다음 DAY로 이동
     public class SettlementScreen : MonoBehaviour
     {
         // 고정 문구(영업 정산, 항목 이름, 경고, 엔딩 보기)는 씬의 이미지 라벨이고, 여기서는 바뀌는 값만 다룬다
@@ -17,6 +17,7 @@ namespace CafeTime.Settlement
         [SerializeField] TMP_Text revenueText;
         [SerializeField] TMP_Text tipsText;
         [SerializeField] TMP_Text rentText;
+        [SerializeField] TMP_Text wagesText; // 오늘 고용한 알바생 일당 합계 (ADR-0057)
         [SerializeField] TMP_Text moneyText;
         [SerializeField] Image[] stars;
         [SerializeField] Sprite starFull;
@@ -42,6 +43,8 @@ namespace CafeTime.Settlement
             var result = DayResult.Today ?? new DayResult();
             int day = save.day;
             int rent = balance.GetRent(day);
+            int wages = 0;
+            foreach (var id in save.hiredStaff) wages += balance.FindStaff(id)?.Wage ?? 0;
 
             dayText.text = $"DAY {day}";
             visitorsText.text = $"{result.visitors:N0}명";
@@ -49,14 +52,15 @@ namespace CafeTime.Settlement
             revenueText.text = $"{result.revenue:N0}원";
             tipsText.text = $"{result.tips:N0}원";
             rentText.text = $"-{rent:N0}원";
+            wagesText.text = wages > 0 ? $"-{wages:N0}원" : "0원";
 
             // 손님 만족도에 따라 평판 변동 (SFR-072)
             save.reputation = Mathf.Clamp(save.reputation + result.reputationChange, 1f, 5f);
             ShowReputation(save.reputation, result.reputationChange);
 
-            if (save.money < rent)
+            if (save.money < rent + wages)
             {
-                // 임대료를 낼 보유금이 부족하면 엔딩 01(닫힌 카페) (SFR-071, 073). 저장하지 않는다
+                // 임대료(+일당)를 낼 보유금이 부족하면 엔딩 01(닫힌 카페) (SFR-071, 073). 저장하지 않는다
                 moneyText.text = $"{save.money:N0}원";
                 rentWarningLabel.SetActive(true);
                 next = Next.Ending;
@@ -64,7 +68,8 @@ namespace CafeTime.Settlement
             }
             else
             {
-                save.money -= rent; // 당일 임대료 자동 차감
+                save.money -= rent + wages; // 당일 임대료·알바생 일당 자동 차감
+                save.hiredStaff.Clear();     // 알바생은 하루 단위 고용 (ADR-0057)
                 save.day = day + 1;
                 save.bestScore = Mathf.Max(save.bestScore, result.score); // 하루 최고 점수 (SFR-067)
                 SaveSystem.SaveCurrent(); // 하루 정산 후 자동 저장 (ADR-0005)

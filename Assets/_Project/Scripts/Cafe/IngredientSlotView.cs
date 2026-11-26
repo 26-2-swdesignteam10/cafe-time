@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace CafeTime.Cafe
 {
     // 재료 선반의 재료 1개 (SFR-046, 047, 049, 053). 클릭 1회 투입 또는 누르고 있는 동안 붓기.
-    // 마우스를 올리면 재료 이름과 남은 양 표시
+    // 마우스를 올리면 재료 이름 표시
     public class IngredientSlotView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] Button button;
@@ -40,14 +40,9 @@ namespace CafeTime.Cafe
 
         public void OnPointerExit(PointerEventData eventData) => hoverExit?.Invoke();
 
-        // "바닐라 시럽 80%" / "캐모마일 티백 7개"
+        // 마우스를 올렸을 때 보여 줄 재료 이름 (재고 없음, ADR-0056)
         public string Describe() => Describe(Ingredient);
 
-        public static string Describe(IngredientDefinition ingredient)
-        {
-            if (ingredient.Category == IngredientCategory.Tea)
-                return $"{ingredient.DisplayName} {Mathf.FloorToInt(Pantry.Available(ingredient.Id))}개";
-            return $"{ingredient.DisplayName} {Pantry.PercentLeft(ingredient.Id)}%";
-        }
+        public static string Describe(IngredientDefinition ingredient) => ingredient.DisplayName;
     }
 }
