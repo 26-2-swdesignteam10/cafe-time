@@ -21,7 +21,7 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0007](0007-scene-conflict-prevention.md) | 씬 충돌은 프리팹 분리 + Smart Merge + 동시 수정 금지로 막는다 | 승인 |
 | [0008](0008-ai-generated-art-assets.md) | UI·아트 에셋은 AI 이미지 생성으로 만들고 생성 기록을 남긴다 | 승인 |
 | [0009](0009-balance-values-in-scriptableobject.md) | 밸런스 수치는 GameBalance ScriptableObject 하나에 모은다 | 승인 (구현 예정) |
-| [0010](0010-inventory-base-units.md) | 재료 재고는 기본 단위(g·개·회)로 저장한다 | 승인 (구현 예정) |
+| [0010](0010-inventory-base-units.md) | 재료 재고는 기본 단위(g·개·회)로 저장한다 | 대체됨 (ADR-0056) |
 | [0011](0011-day-cycle-scene-flow.md) | 하루 사이클의 씬 흐름과 영업 결과 전달 방식 | 제안 |
 | [0012](0012-branch-protection-policy.md) | main 브랜치는 PR 필수, 리뷰 승인은 선택, Repo check는 필수로 한다 | 승인 |
 | [0013](0013-business-loop-structure.md) | 영업 루프 구조와 임시 제조실 | 제안 |
@@ -34,7 +34,7 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0020](0020-ten-minute-day-and-difficulty-table.md) | 하루 영업을 약 10분으로 줄이고 DAY별 난이도 표를 둔다 | 대체됨 (ADR-0021, 하루 시간 부분) |
 | [0021](0021-seven-minute-day.md) | 하루 영업을 약 7분으로 더 줄인다 | 승인 |
 | [0022](0022-pickup-fifo-penalty.md) | 픽업대에서 선입선출을 어기면 감점한다 | 승인 |
-| [0023](0023-hide-hud-stock.md) | 영업 HUD 에 재료 재고를 표시하지 않는다 | 승인 |
+| [0023](0023-hide-hud-stock.md) | 영업 HUD 에 재료 재고를 표시하지 않는다 | 대체됨 (ADR-0056) |
 | [0024](0024-drink-ingredient-tool-windows.md) | 음료 제조실 재료는 재료별 작업 창에서 넣는다 | 대체됨 (ADR-0028 청·티백 조작 부분, ADR-0035 펌프 조작 부분) |
 | [0025](0025-customers-and-chairs-no-collision.md) | 손님과 의자는 플레이어와 충돌하지 않는다 | 승인 |
 | [0026](0026-game-font-jua.md) | 게임 폰트를 Jua로 변경 | 승인 |
@@ -45,7 +45,7 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0031](0031-bakery-manual-pos.md) | 베이커리는 손님 대사를 보고 포스기에 직접 입력한다 | 승인 |
 | [0032](0032-lower-bakery-showcase.md) | 손님은 아래쪽 큰 베이커리 진열대에서 직접 픽업한다 | 승인 |
 | [0033](0033-compact-front-counter.md) | 행주 걸이를 오른쪽으로 옮기고 기존 받침대 한 칸을 제거한다 | 승인 |
-| [0034](0034-bakery-shelf-stock-display.md) | 빵 진열대는 재고만큼 작은 빵을 칸마다 늘어놓고 홀 세로를 채운다 | 승인 |
+| [0034](0034-bakery-shelf-stock-display.md) | 빵 진열대는 재고만큼 작은 빵을 칸마다 늘어놓고 홀 세로를 채운다 | 대체됨 (ADR-0056) |
 | [0035](0035-pump-drag-press.md) | 시럽·연유 펌프는 머리를 아래로 끌어 누른다 | 승인 |
 | [0036](0036-blender-lid-step.md) | 믹서기 뚜껑은 끌어다 덮어야 갈 수 있고, 열어야 넣고 부을 수 있다 | 승인 |
 | [0037](0037-cup-contents-layers.md) | 컵 내용물을 재료 층으로 겹쳐 그리기 | 승인 |
@@ -67,3 +67,5 @@ bash docs/adr/new-adr.sh "결정 제목" english-file-slug
 | [0053](0053-show-served-items-on-map.md) | 서빙한 음료·베이커리를 맵의 픽업대 카운터와 손님 테이블 위에 그림으로 보여 준다 | 승인 |
 | [0054](0054-audio-manager-prefab-builder.md) | AudioManager 는 빌더가 만든 프리팹으로 두고, 씬 빌더가 그 프리팹을 넣는다 | 승인 |
 | [0055](0055-close-after-last-customer.md) | 영업은 21시 마감, 20시 입장 마감으로 하고, 남은 손님을 다 보내야 하루가 끝나며 마감을 넘기면 감점한다 | 승인 |
+| [0056](0056-remove-ingredient-stock.md) | 재료 재고를 없애고 오픈 준비의 재료 구매를 장비·알바생 화면으로 바꾼다 | 승인 |
+| [0057](0057-equipment-upgrades-and-staff.md) | 장비 업그레이드와 하루 단위 알바생 고용을 도입한다 | 승인 |

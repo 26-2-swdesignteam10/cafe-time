@@ -39,7 +39,7 @@ namespace CafeTime.EspressoShot
         void Awake()
         {
             Instance = this;
-            SaveSystem.EnsureCurrentForPreview(); // 원두 재고(Pantry)를 읽기 위해. 이미 있으면 그대로
+            SaveSystem.EnsureCurrentForPreview(); // 장비 단계(ADR-0057)를 읽기 위해. 이미 있으면 그대로
             if (screenPanel != null)
             {
                 screen = screenPanel.GetComponent<Popup>();
@@ -100,23 +100,33 @@ namespace CafeTime.EspressoShot
         // ---------- 추출 (그룹헤드 슬롯별 독립 진행, SFR-035) ----------
         public void StartExtraction(PortafilterSlot head)
         {
-            if (head.Locked) return;
+            if (!Extract(head, quiet: false)) return;
+            // 에스프레소 머신 3단계: 준비된 다른 그룹헤드도 함께 추출 (ADR-0057)
+            if (!GameBalance.Instance.ExtractAllHeads) return;
+            foreach (var other in FindObjectsByType<PortafilterSlot>(FindObjectsSortMode.None))
+                if (other != head && other.type == SlotType.GroupHead) Extract(other, quiet: true);
+        }
+
+        // 추출을 시작하면 true. quiet 면 준비가 안 된 그룹헤드를 안내 없이 건너뛴다
+        bool Extract(PortafilterSlot head, bool quiet)
+        {
+            if (head.Locked) return false;
             Portafilter pf = head.Current;
             if (pf == null || pf.State != PortafilterState.Tamped)
             {
-                Toast.Show(ToastMessage.AttachPortafilter);
-                return;
+                if (!quiet) Toast.Show(ToastMessage.AttachPortafilter);
+                return false;
             }
             ShotCupSlot cup = head.cup; // 컵 자리가 없는 테스트 씬에서는 컵 없이 추출
             if (cup != null && cup.Glass == null)
             {
-                Toast.Show(ToastMessage.PlaceShotGlass);
-                return;
+                if (!quiet) Toast.Show(ToastMessage.PlaceShotGlass);
+                return false;
             }
             if (cup != null && cup.Glass.HasShot)
             {
-                Toast.Show(ToastMessage.ShotAlready);
-                return;
+                if (!quiet) Toast.Show(ToastMessage.ShotAlready);
+                return false;
             }
 
             head.Locked = true; // 추출 중에는 포터필터 분리·컵 회수 불가
@@ -139,6 +149,7 @@ namespace CafeTime.EspressoShot
                 if (AudioManager.Instance != null)
                     AudioManager.Instance.SetEspressoExtracting(head, false);
             });
+            return true;
         }
 
         // ---------- 작업 상태 표시 (SFR-022) ----------

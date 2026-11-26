@@ -58,7 +58,6 @@ namespace CafeTime.Cafe
         {
             if (NeedCup()) return;
             float amount = balance.AmountPerClick(ingredient);
-            if (!Pantry.TryUse(ingredient.Id, amount)) { Toast.Show(ToastMessage.NoIngredient); return; }
             OnScale.Add(ingredient.Id, amount);
             Changed?.Invoke();
         }
@@ -68,7 +67,6 @@ namespace CafeTime.Cafe
         {
             if (NeedCup()) return false;
             float amount = balance.PourPerSecond * seconds;
-            if (!Pantry.TryUse(ingredient.Id, amount)) { Toast.Show(ToastMessage.NoIngredient); return false; }
             OnScale.Add(ingredient.Id, amount);
             Changed?.Invoke();
             return true;
@@ -107,7 +105,6 @@ namespace CafeTime.Cafe
         {
             float amount = Mathf.Min(balance.PourPerSecond * seconds, balance.PitcherCapacity - Pitcher.Milk);
             if (amount <= 0f) { Toast.Show(ToastMessage.PitcherFull); return false; }
-            if (!Pantry.TryUse("milk", amount)) { Toast.Show(ToastMessage.NoIngredient); return false; }
             Pitcher.AddMilk(amount, balance);
             Changed?.Invoke();
             return true;

@@ -7,15 +7,13 @@ using UnityEngine.UI;
 
 namespace CafeTime.Cafe
 {
-    // 베이커리 진열장 (SFR-056): 재고 확인 전용. 손님이 직접 가져가고 포스기에서 계산한다.
+    // 베이커리 진열장 (SFR-056): 진열 메뉴 확인 전용 (재고 없음, ADR-0056). 손님이 직접 가져가고 포스기에서 계산한다.
     public class DessertShowcaseScreen : Popup
     {
         [SerializeField] Transform container;
         [SerializeField] MenuButtonView template;
 
         readonly List<MenuButtonView> views = new List<MenuButtonView>();
-
-        static SaveData Save => SaveSystem.Current;
 
         protected override void Awake()
         {
@@ -38,15 +36,5 @@ namespace CafeTime.Cafe
             }
         }
 
-        public override void Open()
-        {
-            base.Open();
-            Refresh();
-        }
-
-        void Refresh()
-        {
-            foreach (var view in views) view.SetDetail($"{Save.GetStock(view.Menu.StockId)}개"); // "재고" 글자는 이미지
-        }
     }
 }

@@ -19,7 +19,9 @@ namespace CafeTime.Core
         public static SaveData Load()
         {
             if (!HasSave) return null;
-            return JsonUtility.FromJson<SaveData>(File.ReadAllText(SavePath));
+            var data = JsonUtility.FromJson<SaveData>(File.ReadAllText(SavePath));
+            data.hiredStaff ??= new System.Collections.Generic.List<string>(); // ADR-0057 이전 저장 파일
+            return data;
         }
 
         // 하루 정산 화면에서 호출 (SFR-071)
@@ -70,7 +72,6 @@ namespace CafeTime.Core
             {
                 data.money = balance.StartingMoney;
                 data.reputation = balance.InitialReputation;
-                foreach (var stock in balance.StartingStock) data.AddStock(stock.id, stock.amount); // DAY 1 기본 재고
             }
             return data;
         }

@@ -29,6 +29,7 @@ namespace CafeTime.EditorTools
             RaiseCupCounts(balance);
             MigrateBusinessHours(balance);
             RaiseWaterSeconds(balance);
+            MigrateRent(balance);
             EditorUtility.SetDirty(balance);
             AssignIcons(balance);
             AssetDatabase.SaveAssets();
@@ -67,6 +68,20 @@ namespace CafeTime.EditorTools
             var so = new SerializedObject(balance);
             var water = so.FindProperty("waterSeconds");
             water.floatValue = Mathf.Max(water.floatValue, 7f);
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        // 임대료가 예전 값(매일 ₩60,000)이면 날마다 오르는 값으로 바꾼다 (ADR-0056). 따로 고친 값은 그대로
+        static void MigrateRent(GameBalance balance)
+        {
+            var so = new SerializedObject(balance);
+            var rent = so.FindProperty("rentByDay");
+            bool old = rent.arraySize > 0;
+            for (int i = 0; i < rent.arraySize; i++) old &= rent.GetArrayElementAtIndex(i).intValue == 60000;
+            if (!old) return;
+            var values = GameBalance.DefaultRent();
+            rent.arraySize = values.Length;
+            for (int i = 0; i < values.Length; i++) rent.GetArrayElementAtIndex(i).intValue = values[i];
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 

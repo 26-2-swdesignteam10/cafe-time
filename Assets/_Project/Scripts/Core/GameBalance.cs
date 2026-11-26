@@ -11,10 +11,6 @@ namespace CafeTime.Core
     {
         public const int TotalDays = 15; // SFR-005
 
-        [Header("테스트")]
-        [Tooltip("켜면 영업 시작 때 모든 재료·디저트 재고를 가득 채운다. 플레이 테스트용이므로 출시 전에 끈다")]
-        [SerializeField] bool testFullStock = true;
-
         [Header("진행")]
         [SerializeField] int startingMoney = 150000;
         [Tooltip("DAY 1 ~ 15 임대료 (SFR-071)")]
@@ -24,8 +20,6 @@ namespace CafeTime.Core
 
         [Header("재료 (SFR-010)")]
         [SerializeField] List<IngredientDefinition> ingredients = DefaultIngredients();
-        [Tooltip("새 게임 DAY 1 시작 재고, 기본 단위 (docs/GAME_DATA.md 3장)")]
-        [SerializeField] List<IngredientStock> startingStock = DefaultStartingStock();
 
         [Header("메뉴 (SFR-026, 판매가 임시)")]
         [SerializeField] List<MenuDefinition> menus = DefaultMenus();
@@ -157,6 +151,46 @@ namespace CafeTime.Core
         [Tooltip("마감 시각을 넘긴 게임 시간 10분마다 감점 (ADR-0055)")]
         [SerializeField] int penaltyOvertimePer10Min = 30;
 
+        [Header("장비 업그레이드 (ADR-0057) — 가격·효과 임시값")]
+        [SerializeField] List<EquipmentDefinition> equipment = DefaultEquipment();
+        [Tooltip("식기세척기 1단계: 얼룩을 다 지우는 수세미 거리 배율")]
+        [SerializeField] float upgradedScrubFactor = 0.5f;
+        [Tooltip("식기세척기 2단계: 한 번 다 닦으면 함께 깨끗해지는 잔·접시 수")]
+        [SerializeField] int upgradedDishesPerWash = 2;
+        [Tooltip("식기세척기 3단계: 대기 바구니의 잔·접시 하나를 저절로 닦는 시간 (실제 초)")]
+        [SerializeField] float autoWashSeconds = 4f;
+        [Tooltip("제빙기 1단계 제빙 속도 배율")]
+        [SerializeField] float iceSpeedLevel1 = 1.5f;
+        [Tooltip("제빙기 2단계 최대 보유량")]
+        [SerializeField] int iceMaxLevel2 = 48;
+        [Tooltip("제빙기 3단계 제빙 속도 배율")]
+        [SerializeField] float iceSpeedLevel3 = 2f;
+        [Tooltip("에스프레소 머신 1단계: 분쇄 시간 배율")]
+        [SerializeField] float upgradedGrindFactor = 0.5f;
+        [Tooltip("에스프레소 머신 2단계 추출 시간 (초)")]
+        [SerializeField] float upgradedExtractSeconds = 4f;
+        [Tooltip("포스기 1단계마다 줄 선 손님 인내심 증가 비율 (2단계까지)")]
+        [SerializeField] float posPatiencePerLevel = 0.2f;
+        [Tooltip("포스기 3단계 키오스크: 줄 맨 앞 손님이 스스로 주문을 마치는 시간 (실제 초)")]
+        [SerializeField] float kioskSeconds = 4f;
+        [Tooltip("퇴식구 1단계 쟁반 칸 수")]
+        [SerializeField] int trayReturnSlotsLevel1 = 6;
+        [Tooltip("퇴식구 3단계 쟁반 칸 수")]
+        [SerializeField] int trayReturnSlotsLevel3 = 8;
+        [Tooltip("정수기 1단계 물 받는 시간 (초)")]
+        [SerializeField] float waterSecondsLevel1 = 5f;
+        [Tooltip("정수기 2단계 물 받는 시간 (초)")]
+        [SerializeField] float waterSecondsLevel2 = 3f;
+
+        [Header("알바생 (ADR-0057) — 일당·속도 임시값")]
+        [SerializeField] List<StaffDefinition> staff = DefaultStaff();
+        [Tooltip("하루에 고용할 수 있는 최대 인원")]
+        [SerializeField] int maxStaffPerDay = 2;
+        [Tooltip("테이블 하나 닦기, 쟁반 하나 치우기에 걸리는 시간 (실제 초)")]
+        [SerializeField] float staffCleanSeconds = 3f;
+        [Tooltip("알바생이 잔·접시 하나를 설거지하는 시간 (실제 초)")]
+        [SerializeField] float staffWashSeconds = 5f;
+
         [Header("엔딩 (SFR-073) — 임시값. 최종 수익 = 최종 보유금 - 시작 자금")]
         [SerializeField] int ending03Profit = 150000;
         [SerializeField] float ending03Reputation = 3f;
@@ -207,11 +241,6 @@ namespace CafeTime.Core
                 orderedIngredients.Add(ingredients.Find(i => i.Id == ingredient.Id) ?? ingredient);
             ingredients = orderedIngredients; // 코드에서 뺀 재료(예: 2026-11-18 일반 시럽)는 지운다
 
-            var defaultStock = DefaultStartingStock();
-            startingStock.RemoveAll(s => !defaultStock.Exists(d => d.id == s.id));
-            foreach (var stock in defaultStock)
-                if (!startingStock.Exists(i => i.id == stock.id)) startingStock.Add(stock);
-
             // 새로 생긴 단체 주문(예: DAY 15 예약, ADR-0051)만 추가하고, 이미 있는 줄의 설정은 보존한다
             groupOrders ??= new List<GroupOrderEvent>();
             foreach (var ev in DefaultGroupOrders())
@@ -222,9 +251,7 @@ namespace CafeTime.Core
             a.Amounts.Count == b.Amounts.Count && a.Amounts.All(x => b.Amounts.Any(y => y.Key == x.Key));
 
         public int StartingMoney => startingMoney;
-        public IReadOnlyList<IngredientStock> StartingStock => startingStock;
         public float InitialReputation => initialReputation;
-        public bool TestFullStock => testFullStock;
         public IReadOnlyList<IngredientDefinition> Ingredients => ingredients;
         public IReadOnlyList<MenuDefinition> Menus => menus;
 
@@ -257,13 +284,18 @@ namespace CafeTime.Core
         public int CeramicCups => ceramicCups;
         public int PlasticCups => plasticCups;
         public int Plates => plates;
-        public float GrindSeconds => grindSeconds;
+        // 장비 단계가 반영된 값 (ADR-0057)
+        public float GrindSeconds => grindSeconds * (Upgrades.Has(Equipment.Espresso, 1) ? upgradedGrindFactor : 1f);
         public float TampSeconds => tampSeconds;
-        public float ExtractSeconds => extractSeconds;
-        public int IceMax => iceMax;
-        public float IceSecondsPerCube => iceSecondsPerCube;
+        public float ExtractSeconds => Upgrades.Has(Equipment.Espresso, 2) ? Mathf.Min(extractSeconds, upgradedExtractSeconds) : extractSeconds;
+        public bool ExtractAllHeads => Upgrades.Has(Equipment.Espresso, 3); // 3단계: 추출 버튼 하나로 준비된 그룹헤드 모두 추출
+        public int IceMax => Upgrades.Has(Equipment.IceMaker, 2) ? Mathf.Max(iceMax, iceMaxLevel2) : iceMax;
+        public float IceSecondsPerCube => iceSecondsPerCube / IceSpeed;
+        float IceSpeed => Upgrades.Has(Equipment.IceMaker, 3) ? iceSpeedLevel3 : Upgrades.Has(Equipment.IceMaker, 1) ? iceSpeedLevel1 : 1f;
         public int IcePerScoop => icePerScoop;
-        public float WaterSeconds => waterSeconds;
+        public float WaterSeconds => Upgrades.Has(Equipment.Water, 2) ? Mathf.Min(waterSeconds, waterSecondsLevel2)
+            : Upgrades.Has(Equipment.Water, 1) ? Mathf.Min(waterSeconds, waterSecondsLevel1) : waterSeconds;
+        public bool WaterBothZones => Upgrades.Has(Equipment.Water, 3); // 3단계: 한 번 누르면 컵이 놓인 두 구역 모두 받기
         public float WaterAmount => waterAmount;
         public float SyrupPerClick => syrupPerClick;
         public float SmoothiePerClick => smoothiePerClick;
@@ -278,9 +310,26 @@ namespace CafeTime.Core
         public float IceScoopWeight => iceScoopWeight;
         public float TeabagWeight => teabagWeight;
         public float BlendSeconds => blendSeconds;
-        public int TrayReturnSlots => trayReturnSlots;
-        public float NapkinChance => napkinChance;
-        public float ScrubDistance => scrubDistance;
+        public int TrayReturnSlots => Upgrades.Has(Equipment.TrayReturn, 3) ? Mathf.Max(trayReturnSlots, trayReturnSlotsLevel3)
+            : Upgrades.Has(Equipment.TrayReturn, 1) ? Mathf.Max(trayReturnSlots, trayReturnSlotsLevel1) : trayReturnSlots;
+        public int MaxTrayReturnSlots => Mathf.Max(trayReturnSlots, trayReturnSlotsLevel1, trayReturnSlotsLevel3); // 퇴식구 화면이 미리 만들어 두는 칸 수
+        public float NapkinChance => Upgrades.Has(Equipment.TrayReturn, 2) ? 0f : napkinChance;
+        public float ScrubDistance => scrubDistance * (Upgrades.Has(Equipment.Dishwasher, 1) ? upgradedScrubFactor : 1f);
+        public int DishesPerWash => Upgrades.Has(Equipment.Dishwasher, 2) ? upgradedDishesPerWash : 1;
+        public bool AutoWash => Upgrades.Has(Equipment.Dishwasher, 3);
+        public float AutoWashSeconds => autoWashSeconds;
+        // 포스기: 줄 선 손님 인내심 배율, 3단계 키오스크
+        public float OrderPatienceMultiplier => 1f + posPatiencePerLevel * Mathf.Min(2, Upgrades.Level(Equipment.Pos));
+        public bool Kiosk => Upgrades.Has(Equipment.Pos, 3);
+        public float KioskSeconds => kioskSeconds;
+
+        public IReadOnlyList<EquipmentDefinition> EquipmentList => equipment;
+        public EquipmentDefinition FindEquipment(Equipment id) => equipment.Find(e => e.Id == id);
+        public IReadOnlyList<StaffDefinition> Staff => staff;
+        public StaffDefinition FindStaff(string id) => staff.Find(s => s.Id == id);
+        public int MaxStaffPerDay => maxStaffPerDay;
+        public float StaffCleanSeconds => staffCleanSeconds;
+        public float StaffWashSeconds => staffWashSeconds;
         public float DryingSeconds => dryingSeconds;
         public float CleaningTimeLimit => cleaningTimeLimit;
         public float CleaningInterval => cleaningInterval;
@@ -310,31 +359,6 @@ namespace CafeTime.Core
         public MenuDefinition FindMenu(string id) => menus.Find(m => m.Id == id);
 
         // ───────── 에셋을 처음 만들 때의 기본값 (docs/GAME_DATA.md 의 임시 값) ─────────
-
-        // 첫날 재료를 사지 않아도 모든 메뉴를 여러 번 만들어 볼 수 있는 양 (2026-11-12 사용자 요청, 약 ₩120,000어치)
-        static List<IngredientStock> DefaultStartingStock()
-        {
-            var list = new List<IngredientStock>();
-            void Add(int amount, params string[] ids)
-            {
-                foreach (var id in ids) list.Add(new IngredientStock { id = id, amount = amount });
-            }
-            Add(40, "bean");                 // 2봉
-            Add(5000, "milk");               // 5팩
-            Add(2000, "soda");               // 2병
-            Add(300, "condensed_milk");
-            Add(300, "syrup_vanilla", "syrup_caramel", "syrup_hazelnut", "syrup_chocolate", "syrup_blue");
-            Add(300, "cheong_strawberry", "cheong_grapefruit", "cheong_yuja", "cheong_lemon");
-            Add(10, "tea_chamomile", "tea_earlgrey"); // 각 1박스
-            Add(600, "cold_brew");           // 콜드브루 6잔
-            Add(200, "matcha");              // 말차라떼 10잔
-            Add(100, "cinnamon");            // 카푸치노 10잔
-            Add(450, "vanilla_ice_cream");   // 밀크쉐이크 3잔
-            Add(450, "smoothie_strawberry", "smoothie_mango", "smoothie_hallabong", "smoothie_melon", "smoothie_cookie"); // 각 3잔
-            Add(5, "dessert_strawberry_cake", "dessert_croissant", "dessert_cookie",
-                "dessert_sandwich", "dessert_bagel", "dessert_waffle", "dessert_honey_bread", "dessert_croque_monsieur");
-            return list;
-        }
 
         // 초반은 1~2명 일행이 드문드문, 후반은 큰 일행이 자주 오고 덜 기다린다 (2026-11-12 사용자 요청, docs/GAME_DATA.md 7장)
         static List<DayDifficulty> DefaultDifficulty() => new List<DayDifficulty>
@@ -403,12 +427,38 @@ namespace CafeTime.Core
             },
         };
 
-        static int[] DefaultRent()
+        // DAY 1 ₩40,000 에서 하루마다 ₩4,000 씩 올라 DAY 15 ₩96,000 (ADR-0056)
+        public static int[] DefaultRent()
         {
             var rent = new int[TotalDays];
-            for (int i = 0; i < rent.Length; i++) rent[i] = 60000;
+            for (int i = 0; i < rent.Length; i++) rent[i] = 40000 + 4000 * i;
             return rent;
         }
+
+        // 장비 6종 × 3단계 (2026-11-26 사용자와 정한 초안, docs/GAME_DATA.md 9장)
+        static List<EquipmentDefinition> DefaultEquipment() => new List<EquipmentDefinition>
+        {
+            new EquipmentDefinition(Equipment.Dishwasher, "식기세척기", "설거지가 귀찮다면? 단계가 오를수록 손이 덜 가요.",
+                new[] { 15000, 30000, 60000 }, new[] { "문지르기 절반", "한 번에 2개", "자동 설거지" }),
+            new EquipmentDefinition(Equipment.IceMaker, "제빙기", "얼음이 모자라 손님을 기다리게 하지 마세요.",
+                new[] { 10000, 20000, 40000 }, new[] { "제빙 속도 1.5배", "보관량 2배", "제빙 속도 2배" }),
+            new EquipmentDefinition(Equipment.Espresso, "에스프레소 머신", "샷이 빨라지면 커피 주문이 두렵지 않아요.",
+                new[] { 15000, 30000, 60000 }, new[] { "분쇄 시간 절반", "추출 4초", "샷 2잔 동시 추출" }),
+            new EquipmentDefinition(Equipment.Pos, "포스기", "주문이 빨라지면 줄 선 손님이 덜 지쳐요.",
+                new[] { 12000, 25000, 50000 }, new[] { "줄 인내심 +20%", "줄 인내심 +40%", "키오스크 자동 주문" }),
+            new EquipmentDefinition(Equipment.TrayReturn, "퇴식구", "쟁반이 쌓여도 여유 있게.",
+                new[] { 8000, 16000, 30000 }, new[] { "쟁반 6칸", "냅킨 없음", "쟁반 8칸" }),
+            new EquipmentDefinition(Equipment.Water, "정수기", "물 받는 시간을 줄여 보세요.",
+                new[] { 8000, 16000, 35000 }, new[] { "물 받기 5초", "물 받기 3초", "두 구역 동시" }),
+        };
+
+        // 알바생 3명 (2026-11-26 사용자와 정한 초안)
+        static List<StaffDefinition> DefaultStaff() => new List<StaffDefinition>
+        {
+            new StaffDefinition("Minji", "성실한 민지", StaffTask.Tables | StaffTask.Trays, "테이블 청소, 쟁반 정리", 15000, 1),
+            new StaffDefinition("Doyun", "손 빠른 도윤", StaffTask.Dishes, "설거지", 22000, 1),
+            new StaffDefinition("Youngja", "베테랑 영자 씨", StaffTask.Tables | StaffTask.Trays | StaffTask.Dishes, "청소, 쟁반 정리, 설거지", 30000, 10),
+        };
 
         static List<MenuDefinition> DefaultMenus()
         {

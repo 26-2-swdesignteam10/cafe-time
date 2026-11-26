@@ -18,6 +18,7 @@ namespace CafeTime.Cafe
         public int QueueIndex { get; set; } = -1;
         public float Patience { get; set; }           // 남은 인내심 (실제 초)
         public float MaxPatience { get; set; }
+        public float KioskLeft { get; set; }          // 키오스크 자동 주문까지 남은 시간 (포스기 3단계, ADR-0057)
         public float WaitedSeconds { get; set; }      // 주문 후 서빙까지 걸린 시간 (만족도)
         public float StayLeft { get; set; }
         public float StayTotal { get; set; }          // 서빙받은 뒤 머무는 전체 시간 (먹는 진행률, ADR-0053)
@@ -112,7 +113,7 @@ namespace CafeTime.Cafe
         public static List<OrderLine> RandomWants(int size, GameBalance balance)
         {
             var drinks = balance.Menus.Where(m => !m.IsDessert).ToList();
-            var desserts = balance.Menus.Where(m => m.IsDessert && SaveSystem.Current.GetStock(m.StockId) > 0).ToList();
+            var desserts = balance.Menus.Where(m => m.IsDessert).ToList();
             var lines = new List<OrderLine>();
 
             void Add(MenuDefinition menu, Temperature temperature)

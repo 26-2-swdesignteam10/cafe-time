@@ -257,20 +257,11 @@ namespace CafeTime.Cafe
             WalkToQueue(party, fromDoor);
         }
 
-        // 집는 순간 재고를 차감하므로 여러 일행이 같은 마지막 빵을 중복으로 가져가지 않는다.
+        // 진열대의 빵을 집는다. 재고가 없으므로 원하는 만큼 다 집는다 (ADR-0056)
         void CollectBakery(CustomerParty party)
         {
-            foreach (var line in party.Wanted.Where(l => l.Menu.IsDessert).ToList())
-            {
-                int quantity = Mathf.Min(line.Quantity, Mathf.Max(0, Save.GetStock(line.Menu.StockId)));
-                if (quantity > 0)
-                {
-                    Save.AddStock(line.Menu.StockId, -quantity);
-                    party.CollectedBakery.Add(new OrderLine(line.Menu, Temperature.None, quantity));
-                }
-                line.Quantity = quantity;
-            }
-            party.Wanted.RemoveAll(l => l.Quantity <= 0);
+            foreach (var line in party.Wanted.Where(l => l.Menu.IsDessert))
+                party.CollectedBakery.Add(new OrderLine(line.Menu, Temperature.None, line.Quantity));
         }
 
         int WeightedPartySize(int[] weights)
@@ -481,8 +472,6 @@ namespace CafeTime.Cafe
         void Leave(CustomerParty party, bool lost)
         {
             if (lost) Result.customersLost++;
-            // 결제 전 이탈 또는 미서빙 주문 환불 시 집었던 베이커리를 진열장 재고로 되돌린다.
-            foreach (var line in party.CollectedBakery) Save.AddStock(line.Menu.StockId, line.Quantity);
             party.CollectedBakery.Clear();
             if (party.QueueIndex >= 0) LeaveQueue(party);
             if (party.Table.Party == party) party.Table.Party = null;
@@ -567,7 +556,8 @@ namespace CafeTime.Cafe
                     {
                         party.Current = CustomerParty.State.Queued;
                         foreach (var m in party.Members) m.Face(Vector2.up);
-                        party.MaxPatience = party.Patience = Difficulty.orderPatience;
+                        party.MaxPatience = party.Patience = Difficulty.orderPatience * balance.OrderPatienceMultiplier; // 포스기 업그레이드 (ADR-0057)
+                        party.KioskLeft = balance.KioskSeconds;
                     }
                     break;
 
@@ -580,7 +570,14 @@ namespace CafeTime.Cafe
                     if (!PosStation.TakingOrder) party.Patience -= dt; // 주문받는 중에는 기다림 멈춤
                     party.Gauge.transform.position = party.Leader.transform.position + Vector3.up * headHeight;
                     party.Gauge.Set(party.Patience / party.MaxPatience);
-                    if (party.Patience <= 0) Leave(party, lost: true); // 주문하지 않고 떠남
+                    if (party.Patience <= 0) { Leave(party, lost: true); break; } // 주문하지 않고 떠남
+                    // 포스기 3단계 키오스크: 플레이어가 주문받지 않으면 손님이 스스로 원하는 메뉴를 주문한다 (ADR-0057)
+                    if (balance.Kiosk && !PosStation.TakingOrder)
+                    {
+                        party.KioskLeft -= dt;
+                        if (party.KioskLeft <= 0)
+                            TakeOrder(party, party.Wanted.Select(l => new OrderLine(l.Menu, l.Temperature, l.Quantity)).ToList());
+                    }
                     break;
 
                 case CustomerParty.State.ToTable:

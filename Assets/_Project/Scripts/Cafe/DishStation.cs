@@ -64,16 +64,29 @@ namespace CafeTime.Cafe
             if (Stain <= 0)
             {
                 Rack.Add(new Drying { Kind = InSink.Value, Left = balance.DryingSeconds }); // 설거지 완료 → 건조대
+                // 식기세척기 2단계: 대기 중인 잔·접시도 함께 깨끗해진다 (ADR-0057)
+                for (int i = 1; i < balance.DishesPerWash && Waiting.Count > 0; i++)
+                {
+                    Rack.Add(new Drying { Kind = Waiting[0], Left = balance.DryingSeconds });
+                    Waiting.RemoveAt(0);
+                }
                 InSink = null;
                 LoadNext();
             }
             Changed?.Invoke();
         }
 
+        // 사람 손 없이 싱크대의 잔·접시를 seconds 초에 하나씩 닦는다 (식기세척기 3단계, 설거지 알바생, ADR-0057)
+        public void AutoScrub(float dt, float seconds)
+        {
+            if (InSink != null) Scrub(balance.ScrubDistance * dt / Mathf.Max(0.01f, seconds));
+        }
+
         void Update()
         {
-            if (Rack.Count == 0) return;
             float dt = GameClock.Delta;
+            if (balance.AutoWash) AutoScrub(dt, balance.AutoWashSeconds);
+            if (Rack.Count == 0) return;
             for (int i = Rack.Count - 1; i >= 0; i--)
             {
                 Rack[i].Left -= dt;

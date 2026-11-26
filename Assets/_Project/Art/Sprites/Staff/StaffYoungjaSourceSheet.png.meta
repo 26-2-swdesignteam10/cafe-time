@@ -1,0 +1,730 @@
+fileFormatVersion: 2
+guid: 8827dfc7c5e5fc04fb93c5cb1d1cb184
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5642626532125421817
+    second: StaffYoungjaSourceSheet_0
+  - first:
+      213: -1787582272163666123
+    second: StaffYoungjaSourceSheet_1
+  - first:
+      213: 8071300133690377656
+    second: StaffYoungjaSourceSheet_2
+  - first:
+      213: -4546591028856359671
+    second: StaffYoungjaSourceSheet_3
+  - first:
+      213: -6230681848836135845
+    second: StaffYoungjaSourceSheet_4
+  - first:
+      213: -899134010512938135
+    second: StaffYoungjaSourceSheet_5
+  - first:
+      213: -5821442402434483169
+    second: StaffYoungjaSourceSheet_6
+  - first:
+      213: -6304256923035038883
+    second: StaffYoungjaSourceSheet_7
+  - first:
+      213: -804125120682419404
+    second: StaffYoungjaSourceSheet_8
+  - first:
+      213: 1146143675015412801
+    second: StaffYoungjaSourceSheet_9
+  - first:
+      213: -2550895053451458418
+    second: StaffYoungjaSourceSheet_10
+  - first:
+      213: 2184725287646348153
+    second: StaffYoungjaSourceSheet_11
+  - first:
+      213: -8282340231985836328
+    second: StaffYoungjaSourceSheet_12
+  - first:
+      213: -8880586707094617261
+    second: StaffYoungjaSourceSheet_13
+  - first:
+      213: -2654232048729412307
+    second: StaffYoungjaSourceSheet_14
+  - first:
+      213: 4586140481920781304
+    second: StaffYoungjaSourceSheet_15
+  - first:
+      213: -7703650015476493210
+    second: StaffYoungjaSourceSheet_16
+  - first:
+      213: 8598393202246831978
+    second: StaffYoungjaSourceSheet_17
+  - first:
+      213: 1552772906063080527
+    second: StaffYoungjaSourceSheet_18
+  - first:
+      213: 1282866022670469765
+    second: StaffYoungjaSourceSheet_19
+  - first:
+      213: 4437779547529034372
+    second: StaffYoungjaSourceSheet_20
+  - first:
+      213: -4756129176636547046
+    second: StaffYoungjaSourceSheet_21
+  - first:
+      213: -9066414351362051596
+    second: StaffYoungjaSourceSheet_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 9
+  spritePivot: {x: 0.5, y: 0}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_0
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 1334
+        width: 288
+        height: 426
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f0b78f5fe2ae4e40800000000000000
+      internalID: 5642626532125421817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_1
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 1393
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53726ecf46b3137e0800000000000000
+      internalID: -1787582272163666123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_2
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 1319
+        width: 269
+        height: 439
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b58d2045b4030070800000000000000
+      internalID: 8071300133690377656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_3
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 1318
+        width: 227
+        height: 440
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 905f9025c8347e0c0800000000000000
+      internalID: -4546591028856359671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_4
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 1329
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b54e5abbedb2889a0800000000000000
+      internalID: -6230681848836135845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_5
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 878
+        width: 247
+        height: 439
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96b67e99162a583f0800000000000000
+      internalID: -899134010512938135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_6
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 873
+        width: 292
+        height: 443
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1cfe727af4163fa0800000000000000
+      internalID: -5821442402434483169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_7
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 1308
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5b03b9dab7c288a0800000000000000
+      internalID: -6304256923035038883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_8
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 888
+        width: 246
+        height: 431
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43b91c2967c27d4f0800000000000000
+      internalID: -804125120682419404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 438
+        width: 263
+        height: 436
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14cbad2999be7ef00800000000000000
+      internalID: 1146143675015412801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_10
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 442
+        width: 259
+        height: 431
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8889bfc676699cd0800000000000000
+      internalID: -2550895053451458418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_11
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 870
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97349fde214b15e10800000000000000
+      internalID: 2184725287646348153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_12
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 422
+        width: 264
+        height: 452
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8dece83d0773f0d80800000000000000
+      internalID: -8282340231985836328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_13
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 599
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 353c196f071d1c480800000000000000
+      internalID: -8880586707094617261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_14
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 444
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2da600b3064a2bd0800000000000000
+      internalID: -2654232048729412307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_15
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 12
+        width: 260
+        height: 428
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fb4dea487e35af30800000000000000
+      internalID: 4586140481920781304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_16
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 0
+        width: 282
+        height: 437
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66457996023271590800000000000000
+      internalID: -7703650015476493210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_17
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 0
+        width: 298
+        height: 435
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6f4e0baf01a35770800000000000000
+      internalID: 8598393202246831978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_18
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 428
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4cadba2bbe8c8510800000000000000
+      internalID: 1552772906063080527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_19
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 315
+        width: 8
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58a01b7c9d7adc110800000000000000
+      internalID: 1282866022670469765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_20
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 160
+        width: 32
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48a36f17cf8269d30800000000000000
+      internalID: 4437779547529034372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_21
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 184
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1025b086b5defdb0800000000000000
+      internalID: -4756129176636547046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StaffYoungjaSourceSheet_22
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 192
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f1bf80fe20ad2280800000000000000
+      internalID: -9066414351362051596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      StaffYoungjaSourceSheet_0: 5642626532125421817
+      StaffYoungjaSourceSheet_1: -1787582272163666123
+      StaffYoungjaSourceSheet_10: -2550895053451458418
+      StaffYoungjaSourceSheet_11: 2184725287646348153
+      StaffYoungjaSourceSheet_12: -8282340231985836328
+      StaffYoungjaSourceSheet_13: -8880586707094617261
+      StaffYoungjaSourceSheet_14: -2654232048729412307
+      StaffYoungjaSourceSheet_15: 4586140481920781304
+      StaffYoungjaSourceSheet_16: -7703650015476493210
+      StaffYoungjaSourceSheet_17: 8598393202246831978
+      StaffYoungjaSourceSheet_18: 1552772906063080527
+      StaffYoungjaSourceSheet_19: 1282866022670469765
+      StaffYoungjaSourceSheet_2: 8071300133690377656
+      StaffYoungjaSourceSheet_20: 4437779547529034372
+      StaffYoungjaSourceSheet_21: -4756129176636547046
+      StaffYoungjaSourceSheet_22: -9066414351362051596
+      StaffYoungjaSourceSheet_3: -4546591028856359671
+      StaffYoungjaSourceSheet_4: -6230681848836135845
+      StaffYoungjaSourceSheet_5: -899134010512938135
+      StaffYoungjaSourceSheet_6: -5821442402434483169
+      StaffYoungjaSourceSheet_7: -6304256923035038883
+      StaffYoungjaSourceSheet_8: -804125120682419404
+      StaffYoungjaSourceSheet_9: 1146143675015412801
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

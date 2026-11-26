@@ -37,12 +37,13 @@ namespace CafeTime.EditorTools
             Set(so, "dayText", AddText(TopLeft("Day", receipt, 60, 195, 170, 56), "DAY 1", 34, DarkCoffee, TextAlignmentOptions.Right));
             Label(receipt, "SettlementLabel", LoadSprite($"{Art}/LabelSettlement.png"), 245, 223, PivotLeft);
 
-            string[] labels = { "LabelVisitors", "LabelDrinks", "LabelRevenue", "LabelTips", "LabelRent" };
-            string[] fields = { "visitorsText", "drinksText", "revenueText", "tipsText", "rentText" };
+            // 알바생 일당 줄은 ADR-0057 에서 추가 (점선 y 576 위에 6줄)
+            string[] labels = { "LabelVisitors", "LabelDrinks", "LabelRevenue", "LabelTips", "LabelRent", "LabelWages" };
+            string[] fields = { "visitorsText", "drinksText", "revenueText", "tipsText", "rentText", "wagesText" };
             for (int i = 0; i < labels.Length; i++)
             {
                 var value = Row(receipt, labels[i], 260 + i * 50, 26);
-                if (fields[i] == "rentText") value.color = Warning;
+                if (fields[i] == "rentText" || fields[i] == "wagesText") value.color = Warning;
                 Set(so, fields[i], value);
             }
             Set(so, "moneyText", Row(receipt, "LabelMoney", 590, 30));

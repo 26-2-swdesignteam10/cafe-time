@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using CafeTime.Core;
 using UnityEngine;
 
@@ -57,6 +59,17 @@ namespace CafeTime.Cafe
             }
             Remove(slot, index);
             return true;
+        }
+
+        // 알바생이 쟁반 하나를 통째로 정리한다: 쓰레기는 버리고 잔·접시는 들고 간다 (ADR-0057). 빈 칸이면 null
+        public List<TrayItemKind> ClearSlot(int slot)
+        {
+            var tray = Slots[slot];
+            if (tray == null) return null;
+            var dishes = tray.Items.Where(k => !Tray.IsTrash(k)).ToList();
+            Slots[slot] = null;
+            Changed?.Invoke();
+            return dishes;
         }
 
         bool TryGet(int slot, int index, out TrayItemKind kind)
